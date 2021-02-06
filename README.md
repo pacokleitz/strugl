@@ -1,0 +1,2 @@
+# strugl
+Decentralized social network.
