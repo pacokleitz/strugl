@@ -1,2 +1,2 @@
 # strugl
-Decentralized social network.
+A privacy-conscious social network.
