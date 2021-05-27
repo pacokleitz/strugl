@@ -20,19 +20,19 @@ export default function Auth() {
             <div className="w-full space-y-3 flex flex-col m-auto font-semibold ">
                 <div className="flex flex-col">
                     <label className="text-gray-600">Username</label>
-                    <input className="rounded-md px-2 py-1 font-semibold"></input>
+                    <input type="text" className="rounded-md px-2 py-1 font-semibold"></input>
                 </div>
                 <div className="flex flex-col">
                     <label className="text-gray-600">Email</label>
-                    <input className="rounded-md px-2 py-1 font-semibold"></input>
+                    <input type="email" className="rounded-md px-2 py-1 font-semibold"></input>
                 </div>
                 <div className="flex flex-col">
                     <label className="text-gray-600">Password</label>
-                    <input className="rounded-md px-2 py-1 font-semibold"></input>
+                    <input type="password" className="rounded-md px-2 py-1 font-semibold"></input>
                 </div>
                 <div className="flex flex-col">
                     <label className="text-gray-600">Confirm password</label>
-                    <input className="rounded-md px-2 py-1 font-semibold"></input>
+                    <input type="password" className="rounded-md px-2 py-1 font-semibold"></input>
                 </div>
             </div>
             <div className="flex flex-col justify-center m-auto space-y-3">
@@ -51,11 +51,11 @@ export default function Auth() {
                 <div className="w-full space-y-3 flex flex-col m-auto font-semibold">
                     <div className="flex flex-col">
                         <label className="text-gray-600">Username or Email</label>
-                        <input className="rounded-md px-2 py-1 font-semibold"></input>
+                        <input type="email" className="rounded-md px-2 py-1 font-semibold"></input>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-600">Password</label>
-                        <input className="rounded-md px-2 py-1 font-semibold"></input>
+                        <input type="password" className="rounded-md px-2 py-1 font-semibold"></input>
                     </div>
                 </div>
                 <div className="flex flex-col justify-center m-auto space-y-3">
