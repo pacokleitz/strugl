@@ -72,7 +72,7 @@ export default function Auth() {
         <div className="w-screen min-h-screen h-auto bg-gradient-to-br from-indigo-600 to-indigo-300 content-center justify-center">
             <div className="flex md:flex-row flex-col m-auto min-h-screen h-auto content-center md:w-2/3 md:space-x-10 p-5">
                 <div className="font-extrabold text-6xl tracking-tight mx-auto grid justify-center content-center w-1/2 mb-5">
-                    <h1 className="text-white text-6xl">Strugl</h1>
+                    <h1 className="text-white text-5xl">Strugl</h1>
                     <h1 className="text-black text-4xl">Your privacy-conscious social network</h1>
                 </div>
                 {currentPage}
