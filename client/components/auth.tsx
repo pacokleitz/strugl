@@ -36,10 +36,10 @@ export default function Auth() {
                 </div>
             </div>
             <div className="flex flex-col justify-center m-auto space-y-3">
-                <button className="bg-gray-600 text-gray-100 w-1/2 p-2 
-                    rounded-lg m-auto hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 font-semibold">Sign up</button>
+                <button className="bg-gray-700 text-gray-100 w-1/2 p-2 
+                    rounded-lg m-auto hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50 font-semibold">Sign up</button>
                 <a className="text-center underline font-semibold cursor-pointer text-blue-600 hover:text-blue-500" onClick={SwitchPage}>
-                    Already have an account ? <br></br>Sign In.</a>
+                    Already have an account ? <br></br>Sign In</a>
             </div>
         </div>
     )
@@ -59,8 +59,8 @@ export default function Auth() {
                     </div>
                 </div>
                 <div className="flex flex-col justify-center m-auto space-y-3">
-                    <button className="bg-gray-600 text-gray-100 w-1/2 p-2 
-                    rounded-lg m-auto hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 font-semibold">Sign in</button>
+                    <button className="bg-gray-700 text-gray-100 w-1/2 p-2 
+                    rounded-lg m-auto hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50 font-semibold">Sign in</button>
                     <a className="text-center underline font-semibold cursor-pointer text-blue-600 hover:text-blue-500" onClick={SwitchPage}>
                         Don't have an account ? <br></br>Sign Up</a>
                 </div>
