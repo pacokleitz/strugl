@@ -56,7 +56,7 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.username && (
-                  <span className="text-red-800 text-sm font-medium">
+                  <span className="text-red-700 text-sm font-medium">
                     {errors.username.message}
                   </span>
                 )}
@@ -74,7 +74,7 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.email && (
-                  <span className="text-red-800 text-sm font-medium">
+                  <span className="text-red-700 text-sm font-medium">
                     {errors.email.message}
                   </span>
                 )}
@@ -90,7 +90,7 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.password && (
-                  <span className="text-red-800 text-sm font-medium">
+                  <span className="text-red-700 text-sm font-medium">
                     {errors.password.message}
                   </span>
                 )}
@@ -113,7 +113,7 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.passwordCheck && (
-                  <span className="text-red-800 text-sm font-medium">
+                  <span className="text-red-700 text-sm font-medium">
                     {errors.passwordCheck.message}
                   </span>
                 )}
