@@ -48,7 +48,7 @@ export default function SignUp() {
                       message: "Username exceed max length.",
                     },
                     pattern: {
-                      value: /^[0-9a-zA-Z_]+$/,
+                      value: /^[A-Za-z0-9]+(?:[_][A-Za-z0-9]+)*$/,
                       message: "Username format is invalid.",
                     },
                   })}
@@ -67,7 +67,7 @@ export default function SignUp() {
                   {...register("email", {
                     required: "Email is required.",
                     pattern: {
-                      value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                      value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                       message: "Email had invalid format.",
                     },
                   })}
