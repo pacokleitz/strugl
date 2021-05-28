@@ -48,17 +48,17 @@ export default function SignUp() {
                       message: "Username exceed max length.",
                     },
                     pattern: {
-                      value: /^[0-9a-zA-Z]+$/,
-                      message: "Username is alphanumeric characters.",
+                      value: /^[0-9a-zA-Z_]+$/,
+                      message: "Username format is invalid.",
                     },
                   })}
                   type="text"
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.username && (
-                  <p className="text-red-800 text-sm font-medium">
+                  <span className="text-red-800 text-sm font-medium">
                     {errors.username.message}
-                  </p>
+                  </span>
                 )}
               </div>
               <div className="flex flex-col">
@@ -74,9 +74,9 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.email && (
-                  <p className="text-red-800 text-sm font-medium">
+                  <span className="text-red-800 text-sm font-medium">
                     {errors.email.message}
-                  </p>
+                  </span>
                 )}
               </div>
               <div className="flex flex-col">
@@ -90,9 +90,9 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.password && (
-                  <p className="text-red-800 text-sm font-medium">
+                  <span className="text-red-800 text-sm font-medium">
                     {errors.password.message}
-                  </p>
+                  </span>
                 )}
               </div>
               <div className="flex flex-col">
@@ -113,9 +113,9 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.passwordCheck && (
-                  <p className="text-red-800 text-sm font-medium">
+                  <span className="text-red-800 text-sm font-medium">
                     {errors.passwordCheck.message}
-                  </p>
+                  </span>
                 )}
               </div>
             </div>
