@@ -56,7 +56,7 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.username && (
-                  <p className="text-red-800 text-sm">
+                  <p className="text-red-800 text-sm font-medium">
                     {errors.username.message}
                   </p>
                 )}
@@ -74,7 +74,9 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.email && (
-                  <p className="text-red-800 text-sm">{errors.email.message}</p>
+                  <p className="text-red-800 text-sm font-medium">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
               <div className="flex flex-col">
@@ -85,11 +87,10 @@ export default function SignUp() {
                     minLength: { value: 8, message: "Password too short." },
                   })}
                   type="password"
-                  placeholder="At least 8 characters"
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.password && (
-                  <p className="text-red-800 text-sm">
+                  <p className="text-red-800 text-sm font-medium">
                     {errors.password.message}
                   </p>
                 )}
@@ -112,7 +113,7 @@ export default function SignUp() {
                   className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                 ></input>
                 {errors.passwordCheck && (
-                  <p className="text-red-800 text-sm">
+                  <p className="text-red-800 text-sm font-medium">
                     {errors.passwordCheck.message}
                   </p>
                 )}
