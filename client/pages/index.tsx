@@ -1,16 +1,16 @@
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import Head from "next/head";
-import React from 'react';
-import { useEffect } from 'react'
+import React from "react";
+import { useEffect } from "react";
 
-import LogIn from './login';
+import LogIn from "./login";
 
 export default function Home() {
   const router = useRouter();
-  
+
   useEffect(() => {
-      router.push('/login')
-  }, [])
+    router.push("/login");
+  }, []);
 
   return (
     <div className="w-screen h-screen">
@@ -19,5 +19,5 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </div>
-  )
+  );
 }
