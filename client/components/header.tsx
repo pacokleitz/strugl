@@ -26,7 +26,7 @@ export default function Header() {
               className="w-8 h-8 text-gray-500 hover:text-gray-600 cursor-pointer"
               to="/profile"
             />
-            <span className="absolute -top-2 -right-3 w-4 h-4 rounded-full bg-white ring ring-indigo-500 text-indigo-500 font-extrabold text-xs">
+            <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs">
               2
             </span>
           </div>
@@ -36,7 +36,7 @@ export default function Header() {
               className="w-8 h-8 text-gray-500 hover:text-gray-600 cursor-pointer"
               to="/profile"
             />
-            <span className="absolute -top-2 -right-3 w-4 h-4 rounded-full bg-white ring ring-indigo-500 text-indigo-500 font-extrabold text-xs text-center">
+            <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs text-center">
               5
             </span>
           </div>

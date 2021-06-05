@@ -9,7 +9,7 @@ export default function Dashboard(context: any) {
   return (
     <div className="min-h-screen h-auto w-screen">
       <Header />
-      <div className="flex flex-row w-11/12 h-full justify-evenly m-auto">
+      <div className="grid grid-flow-col w-11/12 h-full justify-evenly m-auto mb-10">
         <Profile />
         <Feed />
         <Suggestions />

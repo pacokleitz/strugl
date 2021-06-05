@@ -23,7 +23,7 @@ export default function LogIn() {
   } = useForm<FormInputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
-    fetch("https://api.strugl.cc", {
+    fetch("https://api.strugl.cc/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

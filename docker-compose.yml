@@ -1,0 +1,21 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  api:
+    build: ./server
+    environment:
+      - DB_PASS=${DB_PASS}  
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+volumes: 
+     pgdata:

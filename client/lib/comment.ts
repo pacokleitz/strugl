@@ -1,5 +1,4 @@
 import User from "./user";
-
 export default class Comment {
   id: number;
   author: User;
