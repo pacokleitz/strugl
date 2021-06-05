@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="375pt" height="374.999991pt" viewBox="0 0 375 374.999991" version="1.2">
+<defs>
+<filter id="alpha" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%">
+  <feColorMatrix type="matrix" in="SourceGraphic" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+</filter>
+<mask id="mask0">
+  <g filter="url(#alpha)">
+<rect x="0" y="0" width="375" height="374.999991" style="fill:rgb(0%,0%,0%);fill-opacity:0.6078;stroke:none;"/>
+  </g>
+</mask>
+<clipPath id="clip2">
+  <path d="M 0.441406 0.71875 L 144.921875 0.71875 L 144.921875 49.441406 L 0.441406 49.441406 Z M 0.441406 0.71875 "/>
+</clipPath>
+<clipPath id="clip1">
+  <rect x="0" y="0" width="145" height="50"/>
+</clipPath>
+<g id="surface5" clip-path="url(#clip1)">
+<g clip-path="url(#clip2)" clip-rule="nonzero">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(90.19928%,68.629456%,98.81897%);fill-opacity:1;" d="M 0.5 0.773438 L 144.859375 0.773438 L 144.859375 49.21875 L 0.5 49.21875 Z M 0.5 0.773438 "/>
+</g>
+</g>
+<mask id="mask1">
+  <g filter="url(#alpha)">
+<rect x="0" y="0" width="375" height="374.999991" style="fill:rgb(0%,0%,0%);fill-opacity:0.6078;stroke:none;"/>
+  </g>
+</mask>
+<clipPath id="clip4">
+  <path d="M 0.441406 0.441406 L 144.921875 0.441406 L 144.921875 49 L 0.441406 49 Z M 0.441406 0.441406 "/>
+</clipPath>
+<clipPath id="clip3">
+  <rect x="0" y="0" width="145" height="50"/>
+</clipPath>
+<g id="surface8" clip-path="url(#clip3)">
+<g clip-path="url(#clip4)" clip-rule="nonzero">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(35.688782%,32.159424%,59.999084%);fill-opacity:1;" d="M 0.5625 0.472656 L 144.609375 0.472656 L 144.609375 48.917969 L 0.5625 48.917969 Z M 0.5625 0.472656 "/>
+</g>
+</g>
+<mask id="mask2">
+  <g filter="url(#alpha)">
+<rect x="0" y="0" width="375" height="374.999991" style="fill:rgb(0%,0%,0%);fill-opacity:0.6078;stroke:none;"/>
+  </g>
+</mask>
+<clipPath id="clip6">
+  <path d="M 0.441406 1 L 193 1 L 193 49.441406 L 0.441406 49.441406 Z M 0.441406 1 "/>
+</clipPath>
+<clipPath id="clip5">
+  <rect x="0" y="0" width="194" height="50"/>
+</clipPath>
+<g id="surface11" clip-path="url(#clip5)">
+<g clip-path="url(#clip6)" clip-rule="nonzero">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(48.629761%,16.468811%,90.979004%);fill-opacity:1;" d="M 0.566406 1.175781 L 192.980469 1.175781 L 192.980469 49.203125 L 0.566406 49.203125 Z M 0.566406 1.175781 "/>
+</g>
+</g>
+<mask id="mask3">
+  <g filter="url(#alpha)">
+<rect x="0" y="0" width="375" height="374.999991" style="fill:rgb(0%,0%,0%);fill-opacity:0.6078;stroke:none;"/>
+  </g>
+</mask>
+<clipPath id="clip8">
+  <path d="M 1 0.238281 L 49.921875 0.238281 L 49.921875 97 L 1 97 Z M 1 0.238281 "/>
+</clipPath>
+<clipPath id="clip7">
+  <rect x="0" y="0" width="50" height="98"/>
+</clipPath>
+<g id="surface14" clip-path="url(#clip7)">
+<g clip-path="url(#clip8)" clip-rule="nonzero">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(79.60968%,42.349243%,90.19928%);fill-opacity:1;" d="M 1.144531 0.429688 L 49.589844 0.429688 L 49.589844 96.992188 L 1.144531 96.992188 Z M 1.144531 0.429688 "/>
+</g>
+</g>
+<mask id="mask4">
+  <g filter="url(#alpha)">
+<rect x="0" y="0" width="375" height="374.999991" style="fill:rgb(0%,0%,0%);fill-opacity:0.6078;stroke:none;"/>
+  </g>
+</mask>
+<clipPath id="clip10">
+  <path d="M 0.441406 1 L 49 1 L 49 97.921875 L 0.441406 97.921875 Z M 0.441406 1 "/>
+</clipPath>
+<clipPath id="clip9">
+  <rect x="0" y="0" width="50" height="98"/>
+</clipPath>
+<g id="surface17" clip-path="url(#clip9)">
+<g clip-path="url(#clip10)" clip-rule="nonzero">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(30.979919%,9.799194%,39.219666%);fill-opacity:1;" d="M 0.507812 1.128906 L 48.953125 1.128906 L 48.953125 97.691406 L 0.507812 97.691406 Z M 0.507812 1.128906 "/>
+</g>
+</g>
+</defs>
+<g id="surface1">
+<use xlink:href="#surface5" transform="matrix(1,0,0,1,139,162)" mask="url(#mask0)"/>
+<use xlink:href="#surface8" transform="matrix(1,0,0,1,91,259)" mask="url(#mask1)"/>
+<use xlink:href="#surface11" transform="matrix(1,0,0,1,91,66)" mask="url(#mask2)"/>
+<use xlink:href="#surface14" transform="matrix(1,0,0,1,90,114)" mask="url(#mask3)"/>
+<use xlink:href="#surface17" transform="matrix(1,0,0,1,235,210)" mask="url(#mask4)"/>
+</g>
+</svg>
