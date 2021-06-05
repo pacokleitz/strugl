@@ -47,6 +47,7 @@ let PostsList: Post[] = [
     date: testDate,
   },
 ];
+// Fin de données de tests (à supprimer plus tard)
 
 function CommentsRender(props: any) {
   const date = props.comment.date.toUTCString();
@@ -63,7 +64,7 @@ function CommentsRender(props: any) {
                 className="w-10 rounded-full bg-white ring-2 ring-gray-300"
               />
             )}
-            <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
+            <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent hover:text-indigo-600">
               {props.comment.author.username}
             </h3>
           </div>

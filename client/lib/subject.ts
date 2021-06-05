@@ -7,9 +7,11 @@ export default class Subject {
   pic?: string;
   posts?: Post[];
   followers?: User[];
+  starred:boolean;
 
-  constructor(id: number, title: string) {
+  constructor(id: number, title: string, starred:boolean) {
     this.id = id;
     this.title = title;
+    this.starred = starred
   }
 }
