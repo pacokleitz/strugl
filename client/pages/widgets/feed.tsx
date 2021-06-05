@@ -84,7 +84,7 @@ function CommentsRender(props: any) {
 function PostRender(props: any) {
   const date = props.post.date.toUTCString();
   return (
-    <div className="py-4 shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-lg space-y-6 subpixel-antialiased">
+    <div className="py-4 shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-lg space-y-6">
       <div className="px-8 space-y-6">
         <div className="flex flex-row justify-between">
           <a href="/profile" className="hover:text-indigo-600">

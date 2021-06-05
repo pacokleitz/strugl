@@ -15,7 +15,7 @@ const FriendsSuggestions: User[] = [person1, person2, person1];
 const SubjectsSuggestions: Subject[] = [subject1, subject2, subject1];
 // Fin de données de tests (à supprimer plus tard)
 
-function Star(){
+function Star() {
   return;
 }
 
@@ -84,7 +84,10 @@ export default function Suggestions() {
             You may know ...
           </h3>
           <button>
-            <FontAwesomeIcon icon={faRedoAlt} className="w-4 text-gray-500 " />
+            <FontAwesomeIcon
+              icon={faRedoAlt}
+              className="w-4 text-gray-500 hover:text-gray-400"
+            />
           </button>
         </div>
         {FriendsSuggestions.map((friend: User) => (
@@ -97,7 +100,10 @@ export default function Suggestions() {
             You may like ...
           </h3>
           <button>
-            <FontAwesomeIcon icon={faRedoAlt} className="w-4 text-gray-500 " />
+            <FontAwesomeIcon
+              icon={faRedoAlt}
+              className="w-4 text-gray-500 hover:text-gray-400"
+            />
           </button>
         </div>
         {SubjectsSuggestions.map((subject: Subject) => (

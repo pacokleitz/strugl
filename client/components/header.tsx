@@ -41,10 +41,12 @@ export default function Header() {
             </span>
           </div>
           <div className="relative inline-block">
-            <img
-              src="default.svg"
-              className="w-10 rounded-full bg-white ring-2 ring-gray-300"
-            />
+            <a href="/profile">
+              <img
+                src="default.svg"
+                className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+              />
+            </a>
           </div>
         </div>
       </div>
