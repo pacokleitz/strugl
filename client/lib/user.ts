@@ -1,9 +1,13 @@
+import Subject from "./subject";
+
 export default class User {
   id: number;
   username: string;
+  pic?: string;
   email: string;
   token: string = '';
   friends?: User[] = [];
+  interests?: Subject[] = [];
 
   constructor(id: number, username: string, email: string) {
     this.id = id;

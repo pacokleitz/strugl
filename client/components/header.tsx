@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <div className="sticky top-0 w-full h-auto p-2 mb-10 shadow-sm flex flex-row content-center m-auto text-center justify-evenly align-baseline bg-white">
+    <div className="sticky top-0 w-full h-auto p-2 mb-6 shadow-sm flex flex-row content-center m-auto text-center justify-evenly align-baseline bg-white">
       <div className="w-2/3 flex flex-row content-center m-auto text-center justify-around items-end">
         <Link href="/dashboard" as="/">
           <h1 className="bg-gradient-to-br from-indigo-600 to-indigo-300 bg-clip-text text-transparent text-4xl font-bold tracking-tight cursor-pointer">
@@ -41,10 +41,9 @@ export default function Header() {
             </span>
           </div>
           <div className="relative inline-block">
-            <FontAwesomeIcon
-              icon={faUser}
-              className="w-10 h-10 text-gray-500 hover:text-gray-600 cursor-pointer"
-              to="/profile"
+            <img
+              src="default.svg"
+              className="w-10 rounded-full bg-white ring-2 ring-gray-300"
             />
           </div>
         </div>

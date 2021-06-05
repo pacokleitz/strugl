@@ -7,9 +7,9 @@ let chat: string[];
 
 export default function Dashboard(context: any) {
   return (
-    <div className="min-h-screen h-auto w-screen">
+    <div className="min-h-screen h-auto w-screen max-w-screen">
       <Header />
-      <div className="grid grid-flow-col w-11/12 h-full justify-evenly m-auto mb-10">
+      <div className="grid grid-flow-col w-11/12 justify-evenly m-auto mb-10 space-x-10">
         <Profile />
         <Feed />
         <Suggestions />
