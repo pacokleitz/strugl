@@ -1,7 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import User from "../lib/user";
+import { localStorageManager } from "@chakra-ui/color-mode";
 
 interface FormInputs {
   username: string;
@@ -11,13 +14,32 @@ interface FormInputs {
 }
 
 export default function LogIn() {
+  const router = useRouter();
+
   const {
     register,
-    getValues,
     formState: { errors },
     handleSubmit,
   } = useForm<FormInputs>({ mode: "onChange" });
-  const onSubmit: SubmitHandler<FormInputs> = (data) => console.log(data);
+
+  const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
+    fetch("https://api.strugl.cc", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data,
+      }),
+    }).then(async (res) => {
+      const json = await res.json();
+      if (res.ok) {
+        const user = new User(json.id, json.username, json.email);
+        user.token = json.token;
+        localStorage.setItem("username", json.username);
+        localStorage.setItem("token", json.token);
+        router.push("/dashboard",'/');
+      } else alert(json.error);
+    });
+  }, []);
 
   return (
     <div className="w-screen h-screen">
@@ -79,7 +101,7 @@ export default function LogIn() {
               >
                 Log In
               </button>
-              <Link href="/signup">
+              <Link href="/signup" as="/">
                 <a className="text-center underline font-semibold cursor-pointer text-blue-600 hover:text-blue-500">
                   Don't have an account ? <br></br>Sign Up
                 </a>
