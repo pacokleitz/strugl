@@ -1,4 +1,6 @@
 import {
+  faChevronDown,
+  faSortDown,
   faEnvelope,
   faUser,
   faUserFriends,
@@ -9,7 +11,7 @@ import Link from "next/link";
 export default function Header() {
   return (
     <div className="sticky top-0 w-full h-auto p-2 mb-6 shadow-sm flex flex-row content-center m-auto text-center justify-evenly align-baseline bg-white">
-      <div className="w-2/3 flex flex-row content-center m-auto text-center justify-around items-end">
+      <div className="w-2/3 flex flex-row content-center m-auto text-center justify-around">
         <Link href="/dashboard" as="/">
           <h1 className="bg-gradient-to-br from-indigo-600 to-indigo-300 bg-clip-text text-transparent text-4xl font-bold tracking-tight cursor-pointer">
             Strugl
@@ -40,13 +42,17 @@ export default function Header() {
               5
             </span>
           </div>
-          <div className="relative inline-block">
+          <div className="relative flex flex-row space-x-2 items-center">
             <a href="/profile">
               <img
                 src="default.svg"
                 className="w-10 rounded-full bg-white ring-2 ring-gray-300"
               />
             </a>
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              className="w-4 text-gray-500 hover:text-gray-600 cursor-pointer"
+            />
           </div>
         </div>
       </div>
