@@ -1,8 +1,18 @@
-import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Post from "../../lib/post";
 import User from "../../lib/user";
 import Comment from "../../lib/comment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBookmark as faBookmarkFull,
+  faStar as faStarFull,
+  faArrowAltCircleUp as faArrowAltCircleUpFull,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faBookmark as faBookmarkEmpty,
+  faStar as faStarEmpty,
+  faArrowAltCircleUp as faArrowAltCircleUpEmpty,
+} from "@fortawesome/free-regular-svg-icons";
+import { useState } from "react";
 
 // Données de tests (à supprimer après)
 let testDate = new Date(2021, 3, 25, 17, 43);
@@ -47,7 +57,7 @@ let PostsList: Post[] = [
     date: testDate,
   },
 ];
-// Fin de données de tests (à supprimer plus tard)
+// Fin des données de tests (à supprimer plus tard)
 
 function CommentsRender(props: any) {
   const date = props.comment.date.toUTCString();
@@ -83,6 +93,33 @@ function CommentsRender(props: any) {
 
 function PostRender(props: any) {
   const date = props.post.date.toUTCString();
+  const [commentsList, setcommentsList] = useState(props.post.comments);
+
+  const [voteState] = useState([
+    faArrowAltCircleUpEmpty,
+    faArrowAltCircleUpFull,
+  ]);
+
+  let [currentVoteState, setCurrentVoteState] = useState(0);
+  let currentVote = voteState[currentVoteState];
+
+  function Upvote() {
+    if (currentVoteState == 0) setCurrentVoteState((currentVoteState = 1));
+    else setCurrentVoteState((currentVoteState = 0));
+    currentVote = voteState[currentVoteState];
+  }
+
+  const [bookmarkState] = useState([faBookmarkEmpty, faBookmarkFull]);
+  let [currentBookmarkState, setCurrentBookmarkState] = useState(0);
+  let currentBookmark = bookmarkState[currentBookmarkState];
+
+  function Mark() {
+    if (currentBookmarkState == 0)
+      setCurrentBookmarkState((currentBookmarkState = 1));
+    else setCurrentBookmarkState((currentBookmarkState = 0));
+    currentBookmark = bookmarkState[currentBookmarkState];
+  }
+
   return (
     <div className="py-4 shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-lg space-y-6">
       <div className="px-8 space-y-6">
@@ -101,18 +138,30 @@ function PostRender(props: any) {
               </h3>
             </div>
           </a>
-          <p className="text-right text-xs font-semibold text-gray-500 tracking-tighter">
-            {date}
-          </p>
+          <div className="flex flex-row space-x-4">
+            <FontAwesomeIcon
+              icon={currentVote}
+              className="w-6 text-purple-400 hover:text-purple-500 cursor-pointer	self-start"
+              onClick={Upvote}
+            />
+            <FontAwesomeIcon
+              icon={currentBookmark}
+              className="w-6 h-6 text-red-400 hover:text-red-500 cursor-pointer	self-start"
+              onClick={Mark}
+            />
+          </div>
         </div>
 
         <p className="text-md font-regular text-justify font-serif subpixel-antialiased">
           {props.post.content}
         </p>
+        <p className="text-right text-xs font-semibold text-gray-500 tracking-tighter">
+          {date}
+        </p>
       </div>
       <div className="px-4 space-y-2">
         {props.post.comments &&
-          props.post.comments.map((comment: Comment) => (
+          commentsList.map((comment: Comment) => (
             <CommentsRender key={props.post.id} comment={comment} />
           ))}
         <form className="flex flex-col px-8 py-2 space-y-2 bg-white border-2 border-gray-100 border-opacity-60">
@@ -130,18 +179,21 @@ function PostRender(props: any) {
 }
 
 export default function Feed() {
+  const [list, setList] = useState(PostsList);
+
   return (
     <div className="w-full flex-grow m-auto content-center text-center flex flex-col space-y-4">
       <form className="px-8 py-4 shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-lg space-y-4 flex flex-col">
         <textarea
           placeholder="Share something with your friends today ..."
           className="mt-2 p-2 rounded-md border focus:shadow-inner border-gray-300 focus:outline-none text-md text-justify font-serif subpixel-antialiased"
+          required
         ></textarea>
         <button className="text-sm shadow self-end w-min p-2 rounded-lg bg-indigo-600 text-white font-semibold tracking-wide hover:bg-opacity-90">
           Post
         </button>
       </form>
-      {PostsList.map((post: Post) => (
+      {list.map((post: Post) => (
         <PostRender key={post.id} post={post} />
       ))}
     </div>

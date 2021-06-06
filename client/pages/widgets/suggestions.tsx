@@ -1,6 +1,10 @@
-import { faRedoAlt } from "@fortawesome/free-solid-svg-icons";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faStar as faStarFull,
+  faRedoAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
+import { useState } from "react";
 import Subject from "../../lib/subject";
 import User from "../../lib/user";
 
@@ -15,11 +19,17 @@ const FriendsSuggestions: User[] = [person1, person2, person1];
 const SubjectsSuggestions: Subject[] = [subject1, subject2, subject1];
 // Fin de données de tests (à supprimer plus tard)
 
-function Star() {
-  return;
-}
-
 function SubjectRender(props: any) {
+  const [starState] = useState([faStarEmpty, faStarFull]);
+  let [currentStarState, setCurrentStarState] = useState(0);
+  let currentStar = starState[currentStarState];
+
+  function Star() {
+    if (currentStarState == 0) setCurrentStarState((currentStarState = 1));
+    else setCurrentStarState((currentStarState = 0));
+    currentStar = starState[currentStarState];
+  }
+
   return (
     <div className="px-4 py-4 flex flex-row space-x-8 justify-between">
       <div>
@@ -40,7 +50,7 @@ function SubjectRender(props: any) {
         </a>
       </div>
       <FontAwesomeIcon
-        icon={faStar}
+        icon={currentStar}
         className="w-6 text-yellow-400 self-center hover:text-yellow-500 cursor-pointer"
         onClick={Star}
       />
@@ -76,6 +86,9 @@ function FriendRender(props: any) {
 }
 
 export default function Suggestions() {
+  const [subjectsList, setSubjectsList] = useState(SubjectsSuggestions);
+  const [friendsList, setFriendsList] = useState(FriendsSuggestions);
+
   return (
     <div className="mr-10 px-6 w-full flex-grow content-center text-center flex flex-col space-y-4">
       <div className="shadow sm:bg-white border-2 border-gray-100 border-opacity-60 rounded-lg divide-y">
@@ -90,7 +103,7 @@ export default function Suggestions() {
             />
           </button>
         </div>
-        {FriendsSuggestions.map((friend: User) => (
+        {friendsList.map((friend: User) => (
           <FriendRender key={friend.id} friend={friend} />
         ))}
       </div>
@@ -106,7 +119,7 @@ export default function Suggestions() {
             />
           </button>
         </div>
-        {SubjectsSuggestions.map((subject: Subject) => (
+        {subjectsList.map((subject: Subject) => (
           <SubjectRender key={subject.id} subject={subject} />
         ))}
       </div>
