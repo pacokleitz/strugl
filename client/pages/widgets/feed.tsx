@@ -171,9 +171,9 @@ function PostRender(props: any) {
                 src="default.svg"
                 className="w-10 rounded-full bg-white ring-2 ring-gray-300"
               />
-              {localStorage.getItem("username") && (
+              {window.localStorage.getItem("username") && (
                 <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
-                  {localStorage.getItem("username")}
+                  {window.localStorage.getItem("username")}
                 </h3>
               )}
             </div>
@@ -203,9 +203,9 @@ export default function Feed() {
               src="default.svg"
               className="w-10 rounded-full bg-white ring-2 ring-gray-300"
             />
-            {localStorage.getItem("username") && (
+            {window.localStorage.getItem("username") && (
               <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
-                {localStorage.getItem("username")}
+                {window.localStorage.getItem("username")}
               </h3>
             )}
           </div>

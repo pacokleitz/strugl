@@ -65,9 +65,9 @@ export default function Profile() {
             src="default.svg"
             className="w-20 rounded-full bg-white ring-2 ring-gray-300 self-center m-auto"
           />
-          {localStorage.getItem("username") && (
+          {window.localStorage.getItem("username") && (
             <p className="text-lg text-center font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
-              {localStorage.getItem("username")}
+              {window.localStorage.getItem("username")}
             </p>
           )}
 
