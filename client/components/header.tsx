@@ -43,7 +43,7 @@ export default function Header() {
           <div className="self-center relative inline-block">
             <FontAwesomeIcon
               icon={faCompass}
-              className="w-8 h-8 text-gray-500 hover:text-gray-600 cursor-pointer transition duration-300 ease-in-out transform-gpu hover:rotate-90 rotate-0"
+              className="w-8 h-8 text-gray-500 hover:text-gray-600 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
               to="/profile"
               title="Explore"
             />
