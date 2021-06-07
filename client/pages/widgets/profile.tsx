@@ -65,9 +65,12 @@ export default function Profile() {
             src="default.svg"
             className="w-20 rounded-full bg-white ring-2 ring-gray-300 self-center m-auto"
           />
-          <p className="text-lg text-center font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
-            {localStorage.getItem("username")}
-          </p>
+          {localStorage.getItem("username") && (
+            <p className="text-lg text-center font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
+              {localStorage.getItem("username")}
+            </p>
+          )}
+
           <a
             href="/profile"
             className="underline text-blue-600 text-center font-semibold hover:text-blue-700"
