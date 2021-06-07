@@ -17,8 +17,8 @@ export default function Header() {
   const router = useRouter();
 
   function SignOut() {
-    localStorage.clear();
-    router.push("/login", "/");
+    window.localStorage.clear();
+    router.push("/");
   }
 
   return (
@@ -106,9 +106,11 @@ export default function Header() {
                             <p className="inline-block text-gray-700 text-sm font-medium tracking-wide">
                               Signed in as
                             </p>{" "}
-                            <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
-                              {localStorage.getItem("username")}
-                            </p>
+                            {window.localStorage.getItem("username") && (
+                              <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
+                                {window.localStorage.getItem("username")}
+                              </p>
+                            )}
                           </div>
                         </Menu.Item>
                         <hr></hr>
