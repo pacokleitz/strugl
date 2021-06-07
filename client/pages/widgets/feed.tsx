@@ -65,7 +65,7 @@ function CommentsRender(props: any) {
   return (
     <div className="px-8 py-2 space-y-2 bg-white border-2 border-gray-100 border-opacity-60">
       <div className="flex flex-row justify-between">
-        <a href="/profile">
+        <a href="/profile" className="group">
           <div className="w-min flex flex-row content-between items-center space-x-2">
             {props.comment.author.pic && <img src={props.comment.author.pic} />}
             {!props.comment.author.pic && (
@@ -74,7 +74,7 @@ function CommentsRender(props: any) {
                 className="w-10 rounded-full bg-white ring-2 ring-gray-300"
               />
             )}
-            <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent hover:text-indigo-600">
+            <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
               {props.comment.author.username}
             </h3>
           </div>
@@ -84,7 +84,7 @@ function CommentsRender(props: any) {
         </p>
       </div>
 
-      <p className="px-12 text-md font-regular text-justify font-serif subpixel-antialiased">
+      <p className="mx-14 text-md font-regular text-justify font-serif subpixel-antialiased">
         {props.comment.content}
       </p>
     </div>
@@ -122,9 +122,9 @@ function PostRender(props: any) {
 
   return (
     <div className="py-4 shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-lg space-y-6">
-      <div className="px-8 space-y-6">
+      <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
-          <a href="/profile" className="hover:text-indigo-600">
+          <a href="/profile" className="group">
             <div className="w-min flex flex-row content-between items-center space-x-2">
               {props.post.author.pic && <img src={props.post.author.pic} />}
               {!props.post.author.pic && (
@@ -133,7 +133,7 @@ function PostRender(props: any) {
                   className="w-10 rounded-full bg-white ring-2 ring-gray-300"
                 />
               )}
-              <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent hover:text-indigo-600">
+              <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
                 {props.post.author.username}
               </h3>
             </div>
@@ -152,7 +152,7 @@ function PostRender(props: any) {
           </div>
         </div>
 
-        <p className="text-md font-regular text-justify font-serif subpixel-antialiased">
+        <p className="mx-10 text-md font-regular text-justify font-serif subpixel-antialiased">
           {props.post.content}
         </p>
         <p className="text-right text-xs font-semibold text-gray-500 tracking-tighter">
@@ -165,11 +165,22 @@ function PostRender(props: any) {
             <CommentsRender key={props.post.id} comment={comment} />
           ))}
         <form className="flex flex-col px-8 py-2 space-y-2 bg-white border-2 border-gray-100 border-opacity-60">
+          <a href="/profile" className="group">
+            <div className="w-min flex flex-row content-between items-center space-x-2">
+              <img
+                src="default.svg"
+                className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+              />
+              <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
+                {localStorage.getItem("username")}
+              </h3>
+            </div>
+          </a>
           <textarea
             placeholder="Comment this post ..."
-            className="mt-2 p-2 rounded-md border focus:shadow-inner border-gray-300 focus:outline-none text-md text-justify font-serif subpixel-antialiased"
+            className="mx-12 mt-2 p-2 rounded-md border focus:shadow-inner border-gray-300 focus:outline-none text-md text-justify font-serif subpixel-antialiased"
           ></textarea>
-          <button className="text-sm shadow self-end w-min p-2 rounded-lg bg-indigo-600 text-white font-semibold tracking-wide hover:bg-opacity-90">
+          <button className="mx-12 text-sm shadow self-end w-min p-2 rounded-lg bg-indigo-600 text-white font-semibold tracking-wide hover:bg-opacity-90">
             Post
           </button>
         </form>
@@ -182,14 +193,25 @@ export default function Feed() {
   const [list, setList] = useState(PostsList);
 
   return (
-    <div className="w-full flex-grow m-auto content-center text-center flex flex-col space-y-4">
-      <form className="px-8 py-4 shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-lg space-y-4 flex flex-col">
+    <div className="w-full flex-grow-0 content-center text-center flex flex-col space-y-4">
+      <form className="px-8 py-4 shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-lg space-y-2 flex flex-col">
+        <a href="/profile" className="group w-max">
+          <div className="w-min flex flex-row content-between items-center space-x-2">
+            <img
+              src="default.svg"
+              className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+            />
+            <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
+              {localStorage.getItem("username")}
+            </h3>
+          </div>
+        </a>
         <textarea
           placeholder="Share something with your friends today ..."
-          className="mt-2 p-2 rounded-md border focus:shadow-inner border-gray-300 focus:outline-none text-md text-justify font-serif subpixel-antialiased"
+          className="mx-12 mt-2 p-2 rounded-md border focus:shadow-inner border-gray-300 focus:outline-none text-md text-justify font-serif resize-y subpixel-antialiased"
           required
         ></textarea>
-        <button className="text-sm shadow self-end w-min p-2 rounded-lg bg-indigo-600 text-white font-semibold tracking-wide hover:bg-opacity-90">
+        <button className="mx-12 text-sm shadow self-end w-min p-2 rounded-lg bg-indigo-600 text-white font-semibold tracking-wide hover:bg-opacity-90">
           Post
         </button>
       </form>
