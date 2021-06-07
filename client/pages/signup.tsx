@@ -41,7 +41,7 @@ export default function SignUp() {
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
   const user = new User(1, data.username, data.email);
-  localStorage.setItem("token", user.username);
+  localStorage.setItem("username", user.username);
   router.push(
     { pathname: "/dashboard", query: { username: user.username }, },
     "/"
