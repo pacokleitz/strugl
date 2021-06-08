@@ -110,11 +110,9 @@ export default function Header() {
                           <p className="inline-block text-gray-700 text-sm font-medium tracking-wide">
                             Signed in as
                           </p>{" "}
-                          {localStorage.getItem("username") && (
-                            <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
-                              {localStorage.getItem("username")}
-                            </p>
-                          )}
+                          <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
+                            {localStorage.getItem("username")}
+                          </p>
                         </div>
                       </Menu.Item>
                       <hr></hr>
