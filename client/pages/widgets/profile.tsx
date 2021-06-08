@@ -39,7 +39,7 @@ function SubjectRender(props: any) {
               />
             )}
 
-            <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
+            <h3 className="font-semibold text-md text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
               {props.subject.title}
             </h3>
           </div>
@@ -47,7 +47,7 @@ function SubjectRender(props: any) {
       </div>
       <FontAwesomeIcon
         icon={currentStar}
-        className="w-6 text-yellow-400 self-center hover:text-yellow-500 cursor-pointer"
+        className="w-5 text-gray-400 self-center hover:text-yellow-400 cursor-pointer"
         onClick={Star}
       />
     </div>
@@ -58,25 +58,18 @@ export default function Profile() {
   const [favsList, setList] = useState(favs);
 
   return (
-    <div className="w-full flex-shrink-0 content-center text-center flex flex-col">
-      <div className="shadow sm:bg-white border-2 border-gray-100 border-opacity-60 rounded-lg divide-y">
-        <div className="p-6 justify-center space-y-2">
+    <div className="w-full text-center flex flex-col">
+      <div className="rounded-lg divide-y-2 divide-gray-300">
+        <div className="flex flex-row p-6 justify-start items-center space-x-2">
           <img
             src="default.svg"
-            className="w-20 rounded-full bg-white ring-2 ring-gray-300 self-center m-auto"
+            className="w-10 rounded-full bg-white ring-2 ring-gray-300 self-center"
           />
-          {window.localStorage.getItem("username") && (
-            <p className="text-lg text-center font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
-              {window.localStorage.getItem("username")}
+          {localStorage.getItem("username") && (
+            <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+              {localStorage.getItem("username")}
             </p>
           )}
-
-          <a
-            href="/profile"
-            className="underline text-blue-600 text-center font-semibold hover:text-blue-700"
-          >
-            Edit
-          </a>
         </div>
         <div className="p-6 space-y-2 items-start">
           <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-blue-400 cursor-pointer">
@@ -93,7 +86,7 @@ export default function Profile() {
             </div>
             <p>{favsList.length}</p>
           </a>
-          <a className="flex flex-row justify-around space-x-10 text-sm font-semibold text-gray-600 hover:text-red-400 cursor-pointer">
+          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-red-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon
                 icon={faBookmark}
@@ -104,7 +97,7 @@ export default function Profile() {
             <p>31</p>
           </a>
         </div>
-        <div className="divide-y">
+        <div className="">
           {favsList.map((subject) => (
             <SubjectRender key={subject.id} subject={subject} />
           ))}
