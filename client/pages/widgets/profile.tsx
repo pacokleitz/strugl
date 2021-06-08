@@ -65,11 +65,9 @@ export default function Profile() {
             src="default.svg"
             className="w-10 rounded-full bg-white ring-2 ring-gray-300 self-center"
           />
-          {localStorage.getItem("username") && (
             <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
               {localStorage.getItem("username")}
             </p>
-          )}
         </div>
         <div className="p-6 space-y-2 items-start">
           <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-blue-400 cursor-pointer">

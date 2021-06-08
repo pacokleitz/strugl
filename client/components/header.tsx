@@ -75,11 +75,9 @@ export default function Header() {
               src="default.svg"
               className="inline-block mr-2 w-10 rounded-full bg-white ring-2 ring-gray-300"
             />
-            {localStorage.getItem("username") && (
-              <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
-                {localStorage.getItem("username")}
-              </p>
-            )}
+            <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
+              {localStorage.getItem("username")}
+            </p>
           </a>
           <Menu as="div" className="relative inline-block text-center">
             {({ open }) => (
