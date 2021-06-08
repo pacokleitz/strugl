@@ -29,7 +29,7 @@ export default function Header() {
             Strugl
           </h1>
         </Link>
-        <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/3 rounded-3xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+        <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/3 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
           <input
             placeholder="Search ..."
             className="text-md subpixel-antialiased text-justify px-2 bg-transparent focus:outline-none w-full"

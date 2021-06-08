@@ -80,7 +80,7 @@ function CommentsRender(props: any) {
               />
             </a>
           )}
-          <div className="w-11/12 text-justify rounded-3xl bg-gray-100 p-2 px-4">
+          <div className="w-11/12 text-justify rounded-3xl bg-gray-100 border border-gray-200 p-2 px-4">
             <a
               href="/profile"
               className="float-left mr-2  w-auto font-semibold text-gray-700 hover:text-gray-900 subpixel-antialiased"
@@ -128,7 +128,7 @@ function PostRender(props: any) {
   }
 
   return (
-    <div className="shadow py-4 bg-white rounded-xl space-y-6 divide-y-2 divide-gray-300">
+    <div className="shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y-2 divide-gray-300">
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
           <a href="/profile" className="group">
@@ -168,11 +168,7 @@ function PostRender(props: any) {
           {props.post.content}
         </p>
       </div>
-      <div className="px-4 py-2 space-y-2">
-        {props.post.comments &&
-          commentsList.map((comment: Comment) => (
-            <CommentsRender key={props.post.id} comment={comment} />
-          ))}
+      <div className="px-4 pt-2 space-y-2">
         <form className="flex flex-col px-4 py-2 space-y-2 bg-white">
           <div className="flex flex-row justify-between items-center space-x-4">
             <a href="/profile" className="w-max">
@@ -183,11 +179,15 @@ function PostRender(props: any) {
             </a>
             <input
               placeholder="Leave a comment ..."
-              className="w-full p-2 px-4 rounded-3xl bg-gray-100 focus:shadow-inner focus:outline-none text-md text-justify subpixel-antialiased"
+              className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-md text-justify subpixel-antialiased"
               required
             />
           </div>
         </form>
+        {props.post.comments &&
+          commentsList.map((comment: Comment) => (
+            <CommentsRender key={props.post.id} comment={comment} />
+          ))}
       </div>
     </div>
   );
@@ -208,7 +208,7 @@ export default function Feed() {
           </a>
           <input
             placeholder="Share something with your friends today ..."
-            className="w-full p-2 px-4 rounded-3xl bg-gray-100 focus:shadow-inner focus:outline-none text-md text-justify subpixel-antialiased"
+            className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-md text-justify subpixel-antialiased"
             required
           />
         </div>
