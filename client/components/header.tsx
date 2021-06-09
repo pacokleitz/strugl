@@ -17,7 +17,7 @@ export default function Header() {
   const router = useRouter();
 
   function SignOut() {
-    localStorage.clear();
+    if (typeof window !== "undefined") localStorage.clear();
     router.push("/");
   }
 
@@ -75,9 +75,11 @@ export default function Header() {
               src="default.svg"
               className="inline-block mr-2 w-10 rounded-full bg-white ring-2 ring-gray-300"
             />
-            <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
-              {localStorage.getItem("username")}
-            </p>
+            {typeof window !== "undefined" && (
+              <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
+                {localStorage.getItem("username")}
+              </p>
+            )}
           </div>
           <Menu as="div" className="relative inline-block text-center">
             {({ open }) => (
@@ -110,9 +112,11 @@ export default function Header() {
                           <p className="inline-block text-gray-700 text-sm font-medium tracking-wide">
                             Signed in as
                           </p>{" "}
-                          <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
-                            {localStorage.getItem("username")}
-                          </p>
+                          {typeof window !== "undefined" && (
+                            <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
+                              {localStorage.getItem("username")}
+                            </p>
+                          )}
                         </div>
                       </Menu.Item>
                       <hr></hr>
