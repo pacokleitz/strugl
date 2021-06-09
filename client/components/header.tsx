@@ -69,8 +69,8 @@ export default function Header() {
             </span>
           </div>
         </div>
-        <div className="relative flex flex-row space-x-2 items-start">
-          <a href="/profile" className="focus:outline-none">
+        <div className="focus:outline-none relative flex flex-row space-x-2 items-start">
+          <div className="focus:outline-none">
             <img
               src="default.svg"
               className="inline-block mr-2 w-10 rounded-full bg-white ring-2 ring-gray-300"
@@ -78,7 +78,7 @@ export default function Header() {
             <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
               {localStorage.getItem("username")}
             </p>
-          </a>
+          </div>
           <Menu as="div" className="relative inline-block text-center">
             {({ open }) => (
               <>

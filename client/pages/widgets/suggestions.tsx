@@ -1,9 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar as faStarFull,
+  faPlusSquare as faPlusSquareFull,
   faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { faPlusSquare, faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
+import {
+  faPlusSquare as faPlusSquareEmpty,
+  faStar as faStarEmpty,
+} from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
 import Subject from "../../lib/subject";
 import User from "../../lib/user";
@@ -59,6 +63,16 @@ function SubjectRender(props: any) {
 }
 
 function FriendRender(props: any) {
+  const [addState] = useState([faPlusSquareEmpty, faPlusSquareFull]);
+  let [currentaddState, setCurrentaddState] = useState(0);
+  let currentAdd = addState[currentaddState];
+
+  function Add() {
+    if (currentaddState == 0) setCurrentaddState((currentaddState = 1));
+    else setCurrentaddState((currentaddState = 0));
+    currentAdd = addState[currentaddState];
+  }
+
   return (
     <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
       <div className="inline-block">
@@ -79,8 +93,9 @@ function FriendRender(props: any) {
         </a>
       </div>
       <FontAwesomeIcon
-        icon={faPlusSquare}
+        icon={currentAdd}
         className="inline-block w-5 text-gray-400 self-center hover:text-indigo-500 cursor-pointer"
+        onClick={Add}
       />
     </div>
   );
