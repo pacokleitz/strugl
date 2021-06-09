@@ -5,11 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark as faBookmarkFull,
   faStar as faStarFull,
+  faFlag as faFlagFull,
   faArrowAltCircleUp as faArrowAltCircleUpFull,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faBookmark as faBookmarkEmpty,
   faStar as faStarEmpty,
+  faFlag as faFlagEmpty,
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
@@ -73,17 +75,17 @@ function CommentsRender(props: any) {
         <div className="flex flex-row space-x-4">
           {props.comment.author.pic && <img src={props.comment.author.pic} />}
           {!props.comment.author.pic && (
-            <a href="/profile" className="group">
+            <a href="/profile" className="focus:outline-none group">
               <img
                 src="default.svg"
-                className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+                className=" w-10 rounded-full bg-white ring-2 ring-gray-300"
               />
             </a>
           )}
           <div className="w-11/12 text-justify rounded-3xl bg-gray-100 border border-gray-200 p-2 px-4">
             <a
               href="/profile"
-              className="float-left mr-2  w-auto font-semibold text-gray-700 hover:text-gray-900 subpixel-antialiased"
+              className="focus:outline-none float-left mr-2  w-auto font-semibold text-gray-700 hover:text-gray-900 subpixel-antialiased"
             >
               {props.comment.author.username}
             </a>
@@ -127,12 +129,23 @@ function PostRender(props: any) {
     currentBookmark = bookmarkState[currentBookmarkState];
   }
 
+  const [reportState] = useState([faFlagEmpty, faFlagFull]);
+  let [currentReportState, setCurrentReportState] = useState(0);
+  let currentFlag = reportState[currentReportState];
+
+  function Report() {
+    if (currentReportState == 0)
+      setCurrentReportState((currentReportState = 1));
+    else setCurrentReportState((currentReportState = 0));
+    currentFlag = reportState[currentReportState];
+  }
+
   return (
     <div className="shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y-2 divide-gray-300">
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
-          <a href="/profile" className="group">
-            <div className="w-max flex flex-row space-x-2">
+          <a href="/profile" className="focus:outline-none group">
+            <div className="focus:outline-none w-max flex flex-row space-x-2">
               {props.post.author.pic && <img src={props.post.author.pic} />}
               {!props.post.author.pic && (
                 <img
@@ -158,8 +171,13 @@ function PostRender(props: any) {
             />
             <FontAwesomeIcon
               icon={currentBookmark}
-              className="w-5 h-5 text-gray-400 hover:text-red-400 cursor-pointer	self-start"
+              className="w-5 h-5 text-gray-400 hover:text-green-400 cursor-pointer	self-start"
               onClick={Mark}
+            />
+            <FontAwesomeIcon
+              icon={currentFlag}
+              className="w-5 text-gray-400 hover:text-red-400 cursor-pointer	self-start"
+              onClick={Report}
             />
           </div>
         </div>
@@ -171,7 +189,7 @@ function PostRender(props: any) {
       <div className="px-4 pt-2 space-y-2">
         <form className="flex flex-col px-4 py-2 space-y-2 bg-white">
           <div className="flex flex-row justify-between items-center space-x-4">
-            <a href="/profile" className="w-max">
+            <a href="/profile" className="w-max focus:outline-none">
               <img
                 src="default.svg"
                 className="w-10 rounded-full bg-white ring-2 ring-gray-300"
@@ -200,10 +218,10 @@ export default function Feed() {
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-4">
       <form className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col">
         <div className="flex flex-row justify-between items-center space-x-4">
-          <a href="/profile" className="w-max">
+          <a href="/profile" className="w-max focus:outline-none">
             <img
               src="default.svg"
-              className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+              className="focus:outline-none w-10 rounded-full bg-white ring-2 ring-gray-300"
             />
           </a>
           <input

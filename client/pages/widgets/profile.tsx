@@ -28,8 +28,8 @@ function SubjectRender(props: any) {
 
   return (
     <div className="w-full px-4 py-4 flex flex-row space-x-16 justify-between">
-      <div>
-        <a href="/profile" className="group">
+      <div className="">
+        <a href="/profile" className="group focus:outline-none">
           <div className="w-min flex flex-row content-between items-center space-x-2">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
@@ -60,31 +60,31 @@ export default function Profile() {
   return (
     <div className="w-full text-center flex flex-col">
       <div className="rounded-lg divide-y-2 divide-gray-300">
-        <div className="flex flex-row p-6 justify-start items-center space-x-2">
+        <div className="flex flex-row p-6 justify-start items-center space-x-2 focus:outline-none">
           <img
             src="default.svg"
             className="w-10 rounded-full bg-white ring-2 ring-gray-300 self-center"
           />
-            <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
-              {localStorage.getItem("username")}
-            </p>
+          <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+            {localStorage.getItem("username")}
+          </p>
         </div>
         <div className="p-6 space-y-2 items-start">
-          <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-blue-400 cursor-pointer">
+          <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faUsers} className="w-5" />
               <p>Friends</p>
             </div>
             <p>28</p>
           </a>
-          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-yellow-400 cursor-pointer">
+          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faStarFull} className="w-5" />
               <p>Interests</p>
             </div>
             <p>{favsList.length}</p>
           </a>
-          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-red-400 cursor-pointer">
+          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon
                 icon={faBookmark}

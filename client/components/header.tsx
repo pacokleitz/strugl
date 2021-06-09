@@ -70,7 +70,7 @@ export default function Header() {
           </div>
         </div>
         <div className="relative flex flex-row space-x-2 items-start">
-          <a href="/profile">
+          <a href="/profile" className="focus:outline-none">
             <img
               src="default.svg"
               className="inline-block mr-2 w-10 rounded-full bg-white ring-2 ring-gray-300"
@@ -83,10 +83,10 @@ export default function Header() {
             {({ open }) => (
               <>
                 <div>
-                  <Menu.Button>
+                  <Menu.Button className="focus:outline-none">
                     <FontAwesomeIcon
                       icon={faSortDown}
-                      className="w-5 h-7 text-gray-700 cursor-pointer focus:outline-none"
+                      className="w-5 h-7 text-gray-700 cursor-pointer"
                     />
                   </Menu.Button>
                 </div>

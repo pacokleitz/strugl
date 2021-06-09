@@ -33,7 +33,7 @@ function SubjectRender(props: any) {
   return (
     <div className="p-4 flex flex-row space-x-8 justify-between">
       <div>
-        <a href="/profile" className="group">
+        <a href="/profile" className="group focus:outline-none">
           <div className="w-min flex flex-row content-between items-center space-x-2">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
@@ -62,7 +62,7 @@ function FriendRender(props: any) {
   return (
     <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
       <div className="inline-block">
-        <a href="/profile" className="group">
+        <a href="/profile" className="focus:outline-none group">
           <div className="w-max flex flex-row content-between items-center space-x-2">
             {props.friend.pic && <img src={props.friend.pic} />}
             {!props.friend.pic && (
@@ -97,7 +97,7 @@ export default function Suggestions() {
           <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700">
             You may know ...
           </h3>
-          <button>
+          <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
               className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
@@ -115,7 +115,7 @@ export default function Suggestions() {
           <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700">
             You may like ...
           </h3>
-          <button>
+          <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
               className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
