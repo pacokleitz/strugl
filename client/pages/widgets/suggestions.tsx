@@ -1,9 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar as faStarFull,
+  faPlusSquare as faPlusSquareFull,
   faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
+import {
+  faPlusSquare as faPlusSquareEmpty,
+  faStar as faStarEmpty,
+} from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
 import Subject from "../../lib/subject";
 import User from "../../lib/user";
@@ -33,7 +37,7 @@ function SubjectRender(props: any) {
   return (
     <div className="p-4 flex flex-row space-x-8 justify-between">
       <div>
-        <a href="/profile" className="group">
+        <a href="/profile" className="group focus:outline-none">
           <div className="w-min flex flex-row content-between items-center space-x-2">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
@@ -43,7 +47,7 @@ function SubjectRender(props: any) {
               />
             )}
 
-            <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
+            <h3 className="font-semibold text-md text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
               {props.subject.title}
             </h3>
           </div>
@@ -51,7 +55,7 @@ function SubjectRender(props: any) {
       </div>
       <FontAwesomeIcon
         icon={currentStar}
-        className="w-6 text-yellow-400 self-center hover:text-yellow-500 cursor-pointer"
+        className="w-5 text-gray-400 self-center hover:text-yellow-400 cursor-pointer"
         onClick={Star}
       />
     </div>
@@ -59,10 +63,20 @@ function SubjectRender(props: any) {
 }
 
 function FriendRender(props: any) {
+  const [addState] = useState([faPlusSquareEmpty, faPlusSquareFull]);
+  let [currentaddState, setCurrentaddState] = useState(0);
+  let currentAdd = addState[currentaddState];
+
+  function Add() {
+    if (currentaddState == 0) setCurrentaddState((currentaddState = 1));
+    else setCurrentaddState((currentaddState = 0));
+    currentAdd = addState[currentaddState];
+  }
+
   return (
     <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
       <div className="inline-block">
-        <a href="/profile" className="group">
+        <a href="/profile" className="focus:outline-none group">
           <div className="w-max flex flex-row content-between items-center space-x-2">
             {props.friend.pic && <img src={props.friend.pic} />}
             {!props.friend.pic && (
@@ -72,15 +86,17 @@ function FriendRender(props: any) {
               />
             )}
 
-            <h3 className="font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent group-hover:text-indigo-600">
+            <h3 className="font-semibold text-md text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
               {props.friend.username}
             </h3>
           </div>
         </a>
       </div>
-      <button className="inline-block shadow w-min px-2 p-2 rounded-lg bg-indigo-600 text-white font-semibold text-xs tracking-wide hover:bg-opacity-90">
-        Follow
-      </button>
+      <FontAwesomeIcon
+        icon={currentAdd}
+        className="inline-block w-5 text-gray-400 self-center hover:text-indigo-500 cursor-pointer"
+        onClick={Add}
+      />
     </div>
   );
 }
@@ -90,38 +106,42 @@ export default function Suggestions() {
   const [friendsList, setFriendsList] = useState(FriendsSuggestions);
 
   return (
-    <div className="w-max flex-shrink-0 content-center text-center flex flex-col space-y-4">
-      <div className="shadow sm:bg-white border-2 border-gray-100 border-opacity-60 rounded-lg divide-y">
+    <div className="w-full text-center flex flex-col space-y-4">
+      <div className="rounded-lg divide-y-2 divide-gray-300">
         <div className="flex flex-row justify-between p-4">
           <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700">
             You may know ...
           </h3>
-          <button>
+          <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
               className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
             />
           </button>
         </div>
-        {friendsList.map((friend: User) => (
-          <FriendRender key={friend.id} friend={friend} />
-        ))}
+        <div>
+          {friendsList.map((friend: User) => (
+            <FriendRender key={friend.id} friend={friend} />
+          ))}
+        </div>
       </div>
-      <div className="shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-lg divide-y">
+      <div className="rounded-lg divide-y-2 divide-gray-300">
         <div className="flex flex-row justify-between p-4">
           <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700">
             You may like ...
           </h3>
-          <button>
+          <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
               className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
             />
           </button>
         </div>
-        {subjectsList.map((subject: Subject) => (
-          <SubjectRender key={subject.id} subject={subject} />
-        ))}
+        <div>
+          {subjectsList.map((subject: Subject) => (
+            <SubjectRender key={subject.id} subject={subject} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+import Head from "next/head";
+import React from "react";
 import Header from "../components/header";
 import Feed from "./widgets/feed"
 import Profile from "./widgets/profile"
@@ -7,9 +9,13 @@ let chat: string[];
 
 export default function Dashboard(context: any) {
   return (
-    <div className="min-h-screen h-auto w-screen max-w-screen ">
+    <div className="min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
+      <Head>
+        <title>Strugl</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
-      <div className="grid grid-flow-col w-auto px-4 m-auto gap-4 justify-between pb-4">
+      <div className="max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4">
         <Profile />
         <Feed />
         <Suggestions />
