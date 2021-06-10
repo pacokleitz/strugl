@@ -6,14 +6,35 @@ import {
   faUserFriends,
   faCompass,
   faSearch,
+  faCheck,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
+import Message from "../lib/message";
+import User from "../lib/user";
 
-export default function Header() {
+// Données de tests (à supprimer plus tard)
+let testDate = new Date(2021, 3, 25, 17, 43);
+testDate.toDateString();
+const siham = new User(34, "testingwith20charact", "sihamais98@gmail.com");
+const paco = new User(32, "testUser1", "sihamais98@gmail.com");
+const msg1 = new Message(12, siham, "ok", testDate);
+const msg2 = new Message(
+  15,
+  paco,
+  "Wow, you are really the best coder !",
+  testDate
+);
+
+const initialInboxList: Message[] = [msg1, msg2, msg1, msg2];
+const initialInvitesList: User[] = [siham, paco];
+// Fin de données de tests (à supprimer plus tard)
+
+function Account() {
   const router = useRouter();
 
   function SignOut() {
@@ -21,6 +42,269 @@ export default function Header() {
     router.push("/");
   }
 
+  return (
+    <Menu as="div" className="relative inline-block text-center">
+      {({ open }) => (
+        <>
+          <div>
+            <Menu.Button className="focus:outline-none">
+              <FontAwesomeIcon
+                icon={faSortDown}
+                className="w-5 h-7 text-gray-700 cursor-pointer"
+              />
+            </Menu.Button>
+          </div>
+          <Transition
+            show={open}
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items
+              static
+              className="origin-top-right absolute -right-2 mt-4 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            >
+              <div className="select-none">
+                <Menu.Item>
+                  <div className="px-8 py-2 cursor-default select-none">
+                    <p className="inline-block text-gray-700 text-sm font-medium tracking-wide">
+                      Signed in as
+                    </p>{" "}
+                    {typeof window !== "undefined" && (
+                      <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
+                        {localStorage.getItem("username")}
+                      </p>
+                    )}
+                  </div>
+                </Menu.Item>
+                <hr></hr>
+                <Menu.Item>
+                  <a
+                    href="#"
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                  >
+                    Profile
+                  </a>
+                </Menu.Item>
+                <Menu.Item>
+                  <a
+                    href="#"
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                  >
+                    Settings
+                  </a>
+                </Menu.Item>
+                <hr></hr>
+                <Menu.Item>
+                  <a
+                    href="#"
+                    onClick={SignOut}
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                  >
+                    Sign out
+                  </a>
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Transition>
+        </>
+      )}
+    </Menu>
+  );
+}
+
+function Inbox() {
+  const weekday = new Array(7);
+  weekday[0] = "Sun";
+  weekday[1] = "Mon";
+  weekday[2] = "Tue";
+  weekday[3] = "Wed";
+  weekday[4] = "Thu";
+  weekday[5] = "Fri";
+  weekday[6] = "Sat";
+
+  const [inboxList, setList] = useState(initialInboxList);
+
+  function MessageRender(props: any) {
+    return (
+      <>
+        <Menu.Item>
+          <div className="rounded-md px-4 py-2 space-y-2 bg-white w-auto hover:bg-gray-50 cursor-pointer ">
+            <div className="flex flex-row justify-between ">
+              <div className="flex flex-row space-x-2 items-start ">
+                <a href="/profile" className="focus:outline-none group p-1">
+                  {props.message.author.pic && (
+                    <img src={props.comment.author.pic} />
+                  )}
+                  {!props.message.author.pic && (
+                    <img
+                      src="default.svg"
+                      className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+                    />
+                  )}
+                </a>
+                <div className="text-justify rounded-3xl bg-gray-100 border border-gray-200 p-2 px-4 overflow-hidden">
+                  <a
+                    href="/profile"
+                    className="focus:outline-none float-left mr-2  w-auto font-semibold text-gray-700 hover:text-gray-900 subpixel-antialiased"
+                  >
+                    {props.message.author.username}
+                  </a>
+                  {props.message.content}
+                </div>
+              </div>
+              <p className="text-left ml-4 self-center text-xs font-semibold text-gray-500 tracking-tighter">
+                {weekday[props.message.date.getDay()]}
+                {"."}
+              </p>
+            </div>
+          </div>
+        </Menu.Item>
+        <hr></hr>
+      </>
+    );
+  }
+
+  return (
+    <Menu as="div" className="relative inline-block text-center self-end">
+      {({ open }) => (
+        <>
+          <div>
+            <Menu.Button className="focus:outline-none">
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
+                to="/profile"
+              />
+              <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs text-center">
+                5
+              </span>
+            </Menu.Button>
+          </div>
+          <Transition
+            show={open}
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items
+              static
+              className="origin-top-right absolute -right-2 mt-3 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            >
+              <div className="select-none">
+                {inboxList.map((message) => (
+                  <MessageRender key={message.id} message={message} />
+                ))}
+                <Menu.Item>
+                  <Link href="/inbox" as="/">
+                    <a
+                      href="#"
+                      className="text-indigo-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                    >
+                      See all
+                    </a>
+                  </Link>
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Transition>
+        </>
+      )}
+    </Menu>
+  );
+}
+
+function Invites() {
+  const [invitesList, setList] = useState(initialInvitesList);
+
+  function InviteRender(props: any) {
+    return (
+      <Menu.Item>
+        <div className="w-full px-4 py-4 flex flex-row justify-between space-x-6">
+          <div className="inline-block">
+            <a href="/profile" className="focus:outline-none group">
+              <div className="w-max flex flex-row content-between items-center space-x-2">
+                {props.friend.pic && <img src={props.friend.pic} />}
+                {!props.friend.pic && (
+                  <img
+                    src="default.svg"
+                    className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+                  />
+                )}
+
+                <h3 className="font-semibold text-md text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+                  {props.friend.username}
+                </h3>
+              </div>
+            </a>
+          </div>
+          <div className="justify-between space-x-2 m-auto align-middle">
+            <FontAwesomeIcon
+              icon={faCheck}
+              className="inline-block w-4 text-gray-400 self-center hover:text-green-400 cursor-pointer"
+            />
+            <FontAwesomeIcon
+              icon={faTimes}
+              className="inline-block w-3 text-gray-400 self-center hover:text-red-400 cursor-pointer"
+            />
+          </div>
+        </div>
+      </Menu.Item>
+    );
+  }
+
+  return (
+    <Menu as="div" className="relative inline-block text-center self-end">
+      {({ open }) => (
+        <>
+          <div>
+            <Menu.Button className="focus:outline-none">
+              <FontAwesomeIcon
+                icon={faUserFriends}
+                className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
+                to="/profile"
+              />
+              <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs">
+                2
+              </span>
+            </Menu.Button>
+          </div>
+          <Transition
+            show={open}
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items
+              static
+              className="origin-top-right absolute -right-2 mt-3 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            >
+              <div className="select-none divide-y-2 divide-gray-300">
+                {invitesList.map((friend) => (
+                  <InviteRender key={friend.id} friend={friend} />
+                ))}
+              </div>
+            </Menu.Items>
+          </Transition>
+        </>
+      )}
+    </Menu>
+  );
+}
+
+export default function Header() {
   return (
     <div className="sticky top-0 w-full h-auto p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white">
       <div className="w-10/12 flex flex-row m-auto text-center justify-between">
@@ -39,7 +323,7 @@ export default function Header() {
             className=" w-5 h-5 text-gray-700 cursor-pointer transform-gpu hover:rotate-45 rotate-0"
           />
         </div>
-        <div className="flex flex-row content-center justify-between items-end space-x-8">
+        <div className="flex flex-row justify-between items-end space-x-8">
           <div className="self-center relative inline-block">
             <FontAwesomeIcon
               icon={faCompass}
@@ -48,26 +332,8 @@ export default function Header() {
               title="Explore"
             />
           </div>
-          <div className="relative inline-block">
-            <FontAwesomeIcon
-              icon={faUserFriends}
-              className="w-8 h-8 text-gray-700 hover:text-gray-600 cursor-pointer"
-              to="/profile"
-            />
-            <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs">
-              2
-            </span>
-          </div>
-          <div className="relative inline-block">
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              className="w-8 h-8 text-gray-700 hover:text-gray-600 cursor-pointer"
-              to="/profile"
-            />
-            <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs text-center">
-              5
-            </span>
-          </div>
+          <Invites />
+          <Inbox />
         </div>
         <div className="focus:outline-none relative flex flex-row space-x-2 items-start">
           <div className="focus:outline-none">
@@ -81,77 +347,7 @@ export default function Header() {
               </p>
             )}
           </div>
-          <Menu as="div" className="relative inline-block text-center">
-            {({ open }) => (
-              <>
-                <div>
-                  <Menu.Button className="focus:outline-none">
-                    <FontAwesomeIcon
-                      icon={faSortDown}
-                      className="w-5 h-7 text-gray-700 cursor-pointer"
-                    />
-                  </Menu.Button>
-                </div>
-                <Transition
-                  show={open}
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items
-                    static
-                    className="origin-top-right absolute -right-2 mt-4 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  >
-                    <div className="select-none">
-                      <Menu.Item>
-                        <div className="px-8 py-2 cursor-default select-none">
-                          <p className="inline-block text-gray-700 text-sm font-medium tracking-wide">
-                            Signed in as
-                          </p>{" "}
-                          {typeof window !== "undefined" && (
-                            <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
-                              {localStorage.getItem("username")}
-                            </p>
-                          )}
-                        </div>
-                      </Menu.Item>
-                      <hr></hr>
-                      <Menu.Item>
-                        <a
-                          href="#"
-                          className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
-                        >
-                          Profile
-                        </a>
-                      </Menu.Item>
-                      <Menu.Item>
-                        <a
-                          href="#"
-                          className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
-                        >
-                          Settings
-                        </a>
-                      </Menu.Item>
-                      <hr></hr>
-                      <Menu.Item>
-                        <a
-                          href="#"
-                          onClick={SignOut}
-                          className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
-                        >
-                          Sign out
-                        </a>
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </>
-            )}
-          </Menu>
+          <Account />
         </div>
       </div>
     </div>

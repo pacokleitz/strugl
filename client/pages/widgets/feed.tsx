@@ -18,47 +18,47 @@ import { useState } from "react";
 
 // Données de tests (à supprimer après)
 let testDate = new Date(2021, 3, 25, 17, 43);
-const siham = new User(34, "Sihamais", "sihamais98@gmail.com");
-const paco = new User(32, "Paco Kleitz", "sihamais98@gmail.com");
+const person1 = new User(34, "Person1", "sihamais98@gmail.com");
+const person2 = new User(32, "testingwith20charact", "sihamais98@gmail.com");
 const comment1 = new Comment(
   12,
-  siham,
-  "Nice ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
+  person1,
+  "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
   testDate
 );
 const comment2 = new Comment(
   15,
-  paco,
-  "Wow, you are really the best coder !",
+  person2,
+  "Short comment test !",
   testDate
 );
 
 let PostsList: Post[] = [
   {
     id: 1,
-    author: siham,
+    author: person2,
     content:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
+      "Long post test ! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
     date: testDate,
     comments: [comment1, comment2, comment1],
   },
   {
     id: 2,
-    author: paco,
+    author: person1,
     content:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur ut magnam ipsa veritatis, magni debitis nulla, ab harum minus soluta laudantium amet a beatae libero unde aliquid voluptatibus expedita maiores.",
+      "Short post test !",
     date: testDate,
   },
   {
     id: 3,
-    author: siham,
+    author: person1,
     content:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit, esse placeat. Provident placeat impedit eveniet itaque molestiae est porro nostrum. Est doloremque nulla quisquam quibusdam magni dolorum cum sit iste.",
     date: testDate,
   },
   {
     id: 4,
-    author: paco,
+    author: person2,
     content:
       "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
     date: testDate,
@@ -141,7 +141,7 @@ function PostRender(props: any) {
   }
 
   return (
-    <div className="shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y-2 divide-gray-300">
+    <div className="w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y-2 divide-gray-300">
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
           <a href="/profile" className="focus:outline-none group">
