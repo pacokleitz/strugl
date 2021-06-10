@@ -228,7 +228,7 @@ function Invites() {
   function InviteRender(props: any) {
     return (
       <Menu.Item>
-        <div className="w-full px-4 py-4 flex flex-row justify-between space-x-6">
+        <div className="w-full px-4 py-3 flex flex-row justify-between space-x-6">
           <div className="inline-block">
             <a href="/profile" className="focus:outline-none group">
               <div className="w-max flex flex-row content-between items-center space-x-2">
@@ -291,7 +291,7 @@ function Invites() {
               static
               className="origin-top-right absolute -right-2 mt-3 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div className="select-none divide-y-2 divide-gray-300">
+              <div className="select-none divide-y divide-gray-200">
                 {invitesList.map((friend) => (
                   <InviteRender key={friend.id} friend={friend} />
                 ))}
@@ -309,7 +309,7 @@ export default function Header() {
     <div className="sticky top-0 w-full h-auto p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white">
       <div className="w-10/12 flex flex-row m-auto text-center justify-between">
         <Link href="/dashboard" as="/">
-          <h1 className="bg-gradient-to-br from-indigo-600 to-indigo-300 bg-clip-text text-transparent text-4xl font-bold tracking-tight cursor-pointer">
+          <h1 className="text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer">
             Strugl
           </h1>
         </Link>
