@@ -1,3 +1,9 @@
+import Header from "../components/header";
+
 export default function Settings() {
-  return;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 }
