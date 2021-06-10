@@ -16,7 +16,7 @@ import User from "../../lib/user";
 const person1 = new User(34, "testingwith20charact", "sihamais98@gmail.com");
 const person2 = new User(32, "person2testtest", "sihamais98@gmail.com");
 const subject1 = new Subject(21, "React", false);
-const subject2 = new Subject(39, "DietGroup", false);
+const subject2 = new Subject(39, "Next.js", false);
 
 const FriendsSuggestions: User[] = [person1, person2, person1];
 
@@ -38,7 +38,7 @@ function SubjectRender(props: any) {
     <div className="p-4 flex flex-row space-x-8 justify-between">
       <div>
         <a href="/profile" className="group focus:outline-none">
-          <div className="w-min flex flex-row content-between items-center space-x-2">
+          <div className="w-max flex flex-row content-between items-center space-x-2">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
               <img

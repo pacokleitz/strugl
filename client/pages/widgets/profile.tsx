@@ -9,8 +9,8 @@ import Subject from "../../lib/subject";
 import { useState } from "react";
 
 // Données de tests (à supprimer plus tard)
-const subject1 = new Subject(21, "Skincare", true);
-const subject2 = new Subject(39, "DietGroup", true);
+const subject1 = new Subject(21, "TestSubject 1", true);
+const subject2 = new Subject(39, "TestSubject 2", true);
 
 const favs: Subject[] = [subject1, subject2, subject1];
 // Fin de données de tests (à supprimer plus tard)
@@ -30,7 +30,7 @@ function SubjectRender(props: any) {
     <div className="w-full px-4 py-4 flex flex-row space-x-16 justify-between">
       <div className="">
         <a href="/profile" className="group focus:outline-none">
-          <div className="w-min flex flex-row content-between items-center space-x-2">
+          <div className="w-max flex flex-row content-between items-center space-x-2">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
               <img
