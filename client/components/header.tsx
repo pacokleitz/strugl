@@ -8,6 +8,7 @@ import {
   faSearch,
   faCheck,
   faTimes,
+  faHome
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
@@ -43,17 +44,31 @@ function Account() {
   }
 
   return (
-    <Menu as="div" className="relative inline-block text-center">
+    <Menu
+      as="div"
+      className="relative self-center items-center inline-block text-center"
+    >
       {({ open }) => (
         <>
-          <div>
-            <Menu.Button className="focus:outline-none">
+          <Menu.Button className="focus:outline-none space-x-2">
+            <div className="inline-block items-center space-x-2">
+              <img
+                src="default.svg"
+                className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
+              />
+              {typeof window !== "undefined" && (
+                <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
+                  {localStorage.getItem("username")}
+                </p>
+              )}
+            </div>
+            <div className="inline-block">
               <FontAwesomeIcon
                 icon={faSortDown}
-                className="w-5 h-7 text-gray-700 cursor-pointer"
+                className="inline mb-2 w-5 h-7 text-gray-700"
               />
-            </Menu.Button>
-          </div>
+            </div>
+          </Menu.Button>
           <Transition
             show={open}
             as={Fragment}
@@ -66,7 +81,7 @@ function Account() {
           >
             <Menu.Items
               static
-              className="origin-top-right absolute -right-2 mt-4 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              className="origin-top-right absolute -right-2 mt-3 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               <div className="select-none">
                 <Menu.Item>
@@ -143,14 +158,14 @@ function Inbox() {
                   {!props.message.author.pic && (
                     <img
                       src="default.svg"
-                      className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+                      className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                     />
                   )}
                 </a>
-                <div className="text-justify rounded-3xl bg-gray-100 border border-gray-200 p-2 px-4 overflow-hidden">
+                <div className="text-justify text-gray-700 text-sm font-medium tracking-wide rounded-3xl self-center bg-gray-100 border border-gray-200 p-2 px-4 overflow-hidden">
                   <a
                     href="/profile"
-                    className="focus:outline-none float-left mr-2  w-auto font-semibold text-gray-700 hover:text-gray-900 subpixel-antialiased"
+                    className="focus:outline-none float-left mr-2 w-auto text-gray-800 text-sm font-medium tracking-wide hover:text-gray-900 subpixel-antialiased"
                   >
                     {props.message.author.username}
                   </a>
@@ -173,18 +188,16 @@ function Inbox() {
     <Menu as="div" className="relative inline-block text-center self-end">
       {({ open }) => (
         <>
-          <div>
-            <Menu.Button className="focus:outline-none">
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
-                to="/profile"
-              />
-              <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs text-center">
-                5
-              </span>
-            </Menu.Button>
-          </div>
+          <Menu.Button className="focus:outline-none">
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
+              to="/profile"
+            />
+            <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs text-center">
+              5
+            </span>
+          </Menu.Button>
           <Transition
             show={open}
             as={Fragment}
@@ -207,7 +220,7 @@ function Inbox() {
                   <Link href="/inbox" as="/">
                     <a
                       href="#"
-                      className="text-indigo-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                      className="text-indigo-600 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
                     >
                       See all
                     </a>
@@ -236,11 +249,11 @@ function Invites() {
                 {!props.friend.pic && (
                   <img
                     src="default.svg"
-                    className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+                    className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                   />
                 )}
 
-                <h3 className="font-semibold text-md text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+                <h3 className="text-gray-700 text-sm font-medium tracking-wide group-hover:text-gray-900 subpixel-antialiased">
                   {props.friend.username}
                 </h3>
               </div>
@@ -265,18 +278,16 @@ function Invites() {
     <Menu as="div" className="relative inline-block text-center self-end">
       {({ open }) => (
         <>
-          <div>
-            <Menu.Button className="focus:outline-none">
-              <FontAwesomeIcon
-                icon={faUserFriends}
-                className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
-                to="/profile"
-              />
-              <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs">
-                2
-              </span>
-            </Menu.Button>
-          </div>
+          <Menu.Button className="focus:outline-none">
+            <FontAwesomeIcon
+              icon={faUserFriends}
+              className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
+              to="/profile"
+            />
+            <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs">
+              2
+            </span>
+          </Menu.Button>
           <Transition
             show={open}
             as={Fragment}
@@ -306,14 +317,14 @@ function Invites() {
 
 export default function Header() {
   return (
-    <div className="sticky top-0 w-full h-auto p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white">
+    <div className="sticky top-0 w-full h-min p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white">
       <div className="w-10/12 flex flex-row m-auto text-center justify-between">
         <Link href="/dashboard" as="/">
           <h1 className="text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer">
             Strugl
           </h1>
         </Link>
-        <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/3 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
+        <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/4 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
           <input
             placeholder="Search ..."
             className="text-md subpixel-antialiased text-justify px-2 bg-transparent focus:outline-none w-full"
@@ -323,8 +334,16 @@ export default function Header() {
             className=" w-5 h-5 text-gray-700 cursor-pointer transform-gpu hover:rotate-45 rotate-0"
           />
         </div>
-        <div className="flex flex-row justify-between items-end space-x-8">
-          <div className="self-center relative inline-block">
+        <div className="flex flex-row justify-evenly items-end space-x-10">
+          <div className="inline-block self-center">
+            <FontAwesomeIcon
+              icon={faHome}
+              className="w-8 h-8 text-gray-700 cursor-pointer hover:text-gray-600"
+              to="/dashboard"
+              title="Explore"
+            />
+          </div>
+          <div className="inline-block self-center">
             <FontAwesomeIcon
               icon={faCompass}
               className="w-8 h-8 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
@@ -332,21 +351,10 @@ export default function Header() {
               title="Explore"
             />
           </div>
-          <Invites />
-          <Inbox />
         </div>
-        <div className="focus:outline-none relative flex flex-row space-x-2 items-start">
-          <div className="focus:outline-none">
-            <img
-              src="default.svg"
-              className="inline-block mr-2 w-10 rounded-full bg-white ring-2 ring-gray-300"
-            />
-            {typeof window !== "undefined" && (
-              <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
-                {localStorage.getItem("username")}
-              </p>
-            )}
-          </div>
+        <div className="focus:outline-none flex flex-row justify-between space-x-8 my-auto">
+          <Inbox />
+          <Invites />
           <Account />
         </div>
       </div>

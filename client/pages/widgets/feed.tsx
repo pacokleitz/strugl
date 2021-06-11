@@ -78,14 +78,14 @@ function CommentsRender(props: any) {
             <a href="/profile" className="focus:outline-none group">
               <img
                 src="default.svg"
-                className=" w-10 rounded-full bg-white ring-2 ring-gray-300"
+                className=" w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
             </a>
           )}
-          <div className="w-11/12 text-justify rounded-3xl bg-gray-100 border border-gray-200 p-2 px-4">
+          <div className="w-11/12 text-justify text-sm rounded-3xl bg-gray-100 border border-gray-200 p-2 px-4">
             <a
               href="/profile"
-              className="focus:outline-none float-left mr-2  w-auto font-semibold text-gray-700 hover:text-gray-900 subpixel-antialiased"
+              className="focus:outline-none float-left mr-2 w-auto text-gray-700 text-sm font-semibold hover:text-gray-900 subpixel-antialiased"
             >
               {props.comment.author.username}
             </a>
@@ -150,11 +150,11 @@ function PostRender(props: any) {
               {!props.post.author.pic && (
                 <img
                   src="default.svg"
-                  className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                 />
               )}
               <div>
-                <h3 className="text-left font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+                <h3 className="text-left text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
                   {props.post.author.username}
                 </h3>
                 <p className="text-xs font-semibold text-gray-500 tracking-tighter">
@@ -182,7 +182,7 @@ function PostRender(props: any) {
           </div>
         </div>
 
-        <p className=" text-md font-regular text-justify subpixel-antialiased">
+        <p className=" text-sm font-regular text-justify subpixel-antialiased">
           {props.post.content}
         </p>
       </div>
@@ -192,12 +192,12 @@ function PostRender(props: any) {
             <a href="/profile" className="w-max focus:outline-none">
               <img
                 src="default.svg"
-                className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+                className="w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
             </a>
             <input
               placeholder="Leave a comment ..."
-              className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-md text-justify subpixel-antialiased"
+              className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
               required
             />
           </div>
@@ -221,12 +221,12 @@ export default function Feed() {
           <a href="/profile" className="w-max focus:outline-none">
             <img
               src="default.svg"
-              className="focus:outline-none w-10 rounded-full bg-white ring-2 ring-gray-300"
+              className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
             />
           </a>
           <input
             placeholder="Share something with your friends today ..."
-            className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-md text-justify subpixel-antialiased"
+            className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
             required
           />
         </div>
