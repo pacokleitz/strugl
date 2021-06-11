@@ -35,11 +35,11 @@ function SubjectRender(props: any) {
             {!props.subject.pic && (
               <img
                 src="default.svg"
-                className="w-10 rounded-full bg-white ring-2 ring-gray-300"
+                className="w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
             )}
 
-            <h3 className="font-semibold text-md text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+            <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
               {props.subject.title}
             </h3>
           </div>
