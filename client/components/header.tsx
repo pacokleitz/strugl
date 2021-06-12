@@ -108,7 +108,7 @@ function Account() {
                 <Menu.Item>
                   <a
                     onClick={() => Navigate("Profile")}
-                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50 cursor-pointer"
                   >
                     Profile
                   </a>
@@ -116,7 +116,7 @@ function Account() {
                 <Menu.Item>
                   <a
                     onClick={() => Navigate("Settings")}
-                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50 cursor-pointer"
                   >
                     Settings
                   </a>
@@ -125,7 +125,7 @@ function Account() {
                 <Menu.Item>
                   <a
                     onClick={() => Navigate("SignOut")}
-                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50 cursor-pointer"
                   >
                     Sign out
                   </a>
