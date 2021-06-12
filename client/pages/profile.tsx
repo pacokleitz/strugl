@@ -1,10 +1,16 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/header";
 
 export default function MyProfile() {
   const router = useRouter();
+
+  useEffect(() => {
+    if (!(typeof window !== "undefined" && localStorage.getItem("username"))) {
+      router.push("/");
+    }
+  });
 
   if (typeof window !== "undefined" && localStorage.getItem("username"))
     return (
@@ -19,5 +25,4 @@ export default function MyProfile() {
         <div className="max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4"></div>
       </div>
     );
-  else router.push("/");
 }

@@ -46,7 +46,7 @@ function Account() {
       } else {
         if (to == "Settings") router.push("/settings", "/");
         else if (to == "Profile")
-          router.push("/my-profile", "/" + localStorage.getItem("username"));
+          router.push("/profile", "/" + localStorage.getItem("username"));
       }
     }
   }

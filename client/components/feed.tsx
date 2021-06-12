@@ -1,6 +1,7 @@
 import Post from "../lib/post";
 import User from "../lib/user";
 import Comment from "../lib/comment";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark as faBookmarkFull,
@@ -26,12 +27,7 @@ const comment1 = new Comment(
   "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
   testDate
 );
-const comment2 = new Comment(
-  15,
-  person2,
-  "Short comment test !",
-  testDate
-);
+const comment2 = new Comment(15, person2, "Short comment test !", testDate);
 
 let PostsList: Post[] = [
   {
@@ -45,8 +41,7 @@ let PostsList: Post[] = [
   {
     id: 2,
     author: person1,
-    content:
-      "Short post test !",
+    content: "Short post test !",
     date: testDate,
   },
   {
@@ -73,22 +68,23 @@ function CommentsRender(props: any) {
     <div className="px-4 py-2 space-y-2 bg-white">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row space-x-4">
-          {props.comment.author.pic && <img src={props.comment.author.pic} />}
-          {!props.comment.author.pic && (
-            <a href="/profile" className="focus:outline-none group">
+          <Link href="/profile" as={"/" + props.comment.author.username}>
+            <div>
+            {props.comment.author.pic && <img src={props.comment.author.pic} />}
+            {!props.comment.author.pic && (
               <img
                 src="default.svg"
-                className=" w-9 rounded-full bg-white ring-2 ring-gray-300"
+                className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
-            </a>
-          )}
+            )}
+            </div>
+          </Link>
           <div className="w-11/12 text-justify text-sm rounded-3xl bg-gray-100 border border-gray-200 p-2 px-4">
-            <a
-              href="/profile"
-              className="focus:outline-none float-left mr-2 w-auto text-gray-700 text-sm font-semibold hover:text-gray-900 subpixel-antialiased"
-            >
-              {props.comment.author.username}
-            </a>
+            <Link href="/profile" as={"/" + props.comment.author.username}>
+              <p className="focus:outline-none float-left mr-2 w-auto text-gray-700 text-sm font-semibold hover:text-gray-900 subpixel-antialiased cursor-pointer">
+                {props.comment.author.username}
+              </p>
+            </Link>
             {props.comment.content}
           </div>
         </div>
@@ -144,8 +140,8 @@ function PostRender(props: any) {
     <div className="w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y-2 divide-gray-300">
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
-          <a href="/profile" className="focus:outline-none group">
-            <div className="focus:outline-none w-max flex flex-row space-x-2">
+          <Link href="/profile" as={"/" + props.post.author.username}>
+            <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
               {props.post.author.pic && <img src={props.post.author.pic} />}
               {!props.post.author.pic && (
                 <img
@@ -162,7 +158,7 @@ function PostRender(props: any) {
                 </p>
               </div>
             </div>
-          </a>
+          </Link>
           <div className="flex flex-row space-x-4">
             <FontAwesomeIcon
               icon={currentVote}
