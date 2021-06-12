@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import Header from "../components/header";
 
-export default function Inbox() {
+export default function Explore() {
   const router = useRouter();
 
   useEffect(() => {
@@ -15,11 +15,12 @@ export default function Inbox() {
     return (
       <div className="min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
         <Head>
-          <title>Strugl - Inbox</title>
+          <title>Strugl - Explore</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <div className="max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4"></div>
+        <div className="max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4">
+        </div>
       </div>
     );
 }

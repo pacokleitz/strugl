@@ -8,7 +8,7 @@ import {
   faSearch,
   faCheck,
   faTimes,
-  faHome
+  faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
@@ -38,9 +38,17 @@ const initialInvitesList: User[] = [siham, paco];
 function Account() {
   const router = useRouter();
 
-  function SignOut() {
-    if (typeof window !== "undefined") localStorage.clear();
-    router.push("/");
+  function Navigate(to: String) {
+    if (typeof window !== "undefined") {
+      if (!localStorage.getItem("username") || to == "SignOut") {
+        localStorage.clear();
+        router.push("/");
+      } else {
+        if (to == "Settings") router.push("/settings", "/");
+        else if (to == "Profile")
+          router.push("/profile", "/" + localStorage.getItem("username"));
+      }
+    }
   }
 
   return (
@@ -99,16 +107,16 @@ function Account() {
                 <hr></hr>
                 <Menu.Item>
                   <a
-                    href="#"
-                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                    onClick={() => Navigate("Profile")}
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50 cursor-pointer"
                   >
                     Profile
                   </a>
                 </Menu.Item>
                 <Menu.Item>
                   <a
-                    href="#"
-                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                    onClick={() => Navigate("Settings")}
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50 cursor-pointer"
                   >
                     Settings
                   </a>
@@ -116,9 +124,8 @@ function Account() {
                 <hr></hr>
                 <Menu.Item>
                   <a
-                    href="#"
-                    onClick={SignOut}
-                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
+                    onClick={() => Navigate("SignOut")}
+                    className="text-gray-700 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50 cursor-pointer"
                   >
                     Sign out
                   </a>
@@ -133,6 +140,8 @@ function Account() {
 }
 
 function Inbox() {
+  const router = useRouter();
+
   const weekday = new Array(7);
   weekday[0] = "Sun";
   weekday[1] = "Mon";
@@ -143,6 +152,17 @@ function Inbox() {
   weekday[6] = "Sat";
 
   const [inboxList, setList] = useState(initialInboxList);
+
+  function Navigate(to: String) {
+    if (typeof window !== "undefined") {
+      if (!localStorage.getItem("username")) {
+        localStorage.clear();
+        router.push("/");
+      } else {
+        if (to == "Inbox") router.push("/inbox", "/");
+      }
+    }
+  }
 
   function MessageRender(props: any) {
     return (
@@ -192,7 +212,6 @@ function Inbox() {
             <FontAwesomeIcon
               icon={faEnvelope}
               className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
-              to="/profile"
             />
             <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs text-center">
               5
@@ -210,21 +229,19 @@ function Inbox() {
           >
             <Menu.Items
               static
-              className="origin-top-right absolute -right-2 mt-3 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              className="origin-top-right absolute -right-3 mt-3 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               <div className="select-none">
                 {inboxList.map((message) => (
                   <MessageRender key={message.id} message={message} />
                 ))}
                 <Menu.Item>
-                  <Link href="/inbox" as="/">
-                    <a
-                      href="#"
-                      className="text-indigo-600 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50"
-                    >
-                      See all
-                    </a>
-                  </Link>
+                  <a
+                    onClick={() => Navigate("Inbox")}
+                    className="text-indigo-600 block px-8 py-2 text-sm font-medium tracking-wide hover:bg-gray-50 cursor-pointer"
+                  >
+                    See all
+                  </a>
                 </Menu.Item>
               </div>
             </Menu.Items>
@@ -300,7 +317,7 @@ function Invites() {
           >
             <Menu.Items
               static
-              className="origin-top-right absolute -right-2 mt-3 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              className="origin-top-right absolute -right-3 mt-3 w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               <div className="select-none divide-y divide-gray-200">
                 {invitesList.map((friend) => (
@@ -316,14 +333,29 @@ function Invites() {
 }
 
 export default function Header() {
+  const router = useRouter();
+
+  function Navigate(to: String) {
+    if (typeof window !== "undefined") {
+      if (!localStorage.getItem("username")) {
+        localStorage.clear();
+        router.push("/");
+      } else {
+        if (to == "Dashboard") router.push("/dashboard", "/");
+        else if (to == "Explore") router.push("/explore", "/");
+      }
+    }
+  }
+
   return (
     <div className="sticky top-0 w-full h-min p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white">
       <div className="w-10/12 flex flex-row m-auto text-center justify-between">
-        <Link href="/dashboard" as="/">
-          <h1 className="text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer">
-            Strugl
-          </h1>
-        </Link>
+        <a
+          onClick={() => Navigate("Dashboard")}
+          className="text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer"
+        >
+          Strugl
+        </a>
         <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/4 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
           <input
             placeholder="Search ..."
@@ -336,20 +368,22 @@ export default function Header() {
         </div>
         <div className="flex flex-row justify-evenly items-end space-x-10">
           <div className="inline-block self-center">
-            <FontAwesomeIcon
-              icon={faHome}
-              className="w-8 h-8 text-gray-700 cursor-pointer hover:text-gray-600"
-              to="/dashboard"
-              title="Explore"
-            />
+            <a onClick={() => Navigate("Dashboard")}>
+              <FontAwesomeIcon
+                icon={faHome}
+                className="w-8 h-8 text-gray-700 cursor-pointer hover:text-gray-600"
+                title="Home"
+              />
+            </a>
           </div>
           <div className="inline-block self-center">
-            <FontAwesomeIcon
-              icon={faCompass}
-              className="w-8 h-8 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
-              to="/profile"
-              title="Explore"
-            />
+            <a onClick={() => Navigate("Explore")}>
+              <FontAwesomeIcon
+                icon={faCompass}
+                className="w-8 h-8 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
+                title="Explore"
+              />
+            </a>
           </div>
         </div>
         <div className="focus:outline-none flex flex-row justify-between space-x-8 my-auto">
