@@ -1,13 +1,22 @@
 import Head from "next/head";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import Header from "../components/header";
-import Feed from "./widgets/feed"
-import Profile from "./widgets/profile"
-import Suggestions from "./widgets/suggestions";
+import Feed from "../components/feed";
+import Profile from "../components/profile";
+import Suggestions from "../components/suggestions";
 
 let chat: string[];
 
 export default function Dashboard(context: any) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!(typeof window !== "undefined" && localStorage.getItem("username"))) {
+      router.push("/");
+    }
+  });
+
   return (
     <div className="min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
       <Head>

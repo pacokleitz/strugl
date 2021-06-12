@@ -9,8 +9,8 @@ import {
   faStar as faStarEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
-import Subject from "../../lib/subject";
-import User from "../../lib/user";
+import Subject from "../lib/subject";
+import User from "../lib/user";
 
 // Données de tests (à supprimer plus tard)
 const person1 = new User(34, "testingwith20charact", "sihamais98@gmail.com");

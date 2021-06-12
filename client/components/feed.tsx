@@ -1,6 +1,6 @@
-import Post from "../../lib/post";
-import User from "../../lib/user";
-import Comment from "../../lib/comment";
+import Post from "../lib/post";
+import User from "../lib/user";
+import Comment from "../lib/comment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark as faBookmarkFull,

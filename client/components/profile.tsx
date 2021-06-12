@@ -5,7 +5,7 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
-import Subject from "../../lib/subject";
+import Subject from "../lib/subject";
 import { useState } from "react";
 
 // Données de tests (à supprimer plus tard)
