@@ -31,7 +31,7 @@ function SubjectRender(props: any) {
     <div className="w-full px-4 py-4 flex flex-row space-x-16 justify-between">
       <div className="">
         <Link href="/profile" as={"/" + props.subject.title}>
-          <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2">
+          <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
               <img

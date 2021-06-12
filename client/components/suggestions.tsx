@@ -39,7 +39,7 @@ function SubjectRender(props: any) {
     <div className="p-4 flex flex-row space-x-8 justify-between">
       <div>
         <Link href="/profile" as={"/" + props.subject.title}>
-          <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2">
+          <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
               <img
@@ -78,7 +78,7 @@ function FriendRender(props: any) {
     <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
       <div className="inline-block">
         <Link href="/profile">
-          <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2">
+          <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.friend.pic && <img src={props.friend.pic} />}
             {!props.friend.pic && (
               <img
