@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import Subject from "../lib/subject";
 import User from "../lib/user";
+import Link from "next/link";
 
 // Données de tests (à supprimer plus tard)
 const person1 = new User(34, "testingwith20charact", "sihamais98@gmail.com");
@@ -37,8 +38,8 @@ function SubjectRender(props: any) {
   return (
     <div className="p-4 flex flex-row space-x-8 justify-between">
       <div>
-        <a href="/profile" className="group focus:outline-none">
-          <div className="w-max flex flex-row content-between items-center space-x-2">
+        <Link href="/profile" as={"/" + props.subject.title}>
+          <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
               <img
@@ -51,7 +52,7 @@ function SubjectRender(props: any) {
               {props.subject.title}
             </h3>
           </div>
-        </a>
+        </Link>
       </div>
       <FontAwesomeIcon
         icon={currentStar}
@@ -76,8 +77,8 @@ function FriendRender(props: any) {
   return (
     <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
       <div className="inline-block">
-        <a href="/profile" className="focus:outline-none group">
-          <div className="w-max flex flex-row content-between items-center space-x-2">
+        <Link href="/profile">
+          <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2">
             {props.friend.pic && <img src={props.friend.pic} />}
             {!props.friend.pic && (
               <img
@@ -90,7 +91,7 @@ function FriendRender(props: any) {
               {props.friend.username}
             </h3>
           </div>
-        </a>
+        </Link>
       </div>
       <FontAwesomeIcon
         icon={currentAdd}

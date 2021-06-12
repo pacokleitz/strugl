@@ -7,6 +7,7 @@ import {
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
 import Subject from "../lib/subject";
 import { useState } from "react";
+import Link from "next/link";
 
 // Données de tests (à supprimer plus tard)
 const subject1 = new Subject(21, "TestSubject 1", true);
@@ -29,8 +30,8 @@ function SubjectRender(props: any) {
   return (
     <div className="w-full px-4 py-4 flex flex-row space-x-16 justify-between">
       <div className="">
-        <a href="/profile" className="group focus:outline-none">
-          <div className="w-max flex flex-row content-between items-center space-x-2">
+        <Link href="/profile" as={"/" + props.subject.title}>
+          <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
               <img
@@ -43,7 +44,7 @@ function SubjectRender(props: any) {
               {props.subject.title}
             </h3>
           </div>
-        </a>
+        </Link>
       </div>
       <FontAwesomeIcon
         icon={currentStar}
