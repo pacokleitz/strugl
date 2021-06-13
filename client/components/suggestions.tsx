@@ -12,6 +12,7 @@ import { useState } from "react";
 import Subject from "../lib/subject";
 import User from "../lib/user";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Données de tests (à supprimer plus tard)
 const person1 = new User(34, "testingwith20charact", "sihamais98@gmail.com");
@@ -38,7 +39,7 @@ function SubjectRender(props: any) {
   return (
     <div className="p-4 flex flex-row space-x-8 justify-between">
       <div>
-        <Link href="/profile" as={"/" + props.subject.title}>
+        <Link href="/${props.subject.title}" as={"/" + props.subject.title}>
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
@@ -77,7 +78,7 @@ function FriendRender(props: any) {
   return (
     <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
       <div className="inline-block">
-        <Link href="/profile">
+        <Link href="/${props.friend.username}" as={'/'+props.friend.username}>
           <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.friend.pic && <img src={props.friend.pic} />}
             {!props.friend.pic && (

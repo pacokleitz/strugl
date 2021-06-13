@@ -5,6 +5,7 @@ import Header from "../components/header";
 
 export default function Profile() {
   const router = useRouter();
+  const { profile } = router.query;
 
   useEffect(() => {
     if (!(typeof window !== "undefined" && localStorage.getItem("username"))) {
@@ -16,7 +17,7 @@ export default function Profile() {
     <div className="min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
       <Head>
         {typeof window !== "undefined" && (
-          <title>Strugl - {localStorage.getItem("username")}</title>
+          <title>Strugl - {profile}</title>
         )}
         <link rel="icon" href="/favicon.ico" />
       </Head>
