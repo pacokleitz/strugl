@@ -10,8 +10,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 
 	"github.com/dgrijalva/jwt-go"
-	"strugl/internal/utils/auth"
 	"strugl/internal/service/user"
+	"strugl/internal/utils/auth"
 )
 
 func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
