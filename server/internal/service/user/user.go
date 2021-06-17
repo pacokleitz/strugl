@@ -3,18 +3,7 @@ package user
 import (
 	"database/sql"
 	"errors"
-	// "encoding/json"
-	// "fmt"
-	// "log"
-	// "net/http"
-	// "time"
-
-	// "github.com/dgrijalva/jwt-go"
 	_ "github.com/jackc/pgx/v4/stdlib"
-	// "github.com/julienschmidt/httprouter"
-
-	// "strugl/auth"
-	// "strugl/models"
 	"strugl/internal/utils/auth"
 )
 
@@ -27,12 +16,10 @@ var (
 	ErrCredentialsInvalid = errors.New("credentials invalid")
 )
 
-// Service - the struct for our comment service
 type Service struct {
 	DB *sql.DB
 }
 
-// Comment - defines our comment structure
 type User struct {
 	ID       int64  `json:"id"`
 	Username string `json:"username"`
@@ -40,7 +27,6 @@ type User struct {
 	Password string `json:"password"`
 }
 
-// NewService - returns a new user service
 func NewService(db *sql.DB) Service {
 	return Service{
 		DB: db,
@@ -105,6 +91,7 @@ func (s Service) AuthUser(username string, password string) (bool, error) {
 
 func (s Service) UpdateUser(username string, newUser User) (User, error) {
 
+	// ToDo
 	stmt, err := s.DB.Prepare(`UPDATE users SET x=y, z=u WHERE username = $1`)
 	if err != nil {
 		return newUser, err

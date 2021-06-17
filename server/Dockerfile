@@ -8,4 +8,4 @@ RUN go install strugl
 
 ENTRYPOINT /go/bin/strugl
 
-EXPOSE 8080
+EXPOSE ${API_PORT}

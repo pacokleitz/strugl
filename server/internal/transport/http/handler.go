@@ -6,7 +6,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// Handler - stores pointer to our comments service
 type Handler struct {
 	Router      *httprouter.Router
 	UserService httpservice.UserService

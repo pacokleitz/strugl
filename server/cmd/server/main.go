@@ -23,7 +23,14 @@ func run() error {
 
 	h.SetupRoutes()
 
-	if err := http.ListenAndServe(":8080", h.Router); err != nil {
+	port, isPortSet := os.LookupEnv("API_PORT")
+	if !isPortSet {
+		port = "80"
+	}
+
+	serverAddr := fmt.Sprintf(":%s", port)
+
+	if err := http.ListenAndServe(serverAddr, h.Router); err != nil {
 		return err
 	}
 
