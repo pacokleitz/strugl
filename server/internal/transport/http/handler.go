@@ -2,7 +2,6 @@ package httpx
 
 import (
 	"strugl/internal/transport/http/httpservice"
-
 	"github.com/julienschmidt/httprouter"
 )
 

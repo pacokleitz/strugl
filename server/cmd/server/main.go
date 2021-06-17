@@ -10,6 +10,8 @@ import (
 	transportHTTP "strugl/internal/transport/http"
 )
 
+var PORT = 8080
+
 func run() error {
 	db, err := database.NewDatabase()
 	if err != nil {
@@ -29,6 +31,7 @@ func run() error {
 	}
 
 	serverAddr := fmt.Sprintf(":%s", port)
+	fmt.Printf("Server running on %s\n", serverAddr)
 
 	if err := http.ListenAndServe(serverAddr, h.Router); err != nil {
 		return err
