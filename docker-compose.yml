@@ -4,19 +4,19 @@ services:
   db:
     image: postgres
     environment:
-      - POSTGRES_DB=$(DB_NAME)
-      - POSTGRES_USER=$(DB_USER)
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
     volumes:
       - pgdata:/var/lib/postgresql/data
   api:
-    image: pacokleitz/strugl
+    build: server
     environment:
-      - DB_NAME=$(DB_NAME)
-      - DB_HOST=$(DB_HOST)
-      - DB_PORT=$(DB_PORT)
-      - DB_USER=$(DB_USER)
-      - DB_PASS=${DB_PASS}  
+      - DB_NAME
+      - DB_HOST
+      - DB_PORT
+      - DB_USER
+      - DB_PASS
     ports:
       - "8080:8080"
     depends_on:

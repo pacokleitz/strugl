@@ -1,11 +1,15 @@
 
 FROM golang
 
-COPY . /go/src/strugl
-WORKDIR /go/src/strugl
+WORKDIR /app
 
-RUN go install strugl
+COPY go.mod /app
+COPY go.sum /app
 
-ENTRYPOINT /go/bin/strugl
+RUN go mod download
 
-EXPOSE 8080
+COPY . /app
+
+RUN go build -o main ./cmd/server
+
+CMD ["/app/main"]

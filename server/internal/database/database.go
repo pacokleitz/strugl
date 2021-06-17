@@ -4,19 +4,33 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"errors"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
-func NewDatabase() (*sql.DB, error) {
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUsername := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASS")
-	dbName := os.Getenv("DB_NAME")
+var (
+	ErrDbEnvVarNotSet = errors.New("database env variable credentials not set")
+)
 
-	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUsername, dbPassword, dbHost, dbPort, dbName)
+func NewDatabase() (*sql.DB, error) {
+	dbHost, isSetdbHost := os.LookupEnv("DB_HOST")
+	dbPort, isSetdbPort := os.LookupEnv("DB_PORT")
+	dbUser, isSetdbUser := os.LookupEnv("DB_USER")
+	dbPass, isSetdbPass := os.LookupEnv("DB_PASS")
+	dbName, isSetdbName := os.LookupEnv("DB_NAME")
+
+	if !(isSetdbHost && isSetdbPort && isSetdbUser && isSetdbPass && isSetdbName) {
+		return nil, ErrDbEnvVarNotSet
+	}
+
+	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
 	db, err := sql.Open("pgx", connectionString)
+	if err != nil {
+		return nil, err
+	}
+
+	err = MigrateDB(db)
 	if err != nil {
 		return db, err
 	}
