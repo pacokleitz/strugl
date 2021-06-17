@@ -91,6 +91,7 @@ func (s Service) AuthUser(username string, password string) (bool, error) {
 
 func (s Service) UpdateUser(username string, newUser User) (User, error) {
 
+	// ToDo
 	stmt, err := s.DB.Prepare(`UPDATE users SET x=y, z=u WHERE username = $1`)
 	if err != nil {
 		return newUser, err

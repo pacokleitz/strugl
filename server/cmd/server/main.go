@@ -25,7 +25,12 @@ func run() error {
 
 	h.SetupRoutes()
 
-	serverAddr := fmt.Sprintf(":%d", PORT)
+	port, isPortSet := os.LookupEnv("API_PORT")
+	if !isPortSet {
+		port = "80"
+	}
+
+	serverAddr := fmt.Sprintf(":%s", port)
 	fmt.Printf("Server running on %s\n", serverAddr)
 
 	if err := http.ListenAndServe(serverAddr, h.Router); err != nil {
