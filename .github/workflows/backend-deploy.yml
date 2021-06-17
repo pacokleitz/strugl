@@ -59,5 +59,6 @@ jobs:
         key: ${{ secrets.ID_RSA }}
         port: ${{ secrets.SERVER_PORT }}
         script: |
+          source ~/.profile
           cd strugl
           docker-compose -f docker-compose.prod.yml up --build
