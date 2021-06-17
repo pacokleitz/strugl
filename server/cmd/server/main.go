@@ -27,7 +27,7 @@ func run() error {
 
 	port, isPortSet := os.LookupEnv("API_PORT")
 	if !isPortSet {
-		port = "80"
+		port = "8080"
 	}
 
 	serverAddr := fmt.Sprintf(":%s", port)
