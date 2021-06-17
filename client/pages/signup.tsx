@@ -1,7 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import User from "../lib/user";
 
 interface FormInputs {
   username: string;
@@ -11,13 +13,40 @@ interface FormInputs {
 }
 
 export default function SignUp() {
+  const router = useRouter();
+
   const {
     register,
     getValues,
     formState: { errors },
     handleSubmit,
   } = useForm<FormInputs>({ mode: "onChange" });
-  const onSubmit: SubmitHandler<FormInputs> = (data) => console.log(data);
+
+  // const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
+  //   fetch("https://api.strugl.cc/users", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       data,
+  //     }),
+  //   }).then(async (res) => {
+  //     const json = await res.json();
+  //     if (res.ok) {
+  //       const user = new User(1, json.username, json.email);
+  //       localStorage.setItem("user", json.token);
+  //       router.push({ pathname: "/dashboard", query: {userId : user.id} }, "/"+user.username);
+  //     } else alert(json.error);
+  //   });
+  // }, []);
+
+  const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
+  const user = new User(1, data.username, data.email);
+  localStorage.setItem("username", user.username);
+  router.push(
+    { pathname: "/dashboard", query: { username: user.username }, },
+    "/"
+  );
+  },[])
 
   return (
     <div className="w-screen h-screen">
@@ -127,7 +156,7 @@ export default function SignUp() {
               >
                 Sign Up
               </button>
-              <Link href="/login">
+              <Link href="/login" as="/">
                 <a className="text-center underline font-semibold cursor-pointer text-blue-600 hover:text-blue-500">
                   Already have an account ? <br></br>Log In
                 </a>

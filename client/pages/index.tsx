@@ -9,7 +9,9 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/login");
+    if (localStorage.getItem("username")) {
+      router.push("/dashboard", '/')
+    } else router.push("/login", '/');
   }, []);
 
   return (
