@@ -14,4 +14,4 @@ RUN go build -o main ./cmd/server
 
 CMD ["/app/main"]
 
-EXPOSE ${API_PORT}
+EXPOSE 8080
