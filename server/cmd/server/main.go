@@ -10,8 +10,6 @@ import (
 	transportHTTP "strugl/internal/transport/http"
 )
 
-var PORT = 8080
-
 func run() error {
 	db, err := database.NewDatabase()
 	if err != nil {
