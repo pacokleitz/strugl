@@ -46,7 +46,10 @@ function Account() {
       } else {
         if (to == "Settings") router.push("/settings", "/");
         else if (to == "Profile")
-          router.push("/profile", "/" + localStorage.getItem("username"));
+          router.push(
+            "/${localStorage.getItem('username')}",
+            "/" + localStorage.getItem("username")
+          );
       }
     }
   }
@@ -171,24 +174,31 @@ function Inbox() {
           <div className="rounded-md px-4 py-2 space-y-2 bg-white w-auto hover:bg-gray-50 cursor-pointer ">
             <div className="flex flex-row justify-between ">
               <div className="flex flex-row space-x-2 items-start ">
-                <a href="/profile" className="focus:outline-none group p-1">
-                  {props.message.author.pic && (
-                    <img src={props.comment.author.pic} />
-                  )}
-                  {!props.message.author.pic && (
-                    <img
-                      src="default.svg"
-                      className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-                    />
-                  )}
-                </a>
-                <div className="text-justify text-gray-700 text-sm font-medium tracking-wide rounded-3xl self-center bg-gray-100 border border-gray-200 p-2 px-4 overflow-hidden">
-                  <a
-                    href="/profile"
-                    className="focus:outline-none float-left mr-2 w-auto text-gray-800 text-sm font-medium tracking-wide hover:text-gray-900 subpixel-antialiased"
-                  >
-                    {props.message.author.username}
+                <Link
+                  href="/${props.message.author.username}"
+                  as={"/" + props.message.author.username}
+                >
+                  <a className="focus:outline-none group p-1">
+                    {props.message.author.pic && (
+                      <img src={props.comment.author.pic} />
+                    )}
+                    {!props.message.author.pic && (
+                      <img
+                        src="default.svg"
+                        className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                      />
+                    )}
                   </a>
+                </Link>
+                <div className="text-justify text-gray-700 text-sm font-medium tracking-wide rounded-3xl self-center bg-gray-100 border border-gray-200 p-2 px-4 overflow-hidden">
+                  <Link
+                    href="/${props.message.author.username}"
+                    as={"/" + props.message.author.username}
+                  >
+                    <a className="focus:outline-none float-left mr-2 w-auto text-gray-800 text-sm font-medium tracking-wide hover:text-gray-900 subpixel-antialiased">
+                      {props.message.author.username}
+                    </a>
+                  </Link>
                   {props.message.content}
                 </div>
               </div>
@@ -260,21 +270,26 @@ function Invites() {
       <Menu.Item>
         <div className="w-full px-4 py-3 flex flex-row justify-between space-x-6">
           <div className="inline-block">
-            <a href="/profile" className="focus:outline-none group">
-              <div className="w-max flex flex-row content-between items-center space-x-2">
-                {props.friend.pic && <img src={props.friend.pic} />}
-                {!props.friend.pic && (
-                  <img
-                    src="default.svg"
-                    className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-                  />
-                )}
+            <Link
+              href="/${props.friend.username}"
+              as={"/" + props.friend.username}
+            >
+              <a href="/profile" className="focus:outline-none group">
+                <div className="w-max flex flex-row content-between items-center space-x-2">
+                  {props.friend.pic && <img src={props.friend.pic} />}
+                  {!props.friend.pic && (
+                    <img
+                      src="default.svg"
+                      className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                    />
+                  )}
 
-                <h3 className="text-gray-700 text-sm font-medium tracking-wide group-hover:text-gray-900 subpixel-antialiased">
-                  {props.friend.username}
-                </h3>
-              </div>
-            </a>
+                  <h3 className="text-gray-700 text-sm font-medium tracking-wide group-hover:text-gray-900 subpixel-antialiased">
+                    {props.friend.username}
+                  </h3>
+                </div>
+              </a>
+            </Link>
           </div>
           <div className="justify-between space-x-2 m-auto align-middle">
             <FontAwesomeIcon
@@ -299,7 +314,6 @@ function Invites() {
             <FontAwesomeIcon
               icon={faUserFriends}
               className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
-              to="/profile"
             />
             <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs">
               2
@@ -348,7 +362,7 @@ export default function Header() {
   }
 
   return (
-    <div className="sticky top-0 w-full h-min p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white">
+    <div className="sticky top-0 w-full h-min p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
       <div className="w-10/12 flex flex-row m-auto text-center justify-between">
         <a
           onClick={() => Navigate("Dashboard")}

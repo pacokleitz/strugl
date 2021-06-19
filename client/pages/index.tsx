@@ -8,11 +8,11 @@ import LogIn from "./login";
 export default function Home() {
   const router = useRouter();
 
-  useEffect(() => {
-    if (localStorage.getItem("username")) {
-      router.push("/dashboard", '/')
-    } else router.push("/login", '/');
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("username")) {
+  //     router.push("/dashboard", '/')
+  //   } else router.push("/login", '/');
+  // }, []);
 
   return (
     <div className="w-screen h-screen">

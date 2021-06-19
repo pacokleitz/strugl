@@ -6,15 +6,12 @@ import Feed from "../components/feed";
 import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 
-let chat: string[];
-
 export default function Dashboard(context: any) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!(typeof window !== "undefined" && localStorage.getItem("username"))) {
-      router.push("/");
-    }
+    if (typeof window !== "undefined")
+      if (!localStorage.getItem("username")) router.push("/");
   });
 
   return (

@@ -68,19 +68,27 @@ function CommentsRender(props: any) {
     <div className="px-4 py-2 space-y-2 bg-white">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row space-x-4">
-          <Link href="/profile" as={"/" + props.comment.author.username}>
+          <Link
+            href="/${props.comment.author.username}"
+            as={"/" + props.comment.author.username}
+          >
             <div>
-            {props.comment.author.pic && <img src={props.comment.author.pic} />}
-            {!props.comment.author.pic && (
-              <img
-                src="default.svg"
-                className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
-              />
-            )}
+              {props.comment.author.pic && (
+                <img src={props.comment.author.pic} />
+              )}
+              {!props.comment.author.pic && (
+                <img
+                  src="default.svg"
+                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              )}
             </div>
           </Link>
           <div className="w-11/12 text-justify text-sm rounded-3xl bg-gray-100 border border-gray-200 p-2 px-4">
-            <Link href="/profile" as={"/" + props.comment.author.username}>
+            <Link
+              href="/${props.comment.author.username}"
+              as={"/" + props.comment.author.username}
+            >
               <p className="focus:outline-none float-left mr-2 w-auto text-gray-700 text-sm font-semibold hover:text-gray-900 subpixel-antialiased cursor-pointer">
                 {props.comment.author.username}
               </p>
@@ -140,7 +148,10 @@ function PostRender(props: any) {
     <div className="w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y-2 divide-gray-300">
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
-          <Link href="/profile" as={"/" + props.post.author.username}>
+          <Link
+            href="/${props.post.author.username}"
+            as={"/" + props.post.author.username}
+          >
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
               {props.post.author.pic && <img src={props.post.author.pic} />}
               {!props.post.author.pic && (
@@ -214,12 +225,20 @@ export default function Feed() {
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-4">
       <form className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col">
         <div className="flex flex-row justify-between items-center space-x-4">
-          <a href="/profile" className="w-max focus:outline-none">
-            <img
-              src="default.svg"
-              className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
-            />
-          </a>
+          {typeof window !== "undefined" && (
+            <Link
+              href="/${localStorage.getItem('username')}"
+              as={"/" + localStorage.getItem("username")}
+            >
+              <a className="w-max focus:outline-none">
+                <img
+                  src="default.svg"
+                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              </a>
+            </Link>
+          )}
+
           <input
             placeholder="Share something with your friends today ..."
             className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
