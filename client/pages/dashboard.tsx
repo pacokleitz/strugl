@@ -6,8 +6,6 @@ import Feed from "../components/feed";
 import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 
-let chat: string[];
-
 export default function Dashboard(context: any) {
   const router = useRouter();
 

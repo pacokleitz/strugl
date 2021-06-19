@@ -225,7 +225,7 @@ export default function Feed() {
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-4">
       <form className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col">
         <div className="flex flex-row justify-between items-center space-x-4">
-          {!(typeof window !== "undefined") && (
+          {typeof window !== "undefined" && (
             <Link
               href="/${localStorage.getItem('username')}"
               as={"/" + localStorage.getItem("username")}
