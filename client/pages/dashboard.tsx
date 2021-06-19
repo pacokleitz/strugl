@@ -12,7 +12,7 @@ export default function Dashboard(context: any) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!(typeof window !== "undefined" && localStorage.getItem("username"))) {
+    if (typeof window !== "undefined" && !localStorage.getItem("username")) {
       router.push("/");
     }
   });
