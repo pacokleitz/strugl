@@ -21,11 +21,11 @@ services:
       - db
   enginx:
     build: nginx
-      ports:
-        - "80:80"
-        - "443:443"
-      volumes:
-        - /home/${USER}/nginx/letsencrypt:/etc/letsencrypt
-        - /home/${USER}/nginx/dhparam.pem:/etc/ssl/certs/dhparam.pem
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /home/${USER}/nginx/letsencrypt:/etc/letsencrypt
+      - /home/${USER}/nginx/dhparam.pem:/etc/ssl/certs/dhparam.pem
 volumes: 
      pgdata:
