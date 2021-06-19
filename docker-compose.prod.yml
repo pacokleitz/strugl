@@ -17,9 +17,15 @@ services:
       - DB_PORT
       - DB_USER
       - DB_PASS
-    ports:
-      - "8080:8080"
     depends_on:
       - db
+  enginx:
+    build: nginx
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - /home/${USER}/nginx/letsencrypt:/etc/letsencrypt
+        - /home/${USER}/nginx/dhparam.pem:/etc/ssl/certs/dhparam.pem
 volumes: 
      pgdata:
