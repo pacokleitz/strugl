@@ -3,8 +3,10 @@ package user
 import (
 	"database/sql"
 	"errors"
-	_ "github.com/jackc/pgx/v4/stdlib"
+	"github.com/jmoiron/sqlx"
 	"strugl/internal/utils/auth"
+
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 var (
@@ -17,17 +19,18 @@ var (
 )
 
 type Service struct {
-	DB *sql.DB
+	DB *sqlx.DB
 }
 
 type User struct {
-	ID       int64  `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	ID          int64  `json:"id" db:"user_id"`
+	Username    string `json:"username" db:"username"`
+	ProfileName string `json:"profile_name" db:"profile_name"`
+	Email       string `json:"email" db:"email"`
+	Password    string `json:"password" db:"password_hash"`
 }
 
-func NewService(db *sql.DB) Service {
+func NewService(db *sqlx.DB) Service {
 	return Service{
 		DB: db,
 	}

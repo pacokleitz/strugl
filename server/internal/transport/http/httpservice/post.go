@@ -5,10 +5,15 @@ import (
 )
 
 type PostService interface {
-	GetPost(ID uint) (post.Post, error)
-	GetUserPosts(username string) (post.Post, error)
-	GetTopicPosts(topic string) ([]post.Post, error)
-	CreatePost(user post.Post) (post.Post, error)
-	UpdatePost(ID uint, newUser post.Post) (post.Post, error)
-	DeletePost(ID uint) error
+	GetPost(id uint) (post.Post, error)
+	GetPostsByUser(username string) ([]post.Post, error)
+	GetPostsByTopic(topic string) ([]post.Post, error)
+	GetPostsBookmarked(username string) ([]post.Post, error)
+	GetPostsUpvoted(username string) ([]post.Post, error)
+	GetTopicsFeed(username string) ([]post.Post, error)
+	GetFollowsFeed(username string) ([]post.Post, error)
+	GetFeed(username string) ([]post.Post, error)
+	CreatePost(post.Post) error
+	UpdatePost(post.Post) (post.Post, error)
+	DeletePost(post.Post) error
 }

@@ -11,6 +11,7 @@ import (
 	"unicode"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -46,7 +47,7 @@ func CheckUsername(username string) bool {
 	return true
 }
 
-func CheckUsernameAvailability(username string, db *sql.DB) bool {
+func CheckUsernameAvailability(username string, db *sqlx.DB) bool {
 	var db_username string
 
 	query := `SELECT username FROM users WHERE username = $1`
@@ -60,7 +61,7 @@ func CheckUsernameAvailability(username string, db *sql.DB) bool {
 	return false
 }
 
-func CheckEmailAvailability(email string, db *sql.DB) bool {
+func CheckEmailAvailability(email string, db *sqlx.DB) bool {
 	var db_email string
 
 	query := `SELECT email FROM users WHERE email = $1`

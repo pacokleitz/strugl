@@ -1,10 +1,10 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 	"errors"
+	"github.com/jmoiron/sqlx"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
@@ -13,7 +13,7 @@ var (
 	ErrDbEnvVarNotSet = errors.New("database env variable credentials not set")
 )
 
-func NewDatabase() (*sql.DB, error) {
+func NewDatabase() (*sqlx.DB, error) {
 	dbHost, isSetdbHost := os.LookupEnv("DB_HOST")
 	dbPort, isSetdbPort := os.LookupEnv("DB_PORT")
 	dbUser, isSetdbUser := os.LookupEnv("DB_USER")
@@ -25,7 +25,7 @@ func NewDatabase() (*sql.DB, error) {
 	}
 
 	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
-	db, err := sql.Open("pgx", connectionString)
+	db, err := sqlx.Open("pgx", connectionString)
 	if err != nil {
 		return nil, err
 	}
