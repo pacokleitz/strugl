@@ -7,6 +7,7 @@ import (
 
 	"strugl/internal/database"
 	"strugl/internal/service/user"
+	"strugl/internal/service/post"
 	transportHTTP "strugl/internal/transport/http"
 )
 
@@ -18,8 +19,10 @@ func run() error {
 	defer db.Close()
 
 	userService := user.NewService(db)
+	postService := post.NewService(db)
 
-	h := transportHTTP.NewHandler(userService)
+	h := transportHTTP.NewHandler(userService, postService)
+
 
 	h.SetupRoutes()
 

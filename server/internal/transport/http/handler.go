@@ -8,11 +8,13 @@ import (
 type Handler struct {
 	Router      *httprouter.Router
 	UserService httpservice.UserService
+	PostService httpservice.PostService
 }
 
-func NewHandler(userService httpservice.UserService) *Handler {
+func NewHandler(userService httpservice.UserService, postService httpservice.PostService) *Handler {
 	return &Handler{
 		UserService: userService,
+		PostService: postService,
 	}
 }
 
