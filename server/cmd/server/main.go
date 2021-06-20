@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/rs/cors"
+
 	"strugl/internal/database"
 	"strugl/internal/service/user"
 	transportHTTP "strugl/internal/transport/http"
@@ -31,7 +33,9 @@ func run() error {
 	serverAddr := fmt.Sprintf(":%s", port)
 	fmt.Printf("Server running on %s\n", serverAddr)
 
-	if err := http.ListenAndServe(serverAddr, h.Router); err != nil {
+	corsRouter := cors.Default().Handler(h.Router)
+
+	if err := http.ListenAndServe(serverAddr, corsRouter); err != nil {
 		return err
 	}
 
