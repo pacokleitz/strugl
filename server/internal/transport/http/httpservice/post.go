@@ -14,6 +14,5 @@ type PostService interface {
 	GetFollowsFeed(username string) ([]post.Post, error)
 	GetFeed(username string) ([]post.Post, error)
 	CreatePost(post.Post) error
-	UpdatePost(post.Post) (post.Post, error)
 	DeletePost(post.Post) error
 }

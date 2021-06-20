@@ -2,9 +2,17 @@ package post
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
+	"strings"
+	"unicode"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/jmoiron/sqlx"
+)
+
+var (
+	ErrPostDoNotExist = errors.New("post not found in db")
 )
 
 type Service struct {
@@ -15,7 +23,6 @@ type Post struct {
 	ID           int64  `json:"id" db:"post_id"`
 	Author       string `json:"author" db:"user_id"`
 	Content      string `json:"content" db:"content"`
-	Upvotes      int64  `json:"upvotes" db:"upvotes"`
 	DateCreated  string `json:"date_created" db:"date_created"`
 	DateModified string `json:"date_modified" db:"date_modified"`
 }
@@ -41,10 +48,9 @@ func (s Service) GetPost(id uint) (*Post, error) {
 func (s Service) GetPostsByUser(username string) ([]Post, error) {
 	var posts []Post
 
-	//query := `SELECT * FROM posts WHERE user_id IN (SELECT user_id FROM users WHERE username = $1) ORDER BY date_created ASC`
 	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
 				INNER JOIN users ON posts.user_id = users.user_id 
-				WHERE username = $1 ORDER BY date_created ASC`
+				WHERE username = $1 ORDER BY date_created DESC`
 	rows, err := s.DB.Queryx(query, username)
 	if err != nil {
 		return nil, err
@@ -67,7 +73,7 @@ func (s Service) GetPostsByTopic(topic string) ([]Post, error) {
 
 	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
 				INNER JOIN topics ON posts.post_id = topics.post_id 
-				WHERE topic = $1 ORDER BY date_created ASC`
+				WHERE topic = $1 ORDER BY date_created DESC`
 	rows, err := s.DB.Queryx(query, topic)
 	if err != nil {
 		return nil, err
@@ -92,7 +98,7 @@ func (s Service) GetPostsBookmarked(username string) ([]Post, error) {
 	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
 				INNER JOIN bookmarks ON posts.post_id = bookmarks.post_id
 				INNER JOIN users ON bookmarks.user_id = users.user_id
-				WHERE bookmarks.user_id = $1 ORDER BY date_created ASC`
+				WHERE bookmarks.user_id = $1 ORDER BY date_created DESC`
 
 	rows, err := s.DB.Queryx(query, username)
 	if err != nil {
@@ -126,16 +132,24 @@ func (s Service) GetFollowsFeed(username string) ([]Post, error) {
 	var posts []Post
 	return posts, nil
 }
+
 // END TODO
 
 func (s Service) GetFeed(username string) ([]Post, error) {
 	var posts []Post
 
 	// TODO
+	// query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts
+	// 			LEFT JOIN topics ON topics.post_id = posts.post_id
+	//			LEFT JOIN interests ON interests.user_id = posts.user_id
+	// 			LEFT JOIN followings ON followings.user_id = posts.user_id
+	// 			WHERE followings.user_id = $1 OR interests.user_id = $1 ORDER BY date_created DESC`
+
 	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
-				INNER JOIN followings ON followings.user_id = .post_id
-				INNER JOIN topics ON topics.user_id = users.user_id
-				WHERE bookmarks.user_id = $1 ORDER BY date_created ASC`
+				WHERE post_id IN (
+					SELECT post_id FROM topics WHERE topic in (
+						SELECT topic FROM interests WHERE user_id = $1)) OR
+						user_id in (SELECT following_id FROM followings WHERE user_id = $1)`
 
 	rows, err := s.DB.Queryx(query, username)
 	if err != nil {
@@ -154,8 +168,113 @@ func (s Service) GetFeed(username string) ([]Post, error) {
 	return posts, nil
 }
 
-func (s Service) CreatePost(Post) error {
+// Insert a post in DB "posts" table with the topics entries in "topics" table
+func (s Service) CreatePost(p Post) error {
+
+	// Begin transaction
+	tx, err := s.DB.Beginx()
+	if err != nil {
+		return err
+	}
+
+	// Insert Post in DB posts table
+	stmtPost, err := tx.Preparex(`INSERT INTO posts (user_id, content, date_created, date_updated) VALUES ($1, $2, $3, $4)`)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	_, err = stmtPost.Exec(p.Author, p.Content, p.DateCreated, p.DateModified)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Insert each topic of the Post in DB topics table
+	postTopics := GetPostTopics(p.Content)
+	stmtTopicsValueString, stmtTopicsArgs := GetBulkTopicsStatement(p.ID, postTopics)
+
+	stmtTopicsString := fmt.Sprintf("INSERT INTO topics (post_id, topic) VALUES %s", stmtTopicsValueString)
+
+	stmtTopics, err := tx.Preparex(stmtTopicsString)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	_, err = stmtTopics.Exec(stmtTopicsArgs...)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	tx.Commit()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
-func (s Service) UpdatePost(Post) (Post, error)
-func (s Service) DeletePost(Post) error
+
+// Delete a post and cascade delete all associated entries (topics, bookmarks, upvotes)
+func (s Service) DeletePost(post_id int64) error {
+
+	stmt, err := s.DB.Preparex(`DELETE FROM posts WHERE post_id = $1`)
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(post_id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Extract a slice of topics from the post content
+func GetPostTopics(postContent string) []string {
+	var postTopics []string
+
+	postWords := strings.Split(postContent, " ")
+
+	for _, word := range postWords {
+		if topic, isTopic := IsTopic(word); isTopic {
+			postTopics = append(postTopics, topic)
+		}
+	}
+
+	return postTopics
+}
+
+// Check if a word is a hashtag returning a bool if it matched and the topic string
+func IsTopic(w string) (string, bool) {
+	wTrim := strings.TrimSpace(w)
+
+	if wTrim[0] == '#' {
+		for _, letter := range wTrim[1:] {
+			if !unicode.IsLetter(letter) && !unicode.IsDigit(letter) {
+				return "", false
+			}
+		}
+		return wTrim[1:], true
+	}
+	return "", false
+}
+
+// Make bulk inserting possible without having to query DB multiple times
+// Create sql statement string inserting all topics at once (Batch Insert)
+func GetBulkTopicsStatement(post_id int64, topics []string) (string, []interface{}) {
+	valueStrings := make([]string, 0, len(topics))
+	valueArgs := make([]interface{}, 0, len(topics)*2)
+	i := 1
+	for _, topic := range topics {
+		valueString := fmt.Sprintf("($%d, $%d)", i, i+1)
+		valueStrings = append(valueStrings, valueString)
+		valueArgs = append(valueArgs, post_id)
+		valueArgs = append(valueArgs, topic)
+		i += 2
+	}
+
+	return strings.Join(valueStrings, ","), valueArgs
+}
