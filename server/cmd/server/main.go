@@ -28,17 +28,16 @@ func run() error {
 
 	h.SetupRoutes()
 
-	port, isPortSet := os.LookupEnv("API_PORT")
-	if !isPortSet {
-		port = "8080"
-	}
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"https://strugl.cc", "http://localhost:3000"},
+		AllowCredentials: true,
+		// Enable Debugging for testing, consider disabling in production
+		Debug: true,
+	})
 
-	serverAddr := fmt.Sprintf(":%s", port)
-	fmt.Printf("Server running on %s\n", serverAddr)
+	corsRouter := c.Handler(h.Router)
 
-	corsRouter := cors.Default().Handler(h.Router)
-
-	if err := http.ListenAndServe(serverAddr, corsRouter); err != nil {
+	if err := http.ListenAndServe(":8080", corsRouter); err != nil {
 		return err
 	}
 
