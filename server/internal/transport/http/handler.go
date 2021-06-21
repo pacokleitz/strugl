@@ -22,6 +22,7 @@ func (h *Handler) SetupRoutes() {
 
 	h.Router = httprouter.New()
 
+
 	h.Router.POST("/api/users", h.HandleUserCreate)
 	h.Router.POST("/api/users/auth", h.HandleUserAuth)
 	h.Router.GET("/api/users/me", h.HandleUserIdentity)
