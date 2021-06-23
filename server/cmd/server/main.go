@@ -34,9 +34,10 @@ func run() error {
 	fmt.Printf("Server running on %s\n", serverAddr)
 	
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000/", "https://strugl.cc"},
+		AllowedOrigins: []string{"http://localhost:3000", "https://strugl.cc"},
     		AllowCredentials: true,
-    		// Enable Debugging for testing, consider disabling in production
+		AllowedMethods: []string{"PUT", "PATCH", "GET", "POST", "DELETE", "OPTIONS"},
+		AllowedHeaders: []string{"*"},
     		Debug: true,
 	})
 
