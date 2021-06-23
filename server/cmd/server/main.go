@@ -32,8 +32,15 @@ func run() error {
 
 	serverAddr := fmt.Sprintf(":%s", port)
 	fmt.Printf("Server running on %s\n", serverAddr)
+	
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:3000", "https://strugl.cc"},
+    		AllowCredentials: true,
+    		// Enable Debugging for testing, consider disabling in production
+    		Debug: true,
+	})
 
-	corsRouter := cors.Default().Handler(h.Router)
+	corsRouter := c.Handler(h.Router)
 
 	if err := http.ListenAndServe(serverAddr, corsRouter); err != nil {
 		return err
