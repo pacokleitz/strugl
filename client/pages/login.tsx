@@ -23,7 +23,7 @@ export default function LogIn() {
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
     await fetch("https://api.strugl.cc/api/users/auth", {
       method: "Post",
-      credentials: "same-origin",
+      credentials: "include",
       body: JSON.stringify(data),
     }).then(async (res) => {
       const text = await res.text();
