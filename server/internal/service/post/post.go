@@ -7,6 +7,8 @@ import (
 	"strings"
 	"unicode"
 
+	"strugl/internal/models"
+
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/jmoiron/sqlx"
 )
@@ -19,22 +21,14 @@ type Service struct {
 	DB *sqlx.DB
 }
 
-type Post struct {
-	ID           int64  `json:"id" db:"post_id"`
-	Author       string `json:"author" db:"user_id"`
-	Content      string `json:"content" db:"content"`
-	DateCreated  string `json:"date_created" db:"date_created"`
-	DateModified string `json:"date_modified" db:"date_modified"`
-}
-
 func NewService(db *sqlx.DB) Service {
 	return Service{
 		DB: db,
 	}
 }
 
-func (s Service) GetPost(id uint) (*Post, error) {
-	var p Post
+func (s Service) GetPost(id uint) (*models.Post, error) {
+	var p models.Post
 	query := `SELECT post_id, user_id, content, date_created, date_modified FROM users WHERE post_id = $1`
 	err := s.DB.QueryRowx(query, id).StructScan(&p)
 	if err != nil {
@@ -45,8 +39,8 @@ func (s Service) GetPost(id uint) (*Post, error) {
 	return &p, nil
 }
 
-func (s Service) GetPostsByUser(username string) ([]Post, error) {
-	var posts []Post
+func (s Service) GetPostsByUser(username string) ([]models.Post, error) {
+	var posts []models.Post
 
 	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
 				INNER JOIN users ON posts.user_id = users.user_id 
@@ -57,7 +51,7 @@ func (s Service) GetPostsByUser(username string) ([]Post, error) {
 	}
 
 	for rows.Next() {
-		var p Post
+		var p models.Post
 		err = rows.StructScan(&p)
 		if err != nil {
 			return nil, err
@@ -68,8 +62,8 @@ func (s Service) GetPostsByUser(username string) ([]Post, error) {
 	return posts, nil
 }
 
-func (s Service) GetPostsByTopic(topic string) ([]Post, error) {
-	var posts []Post
+func (s Service) GetPostsByTopic(topic string) ([]models.Post, error) {
+	var posts []models.Post
 
 	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
 				INNER JOIN topics ON posts.post_id = topics.post_id 
@@ -80,7 +74,7 @@ func (s Service) GetPostsByTopic(topic string) ([]Post, error) {
 	}
 
 	for rows.Next() {
-		var p Post
+		var p models.Post
 		err = rows.StructScan(&p)
 		if err != nil {
 			return nil, err
@@ -91,8 +85,8 @@ func (s Service) GetPostsByTopic(topic string) ([]Post, error) {
 	return posts, nil
 }
 
-func (s Service) GetPostsBookmarked(username string) ([]Post, error) {
-	var posts []Post
+func (s Service) GetPostsBookmarked(username string) ([]models.Post, error) {
+	var posts []models.Post
 
 	//query := `SELECT * FROM posts INNER JOIN topics ON posts.post_id = topics.post_id WHERE topic = $1 ORDER BY date_created ASC`
 	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
@@ -106,7 +100,7 @@ func (s Service) GetPostsBookmarked(username string) ([]Post, error) {
 	}
 
 	for rows.Next() {
-		var p Post
+		var p models.Post
 		err = rows.StructScan(&p)
 		if err != nil {
 			return nil, err
@@ -118,25 +112,25 @@ func (s Service) GetPostsBookmarked(username string) ([]Post, error) {
 }
 
 // TODO
-func (s Service) GetPostsUpvoted(username string) ([]Post, error) {
-	var posts []Post
+func (s Service) GetPostsUpvoted(username string) ([]models.Post, error) {
+	var posts []models.Post
 	return posts, nil
 }
 
-func (s Service) GetTopicsFeed(username string) ([]Post, error) {
-	var posts []Post
+func (s Service) GetTopicsFeed(username string) ([]models.Post, error) {
+	var posts []models.Post
 	return posts, nil
 }
 
-func (s Service) GetFollowsFeed(username string) ([]Post, error) {
-	var posts []Post
+func (s Service) GetFollowsFeed(username string) ([]models.Post, error) {
+	var posts []models.Post
 	return posts, nil
 }
 
 // END TODO
 
-func (s Service) GetFeed(username string) ([]Post, error) {
-	var posts []Post
+func (s Service) GetFeed(username string) ([]models.Post, error) {
+	var posts []models.Post
 
 	// TODO
 	// query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts
@@ -157,7 +151,7 @@ func (s Service) GetFeed(username string) ([]Post, error) {
 	}
 
 	for rows.Next() {
-		var p Post
+		var p models.Post
 		err = rows.StructScan(&p)
 		if err != nil {
 			return nil, err
@@ -169,7 +163,7 @@ func (s Service) GetFeed(username string) ([]Post, error) {
 }
 
 // Insert a post in DB "posts" table with the topics entries in "topics" table
-func (s Service) CreatePost(p Post) error {
+func (s Service) CreatePost(p models.Post) error {
 
 	// Begin transaction
 	tx, err := s.DB.Beginx()

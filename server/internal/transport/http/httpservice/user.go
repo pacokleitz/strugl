@@ -1,12 +1,11 @@
 package httpservice
 
 import (
-	"strugl/internal/service/user"
+	"strugl/internal/models"
 )
 
 type UserService interface {
-	CreateUser(user user.User) (string, error)
-	AuthUser(username string, password string) (bool, error)
-	UpdateUser(username string, newUser user.User) (user.User, error)
+	CreateUser(user models.User) (string, error)
+	UpdateUser(username string, newUser models.User) (models.User, error)
 	DeleteUser(username string) error
 }

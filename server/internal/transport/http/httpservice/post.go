@@ -1,18 +1,18 @@
 package httpservice
 
 import (
-	"strugl/internal/service/post"
+	"strugl/internal/models"
 )
 
 type PostService interface {
-	GetPost(id uint) (*post.Post, error)
-	GetPostsByUser(username string) ([]post.Post, error)
-	GetPostsByTopic(topic string) ([]post.Post, error)
-	GetPostsBookmarked(username string) ([]post.Post, error)
-	GetPostsUpvoted(username string) ([]post.Post, error)
-	GetTopicsFeed(username string) ([]post.Post, error)
-	GetFollowsFeed(username string) ([]post.Post, error)
-	GetFeed(username string) ([]post.Post, error)
-	CreatePost(post post.Post) error
+	GetPost(id uint) (*models.Post, error)
+	GetPostsByUser(username string) ([]models.Post, error)
+	GetPostsByTopic(topic string) ([]models.Post, error)
+	GetPostsBookmarked(username string) ([]models.Post, error)
+	GetPostsUpvoted(username string) ([]models.Post, error)
+	GetTopicsFeed(username string) ([]models.Post, error)
+	GetFollowsFeed(username string) ([]models.Post, error)
+	GetFeed(username string) ([]models.Post, error)
+	CreatePost(post models.Post) error
 	DeletePost(post_id int64) error
 }

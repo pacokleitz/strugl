@@ -1,10 +1,10 @@
 package user
 
 import (
-	"database/sql"
 	"errors"
 	"github.com/jmoiron/sqlx"
-	"strugl/internal/utils/auth"
+
+	"strugl/internal/models"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
@@ -14,20 +14,10 @@ var (
 	ErrUsernameInvalid = errors.New("username invalid")
 	ErrUsernameTaken   = errors.New("username taken")
 	ErrEmailTaken      = errors.New("email taken")
-
-	ErrCredentialsInvalid = errors.New("credentials invalid")
 )
 
 type Service struct {
 	DB *sqlx.DB
-}
-
-type User struct {
-	ID          int64  `json:"id" db:"user_id"`
-	Username    string `json:"username" db:"username"`
-	ProfileName string `json:"profile_name" db:"profile_name"`
-	Email       string `json:"email" db:"email"`
-	Password    string `json:"password" db:"password_hash"`
 }
 
 func NewService(db *sqlx.DB) Service {
@@ -36,21 +26,21 @@ func NewService(db *sqlx.DB) Service {
 	}
 }
 
-func (s Service) CreateUser(user User) (string, error) {
+func (s Service) CreateUser(user models.User) (string, error) {
 
-	if !auth.CheckEmail(user.Email) {
+	if !CheckEmail(user.Email) {
 		return "", ErrEmailInvalid
 	}
 
-	if !auth.CheckUsername(user.Username) {
+	if !CheckUsername(user.Username) {
 		return "", ErrUsernameInvalid
 	}
 
-	if !auth.CheckUsernameAvailability(user.Username, s.DB) {
+	if !CheckUsernameAvailability(user.Username, s.DB) {
 		return "", ErrUsernameTaken
 	}
 
-	if !auth.CheckEmailAvailability(user.Email, s.DB) {
+	if !CheckEmailAvailability(user.Email, s.DB) {
 		return "", ErrEmailTaken
 	}
 
@@ -59,7 +49,7 @@ func (s Service) CreateUser(user User) (string, error) {
 		return "", err
 	}
 
-	password_hash, err := auth.HashPassword(user.Password)
+	password_hash, err := HashPassword(user.Password)
 	if err != nil {
 		return "", err
 	}
@@ -72,27 +62,7 @@ func (s Service) CreateUser(user User) (string, error) {
 	return user.Username, nil
 }
 
-func (s Service) AuthUser(username string, password string) (bool, error) {
-
-	var dbPassword string
-
-	query := `SELECT password FROM users WHERE username = $1`
-	err := s.DB.QueryRow(query, username).Scan(&dbPassword)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return false, ErrCredentialsInvalid
-		}
-		return false, err
-	}
-
-	if auth.CheckPasswordHash(password, dbPassword) {
-		return true, nil
-	}
-	return false, nil
-
-}
-
-func (s Service) UpdateUser(username string, newUser User) (User, error) {
+func (s Service) UpdateUser(username string, newUser models.User) (models.User, error) {
 
 	// ToDo
 	stmt, err := s.DB.Prepare(`UPDATE users SET x=y, z=u WHERE username = $1`)
@@ -122,3 +92,4 @@ func (s Service) DeleteUser(username string) error {
 
 	return nil
 }
+

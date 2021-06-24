@@ -10,6 +10,7 @@ import (
 	"strugl/internal/database"
 	"strugl/internal/service/user"
 	"strugl/internal/service/post"
+	"strugl/internal/service/auth"
 	transportHTTP "strugl/internal/transport/http"
 )
 
@@ -22,8 +23,9 @@ func run() error {
 
 	userService := user.NewService(db)
 	postService := post.NewService(db)
+	authService := auth.NewService(db)
 
-	h := transportHTTP.NewHandler(userService, postService)
+	h := transportHTTP.NewHandler(userService, postService, authService)
 
 
 	h.SetupRoutes()
@@ -31,7 +33,6 @@ func run() error {
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"https://strugl.cc", "http://localhost:3000"},
 		AllowCredentials: true,
-		// Enable Debugging for testing, consider disabling in production
 		Debug: true,
 	})
 
