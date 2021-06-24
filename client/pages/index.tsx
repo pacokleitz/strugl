@@ -11,6 +11,7 @@ export default function Home() {
   useEffect(() => {
     fetch("https://api.strugl.cc/api/users/me", {
       method: "Get",
+      credentials: "same-origin",
     }).then(async (res) => {
       const text = await res.text();
       if (res.ok && typeof window !== "undefined") {
