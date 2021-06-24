@@ -62,7 +62,7 @@ func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httpr
 			return
 		}
 
-		cookie := http.Cookie{Name: "token", Value: token, Expires: expires, HttpOnly: true}
+		cookie := http.Cookie{Name: "token", Value: token, Domain: "strugl.cc", Secure: true, SameSite: http.SameSiteStrictMode, Expires: expires, HttpOnly: true}
 		http.SetCookie(w, &cookie)
 		fmt.Fprintf(w, usr.Username)
 		return
