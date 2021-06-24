@@ -31,7 +31,7 @@ const msg2 = new Message(
   testDate
 );
 
-const initialInboxList: Message[] = [msg1, msg2, msg1, msg2];
+const initialInboxList: Message[] = [msg1, msg2];
 const initialInvitesList: User[] = [siham, paco];
 // Fin de données de tests (à supprimer plus tard)
 
@@ -202,7 +202,7 @@ function Inbox() {
                   {props.message.content}
                 </div>
               </div>
-              <p className="text-left ml-4 self-center text-xs font-semibold text-gray-500 tracking-tighter">
+              <p className="text-left ml-4 self-center text-xs font-medium text-gray-500 tracking-tighter">
                 {weekday[props.message.date.getDay()]}
                 {"."}
               </p>

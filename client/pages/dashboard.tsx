@@ -30,7 +30,7 @@ export default function Dashboard(context: any) {
   );
 }
 
-// Dashboard.getInitialProps = async () => {
+// Dashboard.getInitialProps = async ctx => {
 //     // posts
 //   fetch("https://api.strugl.cc", {
 //     method: "GET",
