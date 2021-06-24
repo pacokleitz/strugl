@@ -195,7 +195,7 @@ function Inbox() {
                     href="/${props.message.author.username}"
                     as={"/" + props.message.author.username}
                   >
-                    <a className="focus:outline-none float-left mr-2 w-auto text-gray-800 text-sm font-medium tracking-wide hover:text-gray-900 subpixel-antialiased">
+                    <a className="focus:outline-none float-left mr-2 w-auto text-gray-800 text-sm font-semibold tracking-wide hover:text-gray-900 subpixel-antialiased">
                       {props.message.author.username}
                     </a>
                   </Link>
@@ -284,7 +284,7 @@ function Invites() {
                     />
                   )}
 
-                  <h3 className="text-gray-700 text-sm font-medium tracking-wide group-hover:text-gray-900 subpixel-antialiased">
+                  <h3 className="text-gray-700 text-sm font-semibold   tracking-wide group-hover:text-gray-900 subpixel-antialiased">
                     {props.friend.username}
                   </h3>
                 </div>

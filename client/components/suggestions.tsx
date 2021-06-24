@@ -12,7 +12,6 @@ import { useState } from "react";
 import Subject from "../lib/subject";
 import User from "../lib/user";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 // Données de tests (à supprimer plus tard)
 const person1 = new User(34, "testingwith20charact", "sihamais98@gmail.com");
@@ -20,9 +19,9 @@ const person2 = new User(32, "person2testtest", "sihamais98@gmail.com");
 const subject1 = new Subject(21, "React", false);
 const subject2 = new Subject(39, "Next.js", false);
 
-const FriendsSuggestions: User[] = [person1, person2, person1];
+const FriendsSuggestions: User[] = [person1, person2];
 
-const SubjectsSuggestions: Subject[] = [subject1, subject2, subject1];
+const SubjectsSuggestions: Subject[] = [subject1, subject2];
 // Fin de données de tests (à supprimer plus tard)
 
 function SubjectRender(props: any) {

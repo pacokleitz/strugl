@@ -19,8 +19,8 @@ import { useState } from "react";
 
 // Données de tests (à supprimer après)
 let testDate = new Date(2021, 3, 25, 17, 43);
-const person1 = new User(34, "Person1", "sihamais98@gmail.com");
-const person2 = new User(32, "testingwith20charact", "sihamais98@gmail.com");
+const person1 = new User(98, "Person1", "sihamais98@gmail.com");
+const person2 = new User(65, "testingwith20charact", "sihamais98@gmail.com");
 const comment1 = new Comment(
   12,
   person1,
@@ -31,12 +31,11 @@ const comment2 = new Comment(15, person2, "Short comment test !", testDate);
 
 let PostsList: Post[] = [
   {
-    id: 1,
+    id: 5,
     author: person2,
     content:
       "Long post test ! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
     date: testDate,
-    comments: [comment1, comment2, comment1],
   },
   {
     id: 2,

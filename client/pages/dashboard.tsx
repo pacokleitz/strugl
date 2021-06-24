@@ -32,25 +32,24 @@ export default function Dashboard(context: any) {
 
 // Dashboard.getInitialProps = async () => {
 //     // posts
-// //   fetch("https://api.strugl.cc", {
-// //     method: "GET",
-// //     headers: { "Content-Type": "application/json" },
-// //     body: JSON.stringify({}),
-// //   }).then(async (res) => {
-// //     const json = await res.json();
-// //     if (res.ok) {
-// //       feed = json.posts;
-// //     } else alert(json.error);
-// //   });
+//   fetch("https://api.strugl.cc", {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   }).then(async (res) => {
+//     const json = await res.json();
+//     if (res.ok) {
+//       let feed = json.posts;
+//     } else alert(json.error);
+//   });
 
-// //   fetch("https://api.strugl.cc", {
-// //     method: "GET",
-// //     headers: { "Content-Type": "application/json" },
-// //     body: JSON.stringify({}),
-// //   }).then(async (res) => {
-// //     const json = await res.json();
-// //     if (res.ok) {
-// //       chat = json.chats;
-// //     } else alert(json.error);
-// //   });
+//   fetch("https://api.strugl.cc", {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({}),
+//   }).then(async (res) => {
+//     const json = await res.json();
+//     if (res.ok) {
+//       chat = json.chats;
+//     } else alert(json.error);
+//   });
 // };
