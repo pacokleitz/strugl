@@ -3,8 +3,6 @@ import Link from "next/link";
 import React, { useCallback, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import User from "../lib/user";
-import { localStorageManager } from "@chakra-ui/color-mode";
 
 interface FormInputs {
   username: string;
@@ -22,32 +20,21 @@ export default function LogIn() {
     handleSubmit,
   } = useForm<FormInputs>({ mode: "onChange" });
 
-  // const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
-  //   fetch("https://api.strugl.cc/auth", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       data,
-  //     }),
-  //   }).then(async (res) => {
-  //     const json = await res.json();
-  //     if (res.ok) {
-  //       const user = new User(json.id, json.username, json.email);
-  //       user.token = json.token;
-  //       localStorage.setItem("username", json.username);
-  //       localStorage.setItem("token", json.token);
-  //       router.push("/dashboard",'/');
-  //     } else alert(json.error);
-  //   });
-  // }, []);
-
-  const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
-    const user = new User(1, data.username, data.email);
-    localStorage.setItem("username", user.username);
-    router.push(
-      { pathname: "/dashboard", query: { username: user.username } },
-      "/"
-    );
+  const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
+    await fetch("https://api.strugl.cc/api/users/auth", {
+      method: "Post",
+      credentials: "include",
+      body: JSON.stringify(data),
+    }).then(async (res) => {
+      const text = await res.text();
+      if (
+        text.localeCompare("credentials invalid") != 0 &&
+        typeof window !== "undefined"
+      ) {
+        localStorage.setItem("username", text);
+        router.push("/dashboard", "/");
+      } else alert(text);
+    });
   }, []);
 
   return (

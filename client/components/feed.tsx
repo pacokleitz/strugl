@@ -19,30 +19,40 @@ import { useState } from "react";
 
 // Données de tests (à supprimer après)
 let testDate = new Date(2021, 3, 25, 17, 43);
-const person1 = new User(34, "Person1", "sihamais98@gmail.com");
-const person2 = new User(32, "testingwith20charact", "sihamais98@gmail.com");
+const person1 = new User(98, "Person1", "sihamais98@gmail.com");
+const person2 = new User(65, "testingwith20charact", "sihamais98@gmail.com");
 const comment1 = new Comment(
   12,
   person1,
   "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
   testDate
 );
+const comment3 = new Comment(
+  13,
+  person1,
+  "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
+  testDate
+);
+
 const comment2 = new Comment(15, person2, "Short comment test !", testDate);
+const comment4 = new Comment(14, person2, "Short comment test !", testDate);
+
 
 let PostsList: Post[] = [
   {
-    id: 1,
+    id: 5,
     author: person2,
     content:
       "Long post test ! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
     date: testDate,
-    comments: [comment1, comment2, comment1],
+    comments: [comment1, comment2],
   },
   {
     id: 2,
     author: person1,
     content: "Short post test !",
     date: testDate,
+    comments: [comment3],
   },
   {
     id: 3,
@@ -57,6 +67,7 @@ let PostsList: Post[] = [
     content:
       "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
     date: testDate,
+    comments: [comment4],
   },
 ];
 // Fin des données de tests (à supprimer plus tard)
@@ -97,7 +108,7 @@ function CommentsRender(props: any) {
           </div>
         </div>
       </div>
-      <p className="text-left ml-16 self-center text-xs font-semibold text-gray-500 tracking-tighter">
+      <p className="text-left ml-16 self-center text-xs font-medium text-gray-500 tracking-tighter">
         {date}
       </p>
     </div>
@@ -164,7 +175,7 @@ function PostRender(props: any) {
                 <h3 className="text-left text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
                   {props.post.author.username}
                 </h3>
-                <p className="text-xs font-semibold text-gray-500 tracking-tighter">
+                <p className="text-xs font-medium text-gray-500 tracking-tighter">
                   {date}
                 </p>
               </div>
@@ -211,7 +222,7 @@ function PostRender(props: any) {
         </form>
         {props.post.comments &&
           commentsList.map((comment: Comment) => (
-            <CommentsRender key={props.post.id} comment={comment} />
+            <CommentsRender key={comment.id} comment={comment} />
           ))}
       </div>
     </div>
