@@ -51,6 +51,7 @@ func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httpr
 	isUser, err := h.UserService.AuthUser(usr.Username, usr.Password)
 	if err != nil {
 		http.Error(w, "not ok", http.StatusOK)
+		return
 	}
 
 	if isUser {
@@ -61,7 +62,7 @@ func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httpr
 			return
 		}
 
-		cookie := http.Cookie{Name: "token", Value: token, Domain: "strugl.cc", Expires: expires, HttpOnly: true}
+		cookie := http.Cookie{Name: "token", Value: token, Domain: "strugl.cc", Secure: true, SameSite: http.SameSiteStrictMode, Expires: expires, HttpOnly: true}
 		http.SetCookie(w, &cookie)
 		fmt.Fprintf(w, usr.Username)
 		return
