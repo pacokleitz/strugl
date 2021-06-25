@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"log"
 
 	"github.com/julienschmidt/httprouter"
 
@@ -36,10 +37,12 @@ func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps htt
 	}
 
 	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+	p.Author_ID = user_data.User_ID
 	p.Author = user_data.Username
 
 	post_id, err := h.PostService.CreatePost(p)
 	if err != nil {
+		log.Print(err)
 		http.Error(w, "DB Error", http.StatusOK)
 		return
 	}

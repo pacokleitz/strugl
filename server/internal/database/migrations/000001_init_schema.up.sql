@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS posts (
     post_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     content VARCHAR(1000) NOT NULL,
-    date_created DATE NOT NULL,
-    date_updated DATE,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 

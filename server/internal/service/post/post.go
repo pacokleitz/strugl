@@ -164,6 +164,7 @@ func (s Service) GetFeed(username string) ([]models.Post, error) {
 
 // Insert a post in DB "posts" table with the topics entries in "topics" table
 func (s Service) CreatePost(p models.Post) (int64, error) {
+	var post_id int64
 
 	// Begin transaction
 	tx, err := s.DB.Beginx()
@@ -171,20 +172,21 @@ func (s Service) CreatePost(p models.Post) (int64, error) {
 		return -1, err
 	}
 
-	// Insert Post in DB posts table
-	stmtPost, err := tx.Preparex(`INSERT INTO posts (user_id, content) VALUES ($1, $2)`)
-	if err != nil {
-		tx.Rollback()
-		return -1, err
-	}
+	// // Insert Post in DB posts table
+	// stmtPost, err := tx.Preparex(`INSERT INTO posts (user_id, content) VALUES ($1, $2) RETURNING post_id`)
+	// if err != nil {
+	// 	tx.Rollback()
+	// 	return -1, err
+	// }
 
-	res, err := stmtPost.Exec(p.Author, p.Content)
-	if err != nil {
-		tx.Rollback()
-		return -1, err
-	}
+	// _, err = stmtPost.Exec(p.Author_ID, p.Content)
+	// if err != nil {
+	// 	tx.Rollback()
+	// 	return -1, err
+	// }
 
-	post_id, err := res.LastInsertId()
+	query := `INSERT INTO posts (user_id, content) VALUES ($1, $2) RETURNING post_id`
+	err = tx.QueryRowx(query, p.Author_ID, p.Content).Scan(&post_id)
 	if err != nil {
 		tx.Rollback()
 		return -1, err
@@ -192,24 +194,27 @@ func (s Service) CreatePost(p models.Post) (int64, error) {
 
 	// Insert each topic of the Post in DB topics table
 	postTopics := GetPostTopics(p.Content)
-	stmtTopicsValueString, stmtTopicsArgs := GetBulkTopicsStatement(p.ID, postTopics)
+	stmtTopicsValueString, stmtTopicsArgs := GetBulkTopicsStatement(post_id, postTopics)
 
-	stmtTopicsString := fmt.Sprintf("INSERT INTO topics (post_id, topic) VALUES %s", stmtTopicsValueString)
+	if stmtTopicsValueString != "" {
+		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (post_id, topic) VALUES %s", stmtTopicsValueString)
 
-	stmtTopics, err := tx.Preparex(stmtTopicsString)
-	if err != nil {
-		tx.Rollback()
-		return -1, err
-	}
+		stmtTopics, err := tx.Preparex(stmtTopicsString)
+		if err != nil {
+			tx.Rollback()
+			return -1, err
+		}
 
-	_, err = stmtTopics.Exec(stmtTopicsArgs...)
-	if err != nil {
-		tx.Rollback()
-		return -1, err
+		_, err = stmtTopics.Exec(stmtTopicsArgs...)
+		if err != nil {
+			tx.Rollback()
+			return -1, err
+		}
 	}
 
 	tx.Commit()
 	if err != nil {
+		tx.Rollback()
 		return -1, err
 	}
 
