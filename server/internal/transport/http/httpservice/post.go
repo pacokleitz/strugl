@@ -13,6 +13,6 @@ type PostService interface {
 	GetTopicsFeed(username string) ([]models.Post, error)
 	GetFollowsFeed(username string) ([]models.Post, error)
 	GetFeed(username string) ([]models.Post, error)
-	CreatePost(post models.Post) error
+	CreatePost(post models.Post) (int64, error)
 	DeletePost(post_id int64) error
 }

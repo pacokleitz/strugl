@@ -8,7 +8,6 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/dgrijalva/jwt-go"
 	"strugl/internal/service/user"
 	"strugl/internal/models"
 )
@@ -37,23 +36,7 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 	fmt.Fprint(w, username)
 }
 
-func (h Handler) HandleUserIdentity(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-
-	tokenString, err := ExtractCookieToken(r)
-	if err != nil {
-		http.Error(w, "Token error", http.StatusUnauthorized)
-		return
-	}
-
-	token, err := h.AuthService.VerifyToken(tokenString)
-	if err != nil {
-		http.Error(w, "Token error", http.StatusUnauthorized)
-		return
-	}
-
-	if token.Valid {
-		claims := token.Claims.(jwt.MapClaims)
-		username := claims["username"].(string)
-		fmt.Fprint(w, username)
-	}
+func (h Handler) HandleUserMe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	username := r.Context().Value(models.Jwtoken{})
+	fmt.Fprint(w, username)
 }

@@ -1,13 +1,13 @@
 package httpservice
 
 import (
-	"github.com/dgrijalva/jwt-go"
+	"strugl/internal/models"
 )
 
 type AuthService interface {
 
-	AuthUser(username string, password string) (bool, error)
+	AuthUser(username string, password string) (int64, error)
 
-	CreateToken(username string) (string, error)
-	VerifyToken(tokenString string) (*jwt.Token, error)
+	CreateToken(token models.Jwtoken) (string, error)
+	VerifyToken(tokenString string) (*models.Jwtoken, error)
 }

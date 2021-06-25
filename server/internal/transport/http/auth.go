@@ -1,11 +1,10 @@
 package httpx
 
 import (
-	"net/http"
-	"log"
 	"encoding/json"
-	"time"
 	"fmt"
+	"net/http"
+	"time"
 
 	"github.com/julienschmidt/httprouter"
 
@@ -22,38 +21,25 @@ func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httpr
 		return
 	}
 
-	isUser, err := h.AuthService.AuthUser(usr.Username, usr.Password)
+	user_id, err := h.AuthService.AuthUser(usr.Username, usr.Password)
 	if err != nil {
 		http.Error(w, "not ok", http.StatusOK)
 	}
 
-	if isUser {
+	if user_id >= 0 {
+		token_data := models.Jwtoken{User_ID: user_id, Username: usr.Username}
 		expires := time.Now().AddDate(0, 0, 7)
-		token, err := h.AuthService.CreateToken(usr.Username)
+		token, err := h.AuthService.CreateToken(token_data)
 		if err != nil {
 			http.Error(w, "jwt error", http.StatusOK)
 			return
 		}
 
-		cookie := http.Cookie{Name: "token", Value: token, Domain: "api.strugl.cc", Expires: expires, HttpOnly: true}
+		cookie := http.Cookie{Name: "token", Value: token, Domain: "strugl.cc", Expires: expires, HttpOnly: true, Secure: true, SameSite: http.SameSiteStrictMode}
 		http.SetCookie(w, &cookie)
 		fmt.Fprintf(w, usr.Username)
 		return
 	}
 
 	http.Error(w, "Credentials error", http.StatusUnauthorized)
-}
-
-func ExtractCookieToken(r *http.Request) (string, error) {
-	cookie, err := r.Cookie("token")
-	if err != nil {
-		if err == http.ErrNoCookie {
-			if err == http.ErrNoCookie {
-				log.Println("Error finding cookie: ", err)
-			}
-		}
-		return "", err
-	}
-	token := cookie.Value
-	return token, nil
 }

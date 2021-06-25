@@ -163,26 +163,35 @@ func (s Service) GetFeed(username string) ([]models.Post, error) {
 }
 
 // Insert a post in DB "posts" table with the topics entries in "topics" table
-func (s Service) CreatePost(p models.Post) error {
+func (s Service) CreatePost(p models.Post) (int64, error) {
+
+
 
 	// Begin transaction
 	tx, err := s.DB.Beginx()
 	if err != nil {
-		return err
+		return -1, err
 	}
 
 	// Insert Post in DB posts table
-	stmtPost, err := tx.Preparex(`INSERT INTO posts (user_id, content, date_created, date_updated) VALUES ($1, $2, $3, $4)`)
+	stmtPost, err := tx.Preparex(`INSERT INTO posts (user_id, content) VALUES ($1, $2)`)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return -1, err
 	}
 
-	_, err = stmtPost.Exec(p.Author, p.Content, p.DateCreated, p.DateModified)
+	res, err := stmtPost.Exec(p.Author, p.Content)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return -1, err
 	}
+
+	post_id, err := res.LastInsertId()
+	if err != nil {
+		tx.Rollback()
+		return -1, err
+	}
+
 
 	// Insert each topic of the Post in DB topics table
 	postTopics := GetPostTopics(p.Content)
@@ -193,21 +202,21 @@ func (s Service) CreatePost(p models.Post) error {
 	stmtTopics, err := tx.Preparex(stmtTopicsString)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return -1, err
 	}
 
 	_, err = stmtTopics.Exec(stmtTopicsArgs...)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return -1, err
 	}
 
 	tx.Commit()
 	if err != nil {
-		return err
+		return -1, err
 	}
 
-	return nil
+	return post_id, nil
 }
 
 // Delete a post and cascade delete all associated entries (topics, bookmarks, upvotes)

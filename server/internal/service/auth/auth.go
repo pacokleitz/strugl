@@ -1,21 +1,21 @@
 package auth
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"os"
+	"strugl/internal/models"
 	"time"
-	"errors"
-	"database/sql"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
-
-	
 )
 
 var (
 	ErrCredentialsInvalid = errors.New("credentials invalid")
+	ErrInvalidToken = errors.New("token invalid")
 )
 
 type Service struct {
@@ -28,11 +28,13 @@ func NewService(db *sqlx.DB) Service {
 	}
 }
 
-func (s Service) CreateToken(username string) (string, error) {
+// Create jwtoken string from a Jwtoken struct
+func (s Service) CreateToken(data models.Jwtoken) (string, error) {
 	var err error
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
-	atClaims["username"] = username
+	atClaims["user_id"] = data.User_ID
+	atClaims["username"] = data.Username
 	atClaims["exp"] = time.Now().AddDate(0, 0, 7).Unix()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
@@ -42,7 +44,8 @@ func (s Service) CreateToken(username string) (string, error) {
 	return token, nil
 }
 
-func (s Service) VerifyToken(tokenString string) (*jwt.Token, error) {
+// Verify token and return token data if valid
+func (s Service) VerifyToken(tokenString string) (*models.Jwtoken, error) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -53,22 +56,33 @@ func (s Service) VerifyToken(tokenString string) (*jwt.Token, error) {
 	if err != nil {
 		return nil, err
 	}
-	return token, nil
+
+	if token.Valid {
+		claims := token.Claims.(jwt.MapClaims)
+		jwtoken := &models.Jwtoken{User_ID: claims["user_id"].(int64), Username: claims["username"].(string)}
+		return jwtoken, nil
+	}
+	return nil, ErrInvalidToken
 }
 
-func (s Service) AuthUser(username string, password string) (bool, error) {
+// Check if credentials are valid and return user_id
+func (s Service) AuthUser(username string, password string) (int64, error) {
 
-	var dbPassword string
+	var usr models.User
 
-	query := `SELECT password FROM users WHERE username = $1`
-	err := s.DB.QueryRow(query, username).Scan(&dbPassword)
+	query := `SELECT user_id, password FROM users WHERE username = $1`
+	err := s.DB.QueryRow(query, username).Scan(&usr)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return false, ErrCredentialsInvalid
+			return -1, ErrCredentialsInvalid
 		}
-		return false, err
+		return -1, err
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(password), []byte(dbPassword))
-	return err == nil, err
+	err = bcrypt.CompareHashAndPassword([]byte(password), []byte(usr.Password))
+	if err != nil {
+		return -1, err
+	}
+
+	return usr.ID, nil
 }
