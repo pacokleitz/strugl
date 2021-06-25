@@ -26,7 +26,7 @@ func (h Handler) Protected(next httprouter.Handle) httprouter.Handle {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), models.Jwtoken{}, *jwtoken)
+		ctx := context.WithValue(r.Context(), models.ContextTokenKey, jwtoken)
 
 		next(w, r.WithContext(ctx), ps)
 	}

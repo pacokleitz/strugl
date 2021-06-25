@@ -11,6 +11,13 @@ import (
 	"strugl/internal/models"
 )
 
+type AuthService interface {
+	AuthUser(username string, password string) (int64, error)
+
+	CreateToken(token models.Jwtoken) (string, error)
+	VerifyToken(tokenString string) (models.Jwtoken, error)
+}
+
 func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	var usr models.User
@@ -24,6 +31,7 @@ func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httpr
 	user_id, err := h.AuthService.AuthUser(usr.Username, usr.Password)
 	if err != nil {
 		http.Error(w, "not ok", http.StatusOK)
+		return
 	}
 
 	if user_id >= 0 {

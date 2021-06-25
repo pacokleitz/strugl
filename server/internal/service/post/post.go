@@ -165,8 +165,6 @@ func (s Service) GetFeed(username string) ([]models.Post, error) {
 // Insert a post in DB "posts" table with the topics entries in "topics" table
 func (s Service) CreatePost(p models.Post) (int64, error) {
 
-
-
 	// Begin transaction
 	tx, err := s.DB.Beginx()
 	if err != nil {
@@ -191,7 +189,6 @@ func (s Service) CreatePost(p models.Post) (int64, error) {
 		tx.Rollback()
 		return -1, err
 	}
-
 
 	// Insert each topic of the Post in DB topics table
 	postTopics := GetPostTopics(p.Content)

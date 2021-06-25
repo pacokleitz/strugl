@@ -44,7 +44,7 @@ func (s Service) CreateUser(user models.User) (string, error) {
 		return "", ErrEmailTaken
 	}
 
-	stmt, err := s.DB.Prepare(`INSERT INTO users (username, email, password) VALUES ($1, $2, $3)`)
+	stmt, err := s.DB.Prepare(`INSERT INTO users (username, profile_name, email, password_hash) VALUES ($1, $2, $3, $4)`)
 	if err != nil {
 		return "", err
 	}
@@ -54,7 +54,7 @@ func (s Service) CreateUser(user models.User) (string, error) {
 		return "", err
 	}
 
-	_, err = stmt.Exec(user.Username, user.Email, password_hash)
+	_, err = stmt.Exec(user.Username, user.Username, user.Email, password_hash)
 	if err != nil {
 		return "", err
 	}

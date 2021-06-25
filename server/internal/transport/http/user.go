@@ -12,6 +12,12 @@ import (
 	"strugl/internal/models"
 )
 
+type UserService interface {
+	CreateUser(user models.User) (string, error)
+	UpdateUser(username string, newUser models.User) (models.User, error)
+	DeleteUser(username string) error
+}
+
 func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	var usr models.User
@@ -37,6 +43,6 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 }
 
 func (h Handler) HandleUserMe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	username := r.Context().Value(models.Jwtoken{})
-	fmt.Fprint(w, username)
+	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+	fmt.Fprint(w, user_data.Username)
 }

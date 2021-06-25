@@ -5,6 +5,7 @@ import (
 	"os"
 	"errors"
 	"github.com/jmoiron/sqlx"
+	"time"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
@@ -30,14 +31,21 @@ func NewDatabase() (*sqlx.DB, error) {
 		return nil, err
 	}
 
+	// Wait for db to start
+	for i := 0; i < 5; i++ {
+		if err := db.Ping(); err != nil {
+			time.Sleep(1 * time.Second)
+		} else {
+			continue
+		}
+	}
+	
 	err = MigrateDB(db)
 	if err != nil {
 		return db, err
 	}
 
-	if err := db.Ping(); err != nil {
-		return db, err
-	}
+	
 
 	return db, nil
 }
