@@ -1,14 +1,14 @@
 package database
 
 import (
-	"database/sql"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/jmoiron/sqlx"
 )
 
-func MigrateDB(db *sql.DB) error {
-	driver, err := postgres.WithInstance(db, &postgres.Config{})
+func MigrateDB(db *sqlx.DB) error {
+	driver, err := postgres.WithInstance(db.DB, &postgres.Config{})
 	if err != nil {
 		return err
 	}

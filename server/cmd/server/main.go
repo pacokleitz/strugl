@@ -9,6 +9,8 @@ import (
 
 	"strugl/internal/database"
 	"strugl/internal/service/user"
+	"strugl/internal/service/post"
+	"strugl/internal/service/auth"
 	transportHTTP "strugl/internal/transport/http"
 )
 
@@ -20,30 +22,23 @@ func run() error {
 	defer db.Close()
 
 	userService := user.NewService(db)
+	postService := post.NewService(db)
+	authService := auth.NewService(db)
 
-	h := transportHTTP.NewHandler(userService)
+	h := transportHTTP.NewHandler(userService, postService, authService)
+
 
 	h.SetupRoutes()
 
-	port, isPortSet := os.LookupEnv("API_PORT")
-	if !isPortSet {
-		port = "8080"
-	}
-
-	serverAddr := fmt.Sprintf(":%s", port)
-	fmt.Printf("Server running on %s\n", serverAddr)
-	
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000", "https://strugl.cc"},
-    		AllowCredentials: true,
-		AllowedMethods: []string{"PUT", "PATCH", "GET", "POST", "DELETE", "OPTIONS"},
-		AllowedHeaders: []string{"*"},
-    		Debug: true,
+		AllowedOrigins: []string{"https://strugl.cc", "http://localhost:3000"},
+		AllowCredentials: true,
+		Debug: true,
 	})
 
 	corsRouter := c.Handler(h.Router)
 
-	if err := http.ListenAndServe(serverAddr, corsRouter); err != nil {
+	if err := http.ListenAndServe(":8080", corsRouter); err != nil {
 		return err
 	}
 

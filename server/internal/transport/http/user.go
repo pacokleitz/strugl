@@ -5,18 +5,24 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"time"
+	"log"
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/dgrijalva/jwt-go"
 	"strugl/internal/service/user"
-	"strugl/internal/utils/auth"
+	"strugl/internal/models"
 )
+
+type UserService interface {
+	CreateUser(user models.User) (string, error)
+	GetUser(user_id int64) (*models.UserProfile, error)
+	UpdateUser(username string, newUser models.User) (models.User, error)
+	DeleteUser(username string) error
+}
 
 func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	var usr user.User
+	var usr models.User
 
 	err := json.NewDecoder(r.Body).Decode(&usr)
 	if err != nil {
@@ -38,49 +44,13 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 	fmt.Fprint(w, username)
 }
 
-func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-
-	var usr user.User
-
-	// à vérifier
-	err := json.NewDecoder(r.Body).Decode(&usr)
+func (h Handler) HandleUserMe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	userTokenData := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+	userProfile, err := h.UserService.GetUser(userTokenData.User_ID)
 	if err != nil {
+		log.Print(err)
+		http.Error(w, "User not found", http.StatusUnauthorized)
 		return
 	}
-
-	isUser, err := h.UserService.AuthUser(usr.Username, usr.Password)
-	if err != nil {
-		http.Error(w, "not ok", http.StatusOK)
-		return
-	}
-
-	if isUser {
-		expires := time.Now().AddDate(0, 0, 7)
-		token, err := auth.CreateToken(usr.Username)
-		if err != nil {
-			http.Error(w, "jwt error", http.StatusOK)
-			return
-		}
-
-		cookie := http.Cookie{Name: "token", Value: token, Domain: "strugl.cc", Secure: true, SameSite: http.SameSiteStrictMode, Expires: expires, HttpOnly: true}
-		http.SetCookie(w, &cookie)
-		fmt.Fprintf(w, usr.Username)
-		return
-	}
-
-	http.Error(w, "Credentials error", http.StatusUnauthorized)
-}
-
-func (h Handler) HandleUserIdentity(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	token, err := auth.VerifyToken(r)
-	if err != nil {
-		http.Error(w, "Token error", http.StatusUnauthorized)
-		return
-	}
-
-	if token.Valid {
-		claims := token.Claims.(jwt.MapClaims)
-		username := claims["username"].(string)
-		fmt.Fprint(w, username)
-	}
+	json.NewEncoder(w).Encode(userProfile)
 }
