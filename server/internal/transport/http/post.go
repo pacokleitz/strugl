@@ -51,7 +51,7 @@ func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps htt
 	fmt.Fprint(w, post_id)
 }
 
-func (h Handler) HandleGetPostsByUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (h Handler) HandlePostsGetByUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	var user models.User
 
@@ -66,6 +66,28 @@ func (h Handler) HandleGetPostsByUser(w http.ResponseWriter, r *http.Request, ps
 	if err != nil {
 		log.Print(err)
 		http.Error(w, "Unknown user", http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(pp)
+}
+
+func (h Handler) HandlePostsGetByTopic(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	var topic models.Topic
+
+	err := json.NewDecoder(r.Body).Decode(&topic)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, "Topic argument missing", http.StatusBadRequest)
+		return
+	}
+
+	pp, err := h.PostService.GetPostsByTopic(topic.Topic)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, "Unknown topic", http.StatusBadRequest)
 		return
 	}
 

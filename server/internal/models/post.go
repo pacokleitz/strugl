@@ -14,6 +14,12 @@ type Post struct {
 	DateUpdated JsonNullString `json:"date_updated" db:"date_updated"`
 }
 
+type Topic struct {
+    Topic string `json:"topic" db:"topic"`
+}
+
+
+
 type JsonNullString struct {
     sql.NullString
 }

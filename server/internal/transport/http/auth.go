@@ -18,7 +18,7 @@ type AuthService interface {
 	VerifyToken(tokenString string) (models.Jwtoken, error)
 }
 
-func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (h Handler) HandleAuth(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	var usr models.User
 
