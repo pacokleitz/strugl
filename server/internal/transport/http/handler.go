@@ -28,4 +28,5 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/api/users/me", h.Protected(h.HandleUserMe))
 
 	h.Router.POST("/api/posts", h.Protected(h.HandlePostCreate))
+	h.Router.POST("/api/posts/user", h.HandleGetPostsByUser)
 }

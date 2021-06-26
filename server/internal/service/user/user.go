@@ -92,4 +92,3 @@ func (s Service) DeleteUser(username string) error {
 
 	return nil
 }
-

@@ -40,9 +40,9 @@ func (s Service) GetPost(id uint) (*models.Post, error) {
 }
 
 func (s Service) GetPostsByUser(username string) ([]models.Post, error) {
-	var posts []models.Post
+	var pp []models.Post
 
-	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
+	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
 				INNER JOIN users ON posts.user_id = users.user_id 
 				WHERE username = $1 ORDER BY date_created DESC`
 	rows, err := s.DB.Queryx(query, username)
@@ -56,10 +56,10 @@ func (s Service) GetPostsByUser(username string) ([]models.Post, error) {
 		if err != nil {
 			return nil, err
 		}
-		posts = append(posts, p)
+		pp = append(pp, p)
 	}
 
-	return posts, nil
+	return pp, nil
 }
 
 func (s Service) GetPostsByTopic(topic string) ([]models.Post, error) {

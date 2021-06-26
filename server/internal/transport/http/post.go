@@ -53,20 +53,22 @@ func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps htt
 
 func (h Handler) HandleGetPostsByUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	var username string
+	var user models.User
 
-	err := json.NewDecoder(r.Body).Decode(&username)
+	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
+		log.Print(err)
 		http.Error(w, "Username argument missing", http.StatusBadRequest)
 		return
 	}
 
-	pp, err := h.PostService.GetPostsByUser(username)
+	pp, err := h.PostService.GetPostsByUser(user.Username)
 	if err != nil {
+		log.Print(err)
 		http.Error(w, "Unknown user", http.StatusBadRequest)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, pp)
+	json.NewEncoder(w).Encode(pp)
 }
