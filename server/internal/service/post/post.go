@@ -27,14 +27,17 @@ func NewService(db *sqlx.DB) Service {
 	}
 }
 
-func (s Service) GetPost(id uint) (*models.Post, error) {
+func (s Service) GetPost(id int64) (*models.Post, error) {
 	var p models.Post
-	query := `SELECT post_id, user_id, content, date_created, date_modified FROM users WHERE post_id = $1`
+	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
+				INNER JOIN users on posts.user_id = users.user_id 
+				WHERE post_id = $1`
 	err := s.DB.QueryRowx(query, id).StructScan(&p)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, err
+			return nil, nil
 		}
+		return nil, err
 	}
 	return &p, nil
 }
@@ -89,8 +92,7 @@ func (s Service) GetPostsByTopic(topic string) ([]models.Post, error) {
 func (s Service) GetPostsBookmarked(username string) ([]models.Post, error) {
 	var posts []models.Post
 
-	//query := `SELECT * FROM posts INNER JOIN topics ON posts.post_id = topics.post_id WHERE topic = $1 ORDER BY date_created ASC`
-	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
+	query := `SELECT post_id, posts.user_id, content, date_created, date_updated FROM posts 
 				INNER JOIN bookmarks ON posts.post_id = bookmarks.post_id
 				INNER JOIN users ON bookmarks.user_id = users.user_id
 				WHERE bookmarks.user_id = $1 ORDER BY date_created DESC`
@@ -112,7 +114,7 @@ func (s Service) GetPostsBookmarked(username string) ([]models.Post, error) {
 	return posts, nil
 }
 
-// TODO
+// TO DO
 func (s Service) GetPostsUpvoted(username string) ([]models.Post, error) {
 	var posts []models.Post
 	return posts, nil
@@ -128,25 +130,24 @@ func (s Service) GetFollowsFeed(username string) ([]models.Post, error) {
 	return posts, nil
 }
 
-// END TODO
-
-func (s Service) GetFeed(username string) ([]models.Post, error) {
+func (s Service) GetFeed(user_id int64) ([]models.Post, error) {
 	var posts []models.Post
 
-	// TODO
-	// query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts
+	// Join ?
+	// query := `SELECT post_id, user_id, username, content, date_created, date_updated FROM posts
 	// 			LEFT JOIN topics ON topics.post_id = posts.post_id
 	//			LEFT JOIN interests ON interests.user_id = posts.user_id
 	// 			LEFT JOIN followings ON followings.user_id = posts.user_id
 	// 			WHERE followings.user_id = $1 OR interests.user_id = $1 ORDER BY date_created DESC`
 
-	query := `SELECT post_id, user_id, content, date_created, date_modified FROM posts 
+	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
+				INNER JOIN users on users.user_id = posts.user_id
 				WHERE post_id IN (
 					SELECT post_id FROM topics WHERE topic in (
 						SELECT topic FROM interests WHERE user_id = $1)) OR
-						user_id in (SELECT following_id FROM followings WHERE user_id = $1)`
+						posts.user_id in (SELECT following_id FROM followings WHERE user_id = $1)`
 
-	rows, err := s.DB.Queryx(query, username)
+	rows, err := s.DB.Queryx(query, user_id)
 	if err != nil {
 		return nil, err
 	}
@@ -162,6 +163,7 @@ func (s Service) GetFeed(username string) ([]models.Post, error) {
 
 	return posts, nil
 }
+// END TO DO
 
 // Insert a post in DB "posts" table with the topics entries in "topics" table
 func (s Service) CreatePost(p models.Post) (int64, error) {
@@ -172,19 +174,6 @@ func (s Service) CreatePost(p models.Post) (int64, error) {
 	if err != nil {
 		return -1, err
 	}
-
-	// // Insert Post in DB posts table
-	// stmtPost, err := tx.Preparex(`INSERT INTO posts (user_id, content) VALUES ($1, $2) RETURNING post_id`)
-	// if err != nil {
-	// 	tx.Rollback()
-	// 	return -1, err
-	// }
-
-	// _, err = stmtPost.Exec(p.Author_ID, p.Content)
-	// if err != nil {
-	// 	tx.Rollback()
-	// 	return -1, err
-	// }
 
 	query := `INSERT INTO posts (user_id, content) VALUES ($1, $2) RETURNING post_id`
 	err = tx.QueryRowx(query, p.Author_ID, p.Content).Scan(&post_id)

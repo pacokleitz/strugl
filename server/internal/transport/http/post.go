@@ -3,8 +3,9 @@ package httpx
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"log"
+	"net/http"
+	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 
@@ -12,14 +13,14 @@ import (
 )
 
 type PostService interface {
-	GetPost(id uint) (*models.Post, error)
+	GetPost(id int64) (*models.Post, error)
 	GetPostsByUser(username string) ([]models.Post, error)
 	GetPostsByTopic(topic string) ([]models.Post, error)
 	GetPostsBookmarked(username string) ([]models.Post, error)
 	GetPostsUpvoted(username string) ([]models.Post, error)
 	GetTopicsFeed(username string) ([]models.Post, error)
 	GetFollowsFeed(username string) ([]models.Post, error)
-	GetFeed(username string) ([]models.Post, error)
+	GetFeed(user_id int64) ([]models.Post, error)
 
 	CreatePost(post models.Post) (int64, error)
 
@@ -51,18 +52,30 @@ func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps htt
 	fmt.Fprint(w, post_id)
 }
 
-func (h Handler) HandlePostsGetByUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (h Handler) HandlePostGet(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	var user models.User
-
-	err := json.NewDecoder(r.Body).Decode(&user)
+	post_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
-		log.Print(err)
-		http.Error(w, "Username argument missing", http.StatusBadRequest)
+		http.Error(w, "Bad post_id", http.StatusBadRequest)
 		return
 	}
 
-	pp, err := h.PostService.GetPostsByUser(user.Username)
+	p, err := h.PostService.GetPost(post_id)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, "Unknown post_id", http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(p)
+}
+
+func (h Handler) HandlePostsGetByUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	username := ps.ByName("username")
+
+	pp, err := h.PostService.GetPostsByUser(username)
 	if err != nil {
 		log.Print(err)
 		http.Error(w, "Unknown user", http.StatusBadRequest)
@@ -75,16 +88,24 @@ func (h Handler) HandlePostsGetByUser(w http.ResponseWriter, r *http.Request, ps
 
 func (h Handler) HandlePostsGetByTopic(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	var topic models.Topic
+	topic := ps.ByName("topic")
 
-	err := json.NewDecoder(r.Body).Decode(&topic)
+	pp, err := h.PostService.GetPostsByTopic(topic)
 	if err != nil {
 		log.Print(err)
-		http.Error(w, "Topic argument missing", http.StatusBadRequest)
+		http.Error(w, "Unknown topic", http.StatusBadRequest)
 		return
 	}
 
-	pp, err := h.PostService.GetPostsByTopic(topic.Topic)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(pp)
+}
+
+func (h Handler) HandlePostsGetFeed(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+
+	pp, err := h.PostService.GetFeed(user_data.User_ID)
 	if err != nil {
 		log.Print(err)
 		http.Error(w, "Unknown topic", http.StatusBadRequest)
