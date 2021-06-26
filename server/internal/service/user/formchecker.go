@@ -31,6 +31,11 @@ func CheckUsername(username string) bool {
 	return true
 }
 
+func CheckBio(bio string) bool {
+	len := len(bio)
+	return len <= 200 && len >= 0
+}
+
 func CheckUsernameAvailability(username string, DB *sqlx.DB) bool {
 	var db_username string
 
