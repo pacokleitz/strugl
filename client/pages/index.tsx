@@ -9,9 +9,19 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (localStorage.getItem("username")) {
-      router.push("/dashboard", '/')
-    } else router.push("/login", '/');
+    fetch("https://api.strugl.cc/api/users/me", {
+      method: "Get",
+      credentials: "include",
+    }).then(async (res) => {
+      const text = await res.text();
+      if (res.ok && typeof window !== "undefined") {
+        localStorage.setItem("username", text);
+        router.push("/dashboard", "/");
+      } else {
+        console.clear();
+        router.push("/login", "/");
+      }
+    });
   }, []);
 
   return (

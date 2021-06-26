@@ -3,7 +3,6 @@ import Link from "next/link";
 import React, { useCallback, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import User from "../lib/user";
 
 interface FormInputs {
   username: string;
@@ -22,31 +21,22 @@ export default function SignUp() {
     handleSubmit,
   } = useForm<FormInputs>({ mode: "onChange" });
 
-  // const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
-  //   fetch("https://api.strugl.cc/users", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       data,
-  //     }),
-  //   }).then(async (res) => {
-  //     const json = await res.json();
-  //     if (res.ok) {
-  //       const user = new User(1, json.username, json.email);
-  //       localStorage.setItem("user", json.token);
-  //       router.push({ pathname: "/dashboard", query: {userId : user.id} }, "/"+user.username);
-  //     } else alert(json.error);
-  //   });
-  // }, []);
-
-  const onSubmit: SubmitHandler<FormInputs> = useCallback((data) => {
-  const user = new User(1, data.username, data.email);
-  localStorage.setItem("username", user.username);
-  router.push(
-    { pathname: "/dashboard", query: { username: user.username }, },
-    "/"
-  );
-  },[])
+  const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
+    await fetch("https://api.strugl.cc/api/users", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }).then(async (res) => {
+      const text = await res.text();
+      if (
+        text.localeCompare("username taken") != 1 &&
+        text.localeCompare("email taken") != 1 &&
+        typeof window !== "undefined"
+      ) {
+        localStorage.setItem("username", text);
+        router.push("/dashboard", "/");
+      } else alert(text);
+    });
+  }, []);
 
   return (
     <div className="w-screen h-screen">
@@ -96,7 +86,8 @@ export default function SignUp() {
                   {...register("email", {
                     required: "Email is required.",
                     pattern: {
-                      value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      value:
+                        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                       message: "Email has invalid format.",
                     },
                   })}

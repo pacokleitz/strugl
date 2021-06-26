@@ -31,7 +31,7 @@ const msg2 = new Message(
   testDate
 );
 
-const initialInboxList: Message[] = [msg1, msg2, msg1, msg2];
+const initialInboxList: Message[] = [msg1, msg2];
 const initialInvitesList: User[] = [siham, paco];
 // Fin de données de tests (à supprimer plus tard)
 
@@ -195,14 +195,14 @@ function Inbox() {
                     href="/${props.message.author.username}"
                     as={"/" + props.message.author.username}
                   >
-                    <a className="focus:outline-none float-left mr-2 w-auto text-gray-800 text-sm font-medium tracking-wide hover:text-gray-900 subpixel-antialiased">
+                    <a className="focus:outline-none float-left mr-2 w-auto text-gray-800 text-sm font-semibold tracking-wide hover:text-gray-900 subpixel-antialiased">
                       {props.message.author.username}
                     </a>
                   </Link>
                   {props.message.content}
                 </div>
               </div>
-              <p className="text-left ml-4 self-center text-xs font-semibold text-gray-500 tracking-tighter">
+              <p className="text-left ml-4 self-center text-xs font-medium text-gray-500 tracking-tighter">
                 {weekday[props.message.date.getDay()]}
                 {"."}
               </p>
@@ -284,7 +284,7 @@ function Invites() {
                     />
                   )}
 
-                  <h3 className="text-gray-700 text-sm font-medium tracking-wide group-hover:text-gray-900 subpixel-antialiased">
+                  <h3 className="text-gray-700 text-sm font-semibold   tracking-wide group-hover:text-gray-900 subpixel-antialiased">
                     {props.friend.username}
                   </h3>
                 </div>
