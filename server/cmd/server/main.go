@@ -8,9 +8,10 @@ import (
 	"github.com/rs/cors"
 
 	"strugl/internal/database"
-	"strugl/internal/service/user"
-	"strugl/internal/service/post"
 	"strugl/internal/service/auth"
+	"strugl/internal/service/follow"
+	"strugl/internal/service/post"
+	"strugl/internal/service/user"
 	transportHTTP "strugl/internal/transport/http"
 )
 
@@ -24,9 +25,9 @@ func run() error {
 	userService := user.NewService(db)
 	postService := post.NewService(db)
 	authService := auth.NewService(db)
+	followService := follow.NewService(db)
 
-	h := transportHTTP.NewHandler(userService, postService, authService)
-
+	h := transportHTTP.NewHandler(userService, postService, authService, followService)
 
 	h.SetupRoutes()
 
