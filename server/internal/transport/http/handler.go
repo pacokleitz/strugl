@@ -23,14 +23,14 @@ func (h *Handler) SetupRoutes() {
 
 	h.Router = httprouter.New()
 
-	h.Router.POST("/api/users", h.HandleUserCreate)
-	h.Router.GET("/api/users/me", h.Protected(h.HandleUserMe))
+	h.Router.POST("/users", h.HandleUserCreate)
+	h.Router.GET("/users/me", h.Protected(h.HandleUserMe))
 
-	h.Router.POST("/api/auth", h.HandleAuth)
+	h.Router.POST("/auth", h.HandleAuth)
 
-	h.Router.POST("/api/posts", h.Protected(h.HandlePostCreate))
-	h.Router.GET("/api/posts/id/:id", h.HandlePostGet)
-	h.Router.GET("/api/posts/user/:username", h.HandlePostsGetByUser)
-	h.Router.GET("/api/posts/topic/:topic", h.HandlePostsGetByTopic)
+	h.Router.POST("/posts", h.Protected(h.HandlePostCreate))
+	h.Router.GET("/posts/id/:id", h.HandlePostGet)
+	h.Router.GET("/posts/user/:username", h.HandlePostsGetByUser)
+	h.Router.GET("/posts/topic/:topic", h.HandlePostsGetByTopic)
 	//h.Router.GET("/api/posts/feed", h.Protected(h.HandlePostsGetFeed))
 }
