@@ -163,6 +163,7 @@ func (s Service) GetFeed(user_id int64) ([]models.Post, error) {
 
 	return posts, nil
 }
+
 // END TO DO
 
 // Insert a post in DB "posts" table with the topics entries in "topics" table

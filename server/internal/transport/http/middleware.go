@@ -1,13 +1,12 @@
 package httpx
 
 import (
-	"net/http"
 	"context"
+	"net/http"
 	"strugl/internal/models"
-	
+
 	"github.com/julienschmidt/httprouter"
 )
-
 
 func (h Handler) Protected(next httprouter.Handle) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {

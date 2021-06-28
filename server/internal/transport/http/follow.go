@@ -1,11 +1,11 @@
 package httpx
 
 import (
-	"strugl/internal/models"
-	"github.com/julienschmidt/httprouter"
 	"encoding/json"
-	"strconv"
+	"github.com/julienschmidt/httprouter"
 	"net/http"
+	"strconv"
+	"strugl/internal/models"
 )
 
 type FollowService interface {
@@ -50,9 +50,8 @@ func (h Handler) HandleUnfollow(w http.ResponseWriter, r *http.Request, ps httpr
 	}
 }
 
-
 func (h Handler) HandleGetFollowers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	
+
 	user_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
 		http.Error(w, "Bad id", http.StatusUnprocessableEntity)
@@ -68,9 +67,8 @@ func (h Handler) HandleGetFollowers(w http.ResponseWriter, r *http.Request, ps h
 	json.NewEncoder(w).Encode(followers)
 }
 
-
 func (h Handler) HandleGetFollowings(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	
+
 	user_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
 		http.Error(w, "Bad id", http.StatusUnprocessableEntity)

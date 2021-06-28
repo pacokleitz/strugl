@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
 	"log"
+	"net/http"
 	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 
-	"strugl/internal/service/user"
 	"strugl/internal/models"
+	"strugl/internal/service/user"
 )
 
 type UserService interface {

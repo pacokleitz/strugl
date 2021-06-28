@@ -32,9 +32,9 @@ func run() error {
 	h.SetupRoutes()
 
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"https://strugl.cc", "http://localhost:3000"},
+		AllowedOrigins:   []string{"https://strugl.cc", "http://localhost:3000"},
 		AllowCredentials: true,
-		Debug: true,
+		Debug:            true,
 	})
 
 	corsRouter := c.Handler(h.Router)

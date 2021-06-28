@@ -5,18 +5,18 @@ import (
 )
 
 type Handler struct {
-	Router      *httprouter.Router
-	UserService UserService
-	PostService PostService
-	AuthService AuthService
+	Router        *httprouter.Router
+	UserService   UserService
+	PostService   PostService
+	AuthService   AuthService
 	FollowService FollowService
 }
 
 func NewHandler(userService UserService, postService PostService, authService AuthService, followService FollowService) *Handler {
 	return &Handler{
-		UserService: userService,
-		PostService: postService,
-		AuthService: authService,
+		UserService:   userService,
+		PostService:   postService,
+		AuthService:   authService,
 		FollowService: followService,
 	}
 }
@@ -42,7 +42,5 @@ func (h *Handler) SetupRoutes() {
 	h.Router.POST("/unfollow", h.Protected(h.HandleUnfollow))
 	h.Router.GET("/followers/:id", h.HandleGetFollowers)
 	h.Router.GET("/followings/:id", h.HandleGetFollowings)
-
-
 
 }

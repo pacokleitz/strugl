@@ -7,7 +7,6 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-
 type Service struct {
 	DB *sqlx.DB
 }
@@ -62,13 +61,12 @@ func (s Service) GetFollowings(user_id int64) ([]models.UserProfile, error) {
 		}
 		uu = append(uu, u)
 	}
-	
+
 	return uu, nil
 }
 
 // Follow following_id
 func (s Service) Follow(user_id int64, following_id int64) error {
-
 
 	stmt, err := s.DB.Preparex(`INSERT INTO followings (user_id, following_id) VALUES ($1, $2)`)
 	if err != nil {
