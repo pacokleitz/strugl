@@ -1,18 +1,11 @@
 package follow
 
 import (
-	// "database/sql"
-	// "errors"
-	// "fmt"
-	// "strings"
-	// "unicode"
-
-	// "strugl/internal/models"
+	"strugl/internal/models"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/jmoiron/sqlx"
 )
-
 
 type Service struct {
 	DB *sqlx.DB
@@ -24,105 +17,82 @@ func NewService(db *sqlx.DB) Service {
 	}
 }
 
-// func (s Service) GetFollowers(topic string) ([]models.UserProfile, error) {
-// 	var pp []models.User
+// Get the list of followers of user_id
+func (s Service) GetFollowers(user_id int64) ([]models.UserProfile, error) {
+	var uu []models.UserProfile
 
-// 	query := `SELECT posts.post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
-// 				INNER JOIN topics ON posts.post_id = topics.post_id 
-// 				INNER JOIN users on posts.user_id = users.user_id
-// 				WHERE topic = $1 ORDER BY date_created DESC`
-// 	rows, err := s.DB.Queryx(query, topic)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	query := `SELECT users.user_id, username, profile_name, bio, avatar FROM users
+				INNER JOIN followings ON users.user_id = followings.user_id
+				WHERE followings.following_id = $1`
+	rows, err := s.DB.Queryx(query, user_id)
+	if err != nil {
+		return nil, err
+	}
 
-// 	for rows.Next() {
-// 		var p models.Post
-// 		err = rows.StructScan(&p)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		pp = append(pp, p)
-// 	}
+	for rows.Next() {
+		var u models.UserProfile
+		err = rows.StructScan(&u)
+		if err != nil {
+			return nil, err
+		}
+		uu = append(uu, u)
+	}
+	return uu, nil
+}
 
-// 	return pp, nil
-// }
+// Get the list of people followed by user_id
+func (s Service) GetFollowings(user_id int64) ([]models.UserProfile, error) {
 
-// func (s Service) GetFollowings(id int64) (*models.Post, error) {
-// 	var p models.Post
-// 	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
-// 				INNER JOIN users on posts.user_id = users.user_id 
-// 				WHERE post_id = $1`
-// 	err := s.DB.QueryRowx(query, id).StructScan(&p)
-// 	if err != nil {
-// 		if err == sql.ErrNoRows {
-// 			return nil, nil
-// 		}
-// 		return nil, err
-// 	}
-// 	return &p, nil
-// }
+	var uu []models.UserProfile
 
+	query := `SELECT users.user_id, username, profile_name, bio, avatar FROM users
+				INNER JOIN followings ON users.user_id = followings.following_id
+				WHERE followings.user_id = $1`
+	rows, err := s.DB.Queryx(query, user_id)
+	if err != nil {
+		return nil, err
+	}
 
+	for rows.Next() {
+		var u models.UserProfile
+		err = rows.StructScan(&u)
+		if err != nil {
+			return nil, err
+		}
+		uu = append(uu, u)
+	}
 
-// // Insert a post in DB "posts" table with the topics entries in "topics" table
-// func (s Service) Follow(p models.Post) (int64, error) {
-// 	var post_id int64
+	return uu, nil
+}
 
-// 	// Begin transaction
-// 	tx, err := s.DB.Beginx()
-// 	if err != nil {
-// 		return -1, err
-// 	}
+// Follow following_id
+func (s Service) Follow(user_id int64, following_id int64) error {
 
-// 	query := `INSERT INTO posts (user_id, content) VALUES ($1, $2) RETURNING post_id`
-// 	err = tx.QueryRowx(query, p.Author_ID, p.Content).Scan(&post_id)
-// 	if err != nil {
-// 		tx.Rollback()
-// 		return -1, err
-// 	}
+	stmt, err := s.DB.Preparex(`INSERT INTO followings (user_id, following_id) VALUES ($1, $2)`)
+	if err != nil {
+		return err
+	}
 
-// 	// Insert each topic of the Post in DB topics table
-// 	postTopics := GetPostTopics(p.Content)
-// 	stmtTopicsValueString, stmtTopicsArgs := GetBulkTopicsStatement(post_id, postTopics)
+	_, err = stmt.Exec(user_id, following_id)
+	if err != nil {
+		return err
+	}
 
-// 	if stmtTopicsValueString != "" {
-// 		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (post_id, topic) VALUES %s", stmtTopicsValueString)
+	return nil
+}
 
-// 		stmtTopics, err := tx.Preparex(stmtTopicsString)
-// 		if err != nil {
-// 			tx.Rollback()
-// 			return -1, err
-// 		}
+// Unfollow following_id
+func (s Service) Unfollow(user_id int64, following_id int64) error {
 
-// 		_, err = stmtTopics.Exec(stmtTopicsArgs...)
-// 		if err != nil {
-// 			tx.Rollback()
-// 			return -1, err
-// 		}
-// 	}
+	stmt, err := s.DB.Preparex(`DELETE FROM followings WHERE user_id = $1 AND following_id = $2`)
+	if err != nil {
+		return err
+	}
 
-// 	tx.Commit()
-// 	if err != nil {
-// 		tx.Rollback()
-// 		return -1, err
-// 	}
+	_, err = stmt.Exec(user_id, following_id)
+	if err != nil {
+		return err
+	}
 
-// 	return post_id, nil
-// }
-
-// // Delete a post and cascade delete all associated entries (topics, bookmarks, upvotes)
-// func (s Service) Unfollow(post_id int64) error {
-
-// 	stmt, err := s.DB.Preparex(`DELETE FROM posts WHERE post_id = $1`)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	_, err = stmt.Exec(post_id)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-// }
+	return nil
+}

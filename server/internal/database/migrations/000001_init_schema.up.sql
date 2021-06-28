@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS interests (
 CREATE TABLE IF NOT EXISTS followings (
     user_id INTEGER NOT NULL, 
     following_id INTEGER NOT NULL, 
-    date_created DATE NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, following_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (following_id) REFERENCES users(user_id) ON DELETE CASCADE
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS followings (
 CREATE TABLE IF NOT EXISTS upvotes (
     user_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL,
-    date_created DATE NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, post_id),
     FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS upvotes (
 CREATE TABLE IF NOT EXISTS bookmarks (
     user_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL,
-    date_created DATE NOT NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, post_id),
     FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE

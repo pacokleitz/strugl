@@ -1,10 +1,10 @@
 package database
 
 import (
-	"fmt"
-	"os"
 	"errors"
+	"fmt"
 	"github.com/jmoiron/sqlx"
+	"os"
 	"time"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
@@ -39,13 +39,11 @@ func NewDatabase() (*sqlx.DB, error) {
 			continue
 		}
 	}
-	
+
 	err = MigrateDB(db)
 	if err != nil {
 		return db, err
 	}
-
-	
 
 	return db, nil
 }

@@ -1,12 +1,11 @@
 package user
 
 import (
-	"regexp"
-	"unicode"
-	"golang.org/x/crypto/bcrypt"
 	"database/sql"
 	"github.com/jmoiron/sqlx"
-
+	"golang.org/x/crypto/bcrypt"
+	"regexp"
+	"unicode"
 )
 
 func CheckEmail(email string) bool {

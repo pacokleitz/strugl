@@ -112,3 +112,15 @@ func (s Service) GetUser(user_id int64) (*models.UserProfile, error) {
 	}
 	return &user, nil
 }
+
+func (s Service) GetUserByUsername(username string) (*models.UserProfile, error) {
+	var user models.UserProfile
+
+	query := `SELECT user_id, username, profile_name, bio, avatar FROM users 
+				WHERE username = $1`
+	err := s.DB.QueryRowx(query, username).StructScan(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
