@@ -9,6 +9,7 @@ import (
 )
 
 func CheckEmail(email string) bool {
+
 	if m, _ := regexp.MatchString(`^([\w\.\_]{2,10})@(\w{1,}).([a-z]{2,4})$`, email); !m {
 		return false
 	} else {
@@ -17,6 +18,7 @@ func CheckEmail(email string) bool {
 }
 
 func CheckUsername(username string) bool {
+
 	if len(username) == 0 {
 		return false
 	}
@@ -26,16 +28,17 @@ func CheckUsername(username string) bool {
 			return false
 		}
 	}
-
 	return true
 }
 
 func CheckBio(bio string) bool {
+
 	len := len(bio)
 	return len <= 200 && len >= 0
 }
 
 func CheckUsernameAvailability(username string, DB *sqlx.DB) bool {
+
 	var db_username string
 
 	query := `SELECT username FROM users WHERE username = $1`
@@ -47,6 +50,7 @@ func CheckUsernameAvailability(username string, DB *sqlx.DB) bool {
 }
 
 func CheckEmailAvailability(email string, DB *sqlx.DB) bool {
+	
 	var db_email string
 
 	query := `SELECT email FROM users WHERE email = $1`

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -28,7 +27,7 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 
 	err := json.NewDecoder(r.Body).Decode(&usr)
 	if err != nil {
-		http.Error(w, "Form error", http.StatusOK)
+		http.Error(w, "Form error", http.StatusBadRequest)
 		return
 	}
 
@@ -37,7 +36,7 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 		if errors.Is(err, user.ErrUsernameInvalid) || errors.Is(err, user.ErrEmailInvalid) || errors.Is(err, user.ErrUsernameTaken) || errors.Is(err, user.ErrEmailTaken) {
 			http.Error(w, err.Error(), http.StatusOK)
 		} else {
-			http.Error(w, "Error", http.StatusOK)
+			http.Error(w, "DB Error", http.StatusUnprocessableEntity)
 		}
 		return
 	}
@@ -50,8 +49,7 @@ func (h Handler) HandleUserMe(w http.ResponseWriter, r *http.Request, ps httprou
 	userTokenData := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
 	userProfile, err := h.UserService.GetUser(userTokenData.User_ID)
 	if err != nil {
-		log.Print(err)
-		http.Error(w, "User not found", http.StatusUnauthorized)
+		http.Error(w, "DB Error", http.StatusUnauthorized)
 		return
 	}
 	json.NewEncoder(w).Encode(userProfile)
@@ -60,14 +58,13 @@ func (h Handler) HandleUserMe(w http.ResponseWriter, r *http.Request, ps httprou
 func (h Handler) HandleUserByID(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	user_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
-		http.Error(w, "Bad id", http.StatusUnprocessableEntity)
+		http.Error(w, "Incorrect ID", http.StatusBadRequest)
 		return
 	}
 
 	userProfile, err := h.UserService.GetUser(user_id)
 	if err != nil {
-		log.Print(err)
-		http.Error(w, "User not found", http.StatusUnauthorized)
+		http.Error(w, "DB Error", http.StatusBadRequest)
 		return
 	}
 	json.NewEncoder(w).Encode(userProfile)
@@ -78,8 +75,7 @@ func (h Handler) HandleUserByUsername(w http.ResponseWriter, r *http.Request, ps
 
 	userProfile, err := h.UserService.GetUserByUsername(username)
 	if err != nil {
-		log.Print(err)
-		http.Error(w, "User not found", http.StatusUnauthorized)
+		http.Error(w, "DB Error", http.StatusUnauthorized)
 		return
 	}
 	json.NewEncoder(w).Encode(userProfile)

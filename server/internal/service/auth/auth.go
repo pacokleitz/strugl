@@ -31,7 +31,6 @@ func NewService(db *sqlx.DB) Service {
 
 // Create jwtoken string from a Jwtoken struct
 func (s Service) CreateToken(data models.Jwtoken) (string, error) {
-	var err error
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
 	atClaims["user_id"] = strconv.FormatInt(data.User_ID, 10)
@@ -90,7 +89,7 @@ func (s Service) AuthUser(username string, password string) (int64, error) {
 
 	err = bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(password))
 	if err != nil {
-		return -1, err
+		return -1, ErrCredentialsInvalid
 	}
 
 	return usr.ID, nil

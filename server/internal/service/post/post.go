@@ -28,10 +28,13 @@ func NewService(db *sqlx.DB) Service {
 }
 
 func (s Service) GetPost(id int64) (*models.Post, error) {
+
 	var p models.Post
+
 	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
 				INNER JOIN users on posts.user_id = users.user_id 
 				WHERE post_id = $1`
+
 	err := s.DB.QueryRowx(query, id).StructScan(&p)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -43,11 +46,13 @@ func (s Service) GetPost(id int64) (*models.Post, error) {
 }
 
 func (s Service) GetPostsByUser(username string) ([]models.Post, error) {
+
 	var pp []models.Post
 
 	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
 				INNER JOIN users ON posts.user_id = users.user_id 
 				WHERE username = $1 ORDER BY date_created DESC`
+
 	rows, err := s.DB.Queryx(query, username)
 	if err != nil {
 		return nil, err
@@ -72,6 +77,7 @@ func (s Service) GetPostsByTopic(topic string) ([]models.Post, error) {
 				INNER JOIN topics ON posts.post_id = topics.post_id 
 				INNER JOIN users on posts.user_id = users.user_id
 				WHERE topic = $1 ORDER BY date_created DESC`
+
 	rows, err := s.DB.Queryx(query, topic)
 	if err != nil {
 		return nil, err
@@ -90,7 +96,7 @@ func (s Service) GetPostsByTopic(topic string) ([]models.Post, error) {
 }
 
 func (s Service) GetPostsBookmarked(username string) ([]models.Post, error) {
-	var posts []models.Post
+	var pp []models.Post
 
 	query := `SELECT post_id, posts.user_id, content, date_created, date_updated FROM posts 
 				INNER JOIN bookmarks ON posts.post_id = bookmarks.post_id
@@ -108,13 +114,13 @@ func (s Service) GetPostsBookmarked(username string) ([]models.Post, error) {
 		if err != nil {
 			return nil, err
 		}
-		posts = append(posts, p)
+		pp = append(pp, p)
 	}
 
-	return posts, nil
+	return pp, nil
 }
 
-// TO DO
+// TODO Section
 func (s Service) GetPostsUpvoted(username string) ([]models.Post, error) {
 	var posts []models.Post
 	return posts, nil
@@ -131,7 +137,8 @@ func (s Service) GetFollowsFeed(username string) ([]models.Post, error) {
 }
 
 func (s Service) GetFeed(user_id int64) ([]models.Post, error) {
-	var posts []models.Post
+
+	var pp []models.Post
 
 	// Join ?
 	// query := `SELECT post_id, user_id, username, content, date_created, date_updated FROM posts
@@ -140,6 +147,7 @@ func (s Service) GetFeed(user_id int64) ([]models.Post, error) {
 	// 			LEFT JOIN followings ON followings.user_id = posts.user_id
 	// 			WHERE followings.user_id = $1 OR interests.user_id = $1 ORDER BY date_created DESC`
 
+	// TODO relire ça
 	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
 				INNER JOIN users on users.user_id = posts.user_id
 				WHERE post_id IN (
@@ -158,16 +166,17 @@ func (s Service) GetFeed(user_id int64) ([]models.Post, error) {
 		if err != nil {
 			return nil, err
 		}
-		posts = append(posts, p)
+		pp = append(pp, p)
 	}
 
-	return posts, nil
+	return pp, nil
 }
 
-// END TO DO
+// END TODO Section
 
 // Insert a post in DB "posts" table with the topics entries in "topics" table
 func (s Service) CreatePost(p models.Post) (int64, error) {
+
 	var post_id int64
 
 	// Begin transaction
@@ -230,6 +239,7 @@ func (s Service) DeletePost(post_id int64) error {
 
 // Extract a slice of topics from the post content
 func GetPostTopics(postContent string) []string {
+
 	var postTopics []string
 
 	postWords := strings.Split(postContent, " ")
@@ -245,6 +255,7 @@ func GetPostTopics(postContent string) []string {
 
 // Check if a word is a hashtag returning a bool if it matched and the topic string
 func IsTopic(w string) (string, bool) {
+
 	wTrim := strings.TrimSpace(w)
 
 	if wTrim[0] == '#' {
@@ -261,9 +272,11 @@ func IsTopic(w string) (string, bool) {
 // Make bulk inserting possible without having to query DB multiple times
 // Create sql statement string inserting all topics at once (Batch Insert)
 func GetBulkTopicsStatement(post_id int64, topics []string) (string, []interface{}) {
+
 	valueStrings := make([]string, 0, len(topics))
 	valueArgs := make([]interface{}, 0, len(topics)*2)
 	i := 1
+
 	for _, topic := range topics {
 		valueString := fmt.Sprintf("($%d, $%d)", i, i+1)
 		valueStrings = append(valueStrings, valueString)

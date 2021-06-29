@@ -31,6 +31,7 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/users/me", h.Protected(h.HandleUserMe))
 
 	h.Router.POST("/auth", h.HandleAuth)
+	h.Router.POST("/auth/token", h.HandleAuthToken)
 
 	h.Router.POST("/posts", h.Protected(h.HandlePostCreate))
 	h.Router.GET("/posts/id/:id", h.HandlePostGet)

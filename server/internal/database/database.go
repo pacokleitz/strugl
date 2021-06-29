@@ -42,7 +42,7 @@ func NewDatabase() (*sqlx.DB, error) {
 
 	err = MigrateDB(db)
 	if err != nil {
-		return db, err
+		return nil, err
 	}
 
 	return db, nil
