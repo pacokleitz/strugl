@@ -21,7 +21,7 @@ func (h Handler) Protected(next httprouter.Handle) httprouter.Handle {
 
 		jwtoken, err := h.AuthService.VerifyToken(tokenString)
 		if err != nil {
-			http.Error(w, "JWT error", http.StatusUnauthorized)
+			http.Error(w, "Invalid cookie", http.StatusUnauthorized)
 			return
 		}
 

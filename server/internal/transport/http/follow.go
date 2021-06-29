@@ -16,19 +16,20 @@ type FollowService interface {
 }
 
 func (h Handler) HandleFollow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
 	var user models.UserProfile
 
 	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Form error", http.StatusOK)
+		http.Error(w, "Form error", http.StatusBadRequest)
 		return
 	}
 
 	err = h.FollowService.Follow(user_data.User_ID, user.ID)
 	if err != nil {
-		http.Error(w, "Follow error", http.StatusBadRequest)
+		http.Error(w, "DB error", http.StatusBadRequest)
 		return
 	}
 }
@@ -40,13 +41,13 @@ func (h Handler) HandleUnfollow(w http.ResponseWriter, r *http.Request, ps httpr
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Form error", http.StatusOK)
+		http.Error(w, "Form error", http.StatusBadRequest)
 		return
 	}
 
 	err = h.FollowService.Unfollow(user_data.User_ID, user.ID)
 	if err != nil {
-		http.Error(w, "Follow error", http.StatusBadRequest)
+		http.Error(w, "DB error", http.StatusBadRequest)
 	}
 }
 
@@ -54,13 +55,13 @@ func (h Handler) HandleGetFollowers(w http.ResponseWriter, r *http.Request, ps h
 
 	user_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
-		http.Error(w, "Bad id", http.StatusUnprocessableEntity)
+		http.Error(w, "Incorrect ID", http.StatusUnprocessableEntity)
 		return
 	}
 
 	followers, err := h.FollowService.GetFollowers(user_id)
 	if err != nil {
-		http.Error(w, "Get followers error", http.StatusBadRequest)
+		http.Error(w, "DB Error", http.StatusBadRequest)
 		return
 	}
 
@@ -71,13 +72,13 @@ func (h Handler) HandleGetFollowings(w http.ResponseWriter, r *http.Request, ps 
 
 	user_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
-		http.Error(w, "Bad id", http.StatusUnprocessableEntity)
+		http.Error(w, "Incorrect ID", http.StatusUnprocessableEntity)
 		return
 	}
 
 	followings, err := h.FollowService.GetFollowings(user_id)
 	if err != nil {
-		http.Error(w, "Get followings error", http.StatusBadRequest)
+		http.Error(w, "DB Error", http.StatusBadRequest)
 		return
 	}
 

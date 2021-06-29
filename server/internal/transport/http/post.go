@@ -33,7 +33,7 @@ func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps htt
 
 	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
-		http.Error(w, "Form error", http.StatusOK)
+		http.Error(w, "Form error", http.StatusBadRequest)
 		return
 	}
 
@@ -43,8 +43,7 @@ func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps htt
 
 	post_id, err := h.PostService.CreatePost(p)
 	if err != nil {
-		log.Print(err)
-		http.Error(w, "DB Error", http.StatusOK)
+		http.Error(w, "DB Error", http.StatusUnprocessableEntity)
 		return
 	}
 
@@ -56,18 +55,16 @@ func (h Handler) HandlePostGet(w http.ResponseWriter, r *http.Request, ps httpro
 
 	post_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
-		http.Error(w, "Bad post_id", http.StatusBadRequest)
+		http.Error(w, "Incorrect ID", http.StatusBadRequest)
 		return
 	}
 
 	p, err := h.PostService.GetPost(post_id)
 	if err != nil {
-		log.Print(err)
-		http.Error(w, "Unknown post_id", http.StatusBadRequest)
+		http.Error(w, "Unknown user", http.StatusBadRequest)
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(p)
 }
 
@@ -82,7 +79,6 @@ func (h Handler) HandlePostsGetByUser(w http.ResponseWriter, r *http.Request, ps
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(pp)
 }
 
@@ -97,7 +93,6 @@ func (h Handler) HandlePostsGetByTopic(w http.ResponseWriter, r *http.Request, p
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(pp)
 }
 
@@ -112,6 +107,5 @@ func (h Handler) HandlePostsGetFeed(w http.ResponseWriter, r *http.Request, ps h
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(pp)
 }

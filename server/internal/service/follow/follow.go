@@ -19,11 +19,13 @@ func NewService(db *sqlx.DB) Service {
 
 // Get the list of followers of user_id
 func (s Service) GetFollowers(user_id int64) ([]models.UserProfile, error) {
+
 	var uu []models.UserProfile
 
 	query := `SELECT users.user_id, username, profile_name, bio, avatar FROM users
 				INNER JOIN followings ON users.user_id = followings.user_id
 				WHERE followings.following_id = $1`
+
 	rows, err := s.DB.Queryx(query, user_id)
 	if err != nil {
 		return nil, err
@@ -48,6 +50,7 @@ func (s Service) GetFollowings(user_id int64) ([]models.UserProfile, error) {
 	query := `SELECT users.user_id, username, profile_name, bio, avatar FROM users
 				INNER JOIN followings ON users.user_id = followings.following_id
 				WHERE followings.user_id = $1`
+				
 	rows, err := s.DB.Queryx(query, user_id)
 	if err != nil {
 		return nil, err

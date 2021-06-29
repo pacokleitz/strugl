@@ -72,7 +72,7 @@ func (s Service) CreateUser(user models.User) (string, error) {
 
 func (s Service) UpdateUser(username string, newUser models.User) (models.User, error) {
 
-	// ToDo
+	// TODO
 	stmt, err := s.DB.Prepare(`UPDATE users SET x=y, z=u WHERE username = $1`)
 	if err != nil {
 		return newUser, err
@@ -102,10 +102,12 @@ func (s Service) DeleteUser(username string) error {
 }
 
 func (s Service) GetUser(user_id int64) (*models.UserProfile, error) {
+
 	var user models.UserProfile
 
 	query := `SELECT user_id, username, profile_name, bio, avatar FROM users 
 				WHERE user_id = $1`
+
 	err := s.DB.QueryRowx(query, user_id).StructScan(&user)
 	if err != nil {
 		return nil, err
@@ -114,10 +116,12 @@ func (s Service) GetUser(user_id int64) (*models.UserProfile, error) {
 }
 
 func (s Service) GetUserByUsername(username string) (*models.UserProfile, error) {
+
 	var user models.UserProfile
 
 	query := `SELECT user_id, username, profile_name, bio, avatar FROM users 
 				WHERE username = $1`
+				
 	err := s.DB.QueryRowx(query, username).StructScan(&user)
 	if err != nil {
 		return nil, err
