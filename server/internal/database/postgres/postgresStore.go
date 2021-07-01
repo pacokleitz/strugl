@@ -1,20 +1,24 @@
-package database
+package postgres
 
 import (
-	"errors"
-	"fmt"
 	"github.com/jmoiron/sqlx"
+	"errors"
 	"os"
+	"fmt"
 	"time"
-
-	_ "github.com/jackc/pgx/v4/stdlib"
 )
+
+type PostgresStore struct {
+	Store *sqlx.DB
+}
 
 var (
 	ErrDbEnvVarNotSet = errors.New("database env variable credentials not set")
 )
 
-func NewDatabase() (*sqlx.DB, error) {
+// DB connexion (needed before using queries)
+func (store PostgresStore) New() (error) {
+
 	dbHost, isSetdbHost := os.LookupEnv("DB_HOST")
 	dbPort, isSetdbPort := os.LookupEnv("DB_PORT")
 	dbUser, isSetdbUser := os.LookupEnv("DB_USER")
@@ -22,13 +26,13 @@ func NewDatabase() (*sqlx.DB, error) {
 	dbName, isSetdbName := os.LookupEnv("DB_NAME")
 
 	if !(isSetdbHost && isSetdbPort && isSetdbUser && isSetdbPass && isSetdbName) {
-		return nil, ErrDbEnvVarNotSet
+		return ErrDbEnvVarNotSet
 	}
 
 	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
 	db, err := sqlx.Open("pgx", connectionString)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	// Wait for db to start
@@ -40,10 +44,14 @@ func NewDatabase() (*sqlx.DB, error) {
 		}
 	}
 
-	err = MigrateDB(db)
+	store.Store = db
+
+	err = store.MigrateDB()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return db, nil
+	return nil
 }
+
+

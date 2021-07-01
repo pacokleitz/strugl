@@ -49,15 +49,15 @@ func (s Service) CreateUser(user models.User) (string, error) {
 		return "", ErrEmailTaken
 	}
 
-	// Temporary until avatar logic implementation
-	user.Avatar = "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2012/png/iconmonstr-user-1.png&r=0&g=0&b=0"
-
-	stmt, err := s.DB.Prepare(`INSERT INTO users (username, profile_name, bio, email, avatar, password_hash) VALUES ($1, $2, $3, $4, $5, $6)`)
+	password_hash, err := HashPassword(user.Password)
 	if err != nil {
 		return "", err
 	}
 
-	password_hash, err := HashPassword(user.Password)
+	// Temporary until avatar logic implementation
+	user.Avatar = "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2012/png/iconmonstr-user-1.png&r=0&g=0&b=0"
+
+	stmt, err := s.DB.Prepare(`INSERT INTO users (username, profile_name, bio, email, avatar, password_hash) VALUES ($1, $2, $3, $4, $5, $6)`)
 	if err != nil {
 		return "", err
 	}
