@@ -8,6 +8,7 @@ import (
 	"unicode"
 
 	"strugl/internal/models"
+	"strugl/internal/database"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/jmoiron/sqlx"
@@ -18,12 +19,12 @@ var (
 )
 
 type Service struct {
-	DB *sqlx.DB
+	Store database.DataStore
 }
 
-func NewService(db *sqlx.DB) Service {
+func NewService(store database.DataStore) Service {
 	return Service{
-		DB: db,
+		Store: store,
 	}
 }
 
@@ -176,45 +177,10 @@ func (s Service) GetFeed(user_id int64) ([]models.Post, error) {
 
 // Insert a post in DB "posts" table with the topics entries in "topics" table
 func (s Service) CreatePost(p models.Post) (int64, error) {
+	topics := GetPostTopics(p.Content)
 
-	var post_id int64
-
-	// Begin transaction
-	tx, err := s.DB.Beginx()
+	post_id, err := s.Store.CreatePost(p, topics)
 	if err != nil {
-		return -1, err
-	}
-
-	query := `INSERT INTO posts (user_id, content) VALUES ($1, $2) RETURNING post_id`
-	err = tx.QueryRowx(query, p.Author_ID, p.Content).Scan(&post_id)
-	if err != nil {
-		tx.Rollback()
-		return -1, err
-	}
-
-	// Insert each topic of the Post in DB topics table
-	postTopics := GetPostTopics(p.Content)
-	stmtTopicsValueString, stmtTopicsArgs := GetBulkTopicsStatement(post_id, postTopics)
-
-	if stmtTopicsValueString != "" {
-		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (post_id, topic) VALUES %s", stmtTopicsValueString)
-
-		stmtTopics, err := tx.Preparex(stmtTopicsString)
-		if err != nil {
-			tx.Rollback()
-			return -1, err
-		}
-
-		_, err = stmtTopics.Exec(stmtTopicsArgs...)
-		if err != nil {
-			tx.Rollback()
-			return -1, err
-		}
-	}
-
-	tx.Commit()
-	if err != nil {
-		tx.Rollback()
 		return -1, err
 	}
 
@@ -224,17 +190,7 @@ func (s Service) CreatePost(p models.Post) (int64, error) {
 // Delete a post and cascade delete all associated entries (topics, bookmarks, upvotes)
 func (s Service) DeletePost(post_id int64) error {
 
-	stmt, err := s.DB.Preparex(`DELETE FROM posts WHERE post_id = $1`)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(post_id)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return s.Store.DeletePost(post_id)
 }
 
 // Extract a slice of topics from the post content
