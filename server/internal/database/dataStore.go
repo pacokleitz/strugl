@@ -10,6 +10,8 @@ type DataStore interface {
 	GetUserByUsername(username string) (*models.UserProfile, error)
 	UpdateUser(username string, newUser models.User) (*models.User, error)
 	DeleteUser(username string) error
+	CheckUsernameAvailability(username string) bool
+	CheckEmailAvailability(email string) bool
 
 	GetPost(id int64) (*models.Post, error)
 	GetPostsByUser(username string) ([]models.Post, error)
@@ -21,4 +23,11 @@ type DataStore interface {
 	GetFeed(user_id int64) ([]models.Post, error)
 	CreatePost(post models.Post, topics []string) (int64, error)
 	DeletePost(post_id int64) error
+
+	GetCredentials(username string) (models.AuthCredentials, error)
+
+	GetFollowers(user_id int64) ([]models.UserProfile, error)
+	GetFollowings(user_id int64) ([]models.UserProfile, error)
+	Follow(user_id int64, following_id int64) error
+	Unfollow(user_id int64, following_id int64) error
 }

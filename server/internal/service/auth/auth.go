@@ -1,16 +1,15 @@
 package auth
 
 import (
-	"database/sql"
 	"errors"
 	"fmt"
 	"os"
 	"strconv"
+	"strugl/internal/database"
 	"strugl/internal/models"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -20,12 +19,12 @@ var (
 )
 
 type Service struct {
-	DB *sqlx.DB
+	Store database.DataStore
 }
 
-func NewService(db *sqlx.DB) Service {
+func NewService(store database.DataStore) Service {
 	return Service{
-		DB: db,
+		Store: store,
 	}
 }
 
@@ -76,14 +75,8 @@ func (s Service) VerifyToken(tokenString string) (models.Jwtoken, error) {
 // Check if credentials are valid and return user_id
 func (s Service) AuthUser(username string, password string) (int64, error) {
 
-	var usr models.User
-
-	query := `SELECT user_id, password_hash FROM users WHERE username = $1`
-	err := s.DB.QueryRowx(query, username).StructScan(&usr)
+	usr, err := s.Store.GetCredentials(username)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return -1, ErrCredentialsInvalid
-		}
 		return -1, err
 	}
 

@@ -1,8 +1,8 @@
 package postgres
 
 import (
-	"strugl/internal/models"
 	"database/sql"
+	"strugl/internal/models"
 )
 
 func (store PostgresStore) GetPost(id int64) (*models.Post, error) {

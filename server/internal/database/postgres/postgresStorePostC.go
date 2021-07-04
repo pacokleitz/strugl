@@ -1,9 +1,9 @@
 package postgres
 
 import (
-	"strugl/internal/models"
 	"fmt"
-	"strugl/internal/database/utils/sqlbulk"
+	"strugl/internal/database/utils/sql/bulk"
+	"strugl/internal/models"
 )
 
 func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64, error) {
@@ -50,5 +50,3 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 
 	return post_id, nil
 }
-
-

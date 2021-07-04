@@ -1,10 +1,10 @@
 package postgres
 
 import (
-	"github.com/jmoiron/sqlx"
 	"errors"
-	"os"
 	"fmt"
+	"github.com/jmoiron/sqlx"
+	"os"
 	"time"
 )
 
@@ -17,7 +17,7 @@ var (
 )
 
 // DB connexion (needed before using queries)
-func (store PostgresStore) New() (error) {
+func (store PostgresStore) New() error {
 
 	dbHost, isSetdbHost := os.LookupEnv("DB_HOST")
 	dbPort, isSetdbPort := os.LookupEnv("DB_PORT")
@@ -53,5 +53,3 @@ func (store PostgresStore) New() (error) {
 
 	return nil
 }
-
-

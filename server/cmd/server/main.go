@@ -7,7 +7,7 @@ import (
 
 	"github.com/rs/cors"
 
-	"strugl/internal/database"
+	"strugl/internal/database/postgres"
 	"strugl/internal/service/auth"
 	"strugl/internal/service/follow"
 	"strugl/internal/service/post"
@@ -16,16 +16,19 @@ import (
 )
 
 func run() error {
-	db, err := database.NewDatabase()
+
+	var datastore postgres.PostgresStore
+
+	err := datastore.New()
 	if err != nil {
 		return err
 	}
-	defer db.Close()
+	defer datastore.Store.Close()
 
-	userService := user.NewService(db)
-	postService := post.NewService(db)
-	authService := auth.NewService(db)
-	followService := follow.NewService(db)
+	userService := user.NewService(datastore)
+	postService := post.NewService(datastore)
+	authService := auth.NewService(datastore)
+	followService := follow.NewService(datastore)
 
 	h := transportHTTP.NewHandler(userService, postService, authService, followService)
 
