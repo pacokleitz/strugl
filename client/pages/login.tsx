@@ -21,16 +21,13 @@ export default function LogIn() {
   } = useForm<FormInputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    await fetch("https://api.strugl.cc/api/users/auth", {
+    await fetch("https://api.strugl.cc/auth", {
       method: "Post",
       credentials: "include",
       body: JSON.stringify(data),
     }).then(async (res) => {
       const text = await res.text();
-      if (
-        text.localeCompare("credentials invalid") != 0 &&
-        typeof window !== "undefined"
-      ) {
+      if (res.ok && typeof window !== "undefined") {
         localStorage.setItem("username", text);
         router.push("/dashboard", "/");
       } else alert(text);

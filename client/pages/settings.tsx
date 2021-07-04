@@ -18,7 +18,7 @@ export default function Settings() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4"></div>
+      <div className="pt-20 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4"></div>
     </div>
   );
 }

@@ -9,6 +9,8 @@ import {
   faCheck,
   faTimes,
   faHome,
+  faComments,
+  faStream,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
@@ -23,11 +25,11 @@ let testDate = new Date(2021, 3, 25, 17, 43);
 testDate.toDateString();
 const siham = new User(34, "testingwith20charact", "sihamais98@gmail.com");
 const paco = new User(32, "testUser1", "sihamais98@gmail.com");
-const msg1 = new Message(12, siham, "ok", testDate);
+const msg1 = new Message(12, siham, "Short comment test !", testDate);
 const msg2 = new Message(
   15,
   paco,
-  "Wow, you are really the best coder !",
+  "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
   testDate
 );
 
@@ -168,6 +170,10 @@ function Inbox() {
   }
 
   function MessageRender(props: any) {
+    let message =
+      props.message.content.length < 20
+        ? props.message.content
+        : props.message.content.slice(0, 17) + "...";
     return (
       <>
         <Menu.Item>
@@ -199,7 +205,7 @@ function Inbox() {
                       {props.message.author.username}
                     </a>
                   </Link>
-                  {props.message.content}
+                  {message}
                 </div>
               </div>
               <p className="text-left ml-4 self-center text-xs font-medium text-gray-500 tracking-tighter">
@@ -220,7 +226,7 @@ function Inbox() {
         <>
           <Menu.Button className="focus:outline-none">
             <FontAwesomeIcon
-              icon={faEnvelope}
+              icon={faComments}
               className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
             />
             <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs text-center">
@@ -362,7 +368,7 @@ export default function Header() {
   }
 
   return (
-    <div className="sticky top-0 w-full h-min p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
+    <div className="fixed top-0 w-full h-min p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
       <div className="w-10/12 flex flex-row m-auto text-center justify-between">
         <a
           onClick={() => Navigate("Dashboard")}
@@ -372,7 +378,7 @@ export default function Header() {
         </a>
         <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/4 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
           <input
-            placeholder="Search ..."
+            placeholder="Search"
             className="text-md subpixel-antialiased text-justify px-2 bg-transparent focus:outline-none w-full"
           />
           <FontAwesomeIcon
@@ -384,8 +390,8 @@ export default function Header() {
           <div className="inline-block self-center">
             <a onClick={() => Navigate("Dashboard")}>
               <FontAwesomeIcon
-                icon={faHome}
-                className="w-8 h-8 text-gray-700 cursor-pointer hover:text-gray-600"
+                icon={faStream}
+                className="w-8 h-8 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:skew-y-6"
                 title="Home"
               />
             </a>
