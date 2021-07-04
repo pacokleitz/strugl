@@ -3,8 +3,6 @@ import Head from "next/head";
 import React from "react";
 import { useEffect } from "react";
 
-import LogIn from "./login";
-
 export default function Home() {
   const router = useRouter();
 

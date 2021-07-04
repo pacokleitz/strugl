@@ -34,13 +34,10 @@ export default function SignUp() {
     }).then(async (res) => {
       const text = await res.text();
       if (res.ok) {
-        setAlertMsg((alertMsg = "Your account was created succesfully !"));
-        setAuthState((currentAuthState = 1));
         router.push("/");
       } else {
         setAlertMsg((alertMsg = text + " !"));
         setAuthState((currentAuthState = 2));
-        
       }
     });
   }, []);
