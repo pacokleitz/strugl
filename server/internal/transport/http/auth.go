@@ -19,7 +19,7 @@ type AuthService interface {
 }
 
 type JwtokenJSON struct {
-	Token string `json:"token"`
+	Token    string `json:"token"`
 	Username string `json:"username"`
 }
 

@@ -17,7 +17,7 @@ type UserService interface {
 	CreateUser(user models.User) (string, error)
 	GetUser(user_id int64) (*models.UserProfile, error)
 	GetUserByUsername(username string) (*models.UserProfile, error)
-	UpdateUser(username string, newUser models.User) (models.User, error)
+	UpdateUser(username string, newUser models.User) (*models.User, error)
 	DeleteUser(username string) error
 }
 
@@ -33,8 +33,10 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 
 	username, err := h.UserService.CreateUser(usr)
 	if err != nil {
-		if errors.Is(err, user.ErrUsernameInvalid) || errors.Is(err, user.ErrEmailInvalid) || errors.Is(err, user.ErrUsernameTaken) || errors.Is(err, user.ErrEmailTaken) {
-			http.Error(w, err.Error(), http.StatusOK)
+		if errors.Is(err, user.ErrUsernameInvalid) || errors.Is(err, user.ErrEmailInvalid) {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+		} else if errors.Is(err, user.ErrUsernameTaken) || errors.Is(err, user.ErrEmailTaken) {
+			http.Error(w, err.Error(), http.StatusConflict)
 		} else {
 			http.Error(w, "DB Error", http.StatusUnprocessableEntity)
 		}

@@ -1,8 +1,6 @@
 package user
 
 import (
-	"database/sql"
-	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
 	"regexp"
 	"unicode"
@@ -35,30 +33,6 @@ func CheckBio(bio string) bool {
 
 	len := len(bio)
 	return len <= 200 && len >= 0
-}
-
-func CheckUsernameAvailability(username string, DB *sqlx.DB) bool {
-
-	var db_username string
-
-	query := `SELECT username FROM users WHERE username = $1`
-	err := DB.QueryRow(query, username).Scan(&db_username)
-	if err != nil {
-		return err == sql.ErrNoRows
-	}
-	return false
-}
-
-func CheckEmailAvailability(email string, DB *sqlx.DB) bool {
-	
-	var db_email string
-
-	query := `SELECT email FROM users WHERE email = $1`
-	err := DB.QueryRow(query, email).Scan(&db_email)
-	if err != nil {
-		return err == sql.ErrNoRows
-	}
-	return false
 }
 
 func HashPassword(password string) (string, error) {
