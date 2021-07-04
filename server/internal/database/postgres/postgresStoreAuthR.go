@@ -6,7 +6,6 @@ import (
 	"strugl/internal/models"
 )
 
-// Check if credentials are valid and return user_id
 func (store PostgresStore) GetCredentials(username string) (models.AuthCredentials, error) {
 
 	var creds models.AuthCredentials

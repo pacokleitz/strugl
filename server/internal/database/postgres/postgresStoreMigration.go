@@ -12,7 +12,7 @@ func (store PostgresStore) MigrateDB() error {
 		return err
 	}
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://internal/database/migrations",
+		"file://internal/database/postgres/migrations",
 		"postgres", driver)
 	if err != nil {
 		return err

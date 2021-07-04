@@ -17,7 +17,7 @@ var (
 )
 
 // DB connexion (needed before using queries)
-func (store PostgresStore) New() error {
+func New() (*PostgresStore, error) {
 
 	dbHost, isSetdbHost := os.LookupEnv("DB_HOST")
 	dbPort, isSetdbPort := os.LookupEnv("DB_PORT")
@@ -26,13 +26,13 @@ func (store PostgresStore) New() error {
 	dbName, isSetdbName := os.LookupEnv("DB_NAME")
 
 	if !(isSetdbHost && isSetdbPort && isSetdbUser && isSetdbPass && isSetdbName) {
-		return ErrDbEnvVarNotSet
+		return nil, ErrDbEnvVarNotSet
 	}
 
 	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
 	db, err := sqlx.Open("pgx", connectionString)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Wait for db to start
@@ -44,12 +44,12 @@ func (store PostgresStore) New() error {
 		}
 	}
 
-	store.Store = db
+	store := &PostgresStore{db}
 
 	err = store.MigrateDB()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return store, nil
 }
