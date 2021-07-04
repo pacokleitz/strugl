@@ -1,19 +1,18 @@
-package database
+package postgres
 
 import (
-	"database/sql"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
-func MigrateDB(db *sql.DB) error {
-	driver, err := postgres.WithInstance(db, &postgres.Config{})
+func (store PostgresStore) MigrateDB() error {
+	driver, err := postgres.WithInstance(store.Store.DB, &postgres.Config{})
 	if err != nil {
 		return err
 	}
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://internal/database/migrations",
+		"file://internal/database/postgres/migrations",
 		"postgres", driver)
 	if err != nil {
 		return err

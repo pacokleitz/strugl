@@ -5,31 +5,40 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"time"
+	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 
-	"github.com/dgrijalva/jwt-go"
+	"strugl/internal/models"
 	"strugl/internal/service/user"
-	"strugl/internal/utils/auth"
 )
+
+type UserService interface {
+	CreateUser(user models.User) (string, error)
+	GetUser(user_id int64) (*models.UserProfile, error)
+	GetUserByUsername(username string) (*models.UserProfile, error)
+	UpdateUser(username string, newUser models.User) (*models.User, error)
+	DeleteUser(username string) error
+}
 
 func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	var usr user.User
+	var usr models.User
 
 	err := json.NewDecoder(r.Body).Decode(&usr)
 	if err != nil {
-		http.Error(w, "Form error", http.StatusOK)
+		http.Error(w, "Form error", http.StatusBadRequest)
 		return
 	}
 
 	username, err := h.UserService.CreateUser(usr)
 	if err != nil {
-		if errors.Is(err, user.ErrUsernameInvalid) || errors.Is(err, user.ErrEmailInvalid) || errors.Is(err, user.ErrUsernameTaken) || errors.Is(err, user.ErrEmailTaken) {
-			http.Error(w, err.Error(), http.StatusOK)
+		if errors.Is(err, user.ErrUsernameInvalid) || errors.Is(err, user.ErrEmailInvalid) {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+		} else if errors.Is(err, user.ErrUsernameTaken) || errors.Is(err, user.ErrEmailTaken) {
+			http.Error(w, err.Error(), http.StatusConflict)
 		} else {
-			http.Error(w, "Error", http.StatusOK)
+			http.Error(w, "DB Error", http.StatusUnprocessableEntity)
 		}
 		return
 	}
@@ -38,49 +47,38 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 	fmt.Fprint(w, username)
 }
 
-func (h Handler) HandleUserAuth(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-
-	var usr user.User
-
-	// à vérifier
-	err := json.NewDecoder(r.Body).Decode(&usr)
+func (h Handler) HandleUserMe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	userTokenData := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+	userProfile, err := h.UserService.GetUser(userTokenData.User_ID)
 	if err != nil {
+		http.Error(w, "DB Error", http.StatusUnauthorized)
 		return
 	}
-
-	isUser, err := h.UserService.AuthUser(usr.Username, usr.Password)
-	if err != nil {
-		http.Error(w, "not ok", http.StatusOK)
-		return
-	}
-
-	if isUser {
-		expires := time.Now().AddDate(0, 0, 7)
-		token, err := auth.CreateToken(usr.Username)
-		if err != nil {
-			http.Error(w, "jwt error", http.StatusOK)
-			return
-		}
-
-		cookie := http.Cookie{Name: "token", Value: token, Domain: "strugl.cc", Secure: true, SameSite: http.SameSiteStrictMode, Expires: expires, HttpOnly: true}
-		http.SetCookie(w, &cookie)
-		fmt.Fprintf(w, usr.Username)
-		return
-	}
-
-	http.Error(w, "Credentials error", http.StatusUnauthorized)
+	json.NewEncoder(w).Encode(userProfile)
 }
 
-func (h Handler) HandleUserIdentity(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	token, err := auth.VerifyToken(r)
+func (h Handler) HandleUserByID(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	user_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
-		http.Error(w, "Token error", http.StatusUnauthorized)
+		http.Error(w, "Incorrect ID", http.StatusBadRequest)
 		return
 	}
 
-	if token.Valid {
-		claims := token.Claims.(jwt.MapClaims)
-		username := claims["username"].(string)
-		fmt.Fprint(w, username)
+	userProfile, err := h.UserService.GetUser(user_id)
+	if err != nil {
+		http.Error(w, "DB Error", http.StatusBadRequest)
+		return
 	}
+	json.NewEncoder(w).Encode(userProfile)
+}
+
+func (h Handler) HandleUserByUsername(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	username := ps.ByName("username")
+
+	userProfile, err := h.UserService.GetUserByUsername(username)
+	if err != nil {
+		http.Error(w, "DB Error", http.StatusUnauthorized)
+		return
+	}
+	json.NewEncoder(w).Encode(userProfile)
 }

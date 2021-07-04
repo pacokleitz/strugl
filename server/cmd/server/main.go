@@ -7,43 +7,41 @@ import (
 
 	"github.com/rs/cors"
 
-	"strugl/internal/database"
+	"strugl/internal/database/postgres"
+	"strugl/internal/service/auth"
+	"strugl/internal/service/follow"
+	"strugl/internal/service/post"
 	"strugl/internal/service/user"
 	transportHTTP "strugl/internal/transport/http"
 )
 
 func run() error {
-	db, err := database.NewDatabase()
+
+
+	datastore, err := postgres.New()
 	if err != nil {
 		return err
 	}
-	defer db.Close()
+	defer datastore.Store.Close()
 
-	userService := user.NewService(db)
+	userService := user.NewService(datastore)
+	postService := post.NewService(datastore)
+	authService := auth.NewService(datastore)
+	followService := follow.NewService(datastore)
 
-	h := transportHTTP.NewHandler(userService)
+	h := transportHTTP.NewHandler(userService, postService, authService, followService)
 
 	h.SetupRoutes()
 
-	port, isPortSet := os.LookupEnv("API_PORT")
-	if !isPortSet {
-		port = "8080"
-	}
-
-	serverAddr := fmt.Sprintf(":%s", port)
-	fmt.Printf("Server running on %s\n", serverAddr)
-	
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000", "https://strugl.cc"},
-    		AllowCredentials: true,
-		AllowedMethods: []string{"PUT", "PATCH", "GET", "POST", "DELETE", "OPTIONS"},
-		AllowedHeaders: []string{"*"},
-    		Debug: true,
+		AllowedOrigins:   []string{"https://strugl.cc", "http://localhost:3000"},
+		AllowCredentials: true,
+		Debug:            true,
 	})
 
 	corsRouter := c.Handler(h.Router)
 
-	if err := http.ListenAndServe(serverAddr, corsRouter); err != nil {
+	if err := http.ListenAndServe(":8080", corsRouter); err != nil {
 		return err
 	}
 

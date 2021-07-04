@@ -1,121 +1,84 @@
 package user
 
 import (
-	"database/sql"
 	"errors"
+
+	"strugl/internal/database"
+	"strugl/internal/models"
+
 	_ "github.com/jackc/pgx/v4/stdlib"
-	"strugl/internal/utils/auth"
 )
 
 var (
 	ErrEmailInvalid    = errors.New("email invalid")
 	ErrUsernameInvalid = errors.New("username invalid")
+	ErrBioInvalid      = errors.New("bio invalid")
 	ErrUsernameTaken   = errors.New("username taken")
 	ErrEmailTaken      = errors.New("email taken")
-
-	ErrCredentialsInvalid = errors.New("credentials invalid")
 )
 
 type Service struct {
-	DB *sql.DB
+	Store database.DataStore
 }
 
-type User struct {
-	ID       int64  `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-func NewService(db *sql.DB) Service {
+func NewService(store database.DataStore) Service {
 	return Service{
-		DB: db,
+		Store: store,
 	}
 }
 
-func (s Service) CreateUser(user User) (string, error) {
+func (s Service) CreateUser(user models.User) (string, error) {
 
-	if !auth.CheckEmail(user.Email) {
+	var err error
+
+	if !CheckEmail(user.Email) {
 		return "", ErrEmailInvalid
 	}
 
-	if !auth.CheckUsername(user.Username) {
+	if !CheckUsername(user.Username) {
 		return "", ErrUsernameInvalid
 	}
 
-	if !auth.CheckUsernameAvailability(user.Username, s.DB) {
+	if !CheckBio(user.Bio) {
+		return "", ErrBioInvalid
+	}
+
+	if !s.Store.CheckUsernameAvailability(user.Username) {
 		return "", ErrUsernameTaken
 	}
 
-	if !auth.CheckEmailAvailability(user.Email, s.DB) {
+	if !s.Store.CheckEmailAvailability(user.Email) {
 		return "", ErrEmailTaken
 	}
 
-	stmt, err := s.DB.Prepare(`INSERT INTO users (username, email, password) VALUES ($1, $2, $3)`)
+	user.Password, err = HashPassword(user.Password)
 	if err != nil {
 		return "", err
 	}
 
-	password_hash, err := auth.HashPassword(user.Password)
-	if err != nil {
-		return "", err
-	}
+	// Temporary until avatar logic implementation
+	user.Avatar = "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2012/png/iconmonstr-user-1.png&r=0&g=0&b=0"
 
-	_, err = stmt.Exec(user.Username, user.Email, password_hash)
-	if err != nil {
-		return "", err
-	}
-
-	return user.Username, nil
+	return s.Store.CreateUser(user)
 }
 
-func (s Service) AuthUser(username string, password string) (bool, error) {
+func (s Service) UpdateUser(username string, newUser models.User) (*models.User, error) {
 
-	var dbPassword string
-
-	query := `SELECT password FROM users WHERE username = $1`
-	err := s.DB.QueryRow(query, username).Scan(&dbPassword)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return false, ErrCredentialsInvalid
-		}
-		return false, err
-	}
-
-	if auth.CheckPasswordHash(password, dbPassword) {
-		return true, nil
-	}
-	return false, nil
-
-}
-
-func (s Service) UpdateUser(username string, newUser User) (User, error) {
-
-	// ToDo
-	stmt, err := s.DB.Prepare(`UPDATE users SET x=y, z=u WHERE username = $1`)
-	if err != nil {
-		return newUser, err
-	}
-
-	_, err = stmt.Exec(username)
-	if err != nil {
-		return newUser, err
-	}
-
-	return newUser, nil
+	// Check form here
+	return s.Store.UpdateUser(username, newUser)
 }
 
 func (s Service) DeleteUser(username string) error {
 
-	stmt, err := s.DB.Prepare(`DELETE FROM users WHERE username = $1`)
-	if err != nil {
-		return err
-	}
+	return s.Store.DeleteUser(username)
+}
 
-	_, err = stmt.Exec(username)
-	if err != nil {
-		return err
-	}
+func (s Service) GetUser(user_id int64) (*models.UserProfile, error) {
 
-	return nil
+	return s.Store.GetUser(user_id)
+}
+
+func (s Service) GetUserByUsername(username string) (*models.UserProfile, error) {
+
+	return s.Store.GetUserByUsername(username)
 }
