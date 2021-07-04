@@ -156,7 +156,7 @@ function PostRender(props: any) {
   }
 
   return (
-    <div className="w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y-2 divide-gray-300">
+    <div className="w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300">
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
           <Link
@@ -233,7 +233,7 @@ export default function Feed() {
   const [list, setList] = useState(PostsList);
 
   return (
-    <div className="col-span-2 w-full content-center text-center flex flex-col space-y-4">
+    <div className="col-span-2 w-full h-screen content-center text-center flex flex-col space-y-4 overflow-y-auto">
       <form className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col">
         <div className="flex flex-row justify-between items-center space-x-4">
           {typeof window !== "undefined" && (
@@ -251,7 +251,7 @@ export default function Feed() {
           )}
 
           <input
-            placeholder="Share something with your friends today ..."
+            placeholder="Share something with your friends today"
             className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
             required
           />

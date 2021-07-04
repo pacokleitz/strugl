@@ -107,7 +107,7 @@ export default function Suggestions() {
   const [friendsList, setFriendsList] = useState(FriendsSuggestions);
 
   return (
-    <div className="w-full text-center flex flex-col space-y-4">
+    <div className="w-full text-center flex flex-col space-y-4 h-screen">
       <div className="rounded-lg divide-y-2 divide-gray-300">
         <div className="flex flex-row justify-between p-4">
           <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700">

@@ -15,13 +15,13 @@ export default function Dashboard(context: any) {
   });
 
   return (
-    <div className="min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
+    <div className="max-h-screen w-screen max-w-full bg-gray-100 overflow-hidden pb-24">
       <Head>
         <title>Strugl</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4">
+      <div className="max-w-full w-screen grid grid-cols-4 pt-20 px-4 m-auto gap-4 justify-between pb-24">
         <Profile />
         <Feed />
         <Suggestions />

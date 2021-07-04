@@ -59,7 +59,7 @@ export default function Profile() {
   const [favsList, setList] = useState(favs);
 
   return (
-    <div className="w-full text-center flex flex-col">
+    <div className="w-full text-center flex flex-col h-screen">
       <div className="rounded-lg divide-y-2 divide-gray-300">
         <div className="flex flex-row p-6 justify-start items-center space-x-2 focus:outline-none">
           <img
@@ -98,7 +98,7 @@ export default function Profile() {
             <p>31</p>
           </a>
         </div>
-        <div className="">
+        <div>
           {favsList.map((subject) => (
             <SubjectRender key={subject.id} subject={subject} />
           ))}
