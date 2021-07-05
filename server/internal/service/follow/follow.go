@@ -30,13 +30,25 @@ func (s Service) GetFollowings(user_id int64) ([]models.UserProfile, error) {
 }
 
 // Follow following_id
-func (s Service) Follow(user_id int64, following_id int64) error {
+func (s Service) FollowUser(user_id int64, following_id int64) error {
 
-	return s.Store.Follow(user_id, following_id)
+	return s.Store.FollowUser(user_id, following_id)
 }
 
 // Unfollow following_id
-func (s Service) Unfollow(user_id int64, following_id int64) error {
+func (s Service) UnfollowUser(user_id int64, following_id int64) error {
 
-	return s.Store.Unfollow(user_id, following_id)
+	return s.Store.UnfollowUser(user_id, following_id)
+}
+
+// Follow topic
+func (s Service) FollowTopic(user_id int64, topic string) error {
+
+	return s.Store.FollowTopic(user_id, topic)
+}
+
+// Unfollow topic
+func (s Service) UnfollowTopic(user_id int64, topic string) error {
+
+	return s.Store.UnfollowTopic(user_id, topic)
 }

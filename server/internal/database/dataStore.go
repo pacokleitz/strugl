@@ -28,6 +28,8 @@ type DataStore interface {
 
 	GetFollowers(user_id int64) ([]models.UserProfile, error)
 	GetFollowings(user_id int64) ([]models.UserProfile, error)
-	Follow(user_id int64, following_id int64) error
-	Unfollow(user_id int64, following_id int64) error
+	FollowUser(user_id int64, following_id int64) error
+	UnfollowUser(user_id int64, following_id int64) error
+	FollowTopic(user_id int64, topic string) error
+	UnfollowTopic(user_id int64, topic string) error
 }

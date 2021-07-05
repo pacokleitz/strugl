@@ -19,23 +19,31 @@ CREATE TABLE IF NOT EXISTS posts (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-/* Table of topics associated to posts*/
+/* Table of topics a user can "follow" */
 CREATE TABLE IF NOT EXISTS topics (
+    topic_id SERIAL PRIMARY KEY,
+    topic_name VARCHAR(30) NOT NULL,
+)
+
+/* Table of topics associated to posts */
+CREATE TABLE IF NOT EXISTS posts_to_topics (
     post_id INTEGER NOT NULL, 
-    topic VARCHAR(30) NOT NULL, 
-    PRIMARY KEY (post_id, topic),
-    FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
+    topic_id INTEGER NOT NULL, 
+    PRIMARY KEY (post_id, topic_id),
+    FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (topic_id) REFERENCES topics(topic_id) ON DELETE CASCADE
 );
 
 /* Table of topics followed by users */
-CREATE TABLE IF NOT EXISTS interests (
+CREATE TABLE IF NOT EXISTS users_to_topics (
     user_id INTEGER NOT NULL,
-    topic VARCHAR(30) NOT NULL,
-    PRIMARY KEY (user_id, topic),
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    topic_id INTEGER NOT NULL,
+    PRIMARY KEY (user_id, topic_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (topic_id) REFERENCES topics(topic_id) ON DELETE CASCADE
 );
 
-/* Table of follows between users per user */
+/* Table of follows between users with timestamp */
 CREATE TABLE IF NOT EXISTS followings (
     user_id INTEGER NOT NULL, 
     following_id INTEGER NOT NULL, 
