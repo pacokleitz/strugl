@@ -3,11 +3,12 @@ package sqlbulk
 import (
 	"fmt"
 	"strings"
+	"strugl/internal/models"
 )
 
 // Make bulk inserting possible without having to query DB multiple times
 // Create sql statement string inserting all topics at once (Batch Insert)
-func GetBulkPostsTopicsStatement(post_id int64, topics []string) (string, []interface{}) {
+func GetBulkPostsTopicsStatement(post_id int64, topics []models.Topic) (string, []interface{}) {
 
 	lentopics := len(topics)
 
@@ -19,7 +20,7 @@ func GetBulkPostsTopicsStatement(post_id int64, topics []string) (string, []inte
 		valueString := fmt.Sprintf("($%d, $%d)", i, i+1)
 		valueStrings = append(valueStrings, valueString)
 		valueArgs = append(valueArgs, post_id)
-		valueArgs = append(valueArgs, topic)
+		valueArgs = append(valueArgs, topic.Id)
 		i += 2
 	}
 	return strings.Join(valueStrings, ","), valueArgs
@@ -31,7 +32,7 @@ func GetBulkInsertStatement(length int) (string) {
 	valueStrings := make([]string, 0, length)
 
 	for i := 1; i <= length; i++ {
-		valueString := fmt.Sprintf("$%d", i)
+		valueString := fmt.Sprintf("($%d)", i)
 		valueStrings = append(valueStrings, valueString)
 	}
 	return strings.Join(valueStrings, ",")

@@ -26,30 +26,30 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 	numTopics := len(topics)
 
 	if numTopics > 0 {
+		
+		var tt []models.Topic
 
 		// Insert the topics in database
 		stmtTopicsValueString := sqlbulk.GetBulkInsertStatement(numTopics)
-
-		stmtTopicsString := fmt.Sprintf("INSERT INTO topics topic_name VALUES %s", stmtTopicsValueString)
-
-		stmtTopics, err := tx.Preparex(stmtTopicsString)
+		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (topic_name) VALUES %s RETURNING (topic_id, topic_name)", stmtTopicsValueString)
+		rows, err := store.Store.Queryx(stmtTopicsString, topics)
 		if err != nil {
-			tx.Rollback()
 			return -1, err
 		}
 
-		// topics convert to interface ?
-		_, err = stmtTopics.Exec(topics)
-		if err != nil {
-			tx.Rollback()
-			return -1, err
+		// Get all topics inserted with their id
+		for rows.Next() {
+			var t models.Topic
+			err = rows.StructScan(&t)
+			if err != nil {
+				return -1, err
+			}
+			tt = append(tt, t)
 		}
 
 		// Link every topic to the post in database
-		stmtTopicsValueString, stmtTopicsArgs := sqlbulk.GetBulkPostsTopicsStatement(post_id, topics)
-
-		stmtPostsTopicsString := fmt.Sprintf("INSERT INTO topics (topic_id, topic_name) VALUES %s", stmtTopicsValueString)
-
+		stmtTopicsValueString, stmtTopicsArgs := sqlbulk.GetBulkPostsTopicsStatement(post_id, tt)
+		stmtPostsTopicsString := fmt.Sprintf("INSERT INTO posts_to_topics (post_id, topic_id) VALUES %s", stmtTopicsValueString)
 		stmtPostsTopics, err := tx.Preparex(stmtPostsTopicsString)
 		if err != nil {
 			tx.Rollback()
