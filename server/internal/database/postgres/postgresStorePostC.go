@@ -23,6 +23,8 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 		return -1, err
 	}
 
+	println("DEBUG post id = %d", post_id)
+
 	numTopics := len(topics)
 
 	if numTopics > 0 {
@@ -31,6 +33,7 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 
 		// Insert the topics in database
 		stmtTopicsValueString := sqlbulk.GetBulkInsertStatement(numTopics)
+		// https://web.archive.org/web/20150925012041/http://mikefenwick.com:80/blog/insert-into-database-or-return-id-of-duplicate-row-in-mysql/
 		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (topic_name) VALUES %s RETURNING (topic_id, topic_name)", stmtTopicsValueString)
 		rows, err := store.Store.Queryx(stmtTopicsString, topics)
 		if err != nil {
@@ -46,6 +49,8 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 			}
 			tt = append(tt, t)
 		}
+
+		println("DEBUG topics:", tt)
 
 		// Link every topic to the post in database
 		stmtTopicsValueString, stmtTopicsArgs := sqlbulk.GetBulkPostsTopicsStatement(post_id, tt)
