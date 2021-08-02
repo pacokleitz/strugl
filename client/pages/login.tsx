@@ -69,10 +69,10 @@ export default function LogIn() {
             >
               <div className="w-full space-y-3 flex flex-col m-auto font-semibold">
                 <div className="flex flex-col">
-                  <label className="text-gray-600">Username or Email</label>
+                  <label className="text-gray-600">Username</label>
                   <input
                     {...register("username", {
-                      required: "Username or Email is required.",
+                      required: "Username is required.",
                     })}
                     type="text"
                     className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"

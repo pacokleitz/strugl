@@ -37,7 +37,6 @@ const comment3 = new Comment(
 const comment2 = new Comment(15, person2, "Short comment test !", testDate);
 const comment4 = new Comment(14, person2, "Short comment test !", testDate);
 
-
 let PostsList: Post[] = [
   {
     id: 5,
@@ -229,11 +228,11 @@ function PostRender(props: any) {
   );
 }
 
-export default function Feed() {
+export default function Feed(props:any) {
   const [list, setList] = useState(PostsList);
 
   return (
-    <div className="col-span-2 w-full h-screen content-center text-center flex flex-col space-y-4 overflow-y-auto">
+    <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2">
       <form className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col">
         <div className="flex flex-row justify-between items-center space-x-4">
           {typeof window !== "undefined" && (
@@ -257,9 +256,11 @@ export default function Feed() {
           />
         </div>
       </form>
-      {list.map((post: Post) => (
-        <PostRender key={post.id} post={post} />
-      ))}
+      <div className={"overflow-y-scroll sticky h-screen rounded-xl space-y-2 "+ props.feedType}>
+        {list.map((post: Post) => (
+          <PostRender key={post.id} post={post} />
+        ))}
+      </div>
     </div>
   );
 }

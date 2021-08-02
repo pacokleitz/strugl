@@ -1,3 +1,4 @@
+import { propNames } from "@chakra-ui/react";
 import { faBookmark, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Head from "next/head";
@@ -7,10 +8,10 @@ import Feed from "../components/feed";
 import Header from "../components/header";
 import Suggestions from "../components/suggestions";
 
-function ProfileContent({ user }: any) {
+function ProfileContent(props: any) {
   return (
-    <div className="col-span-3 space-y-4">
-      <div className="flex flex-row px-6 justify-start items-center space-x-8 focus:outline-none">
+    <div className="pt-2 col-span-3 space-y-2">
+      <div className="pb-2 flex flex-row px-6 justify-start items-center space-x-8 focus:outline-none">
         <img
           src="default.svg"
           className="w-32 rounded-full bg-white ring-2 ring-gray-300 self-center"
@@ -48,13 +49,14 @@ function ProfileContent({ user }: any) {
         </a>
       </div>
       <div className="">
-        <Feed />
+        {/* <Feed feedType="profileFeed" posts={props.postsList} /> */}
+        <Feed feedType="profileFeed" posts={props.postsList} />
       </div>
     </div>
   );
 }
 
-export default function Profile() {
+export default function Profile({ postsList }: any) {
   const router = useRouter();
   const { profile } = router.query;
 
@@ -65,20 +67,22 @@ export default function Profile() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="pt-20 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
+      <div className="pt-16 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
         <ProfileContent />
+        {/* <ProfileContent postsList={postsList} /> */}
         <Suggestions />
       </div>
     </div>
   );
 }
 
-ProfileContent.getInitialProps = async (ctx: any) => {
-  await fetch("https://api.strugl.cc/api/users/${ctx.query}", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  }).then(async (res) => {
-    const json = await res.json();
-    return { user: json };
-  });
-};
+// Profile.getInitialProps = async (ctx: any) => {
+//   await fetch("https://api.strugl.cc/posts/user/${ctx.query}", {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   }).then(async (res) => {
+//     const json = await res.json();
+//     if (!json) return { postsList: [] };
+//     else return { postsList: json}
+//   });
+// };
