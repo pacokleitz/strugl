@@ -228,8 +228,9 @@ function PostRender(props: any) {
   );
 }
 
-export default function Feed(props:any) {
-  const [list, setList] = useState(PostsList);
+export default function Feed(props: any) {
+  console.log(props.postsList);
+  const [list, setList] = useState(props.postsList);
 
   return (
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2">
@@ -256,7 +257,12 @@ export default function Feed(props:any) {
           />
         </div>
       </form>
-      <div className={"overflow-y-scroll sticky h-screen rounded-xl space-y-2 "+ props.feedType}>
+      <div
+        className={
+          "overflow-y-scroll sticky h-screen rounded-xl space-y-2 " +
+          props.feedType
+        }
+      >
         {list.map((post: Post) => (
           <PostRender key={post.id} post={post} />
         ))}
