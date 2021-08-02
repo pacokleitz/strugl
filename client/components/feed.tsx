@@ -115,7 +115,8 @@ function CommentsRender(props: any) {
 }
 
 function PostRender(props: any) {
-  const date = props.post.date.toUTCString();
+    const serverDate = new Date(props.post.date_created)
+
   const [commentsList, setcommentsList] = useState(props.post.comments);
 
   const [voteState] = useState([
@@ -159,8 +160,8 @@ function PostRender(props: any) {
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
           <Link
-            href="/${props.post.author.username}"
-            as={"/" + props.post.author.username}
+            href="/${props.post.author}"
+            as={"/" + props.post.author}
           >
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
               {props.post.author.pic && <img src={props.post.author.pic} />}
@@ -172,10 +173,10 @@ function PostRender(props: any) {
               )}
               <div>
                 <h3 className="text-left text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
-                  {props.post.author.username}
+                  {props.post.author}
                 </h3>
                 <p className="text-xs font-medium text-gray-500 tracking-tighter">
-                  {date}
+                  {serverDate.toUTCString()}
                 </p>
               </div>
             </div>
@@ -229,7 +230,6 @@ function PostRender(props: any) {
 }
 
 export default function Feed(props: any) {
-  console.log(props.postsList);
   const [list, setList] = useState(props.postsList);
 
   return (
