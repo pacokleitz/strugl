@@ -21,18 +21,18 @@ export default function Dashboard(context: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="max-w-full w-screen grid grid-cols-4 pt-20 px-4 m-auto gap-4 justify-between pb-24">
+      <div className="max-w-full w-screen grid grid-cols-4 pt-16 px-4 m-auto gap-4 justify-between pb-24">
         <Profile />
-        <Feed />
+        <Feed feedType="dashboardFeed"/>
         <Suggestions />
       </div>
     </div>
   );
 }
 
-// Dashboard.getInitialProps = async ctx => {
+// Dashboard.getInitialProps = async (ctx:any) => {
 //     // posts
-//   fetch("https://api.strugl.cc", {
+//   fetch("https://api.strugl.cc/posts/", {
 //     method: "GET",
 //     headers: { "Content-Type": "application/json" },
 //   }).then(async (res) => {
@@ -52,4 +52,4 @@ export default function Dashboard(context: any) {
 //       chat = json.chats;
 //     } else alert(json.error);
 //   });
-// };
+//};
