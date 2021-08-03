@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import React from "react";
 import { useEffect } from "react";
+import { Provider } from "react-redux";
+import store from "../redux/store";
 
 export default function Home() {
   const router = useRouter();
@@ -23,11 +25,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-screen h-screen">
-      <Head>
-        <title>Strugl</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-    </div>
+    <Provider store={store}>
+      <div className="w-screen h-screen">
+        <Head>
+          <title>Strugl</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+      </div>
+    </Provider>
   );
 }

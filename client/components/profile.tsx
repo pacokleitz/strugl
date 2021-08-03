@@ -1,3 +1,9 @@
+import { useState } from "react";
+import Link from "next/link";
+import { AppContext } from "next/app";
+
+import Subject from "../lib/subject";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar as faStarFull,
@@ -5,9 +11,6 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
-import Subject from "../lib/subject";
-import { useState } from "react";
-import Link from "next/link";
 
 // Données de tests (à supprimer plus tard)
 const subject1 = new Subject(78, "TestSubject 1", true);
@@ -117,7 +120,7 @@ export default function Profile({ followers, followings }: any) {
   );
 }
 
-Profile.getInitialProps = async (ctx: any) => {
+Profile.getInitialProps = async (ctx: AppContext) => {
   // user id fetch
   let res = await fetch(`https://api.strugl.cc/users/me`, {
     method: "GET",

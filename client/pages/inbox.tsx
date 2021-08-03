@@ -1,14 +1,16 @@
-import { Divider } from "@chakra-ui/react";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
+import { AppContext } from "next/app";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+
 import Feed from "../components/feed";
 import Header from "../components/header";
 import Message from "../lib/message";
 import User from "../lib/user";
+
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 let msg1 = new Message(
   56,
@@ -146,7 +148,7 @@ export default function Inbox({ postsList }: any) {
   );
 }
 
-Inbox.getInitialProps = async (ctx: any) => {
+Inbox.getInitialProps = async (ctx: AppContext) => {
   // feed fetch
   const res = await fetch(`https://api.strugl.cc/posts/user/paco`, {
     method: "GET",

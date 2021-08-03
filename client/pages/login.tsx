@@ -1,9 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Alert from "../components/alert";
+import User from "../lib/user";
+import { auth } from "../redux/reducers/UsersSlice";
+import { useAppDispatch } from "../redux/hooks";
 
 interface FormInputs {
   username: string;
@@ -12,13 +15,15 @@ interface FormInputs {
   passwordCheck: string;
 }
 
-export default function LogIn() {
+function LogIn() {
   const router = useRouter();
 
   let [alertMsg, setAlertMsg] = useState("");
 
   const [authState] = useState(["pending", "success", "error"]);
   let [currentAuthState, setAuthState] = useState(0);
+
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -34,6 +39,7 @@ export default function LogIn() {
     }).then(async (res) => {
       const text = await res.text();
       if (res.ok && typeof window !== "undefined") {
+        dispatch(auth(new User(0, text, "")));
         localStorage.setItem("username", text);
         router.push("/dashboard", "/");
       } else {
@@ -120,3 +126,5 @@ export default function LogIn() {
     </div>
   );
 }
+
+export default LogIn;

@@ -1,6 +1,9 @@
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { NextPageContext } from "next";
+import { useAppSelector } from "../redux/hooks";
+
 import Header from "../components/header";
 import Feed from "../components/feed";
 import Profile from "../components/profile";
@@ -8,11 +11,11 @@ import Suggestions from "../components/suggestions";
 
 export default function Dashboard({ postsList }: any) {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.users.currentUser);
 
-    useEffect(() => {
-      if (typeof window !== "undefined")
-        if (!localStorage.getItem("username")) router.push("/");
-    });
+  useEffect(() => {
+    if (!currentUser) router.push("/");
+  });
 
   return (
     <div className="max-h-screen w-screen max-w-full bg-gray-100 overflow-hidden pb-24">
@@ -30,7 +33,7 @@ export default function Dashboard({ postsList }: any) {
   );
 }
 
-Dashboard.getInitialProps = async (ctx: any) => {
+Dashboard.getInitialProps = async (ctx: NextPageContext) => {
   // feed fetch
   const res = await fetch(`https://api.strugl.cc/posts/user/paco`, {
     method: "GET",

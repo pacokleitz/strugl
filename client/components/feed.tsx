@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Link from "next/link";
 
 import Post from "../lib/post";
-import User from "../lib/user";
 import Comment from "../lib/comment";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,6 +1,7 @@
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { AppContext } from "next/app";
 
 import Feed from "../components/feed";
 import Header from "../components/header";
@@ -86,7 +87,7 @@ export default function Profile({ postsList }: any) {
   );
 }
 
-Profile.getInitialProps = async (ctx: any) => {
+Profile.getInitialProps = async (ctx: AppContext) => {
   const res = await fetch(
     `https://api.strugl.cc/posts/user/${ctx.query.profile}`,
     {
