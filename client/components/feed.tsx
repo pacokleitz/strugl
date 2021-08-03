@@ -1,7 +1,10 @@
+import Link from "next/link";
+import { useState } from "react";
+
 import Post from "../lib/post";
 import User from "../lib/user";
 import Comment from "../lib/comment";
-import Link from "next/link";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark as faBookmarkFull,
@@ -15,61 +18,6 @@ import {
   faFlag as faFlagEmpty,
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
-import { useState } from "react";
-
-// Données de tests (à supprimer après)
-let testDate = new Date(2021, 3, 25, 17, 43);
-const person1 = new User(98, "Person1", "sihamais98@gmail.com");
-const person2 = new User(65, "testingwith20charact", "sihamais98@gmail.com");
-const comment1 = new Comment(
-  12,
-  person1,
-  "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
-  testDate
-);
-const comment3 = new Comment(
-  13,
-  person1,
-  "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
-  testDate
-);
-
-const comment2 = new Comment(15, person2, "Short comment test !", testDate);
-const comment4 = new Comment(14, person2, "Short comment test !", testDate);
-
-let PostsList: Post[] = [
-  {
-    id: 5,
-    author: person2,
-    content:
-      "Long post test ! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
-    date: testDate,
-    comments: [comment1, comment2],
-  },
-  {
-    id: 2,
-    author: person1,
-    content: "Short post test !",
-    date: testDate,
-    comments: [comment3],
-  },
-  {
-    id: 3,
-    author: person1,
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit, esse placeat. Provident placeat impedit eveniet itaque molestiae est porro nostrum. Est doloremque nulla quisquam quibusdam magni dolorum cum sit iste.",
-    date: testDate,
-  },
-  {
-    id: 4,
-    author: person2,
-    content:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
-    date: testDate,
-    comments: [comment4],
-  },
-];
-// Fin des données de tests (à supprimer plus tard)
 
 function CommentsRender(props: any) {
   const date = props.comment.date.toUTCString();
@@ -115,7 +63,7 @@ function CommentsRender(props: any) {
 }
 
 function PostRender(props: any) {
-    const serverDate = new Date(props.post.date_created)
+  const serverDate = new Date(props.post.date_created);
 
   const [commentsList, setcommentsList] = useState(props.post.comments);
 
@@ -159,10 +107,7 @@ function PostRender(props: any) {
     <div className="w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300">
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
-          <Link
-            href="/${props.post.author}"
-            as={"/" + props.post.author}
-          >
+          <Link href="/${props.post.author}" as={"/" + props.post.author}>
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
               {props.post.author.pic && <img src={props.post.author.pic} />}
               {!props.post.author.pic && (
@@ -263,9 +208,13 @@ export default function Feed(props: any) {
           props.feedType
         }
       >
-        {list.map((post: Post) => (
-          <PostRender key={post.id} post={post} />
-        ))}
+        {list &&
+          list.map((post: Post) => <PostRender key={post.id} post={post} />)}
+        {!list && props.feedType == "profileFeed" && (
+          <div className="shadow px-8 py-4 h-full bg-white border-2 border-gray-100 border-opacity-60 rounded-xl">
+            No posts yet !
+          </div>
+        )}
       </div>
     </div>
   );

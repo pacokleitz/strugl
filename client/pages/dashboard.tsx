@@ -31,14 +31,14 @@ export default function Dashboard({ postsList }: any) {
 }
 
 Dashboard.getInitialProps = async (ctx: any) => {
-  let res = await fetch(`https://api.strugl.cc/users/me`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  const user = await res.json();
-  
+  // let res = await fetch(`https://api.strugl.cc/users/me`, {
+  //   method: "GET",
+  //   headers: { "Content-Type": "application/json" },
+  // });
+  // const user = await res.json();
+
   // posts
-  res = await fetch(`https://api.strugl.cc/posts/id/${user.user_id}`, {
+  const res = await fetch(`https://api.strugl.cc/posts/user/paco`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
