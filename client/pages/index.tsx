@@ -2,11 +2,17 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import React from "react";
 import { useEffect } from "react";
+
 import { Provider } from "react-redux";
 import store from "../redux/store";
+import { useAppDispatch } from "../redux/hooks";
+import { auth } from "../redux/reducers/CurrentUserSlice";
+
+import User from "../lib/user";
 
 export default function Home() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     fetch("https://api.strugl.cc/api/users/me", {
@@ -14,8 +20,8 @@ export default function Home() {
       credentials: "include",
     }).then(async (res) => {
       const text = await res.text();
-      if (res.ok && typeof window !== "undefined") {
-        localStorage.setItem("username", text);
+      if (res.ok) {
+        dispatch(auth(new User(0, text, "")));
         router.push("/dashboard", "/");
       } else {
         console.clear();

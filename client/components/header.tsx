@@ -1,3 +1,10 @@
+import { Fragment, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import Message from "../lib/message";
+import User from "../lib/user";
+
 import {
   faChevronCircleDown,
   faSortDown,
@@ -14,11 +21,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Fragment, useState } from "react";
-import Message from "../lib/message";
-import User from "../lib/user";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { current } from "@reduxjs/toolkit";
+import { logOut } from "../redux/reducers/UsersSlice";
 
 // Données de tests (à supprimer plus tard)
 let testDate = new Date(2021, 3, 25, 17, 43);
@@ -39,20 +44,17 @@ const initialInvitesList: User[] = [siham, paco];
 
 function Account() {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const dispatch = useAppDispatch();
 
   function Navigate(to: String) {
-    if (typeof window !== "undefined") {
-      if (!localStorage.getItem("username") || to == "SignOut") {
-        localStorage.clear();
-        router.push("/");
-      } else {
-        if (to == "Settings") router.push("/settings", "/");
-        else if (to == "Profile")
-          router.push(
-            "/${localStorage.getItem('username')}",
-            "/" + localStorage.getItem("username")
-          );
-      }
+    if (!currentUser.username || to == "SignOut") {
+      dispatch(logOut());
+      router.push("/");
+    } else {
+      if (to == "Settings") router.push("/settings", "/");
+      else if (to == "Profile")
+        router.push("/${currentUser.username}", "/" + currentUser.username);
     }
   }
 
@@ -69,11 +71,9 @@ function Account() {
                 src="default.svg"
                 className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
-              {typeof window !== "undefined" && (
-                <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
-                  {localStorage.getItem("username")}
-                </p>
-              )}
+              <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
+                {currentUser.username}
+              </p>
             </div>
             <div className="inline-block">
               <FontAwesomeIcon
@@ -102,11 +102,9 @@ function Account() {
                     <p className="inline-block text-gray-700 text-sm font-medium tracking-wide">
                       Signed in as
                     </p>{" "}
-                    {typeof window !== "undefined" && (
-                      <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
-                        {localStorage.getItem("username")}
-                      </p>
-                    )}
+                    <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
+                      {currentUser.username}
+                    </p>
                   </div>
                 </Menu.Item>
                 <hr></hr>
@@ -146,26 +144,19 @@ function Account() {
 
 function Inbox() {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const dispatch = useAppDispatch();
 
-  const weekday = new Array(7);
-  weekday[0] = "Sun";
-  weekday[1] = "Mon";
-  weekday[2] = "Tue";
-  weekday[3] = "Wed";
-  weekday[4] = "Thu";
-  weekday[5] = "Fri";
-  weekday[6] = "Sat";
+  const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const [inboxList, setList] = useState(initialInboxList);
 
   function Navigate(to: String) {
-    if (typeof window !== "undefined") {
-      if (!localStorage.getItem("username")) {
-        localStorage.clear();
-        router.push("/");
-      } else {
-        if (to == "Inbox") router.push("/inbox", "/");
-      }
+    if (!currentUser.username) {
+      dispatch(logOut());
+      router.push("/");
+    } else {
+      if (to == "Inbox") router.push("/inbox", "/");
     }
   }
 
@@ -354,16 +345,16 @@ function Invites() {
 
 export default function Header() {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const dispatch = useAppDispatch();
 
   function Navigate(to: String) {
-    if (typeof window !== "undefined") {
-      if (!localStorage.getItem("username")) {
-        localStorage.clear();
-        router.push("/");
-      } else {
-        if (to == "Dashboard") router.push("/dashboard", "/");
-        else if (to == "Explore") router.push("/explore", "/");
-      }
+    if (!currentUser.username) {
+      dispatch(logOut());
+      router.push("/");
+    } else {
+      if (to == "Dashboard") router.push("/dashboard", "/");
+      else if (to == "Explore") router.push("/explore", "/");
     }
   }
 

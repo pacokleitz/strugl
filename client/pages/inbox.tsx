@@ -11,6 +11,7 @@ import User from "../lib/user";
 
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAppSelector } from "../redux/hooks";
 
 let msg1 = new Message(
   56,
@@ -128,10 +129,12 @@ function InboxRender() {
 export default function Inbox({ postsList }: any) {
   const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== "undefined")
-      if (!localStorage.getItem("username")) router.push("/");
-  });
+    const currentUser = useAppSelector((state) => state.currentUser);
+
+    useEffect(() => {
+      if (!currentUser.username) router.push("/");
+    });
+
 
   return (
     <div className="h-full w-full bg-gray-100">

@@ -11,10 +11,10 @@ import Suggestions from "../components/suggestions";
 
 export default function Dashboard({ postsList }: any) {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (!currentUser) router.push("/");
+    if (!currentUser.username) router.push("/");
   });
 
   return (

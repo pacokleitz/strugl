@@ -2,14 +2,17 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import Header from "../components/header";
+import { useAppSelector } from "../redux/hooks";
 
 export default function Explore() {
   const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== "undefined")
-      if (!localStorage.getItem("username")) router.push("/");
-  });
+   const currentUser = useAppSelector((state) => state.currentUser);
+
+   useEffect(() => {
+     if (!currentUser.username) router.push("/");
+   });
+
 
   return (
     <div className="min-h-screen h-auto w-screen max-w-full bg-gray-100 ">

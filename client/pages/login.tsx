@@ -3,10 +3,12 @@ import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+import { auth } from "../redux/reducers/CurrentUserSlice";
+import { useAppDispatch } from "../redux/hooks";
+
 import Alert from "../components/alert";
 import User from "../lib/user";
-import { auth } from "../redux/reducers/UsersSlice";
-import { useAppDispatch } from "../redux/hooks";
 
 interface FormInputs {
   username: string;
@@ -38,9 +40,8 @@ function LogIn() {
       body: JSON.stringify(data),
     }).then(async (res) => {
       const text = await res.text();
-      if (res.ok && typeof window !== "undefined") {
+      if (res.ok) {
         dispatch(auth(new User(0, text, "")));
-        localStorage.setItem("username", text);
         router.push("/dashboard", "/");
       } else {
         setAlertMsg((alertMsg = text + " !"));

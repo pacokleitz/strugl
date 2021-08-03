@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import { AppContext } from "next/app";
+import { NextPageContext } from "next";
 
 import Subject from "../lib/subject";
 
@@ -11,6 +11,7 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
+import { useAppSelector } from "../redux/hooks";
 
 // Données de tests (à supprimer plus tard)
 const subject1 = new Subject(78, "TestSubject 1", true);
@@ -59,6 +60,8 @@ function SubjectRender(props: any) {
 }
 
 export default function Profile({ followers, followings }: any) {
+  const currentUser = useAppSelector((state) => state.currentUser);
+
   const [followingsList, setList] = useState(followings);
 
   return (
@@ -71,7 +74,7 @@ export default function Profile({ followers, followings }: any) {
           />
           {typeof window !== "undefined" && (
             <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
-              {localStorage.getItem("username")}
+              {currentUser.username}
             </p>
           )}
         </div>
@@ -120,7 +123,9 @@ export default function Profile({ followers, followings }: any) {
   );
 }
 
-Profile.getInitialProps = async (ctx: AppContext) => {
+Profile.getInitialProps = async (ctx: NextPageContext) => {
+  const currentUser = useAppSelector((state) => state.currentUser);
+
   // user id fetch
   let res = await fetch(`https://api.strugl.cc/users/me`, {
     method: "GET",
@@ -129,13 +134,13 @@ Profile.getInitialProps = async (ctx: AppContext) => {
   const me = await res.json();
 
   // profile infos fetch
-  res = await fetch(`https://api.strugl.cc/followers/${me.user_id}`, {
+  res = await fetch(`https://api.strugl.cc/followers/${currentUser.id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
   const followers = await res.json();
 
-  res = await fetch(`https://api.strugl.cc/followings/${me.user_id}`, {
+  res = await fetch(`https://api.strugl.cc/followings/${currentUser.id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
