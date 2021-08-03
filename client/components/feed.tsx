@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import Post from "../lib/post";
 import User from "../lib/user";
@@ -18,6 +19,10 @@ import {
   faFlag as faFlagEmpty,
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
+
+interface FormInputs {
+  content: string;
+}
 
 function CommentsRender(props: any) {
   const date = props.comment.date.toUTCString();
@@ -175,11 +180,47 @@ function PostRender(props: any) {
 }
 
 export default function Feed(props: any) {
-  const [list, setList] = useState(props.postsList);
+  let [list, setList] = useState(props.postsList);
+
+  // let profile = localStorage.getItem("username");
+
+  const { register, handleSubmit } = useForm<FormInputs>({ mode: "onSubmit" });
+
+  const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
+    await fetch("https://api.strugl.cc/posts", {
+      method: "Post",
+      credentials: "include",
+      body: JSON.stringify(data),
+    }).then(async (res) => {
+      if (res.ok) {
+        await fetch("https://api.strugl.cc/posts/user/${profile}", {
+          method: "Get",
+          credentials: "include",
+        }).then(async (res) => {
+          if (res.ok) {
+            res.json().then((value) => {
+              let lastPost = value[0];
+              let newPost = new Post(
+                lastPost.id,
+                lastPost.author,
+                lastPost.content,
+                lastPost.date
+              );
+              let newList = list.unshift(newPost);
+              setList((list = newList));
+            });
+          }
+        });
+      }
+    });
+  }, []);
 
   return (
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2">
-      <form className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
+      >
         <div className="flex flex-row justify-between items-center space-x-4">
           {typeof window !== "undefined" && (
             <Link
@@ -196,6 +237,9 @@ export default function Feed(props: any) {
           )}
 
           <input
+            {...register("content", {
+              required: "Content is required.",
+            })}
             placeholder="Share something with your friends today"
             className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
             required
@@ -204,15 +248,17 @@ export default function Feed(props: any) {
       </form>
       <div
         className={
-          "overflow-y-scroll sticky h-screen rounded-xl space-y-2 " +
-          props.feedType
+          "overflow-y-scroll sticky rounded-xl space-y-2 " + props.feedType
         }
       >
         {list &&
           list.map((post: Post) => <PostRender key={post.id} post={post} />)}
         {!list && props.feedType == "profileFeed" && (
-          <div className="shadow px-8 py-4 h-full bg-white border-2 border-gray-100 border-opacity-60 rounded-xl">
-            No posts yet !
+          <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
+            <img src="duckbutticon.svg" className="h-1/4" />
+            <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
+              No posts yet
+            </p>
           </div>
         )}
       </div>

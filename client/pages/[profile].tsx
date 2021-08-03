@@ -48,9 +48,7 @@ function ProfileContent(props: any) {
           <p>31</p>
         </a>
       </div>
-      <div className="">
         <Feed feedType="profileFeed" postsList={props.postsList} />
-      </div>
     </div>
   );
 }
@@ -80,7 +78,7 @@ export default function Profile({ postsList }: any) {
             color="blue"
           />
         )}
-      <div className="pt-16 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
+      <div className="pt-20 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
         <ProfileContent postsList={postsList} profile={profile} />
         <Suggestions />
       </div>

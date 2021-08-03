@@ -20,10 +20,12 @@
     "@hookform/error-message": "^2.0.0",
     "framer-motion": "^4.1.17",
     "next": "10.2.2",
+    "next-redux-wrapper": "^7.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.6.9",
     "react-query": "^3.17.2",
+    "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {

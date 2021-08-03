@@ -55,8 +55,8 @@ function SubjectRender(props: any) {
   );
 }
 
-export default function Profile() {
-  const [favsList, setList] = useState(favs);
+export default function Profile({ followers, followings }: any) {
+  const [followingsList, setList] = useState(followings);
 
   return (
     <div className="w-full text-center flex flex-col h-screen">
@@ -76,16 +76,16 @@ export default function Profile() {
           <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faUsers} className="w-5" />
-              <p>Friends</p>
+              <p>Followers</p>
             </div>
-            <p>28</p>
+            <p>{followers ? followers.length : 0}</p>
           </a>
           <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faStarFull} className="w-5" />
-              <p>Interests</p>
+              <p>Followings</p>
             </div>
-            <p>{favsList.length}</p>
+            <p>{followingsList ? followingsList.length : 0}</p>
           </a>
           <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
@@ -98,12 +98,45 @@ export default function Profile() {
             <p>31</p>
           </a>
         </div>
-        <div>
-          {favsList.map((subject) => (
-            <SubjectRender key={subject.id} subject={subject} />
-          ))}
+        <div className="h-full">
+          {followingsList &&
+            followingsList.map((subject: any) => (
+              <SubjectRender key={subject.id} subject={subject} />
+            ))}
+          {!followingsList && (
+            <div className="h-full flex flex-col space-y-4 justify-items-center justify-start py-6">
+              <img src="duckbutticon.svg" className="h-1/6" />
+              <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
+                No followings yet
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
+Profile.getInitialProps = async (ctx: any) => {
+  // user id fetch
+  let res = await fetch(`https://api.strugl.cc/users/me`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const me = await res.json();
+
+  // profile infos fetch
+  res = await fetch(`https://api.strugl.cc/followers/${me.user_id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const followers = await res.json();
+
+  res = await fetch(`https://api.strugl.cc/followings/${me.user_id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const followings = await res.json();
+
+  return { followers: followers, followings: followings };
+};
