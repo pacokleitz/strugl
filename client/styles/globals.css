@@ -7,9 +7,9 @@
 }
 
 .dashboardFeed {
-    height: calc(100vh - 165px);
+    height: calc(100vh - 170px);
 }
 
 .profileFeed {
-    height: calc(100vh - 375px);
+    height: calc(100vh - 380px);
 }

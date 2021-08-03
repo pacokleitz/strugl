@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="375pt"
+   height="374.999991pt"
+   viewBox="0 0 375 374.999991"
+   version="1.2"
+   id="svg231"
+   sodipodi:docname="duckbutticon.svg"
+   inkscape:version="1.1 (1:1.1+202105261517+ce6663b3b7)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview233"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="pt"
+     showgrid="false"
+     inkscape:zoom="1.622"
+     inkscape:cx="248.76695"
+     inkscape:cy="262.33046"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg231" />
+  <defs
+     id="defs150">
+    <clipPath
+       id="clip1">
+      <path
+         d="M 176 24.148438 L 195 24.148438 L 195 72 L 176 72 Z M 176 24.148438 "
+         id="path138" />
+    </clipPath>
+    <clipPath
+       id="clip2">
+      <path
+         d="M 184.949219 292.058594 L 228.363281 292.058594 L 228.363281 351.148438 L 184.949219 351.148438 Z M 184.949219 292.058594 "
+         id="path141" />
+    </clipPath>
+    <clipPath
+       id="clip3">
+      <path
+         d="M 142.605469 292.058594 L 186.554688 292.058594 L 186.554688 351.148438 L 142.605469 351.148438 Z M 142.605469 292.058594 "
+         id="path144" />
+    </clipPath>
+    <clipPath
+       id="clip4">
+      <path
+         d="M 112.589844 150.574219 L 263.789062 150.574219 L 263.789062 301.742188 L 112.589844 301.742188 Z M 112.589844 150.574219 "
+         id="path147" />
+    </clipPath>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3053"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3051"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3205" />
+      <feColorMatrix
+         id="feColorMatrix3207"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3057"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3055"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3209" />
+      <feColorMatrix
+         id="feColorMatrix3211"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3061"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3059"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3213" />
+      <feColorMatrix
+         id="feColorMatrix3215"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3065"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3063"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3217" />
+      <feColorMatrix
+         id="feColorMatrix3219"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3069"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3067"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3221" />
+      <feColorMatrix
+         id="feColorMatrix3223"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3073"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3071"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3225" />
+      <feColorMatrix
+         id="feColorMatrix3227"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3077"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3075"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3229" />
+      <feColorMatrix
+         id="feColorMatrix3231"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3081"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3079"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3233" />
+      <feColorMatrix
+         id="feColorMatrix3235"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3085"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3083"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3237" />
+      <feColorMatrix
+         id="feColorMatrix3239"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3089"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3087"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3241" />
+      <feColorMatrix
+         id="feColorMatrix3243"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3093"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3091"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3245" />
+      <feColorMatrix
+         id="feColorMatrix3247"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3097"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3095"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3249" />
+      <feColorMatrix
+         id="feColorMatrix3251"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3101"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3099"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3253" />
+      <feColorMatrix
+         id="feColorMatrix3255"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3105"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3103"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3257" />
+      <feColorMatrix
+         id="feColorMatrix3259"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3109"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3107"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3261" />
+      <feColorMatrix
+         id="feColorMatrix3263"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3113"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3111"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3265" />
+      <feColorMatrix
+         id="feColorMatrix3267"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3117"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3115"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3269" />
+      <feColorMatrix
+         id="feColorMatrix3271"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3121"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3119"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3273" />
+      <feColorMatrix
+         id="feColorMatrix3275"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3125"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3123"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3277" />
+      <feColorMatrix
+         id="feColorMatrix3279"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3129"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3127"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3281" />
+      <feColorMatrix
+         id="feColorMatrix3283"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3133"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3131"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3285" />
+      <feColorMatrix
+         id="feColorMatrix3287"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3137"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3135"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3289" />
+      <feColorMatrix
+         id="feColorMatrix3291"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3141"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3139"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3293" />
+      <feColorMatrix
+         id="feColorMatrix3295"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3145"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3143"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3297" />
+      <feColorMatrix
+         id="feColorMatrix3299"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3149"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3147"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3301" />
+      <feColorMatrix
+         id="feColorMatrix3303"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3153"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3151"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3305" />
+      <feColorMatrix
+         id="feColorMatrix3307"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3157"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3155"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3309" />
+      <feColorMatrix
+         id="feColorMatrix3311"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3161"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3159"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3313" />
+      <feColorMatrix
+         id="feColorMatrix3315"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3165"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3163"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3317" />
+      <feColorMatrix
+         id="feColorMatrix3319"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3169"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3167"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3321" />
+      <feColorMatrix
+         id="feColorMatrix3323"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3173"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3171"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3325" />
+      <feColorMatrix
+         id="feColorMatrix3327"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3177"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3175"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3329" />
+      <feColorMatrix
+         id="feColorMatrix3331"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3181"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3179"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3333" />
+      <feColorMatrix
+         id="feColorMatrix3335"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Fade to Black or White"
+       id="filter3185"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix3183"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3337" />
+      <feColorMatrix
+         id="feColorMatrix3339"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+  </defs>
+  <path
+     style="fill:#e3e6e8;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3053)"
+     d="m 253.9375,125.97266 c 0,36.17187 -29.21094,60.89062 -65.25,60.89062 -36.03516,0 -65.24609,-24.71875 -65.24609,-60.89062 0,-36.167972 29.21093,-65.488285 65.24609,-65.488285 36.03906,0 65.25,29.320313 65.25,65.488285"
+     id="path154" />
+  <path
+     style="fill:#f0f3f5;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3057)"
+     d="m 245.75,120.57422 c 0,31.67969 -25.58203,36.4414 -57.14453,36.4414 -31.5625,0 -57.15235,-4.76171 -57.15235,-36.4414 0,-31.679689 25.58985,-57.359376 57.14844,-57.359376 31.5625,0 57.14844,25.679687 57.14844,57.359376"
+     id="path156" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3061)"
+     d="m 212.44922,80.015625 c 0,8.796875 -10.22266,10.117187 -22.82813,10.117187 -12.60156,0 -22.82422,-1.320312 -22.82422,-10.117187 0,-8.792969 10.21875,-15.921875 22.82422,-15.921875 12.60547,0 22.82813,7.128906 22.82813,15.921875"
+     id="path158" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3065)"
+     d="m 121.91016,125.97266 c 0,35.58984 28.70703,62.42578 66.77734,62.42578 38.07031,0 66.78125,-26.83594 66.78125,-62.42578 0,-36.957035 -29.95703,-67.023441 -66.78125,-67.023441 -36.82031,0 -66.77734,30.066406 -66.77734,67.023441 z m 3.05859,0 c 0,-35.261722 28.58594,-63.953129 63.71875,-63.953129 35.13672,0 63.72266,28.691407 63.72266,63.953129 0,33.83984 -27.39454,59.35546 -63.72266,59.35546 -36.32422,0 -63.71875,-25.51562 -63.71875,-59.35546"
+     id="path160" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3069)"
+     d="m 186.64844,70.203125 c 0,0 6.37109,-14.324219 -2.03907,-28.394531 -8.41015,-14.070313 -8.66406,-16.628906 -1.78125,-16.628906 6.8711,0 15.77735,19.386718 7.17188,44.914062 -0.0117,0.03906 -0.0234,0.07422 -0.0352,0.109375 -3.1875,7.421875 -5.22656,2.816406 -3.3164,0"
+     id="path162" />
+  <g
+     clip-path="url(#clip1)"
+     clip-rule="nonzero"
+     id="g166"
+     style="filter:url(#filter3073);fill:#4d4d4d">
+    <path
+       style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m 187.49219,70.78125 0.0508,-0.07422 0.0391,-0.08594 c 0.16016,-0.359375 2.42969,-5.597656 2.42969,-12.804688 0,-4.90625 -1.05078,-10.71875 -4.52735,-16.535156 -3.19531,-5.339844 -6.51562,-11.117188 -6.51562,-13.507812 0,-0.289063 0.0508,-0.527344 0.15234,-0.710938 0.32813,-0.578125 1.53907,-0.859375 3.70703,-0.859375 1.4375,0 3.1211,1.207031 4.62891,3.3125 2.92578,4.097656 5.03516,11.203125 5.03516,20 0,6.085937 -1.01172,12.984375 -3.45703,20.25 -0.36329,0.851563 -0.17188,1.972656 0.23046,1.972656 0.3711,0 1.45704,-0.722656 1.63282,-1.128906 6.3164,-18.734375 3.64062,-34.695313 -1.78516,-42.285156 -1.91797,-2.6875 -4.15234,-4.167969 -6.28516,-4.167969 -2.29296,0 -4.53906,0.230469 -5.47656,1.898438 -1.26172,2.230468 0.16797,5.878906 6.38672,16.28125 8.02734,13.425781 2.04297,27.3125 1.98047,27.453124 l 0.0898,-0.160156 c -0.42968,0.636719 -0.13281,2.109375 0.20703,2.109375 0.34375,0 1.26172,-0.640625 1.47657,-0.957031"
+       id="path164" />
+  </g>
+  <path
+     style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3077)"
+     d="m 202.45312,298.40234 c 0,0 0.84766,27.80078 -0.67968,31.89453 -1.53125,4.09375 -15.80078,15.6875 -15.80078,18.41797 0,2.73047 40.94921,1.36328 40.94921,1.36328 0,0 2.71875,-0.16796 -7.30468,-9.89062 -10.02735,-9.72266 -10.36719,-10.91797 -10.53907,-22.34375 -0.16796,-11.42578 0,-22.17188 0,-22.17188 0,0 -6.79687,-6.82031 -6.625,2.73047"
+     id="path168" />
+  <g
+     clip-path="url(#clip2)"
+     clip-rule="nonzero"
+     id="g172"
+     style="filter:url(#filter3081);fill:#4d4d4d">
+    <path
+       style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m 203.67578,292.51562 c -1.57031,0.67188 -2.30078,2.60157 -2.24219,5.90625 v 0.0117 c 0.23438,7.67578 0.58203,28.30078 -0.61328,31.50391 -0.67578,1.80859 -4.60156,5.72266 -8.0664,9.17969 -5.42579,5.41406 -7.80079,7.96093 -7.80079,9.59765 l 0.4336,0.98438 c 2.57422,2.5039 32.46875,1.70703 41.5664,1.40234 0.4375,-0.0273 0.99219,-0.28125 1.22657,-0.91797 0.27343,-0.74218 0.83984,-2.30078 -7.85547,-10.73047 -10.05078,-9.74218 -10.0625,-10.64062 -10.22656,-21.625 v -22.5625 l -0.29688,-0.3164 c -0.36328,-0.35938 -3.60156,-3.50781 -6.125,-2.4336 z m -0.20703,5.53907 c 0,-2.98438 0.76172,-3.55078 1.00391,-3.65625 0.83203,-0.35157 2.51562,0.77343 3.58593,1.76172 0,0.96484 0,21.69921 0,21.69921 0.17188,11.46875 0.53516,13.06641 10.84766,23.0625 5.18359,5.02735 6.69531,7.25391 7.14062,8.16016 -17.24218,0.54688 -35.6914,0.42188 -38.85156,-0.71875 0.60547,-1.38281 4.36328,-5.16797 6.9961,-7.79297 3.96093,-3.95312 7.70312,-7.6914 8.53515,-9.91406 0.78516,-2.09375 0.98828,-9.52734 0.98828,-16.75781 0,-7.13672 -0.19922,-14.07813 -0.24218,-15.51953 -0.004,-0.10938 -0.004,-0.21875 -0.004,-0.32422"
+       id="path170" />
+  </g>
+  <path
+     style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3085)"
+     d="m 168.80859,298.40234 c 0,0 -0.85156,27.80078 0.67969,31.89453 1.52734,4.09375 15.80078,15.6875 15.80078,18.41797 0,2.73047 -40.94922,1.36328 -40.94922,1.36328 0,0 -2.71875,-0.16796 7.30469,-9.89062 10.02734,-9.72266 10.36719,-10.91797 10.53516,-22.34375 0.17187,-11.42578 0,-22.17188 0,-22.17188 0,0 6.79687,-6.82031 6.6289,2.73047"
+     id="path174" />
+  <g
+     clip-path="url(#clip3)"
+     clip-rule="nonzero"
+     id="g178"
+     style="filter:url(#filter3089);fill:#4d4d4d">
+    <path
+       style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m 161.46094,294.94922 -0.30078,0.30078 v 22.57812 c -0.16016,10.98438 -0.17579,11.88282 -10.22266,21.625 -8.69922,8.4336 -8.12891,9.98829 -7.85547,10.73047 0.23047,0.63672 0.78906,0.89063 1.19531,0.91797 9.12891,0.30469 39.02344,1.10156 41.59766,-1.40234 l 0.43359,-0.98438 c 0,-1.63672 -2.375,-4.18359 -7.80078,-9.59765 -3.46484,-3.45703 -7.39062,-7.3711 -8.0664,-9.17969 -1.19532,-3.20313 -0.84766,-23.82813 -0.61329,-31.50391 v -0.0117 c 0.0586,-3.30468 -0.67578,-5.23437 -2.24218,-5.90625 -2.52735,-1.07421 -5.76563,2.07422 -6.125,2.4336 z m 5.32812,-0.55078 c 0.23828,0.10547 1.00391,0.67187 1.00391,3.65625 0,0.10547 -0.004,0.21484 -0.004,0.32422 -0.0469,1.4414 -0.24219,8.38281 -0.24219,15.51953 0,7.23047 0.20313,14.66406 0.98829,16.75781 0.82812,2.22266 4.57421,5.96094 8.53515,9.91406 2.625,2.6211 6.375,6.39063 6.98828,7.79688 -3.17578,1.13672 -21.59375,1.26172 -38.84375,0.71093 0.44922,-0.90234 1.96094,-3.1289 7.14063,-8.15625 10.3125,-9.99609 10.67578,-11.59375 10.84375,-23.0625 0,0 0,-20.73437 0,-21.69921 1.07422,-0.98829 2.7539,-2.11329 3.58984,-1.76172"
+       id="path176" />
+  </g>
+  <path
+     style="fill:#f0f3f5;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3093)"
+     d="m 167.02344,175.86328 c 0,0 -15.80078,1.53125 -29.3125,14.83594 0,0 -11.97656,-0.51172 -19.36719,17.39453 -7.39453,17.91016 -3.57031,34.79297 0.25391,49.63281 3.82422,14.83985 18.94531,23.44922 25.91015,20.72266 0,0 6.20313,5.7539 11.55469,7.16406 0,0 -0.89063,8.94922 4.58984,12.01953 5.48047,3.07031 13,0.51563 14.27344,-6.26562 0,0 7.51953,2.9414 19.37109,1.02343 0,0 1.1875,6.26563 6.87891,7.28907 5.69531,1.02343 12.23828,0.42968 13.34375,-9.1211 0,0 8.83203,-3.53906 11.89453,-7.25 0,0 9.17578,2.98828 22.25781,-10.48828 13.08204,-13.47656 14.27344,-25.41406 13.42188,-46.22265 -0.85156,-20.80469 -10.875,-30.86719 -19.88281,-30.1875 0,0 -12.57032,-20.1211 -30.07422,-20.1211 0,0 -2.03906,-19.78515 -12.57422,-14.66797 0,0 -0.17188,-5.80078 -6.11719,-8.69922 -5.94531,-2.89843 -13.42578,5.11719 -14.78125,10.57422 0,0 -9.0039,-1.1914 -11.64062,12.36719"
+     id="path180" />
+  <path
+     style="fill:#d4d7dc;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3097)"
+     d="m 163.28516,284.84375 c 0,3.01562 2.63281,4.06641 2.63281,7.07812 0,2.34766 -2.71875,4.34766 -2.71875,6.69532 5.02734,1.21875 10.64062,-1.47657 11.72656,-7.25 0,0 7.51953,2.9414 19.37109,1.02343 0,0 1.1875,6.26563 6.87891,7.28907 0.82813,0.15234 1.67188,0.25781 2.51563,0.3164 0.16406,-4.14843 1.09375,-8.02734 4.36718,-11.3164 -16.3125,2.04687 -30.49609,2.30468 -44.77343,-3.83594"
+     id="path182" />
+  <g
+     clip-path="url(#clip4)"
+     clip-rule="nonzero"
+     id="g186"
+     style="filter:url(#filter3101);fill:#4d4d4d">
+    <path
+       style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m 186.64453,151.76562 c -4.26953,2 -7.67969,6.51172 -9.01172,10.21485 -2.71875,0.16406 -9.28515,1.76562 -11.8125,12.49609 -3.74609,0.57813 -16.90234,3.36328 -28.70312,14.71485 -2.59375,0.11718 -13.29297,1.60937 -20.1875,18.3164 -3.14453,7.61719 -4.33985,14.98047 -4.33985,22.21875 0,9.58203 2.09375,18.94531 4.52735,28.38281 2.58594,10.04688 9.96094,16.9375 16.0039,20.03907 4.04297,2.07812 7.89453,2.67187 10.89453,1.91015 1.50391,1.32032 6.01954,5.03516 10.47266,6.625 -0.004,0.125 -0.008,0.20313 -0.008,0.34375 0,2.95313 0.59765,9.24219 5.42578,11.94532 3.26562,1.83203 7.22266,1.98046 10.58594,0.40234 2.60937,-1.22266 4.48828,-3.41797 5.43359,-6.10547 2.64453,0.74219 8.72266,1.95313 17.26563,0.79688 0.75781,2.17968 2.79687,6.24218 7.71875,7.125 4.67578,0.83984 8.20312,0.3125 10.78515,-1.61329 2.21485,-1.65234 3.58985,-4.34765 4.16797,-7.92578 2.09375,-0.89062 7.99219,-3.60156 11.04297,-6.67968 2.79687,0.44531 11.49219,0.62109 22.85937,-11.08204 13.04688,-13.4375 14.77344,-24.96484 13.85547,-47.35156 -0.49609,-12.21484 -4.15625,-21.96094 -10.30078,-27.44922 -3.10156,-2.76953 -6.72656,-4.2539 -10.30469,-4.24218 -2.41406,-3.59375 -13.78125,-19.13672 -29.52734,-20.00391 -0.49219,-3.34375 -2.20312,-11.90234 -7.22656,-14.71094 -1.66016,-0.92969 -3.51953,-0.89062 -5.46485,-0.375 -0.52734,-2.22656 -2.0664,-5.96875 -6.67968,-8.21484 -2.2461,-1.09375 -4.83203,-1.01953 -7.47266,0.22265 z m -7.78125,10.21094 c -0.004,0 -0.16016,-0.008 -0.21094,-0.008 0.0703,-0.004 0.14063,0 0.21094,0.008 z m -41.08594,27.1875 c -0.008,0 -0.0469,0 -0.0664,0 0.0234,0 0.0469,0 0.0664,0 z m 42.3711,-25.29687 c 0.76953,-3.10157 4.08203,-7.58594 7.78906,-9.32032 1.80469,-0.84765 3.43359,-0.92968 4.83984,-0.24218 4.9961,2.43359 5.25,7.16797 5.25391,7.37109 0.0234,0.51563 0.30469,0.99219 0.74609,1.25781 0.44141,0.26563 0.98828,0.29297 1.45313,0.0703 1.7539,-0.85547 3.24219,-0.91797 4.54297,-0.19141 3.85156,2.15234 5.52343,10.57031 5.84375,13.63672 0.082,0.78125 0.73828,1.375 1.51953,1.375 16.4375,0 28.66015,19.21094 28.78125,19.40625 0.30078,0.48047 0.84765,0.75781 1.41406,0.71484 3.07422,-0.23437 6.17578,0.95313 8.95703,3.4375 3.19531,2.85547 8.65235,9.9375 9.27735,25.28125 0.875,21.45703 -0.73438,32.46094 -12.98829,45.08203 -12.13671,12.5 -20.6289,10.125 -20.71093,10.09766 -0.58985,-0.17969 -1.2461,0.008 -1.63282,0.48437 -2.30078,2.78907 -8.92578,5.85938 -11.28515,6.80469 -0.51953,0.20703 -0.88281,0.6875 -0.94922,1.2461 -0.37109,3.19921 -1.42188,5.46093 -3.12891,6.73828 -1.86718,1.39062 -4.625,1.73437 -8.42187,1.05468 -4.5625,-0.82031 -5.60938,-5.85937 -5.65235,-6.07421 -0.16015,-0.8086 -0.93359,-1.35547 -1.74218,-1.22266 -11.24219,1.82031 -18.50782,-0.91016 -18.57813,-0.9375 -0.42187,-0.16406 -0.89844,-0.13281 -1.29297,0.0898 -0.39843,0.21875 -0.67578,0.60938 -0.76172,1.0586 -0.46875,2.49218 -1.96875,4.44922 -4.22656,5.51172 -2.43359,1.14062 -5.42578,1.02734 -7.80078,-0.30079 -4.52344,-2.53906 -3.81641,-10.45703 -3.80859,-10.53515 0.0742,-0.75 -0.41016,-1.44531 -1.13282,-1.63672 -4.91406,-1.28906 -10.84765,-6.75 -10.90625,-6.80469 -0.42968,-0.39844 -1.04687,-0.51562 -1.59375,-0.30469 -2.24609,0.87891 -5.77343,0.28125 -9.4375,-1.60156 -5.45312,-2.79687 -12.10156,-9.01172 -14.43749,-18.07031 -4.13282,-16.04297 -7.26954,-31.83594 -0.32422,-48.66016 6.84765,-16.58593 17.45312,-16.46484 17.90625,-16.44922 0.41406,0.0117 0.82812,-0.14843 1.125,-0.4414 12.93359,-12.73438 28.23437,-14.39063 28.39062,-14.40235 0.66797,-0.0664 1.21875,-0.57031 1.34766,-1.23437 2.30859,-11.875 9.64453,-11.17188 9.95312,-11.13672 0.76172,0.0898 1.48438,-0.40234 1.67188,-1.15234 z m 62.0625,31.01172 c -0.0352,0 -0.0742,0 -0.11328,0 0.0391,0 0.0781,0 0.11328,0 z m -97.14844,85 c -0.18359,0.0703 -0.375,0.0976 -0.57031,0.0976 0.17968,-0.0547 0.40234,-0.0351 0.57031,-0.0976"
+       id="path184" />
+  </g>
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3105)"
+     d="m 165.55078,175.45312 c -0.0312,0.10547 -3.0625,10.75782 -12.10156,18.01172 -0.65625,0.53125 -0.76563,1.4961 -0.23828,2.16016 0.52734,0.66016 1.49218,0.76562 2.15234,0.23828 9.83203,-7.89453 13.00391,-19.11719 13.13281,-19.59375 0.22657,-0.81641 -0.25,-1.66016 -1.0625,-1.88672 -0.8164,-0.22656 -1.65625,0.25391 -1.88281,1.07031"
+     id="path188" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3109)"
+     d="m 177.16016,163.19922 c -0.0547,0.28515 -1.34375,6.94922 -1.34375,12.53515 0,0.84766 0.68359,1.53516 1.53125,1.53516 0.84375,0 1.52734,-0.6875 1.52734,-1.53516 0,-5.28515 1.27734,-11.875 1.28906,-11.9414 0.16406,-0.83203 -0.3789,-1.63672 -1.20703,-1.80078 -0.83203,-0.16407 -1.63281,0.3789 -1.79687,1.20703"
+     id="path190" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3113)"
+     d="m 199.32422,160.10547 c -0.83594,0.13281 -1.40625,0.91797 -1.27344,1.7539 0.0117,0.0625 0.93359,6.01954 0.21094,10.83204 -0.1211,0.83984 0.45312,1.62109 1.28515,1.74609 0.83985,0.125 1.61719,-0.45313 1.74219,-1.28906 0.78906,-5.28907 -0.17578,-11.50782 -0.21484,-11.76953 -0.13281,-0.83594 -0.91797,-1.40625 -1.75,-1.27344"
+     id="path192" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3117)"
+     d="m 211.94141,174.76562 c -0.83594,0.10938 -1.42969,0.87891 -1.32032,1.71875 0.0703,0.55079 1.78907,13.57813 7.67578,19.75391 0.58594,0.61328 1.55079,0.63281 2.16407,0.0469 0.60937,-0.58594 0.63281,-1.5586 0.0469,-2.17188 -5.1914,-5.44531 -6.83594,-17.89453 -6.85156,-18.01953 -0.10938,-0.83984 -0.875,-1.4375 -1.71484,-1.32813"
+     id="path194" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3121)"
+     d="m 241.49609,195.05469 c -0.74609,0.40234 -1.02734,1.32812 -0.63281,2.07812 0.0273,0.0508 2.625,5.01172 2.625,8.91406 0,0.85157 0.6875,1.53907 1.53125,1.53907 0.84375,0 1.52734,-0.6875 1.52734,-1.53907 0,-4.67578 -2.86328,-10.1289 -2.98046,-10.35546 -0.39844,-0.7461 -1.32422,-1.03125 -2.07032,-0.63672"
+     id="path196" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3125)"
+     d="m 242.625,217.10937 c -0.0352,0.10157 -3.22656,10.23829 -11.91406,17.33985 -5.67969,4.64453 -8.26172,9.43359 -7.08203,13.13281 0.67187,2.10547 2.80078,4.69922 9.14453,5.10938 0.83984,0.0508 1.5664,-0.58985 1.62109,-1.4336 0.0547,-0.84765 -0.58203,-1.57422 -1.42578,-1.6289 -3.60547,-0.23438 -5.89063,-1.29297 -6.42969,-2.98047 -0.58594,-1.85157 0.70703,-5.40235 6.10547,-9.82032 9.42578,-7.70703 12.76172,-18.36718 12.90234,-18.8164 0.2461,-0.8125 -0.20703,-1.66797 -1.01171,-1.91797 -0.80469,-0.25 -1.66407,0.20703 -1.91016,1.01562"
+     id="path198" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3129)"
+     d="m 237.76953,243.91016 c -0.0469,0.0586 -4.82812,6.03125 -10.32812,10.86718 -3.875,3.41797 -7.92579,8.94141 -6.57422,13.28907 0.82422,2.66015 3.375,4.25781 7.57812,4.74218 0.83985,0.0977 1.59766,-0.5039 1.69531,-1.34765 0.0977,-0.84375 -0.5039,-1.60157 -1.34375,-1.70313 -1.98828,-0.22656 -4.46875,-0.86719 -5.01171,-2.60547 -0.70313,-2.26953 1.73437,-6.59765 5.67187,-10.0625 5.70703,-5.01953 10.5,-11.00781 10.70313,-11.25781 0.52734,-0.66406 0.41796,-1.62891 -0.23829,-2.16016 -0.66015,-0.52734 -1.625,-0.42187 -2.15234,0.23829"
+     id="path200" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3133)"
+     d="m 235.26562,262.87109 c -0.13281,0.0703 -13.00781,7.51953 -10.35156,20.74219 0.16406,0.83203 0.96875,1.36719 1.80078,1.19922 0.82422,-0.16797 1.36328,-0.97656 1.19532,-1.80859 -2.21094,-11.01172 8.40625,-17.20313 8.85546,-17.45704 0.73047,-0.42187 0.99219,-1.35546 0.57813,-2.09375 -0.41797,-0.73828 -1.34766,-1 -2.07813,-0.58203"
+     id="path202" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3137)"
+     d="m 131.85156,207.78906 c -0.0234,0.66406 -0.42578,16.3711 9.23047,24.26563 3.79688,3.10547 5.61719,6.37109 4.86328,8.73047 -0.70312,2.21484 -3.6914,3.70312 -7.99219,3.98046 -0.84375,0.0547 -1.48437,0.78516 -1.42578,1.63282 0.0547,0.84375 0.78125,1.48437 1.6211,1.43359 5.6875,-0.37109 9.59375,-2.59766 10.71093,-6.10937 0.6875,-2.15235 0.83594,-6.57813 -5.84765,-12.05079 -8.46875,-6.92187 -8.10938,-21.63671 -8.10156,-21.78515 0.0234,-0.84375 -0.63672,-1.55469 -1.48047,-1.58203 -0.84375,-0.0234 -1.55078,0.64062 -1.57813,1.48437"
+     id="path204" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3141)"
+     d="m 131,238.8125 c -0.66016,0.52734 -0.76563,1.49219 -0.23828,2.15625 0.20312,0.25 4.99219,6.23828 10.69922,11.26172 3.9414,3.46484 6.3789,7.78906 5.67187,10.05859 -0.53906,1.73828 -3.02344,2.37891 -5.00781,2.60938 -0.83984,0.0976 -1.44531,0.85937 -1.34375,1.70312 0.0937,0.83985 0.85547,1.44531 1.69141,1.34766 4.20703,-0.48438 6.7539,-2.08203 7.58203,-4.74219 1.35156,-4.35156 -2.69922,-9.87109 -6.57813,-13.28906 -5.49609,-4.83594 -10.27734,-10.8086 -10.32422,-10.86719 C 132.625,238.39062 131.66016,238.28125 131,238.8125"
+     id="path206" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3145)"
+     d="m 133.57812,258.59375 c -0.41406,0.73437 -0.15625,1.67187 0.57422,2.08984 0.45313,0.25782 11.07032,6.44922 8.85547,17.46094 -0.16406,0.83203 0.3711,1.64063 1.19922,1.80859 0.82813,0.16407 1.63281,-0.37109 1.80078,-1.20312 2.65625,-13.21875 -10.22265,-20.66797 -10.35156,-20.74219 -0.73438,-0.41406 -1.66406,-0.15625 -2.07813,0.58594"
+     id="path208" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3157)"
+     d="m 168.32031,287.69141 c -0.54297,0.64453 -0.46484,1.61328 0.17969,2.16015 2.45312,2.08203 5.90625,2.96485 6.05469,3.00391 0.82031,0.20703 1.64843,-0.29297 1.85156,-1.11328 0.20703,-0.82032 -0.28906,-1.65235 -1.10938,-1.86328 -0.0273,-0.008 -2.91796,-0.75782 -4.82031,-2.3711 -0.64453,-0.54687 -1.60937,-0.46484 -2.15625,0.1836"
+     id="path214" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3161)"
+     d="m 199.875,289.28906 c -2.87109,1.08203 -5.80078,1.58203 -5.83203,1.58594 -0.83203,0.14062 -1.39453,0.93359 -1.25391,1.76953 0.14063,0.83594 0.92578,1.40234 1.75781,1.26172 0.13282,-0.0234 3.24219,-0.55078 6.40625,-1.74219 0.78907,-0.29687 1.19141,-1.17969 0.89063,-1.97656 -0.29688,-0.79297 -1.17578,-1.19531 -1.96875,-0.89844"
+     id="path216" />
+  <path
+     style="fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3165)"
+     d="m 136.46875,189.8125 c -0.12109,0.16797 -2.9375,4.17578 -3.49609,7.90625 -0.125,0.83984 0.44921,1.62109 1.28515,1.74609 0.83594,0.12891 1.61328,-0.45312 1.73828,-1.28906 0.44922,-3 2.9375,-6.55469 2.96094,-6.58984 0.48828,-0.69141 0.32813,-1.64844 -0.35937,-2.13672 -0.6875,-0.49219 -1.64063,-0.32813 -2.12891,0.36328"
+     id="path218" />
+  <path
+     style="fill:#f0f3f5;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3169)"
+     d="m 248.16406,204.23437 c 0,0 0.66797,20.97657 -9.95703,31.54688 -10.62109,10.57422 0.3125,7.16016 4.87109,3.54687 4.5586,-3.62109 5.125,3.53907 -1.70312,10.5 -6.82813,6.95704 -6.54297,10.79688 -1.71484,8.96485 4.82812,-1.82813 5.125,3.54297 0.82031,7.16015 -4.3086,3.61329 -0.69531,9.21485 5.86719,0.97657 6.5664,-8.23828 11.03515,-23.87891 10.90234,-40.76172 -0.12891,-16.88672 -9.62891,-26.27344 -9.08594,-21.9336"
+     id="path220" />
+  <path
+     style="fill:#f0f3f5;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3173)"
+     d="m 131.59766,197.60547 c 0,0 -4.75782,11.9414 0,22.51562 4.75781,10.57422 12.91015,17.56641 9.51562,20.125 -3.39844,2.5586 -4.92969,-2.73047 -10.19531,-7.16406 -5.26953,-4.43359 -6.11719,1.36328 -2.21094,7.50391 3.91016,6.14062 15.125,16.20312 12.57422,16.71484 -2.54688,0.51172 -9.34375,-5.11719 -12.23047,-3.58203 -2.89062,1.53516 9.67969,13.47266 6.96484,15.00781 -2.71875,1.53516 -9.85546,0.33985 -14.95312,-15.51953 -5.09766,-15.86328 -2.89062,-34.28125 1.1875,-41.78516 4.07813,-7.5039 6.6875,-15.67578 9.34766,-13.8164"
+     id="path222" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3177)"
+     d="m 139.49609,199.14062 c 0,0 10.11328,-1.875 14.53125,-8.18359 4.41797,-6.3125 6.79688,-9.89453 6.79688,-9.89453 0,0 -9.6836,2.73047 -14.95313,6.82422 -5.26953,4.09375 -6.63281,8.18359 -6.375,11.2539"
+     id="path224" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3181)"
+     d="m 237.54297,199.14062 c 0,0 -10.10938,-1.875 -14.52735,-8.18359 -4.41796,-6.3125 -6.79687,-9.89453 -6.79687,-9.89453 0,0 9.68359,2.73047 14.95312,6.82422 5.26563,4.09375 6.62891,8.18359 6.3711,11.2539"
+     id="path226" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3185)"
+     d="m 181.29687,176.5 c 0,0 -0.125,-17.65234 7.00782,-19.82422 7.13672,-2.17578 8.66797,7.67578 8.66797,15.09375 0,7.41797 -6.11719,-8.95703 -15.67579,4.73047"
+     id="path228" />
+</svg>

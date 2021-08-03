@@ -1,7 +1,11 @@
+import Link from "next/link";
+import { useCallback, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import Post from "../lib/post";
 import User from "../lib/user";
 import Comment from "../lib/comment";
-import Link from "next/link";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookmark as faBookmarkFull,
@@ -15,61 +19,10 @@ import {
   faFlag as faFlagEmpty,
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
-import { useState } from "react";
 
-// Données de tests (à supprimer après)
-let testDate = new Date(2021, 3, 25, 17, 43);
-const person1 = new User(98, "Person1", "sihamais98@gmail.com");
-const person2 = new User(65, "testingwith20charact", "sihamais98@gmail.com");
-const comment1 = new Comment(
-  12,
-  person1,
-  "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
-  testDate
-);
-const comment3 = new Comment(
-  13,
-  person1,
-  "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
-  testDate
-);
-
-const comment2 = new Comment(15, person2, "Short comment test !", testDate);
-const comment4 = new Comment(14, person2, "Short comment test !", testDate);
-
-let PostsList: Post[] = [
-  {
-    id: 5,
-    author: person2,
-    content:
-      "Long post test ! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
-    date: testDate,
-    comments: [comment1, comment2],
-  },
-  {
-    id: 2,
-    author: person1,
-    content: "Short post test !",
-    date: testDate,
-    comments: [comment3],
-  },
-  {
-    id: 3,
-    author: person1,
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit, esse placeat. Provident placeat impedit eveniet itaque molestiae est porro nostrum. Est doloremque nulla quisquam quibusdam magni dolorum cum sit iste.",
-    date: testDate,
-  },
-  {
-    id: 4,
-    author: person2,
-    content:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus natus, magnam mollitia rem pariatur officia illo nulla laboriosam autem voluptas culpa, laborum soluta repudiandae quae placeat maxime? Architecto, maiores reiciendis?",
-    date: testDate,
-    comments: [comment4],
-  },
-];
-// Fin des données de tests (à supprimer plus tard)
+interface FormInputs {
+  content: string;
+}
 
 function CommentsRender(props: any) {
   const date = props.comment.date.toUTCString();
@@ -115,7 +68,8 @@ function CommentsRender(props: any) {
 }
 
 function PostRender(props: any) {
-  const date = props.post.date.toUTCString();
+  const serverDate = new Date(props.post.date_created);
+
   const [commentsList, setcommentsList] = useState(props.post.comments);
 
   const [voteState] = useState([
@@ -158,10 +112,7 @@ function PostRender(props: any) {
     <div className="w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300">
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
-          <Link
-            href="/${props.post.author.username}"
-            as={"/" + props.post.author.username}
-          >
+          <Link href="/${props.post.author}" as={"/" + props.post.author}>
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
               {props.post.author.pic && <img src={props.post.author.pic} />}
               {!props.post.author.pic && (
@@ -172,10 +123,10 @@ function PostRender(props: any) {
               )}
               <div>
                 <h3 className="text-left text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
-                  {props.post.author.username}
+                  {props.post.author}
                 </h3>
                 <p className="text-xs font-medium text-gray-500 tracking-tighter">
-                  {date}
+                  {serverDate.toUTCString()}
                 </p>
               </div>
             </div>
@@ -228,12 +179,48 @@ function PostRender(props: any) {
   );
 }
 
-export default function Feed(props:any) {
-  const [list, setList] = useState(PostsList);
+export default function Feed(props: any) {
+  let [list, setList] = useState(props.postsList);
+
+  // let profile = localStorage.getItem("username");
+
+  const { register, handleSubmit } = useForm<FormInputs>({ mode: "onSubmit" });
+
+  const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
+    await fetch("https://api.strugl.cc/posts", {
+      method: "Post",
+      credentials: "include",
+      body: JSON.stringify(data),
+    }).then(async (res) => {
+      if (res.ok) {
+        await fetch("https://api.strugl.cc/posts/user/${profile}", {
+          method: "Get",
+          credentials: "include",
+        }).then(async (res) => {
+          if (res.ok) {
+            res.json().then((value) => {
+              let lastPost = value[0];
+              let newPost = new Post(
+                lastPost.id,
+                lastPost.author,
+                lastPost.content,
+                lastPost.date
+              );
+              let newList = list.unshift(newPost);
+              setList((list = newList));
+            });
+          }
+        });
+      }
+    });
+  }, []);
 
   return (
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2">
-      <form className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
+      >
         <div className="flex flex-row justify-between items-center space-x-4">
           {typeof window !== "undefined" && (
             <Link
@@ -250,16 +237,30 @@ export default function Feed(props:any) {
           )}
 
           <input
+            {...register("content", {
+              required: "Content is required.",
+            })}
             placeholder="Share something with your friends today"
             className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
             required
           />
         </div>
       </form>
-      <div className={"overflow-y-scroll sticky h-screen rounded-xl space-y-2 "+ props.feedType}>
-        {list.map((post: Post) => (
-          <PostRender key={post.id} post={post} />
-        ))}
+      <div
+        className={
+          "overflow-y-scroll sticky rounded-xl space-y-2 " + props.feedType
+        }
+      >
+        {list &&
+          list.map((post: Post) => <PostRender key={post.id} post={post} />)}
+        {!list && props.feedType == "profileFeed" && (
+          <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
+            <img src="duckbutticon.svg" className="h-1/4" />
+            <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
+              No posts yet
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
