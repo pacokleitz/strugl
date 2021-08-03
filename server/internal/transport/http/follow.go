@@ -13,8 +13,8 @@ type FollowService interface {
 	UnfollowUser(user_id int64, following_id int64) error
 	GetFollowers(user_id int64) ([]models.UserProfile, error)
 	GetFollowings(user_id int64) ([]models.UserProfile, error)
-	FollowTopic(user_id int64, topic string) error
-	UnfollowTopic(user_id int64, topic string) error
+	FollowTopic(user_id int64, topic_id int64) error
+	UnfollowTopic(user_id int64, topic_id int64) error
 }
 
 func (h Handler) HandleFollowUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -56,7 +56,7 @@ func (h Handler) HandleUnfollowUser(w http.ResponseWriter, r *http.Request, ps h
 func (h Handler) HandleFollowTopic(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	topic := struct {
-		Topic string `json:"topic"`
+		Topic_id int64 `json:"topic_id"`
 	}{}
 
 	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
@@ -67,7 +67,7 @@ func (h Handler) HandleFollowTopic(w http.ResponseWriter, r *http.Request, ps ht
 		return
 	}
 
-	err = h.FollowService.FollowTopic(user_data.User_ID, topic.Topic)
+	err = h.FollowService.FollowTopic(user_data.User_ID, topic.Topic_id)
 	if err != nil {
 		http.Error(w, "DB error", http.StatusBadRequest)
 		return
@@ -76,7 +76,7 @@ func (h Handler) HandleFollowTopic(w http.ResponseWriter, r *http.Request, ps ht
 
 func (h Handler) HandleUnfollowTopic(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	topic := struct {
-		Topic string `json:"topic"`
+		Topic_id int64 `json:"topic_id"`
 	}{}
 
 	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
@@ -87,7 +87,7 @@ func (h Handler) HandleUnfollowTopic(w http.ResponseWriter, r *http.Request, ps 
 		return
 	}
 
-	err = h.FollowService.UnfollowTopic(user_data.User_ID, topic.Topic)
+	err = h.FollowService.UnfollowTopic(user_data.User_ID, topic.Topic_id)
 	if err != nil {
 		http.Error(w, "DB error", http.StatusBadRequest)
 	}

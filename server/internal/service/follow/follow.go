@@ -42,13 +42,13 @@ func (s Service) UnfollowUser(user_id int64, following_id int64) error {
 }
 
 // Follow topic
-func (s Service) FollowTopic(user_id int64, topic string) error {
+func (s Service) FollowTopic(user_id int64, topic_id int64) error {
 
-	return s.Store.FollowTopic(user_id, topic)
+	return s.Store.FollowTopic(user_id, topic_id)
 }
 
 // Unfollow topic
-func (s Service) UnfollowTopic(user_id int64, topic string) error {
+func (s Service) UnfollowTopic(user_id int64, topic_id int64) error {
 
-	return s.Store.UnfollowTopic(user_id, topic)
+	return s.Store.UnfollowTopic(user_id, topic_id)
 }

@@ -31,12 +31,15 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 		
 		var tt []models.Topic
 
-		// Insert the topics in database
 		stmtTopicsValueString := sqlbulk.GetBulkInsertStatement(numTopics)
+
+		// Workaround insert all topics returning ids EVEN IF DUPLICATE
 		// https://web.archive.org/web/20150925012041/http://mikefenwick.com:80/blog/insert-into-database-or-return-id-of-duplicate-row-in-mysql/
-		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (topic_name) VALUES %s RETURNING (topic_id, topic_name)", stmtTopicsValueString)
-		rows, err := store.Store.Queryx(stmtTopicsString, topics)
+		// https://stackoverflow.com/questions/35265453/use-insert-on-conflict-do-nothing-returning-failed-rows
+		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (topic_name) VALUES %s ON CONFLICT (topic_name) DO UPDATE SET topic_name=EXCLUDED.topic_name RETURNING (topic_id, topic_name)", stmtTopicsValueString)
+		rows, err := tx.Queryx(stmtTopicsString, topics)
 		if err != nil {
+			tx.Rollback()
 			return -1, err
 		}
 
@@ -45,6 +48,7 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 			var t models.Topic
 			err = rows.StructScan(&t)
 			if err != nil {
+				tx.Rollback()
 				return -1, err
 			}
 			tt = append(tt, t)
