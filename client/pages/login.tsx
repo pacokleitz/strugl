@@ -41,7 +41,7 @@ function LogIn() {
     }).then(async (res) => {
       const text = await res.text();
       if (res.ok) {
-        dispatch(auth(new User(0, text, "")));
+        dispatch(auth({ id: 0, username: text, email: "" }));
         router.push("/dashboard", "/");
       } else {
         setAlertMsg((alertMsg = text + " !"));

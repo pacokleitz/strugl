@@ -126,15 +126,8 @@ export default function Profile({ followers, followings }: any) {
 Profile.getInitialProps = async (ctx: NextPageContext) => {
   const currentUser = useAppSelector((state) => state.currentUser);
 
-  // user id fetch
-  let res = await fetch(`https://api.strugl.cc/users/me`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  const me = await res.json();
-
   // profile infos fetch
-  res = await fetch(`https://api.strugl.cc/followers/${currentUser.id}`, {
+  let res = await fetch(`https://api.strugl.cc/followers/${currentUser.id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });

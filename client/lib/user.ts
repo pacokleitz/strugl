@@ -5,9 +5,7 @@ export default class User {
   username: string;
   pic?: string;
   email: string;
-  token: string = '';
-  friends?: User[] = [];
-  interests?: Subject[] = [];
+  followers?: User[] = [];
 
   constructor(id: number, username: string, email: string) {
     this.id = id;

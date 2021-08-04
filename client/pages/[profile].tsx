@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { AppContext } from "next/app";
 
 import Feed from "../components/feed";
 import Header from "../components/header";
@@ -10,6 +9,8 @@ import Alert from "../components/alert";
 
 import { faBookmark, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NextPageContext } from "next";
+import { useAppSelector } from "../redux/hooks";
 
 function ProfileContent(props: any) {
   return (
@@ -49,7 +50,7 @@ function ProfileContent(props: any) {
           <p>31</p>
         </a>
       </div>
-        <Feed feedType="profileFeed" postsList={props.postsList} />
+      <Feed feedType="profileFeed" postsList={props.postsList} />
     </div>
   );
 }
@@ -58,9 +59,10 @@ export default function Profile({ postsList }: any) {
   const router = useRouter();
   const { profile } = router.query;
 
+  const currentUser = useAppSelector((state) => state.currentUser);
+
   useEffect(() => {
-    if (typeof window !== "undefined")
-      if (!localStorage.getItem("username")) router.push("/");
+    if (!currentUser.username) router.push("/");
   });
 
   return (
@@ -70,15 +72,13 @@ export default function Profile({ postsList }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {!postsList &&
-        typeof window !== "undefined" &&
-        profile == localStorage.getItem("username") && (
-          <Alert
-            state="suggestion"
-            msg="You have no post yet. Create a new post to fill your profile"
-            color="blue"
-          />
-        )}
+      {!postsList && profile == currentUser.username && (
+        <Alert
+          state="suggestion"
+          msg="You have no post yet. Create a new post to fill your profile"
+          color="blue"
+        />
+      )}
       <div className="pt-20 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
         <ProfileContent postsList={postsList} profile={profile} />
         <Suggestions />
@@ -87,7 +87,7 @@ export default function Profile({ postsList }: any) {
   );
 }
 
-Profile.getInitialProps = async (ctx: AppContext) => {
+Profile.getInitialProps = async (ctx: NextPageContext) => {
   const res = await fetch(
     `https://api.strugl.cc/posts/user/${ctx.query.profile}`,
     {

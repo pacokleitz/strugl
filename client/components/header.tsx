@@ -1,6 +1,10 @@
 import { Fragment, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { current } from "@reduxjs/toolkit";
+import { logOut } from "../redux/reducers/CurrentUserSlice";
+
 
 import Message from "../lib/message";
 import User from "../lib/user";
@@ -18,12 +22,9 @@ import {
   faHome,
   faComments,
   faStream,
-} from "@fortawesome/free-solid-svg-icons";
+} from "@fortawesome/free-solid-svg-icons";  
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { current } from "@reduxjs/toolkit";
-import { logOut } from "../redux/reducers/UsersSlice";
 
 // Données de tests (à supprimer plus tard)
 let testDate = new Date(2021, 3, 25, 17, 43);
@@ -44,7 +45,7 @@ const initialInvitesList: User[] = [siham, paco];
 
 function Account() {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const currentUser = useAppSelector((state) => state.currentUser);
   const dispatch = useAppDispatch();
 
   function Navigate(to: String) {
@@ -144,7 +145,7 @@ function Account() {
 
 function Inbox() {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const currentUser = useAppSelector((state) => state.currentUser);
   const dispatch = useAppDispatch();
 
   const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -345,7 +346,7 @@ function Invites() {
 
 export default function Header() {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const currentUser = useAppSelector((state) => state.currentUser);
   const dispatch = useAppDispatch();
 
   function Navigate(to: String) {
