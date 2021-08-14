@@ -128,6 +128,13 @@ function InboxRender() {
 }
 
 export default function Inbox({ postsList }: any) {
+  const router = useRouter();
+  const currentUser = useAppSelector((state) => state.currentUser);
+
+  useEffect(() => {
+    if (!currentUser.username) router.push("/");
+  });
+
   return (
     <div className="min-h-screen h-full w-full bg-gray-100">
       <Head>
@@ -146,20 +153,6 @@ export default function Inbox({ postsList }: any) {
 }
 
 Inbox.getInitialProps = async (ctx: AppContext) => {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-
-  // Check token
-  await fetch("https://api.strugl.cc/api/users/me", {
-    method: "Get",
-    credentials: "include",
-  }).then(async (res) => {
-    const text = await res.text();
-    if (res.ok) {
-      dispatch(auth(new User(0, text, "")));
-    } else router.push("/");
-  });
-
   // feed fetch
   const res = await fetch(`https://api.strugl.cc/posts/user/paco`, {
     method: "GET",

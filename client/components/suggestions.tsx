@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
+import { NextPageContext } from "next";
 
 import Subject from "../lib/subject";
 import User from "../lib/user";
@@ -149,3 +150,8 @@ export default function Suggestions() {
     </div>
   );
 }
+
+Suggestions.getInitialProps = async (ctx: NextPageContext) => {
+
+};
+
