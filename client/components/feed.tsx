@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Link from "next/link";
 
 import Post from "../lib/post";
-import User from "../lib/user";
 import Comment from "../lib/comment";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +18,7 @@ import {
   faFlag as faFlagEmpty,
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
+import { useAppSelector } from "../redux/hooks";
 
 interface FormInputs {
   content: string;
@@ -180,20 +180,20 @@ function PostRender(props: any) {
 }
 
 export default function Feed(props: any) {
-  let [list, setList] = useState(props.postsList);
+  const currentUser = useAppSelector((state) => state.currentUser);
 
-  // let profile = localStorage.getItem("username");
+  let [list, setList] = useState(props.postsList);
 
   const { register, handleSubmit } = useForm<FormInputs>({ mode: "onSubmit" });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    await fetch("https://api.strugl.cc/posts", {
+    await fetch(`https://api.strugl.cc/posts`, {
       method: "Post",
       credentials: "include",
       body: JSON.stringify(data),
     }).then(async (res) => {
       if (res.ok) {
-        await fetch("https://api.strugl.cc/posts/user/${profile}", {
+        await fetch(`https://api.strugl.cc/posts/user/${currentUser.id}`, {
           method: "Get",
           credentials: "include",
         }).then(async (res) => {
@@ -222,19 +222,14 @@ export default function Feed(props: any) {
         className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
       >
         <div className="flex flex-row justify-between items-center space-x-4">
-          {typeof window !== "undefined" && (
-            <Link
-              href="/${localStorage.getItem('username')}"
-              as={"/" + localStorage.getItem("username")}
-            >
-              <a className="w-max focus:outline-none">
-                <img
-                  src="default.svg"
-                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
-              </a>
-            </Link>
-          )}
+          <Link href="/${currentUser.username}" as={"/" + currentUser.username}>
+            <a className="w-max focus:outline-none">
+              <img
+                src="default.svg"
+                className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
+              />
+            </a>
+          </Link>
 
           <input
             {...register("content", {

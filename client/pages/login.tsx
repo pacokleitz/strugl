@@ -1,9 +1,14 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+import { auth } from "../redux/reducers/CurrentUserSlice";
+import { useAppDispatch } from "../redux/hooks";
+
 import Alert from "../components/alert";
+import User from "../lib/user";
 
 interface FormInputs {
   username: string;
@@ -12,13 +17,15 @@ interface FormInputs {
   passwordCheck: string;
 }
 
-export default function LogIn() {
+function LogIn() {
   const router = useRouter();
 
   let [alertMsg, setAlertMsg] = useState("");
 
   const [authState] = useState(["pending", "success", "error"]);
   let [currentAuthState, setAuthState] = useState(0);
+
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -33,8 +40,8 @@ export default function LogIn() {
       body: JSON.stringify(data),
     }).then(async (res) => {
       const text = await res.text();
-      if (res.ok && typeof window !== "undefined") {
-        localStorage.setItem("username", text);
+      if (res.ok) {
+        dispatch(auth({ id: 0, username: text, email: "" }));
         router.push("/dashboard", "/");
       } else {
         setAlertMsg((alertMsg = text + " !"));
@@ -120,3 +127,5 @@ export default function LogIn() {
     </div>
   );
 }
+
+export default LogIn;

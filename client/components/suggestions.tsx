@@ -1,3 +1,10 @@
+import { useState } from "react";
+import Link from "next/link";
+import { NextPageContext } from "next";
+
+import Subject from "../lib/subject";
+import User from "../lib/user";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar as faStarFull,
@@ -8,10 +15,6 @@ import {
   faPlusSquare as faPlusSquareEmpty,
   faStar as faStarEmpty,
 } from "@fortawesome/free-regular-svg-icons";
-import { useState } from "react";
-import Subject from "../lib/subject";
-import User from "../lib/user";
-import Link from "next/link";
 
 // Données de tests (à supprimer plus tard)
 const person1 = new User(34, "testingwith20charact", "sihamais98@gmail.com");
@@ -86,7 +89,7 @@ function FriendRender(props: any) {
   return (
     <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
       <div className="inline-block">
-        <Link href="/${props.friend.username}" as={'/'+props.friend.username}>
+        <Link href="/${props.friend.username}" as={"/" + props.friend.username}>
           <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.friend.pic && <img src={props.friend.pic} />}
             {!props.friend.pic && (
@@ -178,3 +181,8 @@ export default function Suggestions() {
     </div>
   );
 }
+
+Suggestions.getInitialProps = async (ctx: NextPageContext) => {
+
+};
+

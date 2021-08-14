@@ -1,14 +1,18 @@
-import Header from "../components/header";
 import Head from "next/head";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useAppSelector } from "../redux/hooks";
+import { NextPageContext } from "next";
+
+import Header from "../components/header";
+import User from "../lib/user";
 
 export default function Settings() {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (typeof window !== "undefined")
-      if (!localStorage.getItem("username")) router.push("/");
+    if (!currentUser.username) router.push("/");
   });
 
   return (
