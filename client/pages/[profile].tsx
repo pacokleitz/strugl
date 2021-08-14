@@ -61,14 +61,10 @@ export default function Profile({ postsList }: any) {
 
   const currentUser = useAppSelector((state) => state.currentUser);
 
-  useEffect(() => {
-    if (!currentUser.username) router.push("/");
-  });
-
   return (
     <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
       <Head>
-        {typeof window !== "undefined" && <title>Strugl - {profile}</title>}
+        <title>Strugl - {profile}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
@@ -79,9 +75,11 @@ export default function Profile({ postsList }: any) {
           color="blue"
         />
       )}
-      <div className="pt-20 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
+      <div className="pt-16 max-w-full min-w-screen lg:grid lg:grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
         <ProfileContent postsList={postsList} profile={profile} />
-        <Suggestions />
+        <div className="lg:block hidden">
+          <Suggestions />
+        </div>
       </div>
     </div>
   );

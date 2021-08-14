@@ -11,7 +11,8 @@ import User from "../lib/user";
 
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { auth } from "../redux/reducers/CurrentUserSlice";
 
 let msg1 = new Message(
   56,
@@ -98,7 +99,7 @@ function UserRender(props: any) {
 function InboxRender() {
   let [messagesList, setMessagesList] = useState(initialList);
   return (
-    <div className="col-span-3 w-full h-full grid grid-cols-3 space-x-4 pb-4">
+    <div className="col-span-3 w-full h-full md:grid md:grid-cols-3 space-x-4 pb-4">
       <div className="col-span-1 shadow bg-white border-2 border-gray-100 border-opacity-60 rounded-xl overflow-y-scroll">
         <div className="px-4 py-2 justify-center">
           <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-full rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none">
@@ -117,7 +118,7 @@ function InboxRender() {
           <UserRender key={message.id} message={message} />
         ))}
       </div>{" "}
-      <div className="col-span-2 h-full w-full rounded-xl flex flex-col text-center justify-items-center justify-center">
+      <div className="col-span-2 h-full w-full rounded-xl hidden md:flex flex-col text-center justify-items-center justify-center">
         <p className="text-2xl font-semibold text-gray-500 subpixel-antialiased">
           Select a discussion to chat
         </p>
@@ -127,31 +128,38 @@ function InboxRender() {
 }
 
 export default function Inbox({ postsList }: any) {
-  const router = useRouter();
-
-    const currentUser = useAppSelector((state) => state.currentUser);
-
-    useEffect(() => {
-      if (!currentUser.username) router.push("/");
-    });
-
-
   return (
-    <div className="h-full w-full bg-gray-100">
+    <div className="min-h-screen h-full w-full bg-gray-100">
       <Head>
         <title>Strugl - Inbox</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="pt-20 px-4 h-full w-full grid grid-cols-5 gap-12">
+      <div className="pt-16 px-4 h-full w-full lg:grid lg:grid-cols-5 gap-12">
         <InboxRender />
-        <Feed feedType="dashboardFeed" postsList={postsList} />
+        <div className="lg:block lg:col-span-2 hidden">
+          <Feed feedType="dashboardFeed" postsList={postsList} />
+        </div>
       </div>
     </div>
   );
 }
 
 Inbox.getInitialProps = async (ctx: AppContext) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  // Check token
+  await fetch("https://api.strugl.cc/api/users/me", {
+    method: "Get",
+    credentials: "include",
+  }).then(async (res) => {
+    const text = await res.text();
+    if (res.ok) {
+      dispatch(auth(new User(0, text, "")));
+    } else router.push("/");
+  });
+
   // feed fetch
   const res = await fetch(`https://api.strugl.cc/posts/user/paco`, {
     method: "GET",

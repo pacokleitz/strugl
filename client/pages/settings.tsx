@@ -1,18 +1,13 @@
 import Header from "../components/header";
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
+import { NextPageContext } from "next";
+import { auth } from "../redux/reducers/CurrentUserSlice";
+import User from "../lib/user";
 
 export default function Settings() {
-  const router = useRouter();
-
-  const currentUser = useAppSelector((state) => state.currentUser);
-
-  useEffect(() => {
-    if (!currentUser.username) router.push("/");
-  });
-
   return (
     <div className="min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
       <Head>
@@ -24,3 +19,19 @@ export default function Settings() {
     </div>
   );
 }
+
+Settings.getInitialProps = async (ctx: NextPageContext) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  // Check token
+  await fetch("https://api.strugl.cc/api/users/me", {
+    method: "Get",
+    credentials: "include",
+  }).then(async (res) => {
+    const text = await res.text();
+    if (res.ok) {
+      dispatch(auth(new User(0, text, "")));
+    } else router.push("/");
+  });
+};

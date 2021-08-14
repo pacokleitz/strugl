@@ -49,7 +49,7 @@ function Account() {
   const dispatch = useAppDispatch();
 
   function Navigate(to: String) {
-    if (!currentUser.username || to == "SignOut") {
+    if (to == "SignOut") {
       dispatch(logOut());
       router.push("/");
     } else {
@@ -72,11 +72,11 @@ function Account() {
                 src="default.svg"
                 className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
-              <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
+              <p className="hidden lg:inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
                 {currentUser.username}
               </p>
             </div>
-            <div className="inline-block">
+            <div className="hidden lg:inline-block">
               <FontAwesomeIcon
                 icon={faSortDown}
                 className="inline mb-2 w-5 h-7 text-gray-700"
@@ -360,11 +360,11 @@ export default function Header() {
   }
 
   return (
-    <div className="fixed top-0 w-full h-min p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
-      <div className="w-10/12 flex flex-row m-auto text-center justify-between">
+    <div className="fixed top-0 w-full h-min p-2 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
+      <div className="lg:w-10/12 w-full px-1 lg:px-0 flex flex-row m-auto text-center justify-between">
         <a
           onClick={() => Navigate("Dashboard")}
-          className="text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer"
+          className="lg:block hidden text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer"
         >
           Strugl
         </a>
