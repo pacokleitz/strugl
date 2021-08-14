@@ -1,6 +1,6 @@
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
 
 import Feed from "../components/feed";
 import Header from "../components/header";
@@ -9,6 +9,8 @@ import Alert from "../components/alert";
 
 import { faBookmark, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NextPageContext } from "next";
+import { useAppSelector } from "../redux/hooks";
 
 function ProfileContent(props: any) {
   return (
@@ -48,7 +50,7 @@ function ProfileContent(props: any) {
           <p>31</p>
         </a>
       </div>
-        <Feed feedType="profileFeed" postsList={props.postsList} />
+      <Feed feedType="profileFeed" postsList={props.postsList} />
     </div>
   );
 }
@@ -57,36 +59,33 @@ export default function Profile({ postsList }: any) {
   const router = useRouter();
   const { profile } = router.query;
 
-  useEffect(() => {
-    if (typeof window !== "undefined")
-      if (!localStorage.getItem("username")) router.push("/");
-  });
+  const currentUser = useAppSelector((state) => state.currentUser);
 
   return (
     <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
       <Head>
-        {typeof window !== "undefined" && <title>Strugl - {profile}</title>}
+        <title>Strugl - {profile}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {!postsList &&
-        typeof window !== "undefined" &&
-        profile == localStorage.getItem("username") && (
-          <Alert
-            state="suggestion"
-            msg="You have no post yet. Create a new post to fill your profile"
-            color="blue"
-          />
-        )}
-      <div className="pt-20 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
+      {!postsList && profile == currentUser.username && (
+        <Alert
+          state="suggestion"
+          msg="You have no post yet. Create a new post to fill your profile"
+          color="blue"
+        />
+      )}
+      <div className="pt-16 max-w-full min-w-screen lg:grid lg:grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
         <ProfileContent postsList={postsList} profile={profile} />
-        <Suggestions />
+        <div className="lg:block hidden">
+          <Suggestions />
+        </div>
       </div>
     </div>
   );
 }
 
-Profile.getInitialProps = async (ctx: any) => {
+Profile.getInitialProps = async (ctx: NextPageContext) => {
   const res = await fetch(
     `https://api.strugl.cc/posts/user/${ctx.query.profile}`,
     {
