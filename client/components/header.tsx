@@ -371,6 +371,7 @@ export default function Header() {
         <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/4 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
           <input
             placeholder="Search"
+            type="search"
             className="text-md subpixel-antialiased text-justify px-2 bg-transparent focus:outline-none w-full"
           />
           <FontAwesomeIcon

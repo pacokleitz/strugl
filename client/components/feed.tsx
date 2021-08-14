@@ -113,8 +113,8 @@ function PostRender(props: any) {
   return (
     <div
       className={
-        "w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300 state" +
-        "state2"
+        "w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300 " +
+        props.post.style
       }
     >
       <div className="px-8 space-y-4">
@@ -194,7 +194,9 @@ export default function Feed(props: any) {
 
   let [list, setList] = useState(props.postsList);
 
-  const { register, handleSubmit } = useForm<FormInputs>({ mode: "onSubmit" });
+  const { register, handleSubmit, reset } = useForm<FormInputs>({
+    mode: "onSubmit",
+  });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
     await fetch(`https://api.strugl.cc/posts`, {
@@ -212,11 +214,12 @@ export default function Feed(props: any) {
             author_id: 0,
             content: data.content,
             date_created: new Date(),
-            style: 2,
+            style: "state2",
           },
           ...arr,
         ]);
         count++;
+        reset({ content: "" });
       }
       //   }
     });
@@ -227,6 +230,7 @@ export default function Feed(props: any) {
   return (
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2">
       <form
+      autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
         className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
       >
@@ -245,7 +249,9 @@ export default function Feed(props: any) {
               required: "Content is required.",
             })}
             placeholder="Share something with your friends today"
-            className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
+            autoComplete="off"
+            type="search"
+            className="w-full overflow-y-scroll p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
             required
           />
         </div>
