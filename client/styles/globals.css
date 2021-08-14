@@ -13,3 +13,15 @@
 .profileFeed {
     height: calc(100vh - 380px);
 }
+
+.state1{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.5s, opacity 0.5s linear;
+}
+
+.state2{
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s linear;
+}

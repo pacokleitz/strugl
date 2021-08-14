@@ -32,7 +32,7 @@ function SubjectRender(props: any) {
   let [currentStarState, setCurrentStarState] = useState(0);
   let currentStar = starState[currentStarState];
 
-  function Star() {
+  function Star() { 
     if (currentStarState == 0) setCurrentStarState((currentStarState = 1));
     else setCurrentStarState((currentStarState = 0));
     currentStar = starState[currentStarState];
@@ -40,7 +40,12 @@ function SubjectRender(props: any) {
   }
 
   return (
-    <div className="p-4 flex flex-row space-x-8 justify-between">
+    <div
+      className={
+        "p-4 flex flex-row space-x-8 justify-between state" +
+        currentStarState.toString()
+      }
+    >
       <div>
         <Link href="/${props.subject.title}" as={"/" + props.subject.title}>
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
@@ -87,7 +92,12 @@ function FriendRender(props: any) {
   }
 
   return (
-    <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
+    <div
+      className={
+        "w-full px-4 py-4 flex flex-row justify-between space-x-4 state" +
+        currentaddState.toString()
+      }
+    >
       <div className="inline-block">
         <Link href="/${props.friend.username}" as={"/" + props.friend.username}>
           <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
@@ -121,7 +131,7 @@ export default function Suggestions() {
   function removeFriendFromList(idToRemove: number) {
     setTimeout(() => {
       setFriendsList(friendsList.filter((element) => element.id != idToRemove));
-    }, 1000);
+    }, 500);
   }
 
   function removeTopicFromList(idToRemove: number) {
@@ -129,7 +139,7 @@ export default function Suggestions() {
       setSubjectsList(
         subjectsList.filter((element) => element.id != idToRemove)
       );
-    }, 1000);
+    }, 500);
   }
 
   return (
@@ -182,7 +192,4 @@ export default function Suggestions() {
   );
 }
 
-Suggestions.getInitialProps = async (ctx: NextPageContext) => {
-
-};
-
+Suggestions.getInitialProps = async (ctx: NextPageContext) => {};
