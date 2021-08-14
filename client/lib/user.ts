@@ -12,8 +12,4 @@ export default class User {
     this.username = username;
     this.email = email;
   }
-
-  _setFriends(friends: User[]) {
-    this.friends = friends;
-  }
 }
