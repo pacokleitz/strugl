@@ -52,7 +52,7 @@ function SubjectRender(props: any) {
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
               <img
-                src="default.svg"
+                src="/default.svg"
                 className="w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
             )}
@@ -104,7 +104,7 @@ function FriendRender(props: any) {
             {props.friend.pic && <img src={props.friend.pic} />}
             {!props.friend.pic && (
               <img
-                src="default.svg"
+                src="/default.svg"
                 className="w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
             )}
