@@ -13,13 +13,6 @@ import {
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
 import { useAppSelector } from "../redux/hooks";
 
-// Données de tests (à supprimer plus tard)
-const subject1 = new Subject(78, "TestSubject 1", true);
-const subject2 = new Subject(26, "TestSubject 2", true);
-
-const favs: Subject[] = [subject1, subject2];
-// Fin de données de tests (à supprimer plus tard)
-
 function SubjectRender(props: any) {
   const [starState] = useState([faStarEmpty, faStarFull]);
   let [currentStarState, setCurrentStarState] = useState(1);
