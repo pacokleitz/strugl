@@ -164,7 +164,7 @@ function Inbox() {
 
   function MessageRender(props: any) {
     let message =
-      props.message.content.length < 20
+      props.message.content.length + props.message.author.username.length < 40
         ? props.message.content
         : props.message.content.slice(0, 17) + "...";
     return (
@@ -183,7 +183,7 @@ function Inbox() {
                     )}
                     {!props.message.author.pic && (
                       <img
-                        src="default.svg"
+                        src="/default.svg"
                         className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                       />
                     )}
@@ -278,7 +278,7 @@ function Invites() {
                   {props.friend.pic && <img src={props.friend.pic} />}
                   {!props.friend.pic && (
                     <img
-                      src="default.svg"
+                      src="/default.svg"
                       className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                     />
                   )}

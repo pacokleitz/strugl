@@ -50,10 +50,18 @@ function UserProfileContent(props: any) {
   return (
     <div className="pt-2 col-span-3 space-y-2">
       <div className="pb-2 flex flex-row px-6 justify-start items-center space-x-8 focus:outline-none">
-        <img
-          src="default.svg"
-          className="w-32 rounded-full bg-white ring-2 ring-gray-300 self-center"
-        />
+        {props.user.avatar && (
+          <img
+            src={props.user.avatar}
+            className="w-32 rounded-full bg-white ring-2 ring-gray-300 self-center"
+          />
+        )}
+        {
+          <img
+            src="/default.svg"
+            className="w-32 rounded-full bg-white ring-2 ring-gray-300 self-center"
+          />
+        }
         <p className="inline-block text-xl text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
           {props.user}
         </p>
@@ -111,7 +119,7 @@ export default function Profile({ postsList }: any) {
           color="blue"
         />
       )} */}
-      <div className="pt-16 max-w-full min-w-screen lg:grid lg:grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
+      <div className="pt-16 max-w-full min-w-screen lg:grid lg:grid-cols-4 px-4 m-auto gap-4 justify-between pb-4">
         {profile && profile[0] == "topic" && (
           <TopicProfileContent postsList={postsList} topic={profile[1]} />
         )}

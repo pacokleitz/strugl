@@ -44,7 +44,7 @@ export default function Dashboard({ postsList, error }: any) {
 
 Dashboard.getInitialProps = async (ctx: NextPageContext) => {
   // feed fetch
-  const res = await fetch(`https://api.strugl.cc/posts/feed`, {
+  const res = await fetch(`https://api.strugl.cc/posts/user/test2`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

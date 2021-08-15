@@ -41,7 +41,7 @@ function CommentsRender(props: any) {
               )}
               {!props.comment.author.pic && (
                 <img
-                  src="default.svg"
+                  src="/default.svg"
                   className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
                 />
               )}
@@ -68,6 +68,8 @@ function CommentsRender(props: any) {
 }
 
 function PostRender(props: any) {
+  const currentUser = useAppSelector((state) => state.currentUser);
+
   let thisPost = new Post(
     props.post.id,
     props.post.author,
@@ -75,6 +77,8 @@ function PostRender(props: any) {
     props.post.content,
     props.post.date_created
   );
+
+  if (props.post.avatar) thisPost.author_avatar = props.post.avatar;
 
   let topics = thisPost.extractTopics();
 
@@ -129,7 +133,12 @@ function PostRender(props: any) {
         <div className="flex flex-row justify-between">
           <Link href="/${thisPost.author}" as={"/" + thisPost.author}>
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
-              {thisPost.author_avatar && <img src={thisPost.author_avatar} />}
+              {thisPost.author_avatar && (
+                <img
+                  src={thisPost.author_avatar}
+                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              )}
               {!thisPost.author_avatar && (
                 <img
                   src="/default.svg"
@@ -165,15 +174,20 @@ function PostRender(props: any) {
           </div>
         </div>
 
-        <p className=" text-sm font-regular text-justify flex space-x-1 subpixel-antialiased">
+        <p className="text-sm font-regular text-justify subpixel-antialiased">
           {content.map((word: string) => {
             if (topics.includes(word)) {
               return (
-                <Link href={`/topic/${encodeURIComponent(word.slice(1))}`}>
-                  <a className="text-blue-600 underline">{word}</a>
-                </Link>
+                <span>
+                  <Link href={`/topic/${encodeURIComponent(word.slice(1))}`}>
+                    <span className="text-blue-600 underline cursor-pointer">
+                      {word}
+                    </span>
+                  </Link>
+                  <span> </span>
+                </span>
               );
-            } else return <p>{word}</p>;
+            } else return <span>{word + " "}</span>;
           })}
         </p>
       </div>
@@ -181,10 +195,19 @@ function PostRender(props: any) {
         <form className="flex flex-col px-4 py-2 space-y-2 bg-white">
           <div className="flex flex-row justify-between items-center space-x-4">
             <a href="/profile" className="w-max focus:outline-none">
-              <img
-                src="/default.svg"
-                className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-              />
+              {currentUser.avatar && (
+                <img
+                  src={props.post.avatar}
+                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              )}
+
+              {!currentUser.avatar && (
+                <img
+                  src="/default.svg"
+                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              )}
             </a>
             <input
               placeholder="Leave a comment ..."
