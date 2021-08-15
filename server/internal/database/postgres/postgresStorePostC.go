@@ -2,7 +2,7 @@ package postgres
 
 import (
 	"fmt"
-	"strugl/internal/database/utils/sql/bulk"
+	sqlbulk "strugl/internal/database/utils/sql/bulk"
 	"strugl/internal/models"
 )
 
@@ -23,23 +23,56 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 		return -1, err
 	}
 
-	// Insert each topic of the Post in DB topics table
-	stmtTopicsValueString, stmtTopicsArgs := sqlbulk.GetBulkTopicsStatement(post_id, topics)
+	numTopics := len(topics)
 
-	if stmtTopicsValueString != "" {
-		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (post_id, topic) VALUES %s", stmtTopicsValueString)
+	if numTopics > 0 {
 
-		stmtTopics, err := tx.Preparex(stmtTopicsString)
+		var tt []models.Topic
+
+		stmtTopicsValueString := sqlbulk.GetBulkInsertStatement(numTopics)
+
+		topicsQ := make([]interface{}, len(topics))
+		for i, v := range topics {
+			topicsQ[i] = v
+		}
+
+		// Workaround insert all topics returning ids EVEN IF DUPLICATE
+		// https://web.archive.org/web/20150925012041/http://mikefenwick.com:80/blog/insert-into-database-or-return-id-of-duplicate-row-in-mysql/
+		// https://stackoverflow.com/questions/35265453/use-insert-on-conflict-do-nothing-returning-failed-rows
+		stmtTopicsString := fmt.Sprintf("INSERT INTO topics (topic_name) VALUES %s ON CONFLICT (topic_name) DO UPDATE SET topic_name=EXCLUDED.topic_name RETURNING topic_id, topic_name", stmtTopicsValueString)
+		rows, err := tx.Queryx(stmtTopicsString, topicsQ...)
 		if err != nil {
 			tx.Rollback()
 			return -1, err
 		}
 
-		_, err = stmtTopics.Exec(stmtTopicsArgs...)
+		// Get all topics inserted with their id
+		for rows.Next() {
+			var t models.Topic
+			err = rows.StructScan(&t)
+			if err != nil {
+				tx.Rollback()
+				println(err.Error())
+				return -1, err
+			}
+			tt = append(tt, t)
+		}
+
+		// Link every topic to the post in database
+		stmtTopicsValueString, stmtTopicsArgs := sqlbulk.GetBulkPostsTopicsStatement(post_id, tt)
+		stmtPostsTopicsString := fmt.Sprintf("INSERT INTO posts_to_topics (post_id, topic_id) VALUES %s", stmtTopicsValueString)
+		stmtPostsTopics, err := tx.Preparex(stmtPostsTopicsString)
 		if err != nil {
 			tx.Rollback()
 			return -1, err
 		}
+
+		_, err = stmtPostsTopics.Exec(stmtTopicsArgs...)
+		if err != nil {
+			tx.Rollback()
+			return -1, err
+		}
+
 	}
 
 	tx.Commit()
