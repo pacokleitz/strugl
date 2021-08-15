@@ -5,6 +5,8 @@ export const currentUserSlice = createSlice({
   initialState: {
     id: -1,
     username: "",
+    profile_name: "",
+    bio: "",
     email: "",
     avatar: "",
     followers: [{}],
@@ -22,6 +24,8 @@ export const currentUserSlice = createSlice({
       state.id = -1;
       state.username = "";
       state.email = "";
+      state.profile_name = "";
+      state.bio = "";
       state.avatar = "";
       state.followers = [{}];
       state.followings = [{}];

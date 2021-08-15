@@ -16,7 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     if (currentUser.username.length == 0) {
-      fetch("https://api.strugl.cc/api/users/me", {
+      fetch("https://api.strugl.cc/users/me", {
         method: "Get",
         credentials: "include",
       }).then(async (res) => {
