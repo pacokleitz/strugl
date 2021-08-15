@@ -25,6 +25,7 @@ function TopicRender(props: any) {
     if (currentStarState == 0) setCurrentStarState((currentStarState = 1));
     else setCurrentStarState((currentStarState = 0));
     currentStar = starState[currentStarState];
+
     await fetch(`https://api.strugl.cc/follow/topic/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -181,7 +182,7 @@ export default function Suggestions(props: any) {
             topicsList.length > 0 &&
             topicsList.map((topic: Topic) => (
               <TopicRender
-                key={topic.id}
+                key={topic.topic_id}
                 topic={topic}
                 listFunction={removeTopicFromList}
               />

@@ -9,11 +9,16 @@
 }
 
 .dashboardFeed {
-    height: calc(100vh - 160px);
+    height: calc(100vh - 150px);
 }
 
 .profileFeed {
-    height: calc(100vh - 370px);
+    height: calc(100vh - 360px);
+}
+
+.topicFeed {
+    height: calc(100vh - 270px);
+
 }
 
 .state1{

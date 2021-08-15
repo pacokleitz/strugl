@@ -47,10 +47,16 @@ function Account() {
   const currentUser = useAppSelector((state) => state.currentUser);
   const dispatch = useAppDispatch();
 
-  function Navigate(to: String) {
+  async function Navigate(to: String) {
     if (to == "SignOut") {
-      dispatch(logOut());
-      router.push("/");
+      await fetch(`https://api.strugl.cc/auth/logout`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }).then(() => {
+        dispatch(logOut());
+        router.push("/");
+      });
     } else {
       if (to == "Settings") router.push("/settings", "/");
       else if (to == "Profile")
@@ -350,7 +356,7 @@ export default function Header() {
   const currentUser = useAppSelector((state) => state.currentUser);
   const dispatch = useAppDispatch();
 
-  function Navigate(to: String) {
+  async function Navigate(to: String) {
     if (!currentUser.username) {
       dispatch(logOut());
       router.push("/");
@@ -361,7 +367,7 @@ export default function Header() {
   }
 
   return (
-    <div className="fixed top-0 w-full h-min p-2 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
+    <div className="fixed top-0 w-full h-min p-2 shadow flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
       <div className="lg:w-10/12 w-full px-1 lg:px-0 flex flex-row m-auto text-center justify-between">
         <a
           onClick={() => Navigate("Dashboard")}

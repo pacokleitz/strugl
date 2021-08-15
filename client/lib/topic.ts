@@ -2,16 +2,12 @@ import Post from "./post";
 import User from "./user";
 
 export default class Topic {
-  id: number;
-  title: string;
-  pic?: string;
-  posts?: Post[];
+  topic_id: number;
+  topic_name: string;
   followers?: User[];
-  starred: boolean;
 
-  constructor(id: number, title: string, starred: boolean) {
-    this.id = id;
-    this.title = title;
-    this.starred = starred;
+  constructor(id: number, title: string) {
+    this.topic_id = id;
+    this.topic_name = title;
   }
 }

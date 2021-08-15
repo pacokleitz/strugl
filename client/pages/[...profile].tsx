@@ -41,7 +41,7 @@ function TopicProfileContent(props: any) {
           <p>3</p>
         </a>
       </div>
-      <Feed feedType="profileFeed" postsList={props.postsList} />
+      <Feed feedType="topicFeed" postsList={props.postsList} />
     </div>
   );
 }
