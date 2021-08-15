@@ -34,6 +34,7 @@ func (h *Handler) SetupRoutes() {
 
 	h.Router.POST("/auth", h.HandleAuth)
 	h.Router.POST("/auth/token", h.HandleAuthToken)
+	h.Router.GET("/auth/logout", h.Protected(h.HandleLogout))
 
 	h.Router.POST("/posts", h.Protected(h.HandlePostCreate))
 	h.Router.GET("/posts/id/:id", h.HandlePostGet)
