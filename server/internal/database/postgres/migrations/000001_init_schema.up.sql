@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(64) NOT NULL
 );
 
-/* Table of posts per users */
+/* Table of posts by users */
 CREATE TABLE IF NOT EXISTS posts (
     post_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
@@ -19,11 +19,11 @@ CREATE TABLE IF NOT EXISTS posts (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-/* Table of topics a user can "follow" */
+/* Table of topics that exists */
 CREATE TABLE IF NOT EXISTS topics (
     topic_id SERIAL PRIMARY KEY,
-    topic_name VARCHAR(30) NOT NULL,
-)
+    topic_name VARCHAR(30) UNIQUE NOT NULL
+);
 
 /* Table of topics associated to posts */
 CREATE TABLE IF NOT EXISTS posts_to_topics (
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS users_to_topics (
     FOREIGN KEY (topic_id) REFERENCES topics(topic_id) ON DELETE CASCADE
 );
 
-/* Table of follows between users with timestamp */
+/* Table of follows between users (user_id follows following_id) */
 CREATE TABLE IF NOT EXISTS followings (
     user_id INTEGER NOT NULL, 
     following_id INTEGER NOT NULL, 
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS followings (
     FOREIGN KEY (following_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-/* Table of posts upvotes pr user */
+/* Table of posts upvotes by user */
 CREATE TABLE IF NOT EXISTS upvotes (
     user_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL,

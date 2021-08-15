@@ -53,9 +53,10 @@ func (store PostgresStore) GetPostsByTopic(topic string) ([]models.Post, error) 
 	var pp []models.Post
 
 	query := `SELECT posts.post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
-				INNER JOIN topics ON posts.post_id = topics.post_id 
+				INNER JOIN posts_to_topics ON posts_to_topics.post_id = posts.post_id
+				INNER JOIN topics ON posts_to_topics.topic_id = topics.topic_id 
 				INNER JOIN users on posts.user_id = users.user_id
-				WHERE topic = $1 ORDER BY date_created DESC`
+				WHERE topics.topic_name = $1 ORDER BY date_created DESC`
 
 	rows, err := store.Store.Queryx(query, topic)
 	if err != nil {
@@ -120,11 +121,37 @@ func (store PostgresStore) GetFeed(user_id int64) ([]models.Post, error) {
 	var pp []models.Post
 
 	// à vérifier
-	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts
-				LEFT JOIN topics ON topics.post_id = posts.post_id
-				LEFT JOIN interests ON interests.user_id = posts.user_id
-				LEFT JOIN followings ON followings.following_id = posts.user_id
-				WHERE followings.user_id = $1 OR interests.user_id = $1 ORDER BY date_created DESC`
+	// query := `SELECT DISTINCT posts.post_id, auth.user_id, auth.username, posts.content, posts.date_created, posts.date_updated FROM users
+				
+	// 			/* get the topics followed by the user */
+	// 			LEFT JOIN users_to_topics ON users_to_topics.user_id = users.user_id
+	// 			/* get the posts_ids associated to these topics */
+	// 			LEFT JOIN posts_to_topics ON posts_to_topics.topic_id = users_to_topics.topic_id
+				
+	// 			/* get the users followed by the user */
+	// 			LEFT JOIN followings ON followings.user_id = users.user_id
+
+	// 			/* get the posts from the users followed by the user OR associated with the topics followed by the user */
+	// 			LEFT JOIN posts ON (followings.following_id = posts.user_id OR posts.post_id = posts_to_topics.post_id)
+
+	// 			/* get the usernames of the posts authors */
+	// 			LEFT JOIN users auth ON posts.user_id = auth.user_id
+				
+	// 			WHERE users.user_id = $1 OR auth.user_id = $1 ORDER BY date_created DESC`
+
+	query := `SELECT DISTINCT posts.post_id, users.username, posts.user_id, posts.content, posts.date_created, posts.date_updated FROM posts
+				INNER JOIN users on posts.user_id = users.user_id
+				WHERE posts.post_id IN (
+					SELECT post_id FROM posts_to_topics WHERE topic_id IN (
+						SELECT topic_id FROM users_to_topics WHERE user_id = $1
+						)
+					)
+					OR posts.user_id IN (
+						SELECT following_id FROM followings WHERE user_id = $1
+					)
+					OR posts.user_id = $1`
+
+	
 
 	rows, err := store.Store.Queryx(query, user_id)
 	if err != nil {

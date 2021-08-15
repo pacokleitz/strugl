@@ -103,7 +103,7 @@ func (h Handler) HandlePostsGetFeed(w http.ResponseWriter, r *http.Request, ps h
 	pp, err := h.PostService.GetFeed(user_data.User_ID)
 	if err != nil {
 		log.Print(err)
-		http.Error(w, "Unknown topic", http.StatusBadRequest)
+		http.Error(w, "Feed error", http.StatusBadRequest)
 		return
 	}
 

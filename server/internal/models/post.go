@@ -16,7 +16,7 @@ type Post struct {
 
 type Topic struct {
 	Id int64 `json:"topic_id" db:"topic_id"`
-	Topic string `json:"topic" db:"topic_name"`
+	Topic string `json:"topic_name" db:"topic_name"`
 }
 
 type JsonNullString struct {
