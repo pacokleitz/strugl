@@ -39,7 +39,7 @@ function SubjectRender(props: any) {
             {props.subject.pic && <img src={props.subject.pic} />}
             {!props.subject.pic && (
               <img
-                src="default.svg"
+                src="/default.svg"
                 className="w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
             )}
@@ -69,7 +69,7 @@ export default function Profile({ followers, followings }: any) {
       <div className="rounded-lg divide-y-2 divide-gray-300">
         <div className="flex flex-row p-6 justify-start items-center space-x-2 focus:outline-none">
           <img
-            src="default.svg"
+            src="/default.svg"
             className="w-10 rounded-full bg-white ring-2 ring-gray-300 self-center"
           />
           {typeof window !== "undefined" && (

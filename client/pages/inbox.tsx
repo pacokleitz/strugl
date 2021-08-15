@@ -67,7 +67,7 @@ function UserRender(props: any) {
                 )}
                 {!props.message.author.pic && (
                   <img
-                    src="default.svg"
+                    src="/default.svg"
                     className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                   />
                 )}

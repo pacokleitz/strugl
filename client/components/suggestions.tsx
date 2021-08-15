@@ -95,7 +95,7 @@ function FriendRender(props: any) {
   return (
     <div
       className={
-        "w-full px-4 py-4 flex flex-row justify-between space-x-4 state" +
+        "w-full px-4 py-4 flex flex-row justify-between state" +
         currentaddState.toString()
       }
     >
@@ -110,7 +110,7 @@ function FriendRender(props: any) {
               />
             )}
 
-            <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
+            <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased overflow-ellipsis">
               {props.friend.username}
             </h3>
           </div>
@@ -125,20 +125,22 @@ function FriendRender(props: any) {
   );
 }
 
-export default function Suggestions() {
-  const [subjectsList, setSubjectsList] = useState(SubjectsSuggestions);
-  const [friendsList, setFriendsList] = useState(FriendsSuggestions);
+export default function Suggestions({ topicsList, usersList }: any) {
+  const [subjectsList, setSubjectsList] = useState(topicsList);
+  const [friendsList, setFriendsList] = useState(usersList);
 
   function removeFriendFromList(idToRemove: number) {
     setTimeout(() => {
-      setFriendsList(friendsList.filter((element) => element.id != idToRemove));
+      setFriendsList(
+        friendsList.filter((element: any) => element.id != idToRemove)
+      );
     }, 500);
   }
 
   function removeTopicFromList(idToRemove: number) {
     setTimeout(() => {
       setSubjectsList(
-        subjectsList.filter((element) => element.id != idToRemove)
+        subjectsList.filter((element: any) => element.id != idToRemove)
       );
     }, 500);
   }
@@ -158,13 +160,14 @@ export default function Suggestions() {
           </button>
         </div>
         <div>
-          {friendsList.map((friend: User) => (
-            <FriendRender
-              key={friend.id}
-              friend={friend}
-              listFunction={removeFriendFromList}
-            />
-          ))}
+          {friendsList &&
+            friendsList.map((friend: User) => (
+              <FriendRender
+                key={friend.id}
+                friend={friend}
+                listFunction={removeFriendFromList}
+              />
+            ))}
         </div>
       </div>
       <div className="rounded-lg divide-y-2 divide-gray-300">
@@ -180,17 +183,44 @@ export default function Suggestions() {
           </button>
         </div>
         <div>
-          {subjectsList.map((subject: Subject) => (
-            <SubjectRender
-              key={subject.id}
-              subject={subject}
-              listFunction={removeTopicFromList}
-            />
-          ))}
+          {subjectsList &&
+            subjectsList.map((subject: Subject) => (
+              <SubjectRender
+                key={subject.id}
+                subject={subject}
+                listFunction={removeTopicFromList}
+              />
+            ))}
         </div>
       </div>
     </div>
   );
 }
 
-Suggestions.getInitialProps = async (ctx: NextPageContext) => {};
+Suggestions.getInitialProps = async (ctx: NextPageContext) => {
+  // Suggestions fetch
+  let topics;
+  let users;
+
+  let res = await fetch(`https://api.strugl.cc/recom/topics`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  if (res.ok) {
+    const json = await res.json();
+    topics = { topicsList: json };
+  } else topics = { error: true };
+
+  res = await fetch(`https://api.strugl.cc/recom/users`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  if (res.ok) {
+    const json = await res.json();
+    users = { usersList: json };
+  } else users = { error: true };
+
+  return { topics, users };
+};
