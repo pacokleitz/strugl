@@ -229,7 +229,6 @@ export default function Feed(props: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   let [list, setList] = useState(props.postsList);
-  console.log(props.postsList);
 
   const { register, handleSubmit, reset } = useForm<FormInputs>({
     mode: "onSubmit",
