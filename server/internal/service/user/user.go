@@ -82,3 +82,7 @@ func (s Service) GetUserByUsername(username string) (*models.UserProfile, error)
 
 	return s.Store.GetUserByUsername(username)
 }
+
+func (s Service) GetRecomUsers(user_id int64) ([]models.UserProfile, error) {
+	return s.Store.GetRecomUsers(user_id)
+}

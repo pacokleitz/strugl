@@ -41,6 +41,9 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/posts/topic/:topic", h.HandlePostsGetByTopic)
 	h.Router.GET("/posts/feed", h.Protected(h.HandlePostsGetFeed))
 
+	h.Router.GET("/recom/topics", h.Protected(h.HandleTopicsRecom))
+	h.Router.GET("/recom/users", h.Protected(h.HandleUsersRecom))
+
 	h.Router.POST("/follow/user", h.Protected(h.HandleFollowUser))
 	h.Router.POST("/unfollow/user", h.Protected(h.HandleUnfollowUser))
 	h.Router.POST("/follow/topic", h.Protected(h.HandleFollowTopic))

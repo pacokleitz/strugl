@@ -150,7 +150,7 @@ func (store PostgresStore) GetFeed(user_id int64) ([]models.Post, error) {
 					OR posts.user_id IN (
 						SELECT following_id FROM followings WHERE user_id = $1
 					)
-					OR posts.user_id = $1`
+					OR posts.user_id = $1 ORDER BY posts.date_created DESC`
 
 	
 
@@ -185,4 +185,31 @@ func (store PostgresStore) GetTopic(topic string) (*models.Topic, error) {
 		return nil, err
 	}
 	return &t, nil
+}
+
+func (store PostgresStore) GetRecomTopics(user_id int64) ([]models.Topic, error) {
+
+	tt := make([]models.Topic, 0)
+
+	query := `SELECT topic_name, topic_id FROM topics
+				WHERE topic_id NOT IN (
+					SELECT topic_id FROM users_to_topics WHERE user_id = $1
+				)
+				ORDER BY RANDOM()
+				LIMIT 3`
+
+	rows, err := store.Store.Queryx(query, user_id)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var t models.Topic
+		err = rows.StructScan(&t)
+		if err != nil {
+			return nil, err
+		}
+		tt = append(tt, t)
+	}
+	return tt, nil
 }

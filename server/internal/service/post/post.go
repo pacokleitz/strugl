@@ -74,3 +74,7 @@ func (s Service) DeletePost(post_id int64) error {
 func (s Service) GetTopic(topic string) (*models.Topic, error) {
 	return s.Store.GetTopic(topic)
 }
+
+func (s Service) GetRecomTopics(user_id int64) ([]models.Topic, error) {
+	return s.Store.GetRecomTopics(user_id)
+}

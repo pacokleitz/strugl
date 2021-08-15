@@ -57,3 +57,32 @@ func (store PostgresStore) CheckUsernameAvailability(username string) bool {
 	}
 	return false
 }
+
+func (store PostgresStore) GetRecomUsers(user_id int64) ([]models.UserProfile, error) {
+
+	uu := make([]models.UserProfile, 0)
+
+	query := `SELECT user_id, username, profile_name, bio, avatar FROM users
+				WHERE user_id != $1 
+				AND user_id NOT IN (
+					SELECT following_id FROM followings WHERE user_id = $1
+				)
+				ORDER BY RANDOM()
+				LIMIT 3`
+
+	rows, err := store.Store.Queryx(query, user_id)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var u models.UserProfile
+		err = rows.StructScan(&u)
+		if err != nil {
+			return nil, err
+		}
+		uu = append(uu, u)
+	}
+
+	return uu, nil
+}
