@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
+import { useAppSelector } from "../redux/hooks";
 
 import Post from "../lib/post";
 import Comment from "../lib/comment";
@@ -18,10 +19,6 @@ import {
   faFlag as faFlagEmpty,
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
-import { useAppSelector } from "../redux/hooks";
-import User from "../lib/user";
-import { useEffect } from "react";
-import Topic from "../lib/topic";
 
 interface FormInputs {
   content: string;
@@ -235,6 +232,7 @@ export default function Feed(props: any) {
             id: parseInt(id),
             author: currentUser.username,
             author_id: currentUser.id,
+            author_avatar: currentUser.avatar,
             content: data.content,
             date_created: new Date(),
             style: "state2",
