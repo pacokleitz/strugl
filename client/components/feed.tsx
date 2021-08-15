@@ -125,11 +125,11 @@ function PostRender(props: any) {
   return (
     <div
       className={
-        "w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300 " +
+        "w-full shadow py-2 pt-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300 " +
         props.post.style
       }
     >
-      <div className="px-8 space-y-4">
+      <div className="px-4 space-y-2">
         <div className="flex flex-row justify-between">
           <Link href="/${thisPost.author}" as={"/" + thisPost.author}>
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
@@ -191,8 +191,8 @@ function PostRender(props: any) {
           })}
         </p>
       </div>
-      <div className="px-4 pt-2 space-y-2">
-        <form className="flex flex-col px-4 py-2 space-y-2 bg-white">
+      <div className="px-2 pt-2 space-y-2">
+        <form className="flex flex-col px-4 py-1 space-y-2 bg-white">
           <div className="flex flex-row justify-between items-center space-x-4">
             <a href="/profile" className="w-max focus:outline-none">
               {currentUser.avatar && (
@@ -265,7 +265,7 @@ export default function Feed(props: any) {
       <form
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
-        className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
+        className="shadow px-4 py-2 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
       >
         <div className="flex flex-row justify-between items-center space-x-4">
           <Link href="/${currentUser.username}" as={"/" + currentUser.username}>
