@@ -4,14 +4,16 @@
 
 ::-webkit-scrollbar {
     width: 0px;
+    visibility: hidden;
+    display: none;
 }
 
 .dashboardFeed {
-    height: calc(100vh - 170px);
+    height: calc(100vh - 160px);
 }
 
 .profileFeed {
-    height: calc(100vh - 380px);
+    height: calc(100vh - 370px);
 }
 
 .state1{
