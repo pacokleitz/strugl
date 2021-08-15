@@ -6,7 +6,6 @@ import store from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { auth } from "../redux/reducers/CurrentUserSlice";
 
-import User from "../lib/user";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
 
@@ -16,7 +15,7 @@ export default function Home({ user }: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (currentUser.username.length == 0 && !user.username) {
+    if (currentUser.username.length == 0 && user == "Invalid") {
       router.push("/login", "/");
     } else {
       dispatch(auth(user));
@@ -41,6 +40,10 @@ Home.getInitialProps = async (ctx: NextPageContext) => {
     method: "Get",
     credentials: "include",
   });
-  const json = await res.json();
-  return { user: json };
+  if (res.ok) {
+    let json = await res.json();
+    return { user: json };
+  } else {
+    return { user: "Invalid" };
+  }
 };
