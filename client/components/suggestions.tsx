@@ -29,7 +29,7 @@ function TopicRender(props: any) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ id: props.topic.topic_id }),
+      body: JSON.stringify({ topic_id: props.topic.topic_id }),
     }).then(() => {
       props.listFunction(props.topic.topic_id);
     });
@@ -74,7 +74,7 @@ function FriendRender(props: any) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ topic_id: props.friend.id }),
+      body: JSON.stringify({ id: props.friend.id }),
     }).then(() => {
       props.listFunction(props.friend.id);
     });

@@ -16,7 +16,6 @@ export default function Dashboard({ postsList, topicsList, usersList }: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    console.log(postsList, topicsList, usersList);
     // if (feed.error) {
     //   dispatch(logOut());
     //   router.push("/");
