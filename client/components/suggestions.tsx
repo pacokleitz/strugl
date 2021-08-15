@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { NextPageContext } from "next";
 
-import Subject from "../lib/subject";
+import Topic from "../lib/topic";
 import User from "../lib/user";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,27 +16,23 @@ import {
   faStar as faStarEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 
-// Données de tests (à supprimer plus tard)
-const person1 = new User(34, "testingwith20charact", "sihamais98@gmail.com");
-const person2 = new User(1, "paco", "sihamais98@gmail.com");
-const subject1 = new Subject(21, "React", false);
-const subject2 = new Subject(39, "Next.js", false);
-
-const FriendsSuggestions: User[] = [person1, person2];
-
-const SubjectsSuggestions: Subject[] = [subject1, subject2];
-// Fin de données de tests (à supprimer plus tard)
-
-function SubjectRender(props: any) {
+function TopicRender(props: any) {
   const [starState] = useState([faStarEmpty, faStarFull]);
   let [currentStarState, setCurrentStarState] = useState(0);
   let currentStar = starState[currentStarState];
 
-  function Star() {
+  async function Star() {
     if (currentStarState == 0) setCurrentStarState((currentStarState = 1));
     else setCurrentStarState((currentStarState = 0));
     currentStar = starState[currentStarState];
-    props.listFunction(props.subject.id);
+    await fetch(`https://api.strugl.cc/follow/topic/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ id: props.topic.topic_id }),
+    }).then(() => {
+      props.listFunction(props.topic.topic_id);
+    });
   }
 
   return (
@@ -47,18 +43,10 @@ function SubjectRender(props: any) {
       }
     >
       <div>
-        <Link href="/${props.subject.title}" as={"/" + props.subject.title}>
+        <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
-            {props.subject.pic && <img src={props.subject.pic} />}
-            {!props.subject.pic && (
-              <img
-                src="/default.svg"
-                className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-              />
-            )}
-
             <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
-              {props.subject.title}
+              {"#" + props.topic.topic_name}
             </h3>
           </div>
         </Link>
@@ -82,11 +70,11 @@ function FriendRender(props: any) {
     else setCurrentaddState((currentaddState = 0));
     currentAdd = addState[currentaddState];
 
-    await fetch(`https://api.strugl.cc/follow/`, {
+    await fetch(`https://api.strugl.cc/follow/user/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ id: props.friend.id }),
+      body: JSON.stringify({ topic_id: props.friend.id }),
     }).then(() => {
       props.listFunction(props.friend.id);
     });
@@ -126,7 +114,7 @@ function FriendRender(props: any) {
 }
 
 export default function Suggestions(props: any) {
-  const [subjectsList, setSubjectsList] = useState(props.topicsList);
+  const [topicsList, setTopicsList] = useState(props.topicsList);
   const [friendsList, setFriendsList] = useState(props.usersList);
 
   function removeFriendFromList(idToRemove: number) {
@@ -139,8 +127,8 @@ export default function Suggestions(props: any) {
 
   function removeTopicFromList(idToRemove: number) {
     setTimeout(() => {
-      setSubjectsList(
-        subjectsList.filter((element: any) => element.id != idToRemove)
+      setTopicsList(
+        topicsList.filter((element: any) => element.id != idToRemove)
       );
     }, 500);
   }
@@ -161,6 +149,7 @@ export default function Suggestions(props: any) {
         </div>
         <div>
           {friendsList &&
+            friendsList.length > 0 &&
             friendsList.map((friend: User) => (
               <FriendRender
                 key={friend.id}
@@ -168,11 +157,11 @@ export default function Suggestions(props: any) {
                 listFunction={removeFriendFromList}
               />
             ))}
-          {/* {friendsList && friendsList.length == 0 && (
+          {friendsList && friendsList.length == 0 && (
             <p className="text-sm text-center font-semibold text-gray-600 subpixel-antialiased">
               Refresh for more suggestions
             </p>
-          )} */}
+          )}
         </div>
       </div>
       <div className="rounded-lg divide-y-2 divide-gray-300">
@@ -188,20 +177,20 @@ export default function Suggestions(props: any) {
           </button>
         </div>
         <div>
-          {subjectsList &&
-            // subjectsList.length > 0 &&
-            subjectsList.map((subject: Subject) => (
-              <SubjectRender
-                key={subject.id}
-                subject={subject}
+          {topicsList &&
+            topicsList.length > 0 &&
+            topicsList.map((topic: Topic) => (
+              <TopicRender
+                key={topic.id}
+                topic={topic}
                 listFunction={removeTopicFromList}
               />
             ))}
-          {/* {subjectsList && subjectsList.length == 0 && (
+          {topicsList && topicsList.length == 0 && (
             <p className="text-sm text-center font-semibold text-gray-600 subpixel-antialiased">
               Refresh for more suggestions
             </p>
-          )} */}
+          )}
         </div>
       </div>
     </div>
