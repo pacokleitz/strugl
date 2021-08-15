@@ -1,3 +1,9 @@
+import { useState } from "react";
+import Link from "next/link";
+import { NextPageContext } from "next";
+
+import Subject from "../lib/subject";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar as faStarFull,
@@ -5,9 +11,7 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
-import Subject from "../lib/subject";
-import { useState } from "react";
-import Link from "next/link";
+import { useAppSelector } from "../redux/hooks";
 
 // Données de tests (à supprimer plus tard)
 const subject1 = new Subject(78, "TestSubject 1", true);
@@ -55,11 +59,13 @@ function SubjectRender(props: any) {
   );
 }
 
-export default function Profile() {
-  const [favsList, setList] = useState(favs);
+export default function Profile({ followers, followings }: any) {
+  const currentUser = useAppSelector((state) => state.currentUser);
+
+  const [followingsList, setList] = useState(followings);
 
   return (
-    <div className="w-full text-center flex flex-col">
+    <div className="w-full text-center flex flex-col h-screen">
       <div className="rounded-lg divide-y-2 divide-gray-300">
         <div className="flex flex-row p-6 justify-start items-center space-x-2 focus:outline-none">
           <img
@@ -68,7 +74,7 @@ export default function Profile() {
           />
           {typeof window !== "undefined" && (
             <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
-              {localStorage.getItem("username")}
+              {currentUser.username}
             </p>
           )}
         </div>
@@ -76,16 +82,16 @@ export default function Profile() {
           <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faUsers} className="w-5" />
-              <p>Friends</p>
+              <p>Followers</p>
             </div>
-            <p>28</p>
+            <p>{followers ? followers.length : 0}</p>
           </a>
           <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faStarFull} className="w-5" />
-              <p>Interests</p>
+              <p>Followings</p>
             </div>
-            <p>{favsList.length}</p>
+            <p>{followingsList ? followingsList.length : 0}</p>
           </a>
           <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
@@ -98,12 +104,40 @@ export default function Profile() {
             <p>31</p>
           </a>
         </div>
-        <div className="">
-          {favsList.map((subject) => (
-            <SubjectRender key={subject.id} subject={subject} />
-          ))}
+        <div className="h-full">
+          {followingsList &&
+            followingsList.map((subject: any) => (
+              <SubjectRender key={subject.id} subject={subject} />
+            ))}
+          {!followingsList && (
+            <div className="h-full flex flex-col space-y-4 justify-items-center justify-start py-6">
+              <img src="duckbutticon.svg" className="h-1/6" />
+              <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
+                No followings yet
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
+Profile.getInitialProps = async (ctx: NextPageContext) => {
+  const currentUser = useAppSelector((state) => state.currentUser);
+
+  // profile infos fetch
+  let res = await fetch(`https://api.strugl.cc/followers/${currentUser.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const followers = await res.json();
+
+  res = await fetch(`https://api.strugl.cc/followings/${currentUser.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const followings = await res.json();
+
+  return { followers: followers, followings: followings };
+};

@@ -1,14 +1,19 @@
+import React, { useEffect } from "react";
+import { NextPageContext } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { auth } from "../redux/reducers/CurrentUserSlice";
+
 import Header from "../components/header";
+import User from "../lib/user";
 
 export default function Explore() {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (typeof window !== "undefined")
-      if (!localStorage.getItem("username")) router.push("/");
+    if (!currentUser.username) router.push("/");
   });
 
   return (
@@ -18,7 +23,7 @@ export default function Explore() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4"></div>
+      <div className="pt-16 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4"></div>
     </div>
   );
 }

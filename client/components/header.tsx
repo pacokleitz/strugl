@@ -1,3 +1,13 @@
+import { Fragment, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { current } from "@reduxjs/toolkit";
+import { logOut } from "../redux/reducers/CurrentUserSlice";
+
+import Message from "../lib/message";
+import User from "../lib/user";
+
 import {
   faChevronCircleDown,
   faSortDown,
@@ -9,25 +19,22 @@ import {
   faCheck,
   faTimes,
   faHome,
+  faComments,
+  faStream,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Fragment, useState } from "react";
-import Message from "../lib/message";
-import User from "../lib/user";
 
 // Données de tests (à supprimer plus tard)
 let testDate = new Date(2021, 3, 25, 17, 43);
 testDate.toDateString();
 const siham = new User(34, "testingwith20charact", "sihamais98@gmail.com");
 const paco = new User(32, "testUser1", "sihamais98@gmail.com");
-const msg1 = new Message(12, siham, "ok", testDate);
+const msg1 = new Message(12, siham, "Short comment test !", testDate);
 const msg2 = new Message(
   15,
   paco,
-  "Wow, you are really the best coder !",
+  "Long comment test ! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto ut dolores et quo eos voluptatibus doloremque repudiandae nesciunt veniam, exercitationem quod quas, vel labore cumque recusandae libero autem iure inventore?",
   testDate
 );
 
@@ -37,20 +44,17 @@ const initialInvitesList: User[] = [siham, paco];
 
 function Account() {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.currentUser);
+  const dispatch = useAppDispatch();
 
   function Navigate(to: String) {
-    if (typeof window !== "undefined") {
-      if (!localStorage.getItem("username") || to == "SignOut") {
-        localStorage.clear();
-        router.push("/");
-      } else {
-        if (to == "Settings") router.push("/settings", "/");
-        else if (to == "Profile")
-          router.push(
-            "/${localStorage.getItem('username')}",
-            "/" + localStorage.getItem("username")
-          );
-      }
+    if (to == "SignOut") {
+      dispatch(logOut());
+      router.push("/");
+    } else {
+      if (to == "Settings") router.push("/settings", "/");
+      else if (to == "Profile")
+        router.push("/${currentUser.username}", "/" + currentUser.username);
     }
   }
 
@@ -67,13 +71,13 @@ function Account() {
                 src="default.svg"
                 className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
-              {typeof window !== "undefined" && (
-                <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
-                  {localStorage.getItem("username")}
+              {typeof currentUser.username === "string" && (
+                <p className="hidden lg:inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
+                  {currentUser.username}
                 </p>
               )}
             </div>
-            <div className="inline-block">
+            <div className="hidden lg:inline-block">
               <FontAwesomeIcon
                 icon={faSortDown}
                 className="inline mb-2 w-5 h-7 text-gray-700"
@@ -100,11 +104,9 @@ function Account() {
                     <p className="inline-block text-gray-700 text-sm font-medium tracking-wide">
                       Signed in as
                     </p>{" "}
-                    {typeof window !== "undefined" && (
-                      <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
-                        {localStorage.getItem("username")}
-                      </p>
-                    )}
+                    <p className="inline-block text-sm font-bold bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent tracking-wide">
+                      {currentUser.username}
+                    </p>
                   </div>
                 </Menu.Item>
                 <hr></hr>
@@ -144,30 +146,27 @@ function Account() {
 
 function Inbox() {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.currentUser);
+  const dispatch = useAppDispatch();
 
-  const weekday = new Array(7);
-  weekday[0] = "Sun";
-  weekday[1] = "Mon";
-  weekday[2] = "Tue";
-  weekday[3] = "Wed";
-  weekday[4] = "Thu";
-  weekday[5] = "Fri";
-  weekday[6] = "Sat";
+  const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const [inboxList, setList] = useState(initialInboxList);
 
   function Navigate(to: String) {
-    if (typeof window !== "undefined") {
-      if (!localStorage.getItem("username")) {
-        localStorage.clear();
-        router.push("/");
-      } else {
-        if (to == "Inbox") router.push("/inbox", "/");
-      }
+    if (!currentUser.username) {
+      dispatch(logOut());
+      router.push("/");
+    } else {
+      if (to == "Inbox") router.push("/inbox", "/");
     }
   }
 
   function MessageRender(props: any) {
+    let message =
+      props.message.content.length < 20
+        ? props.message.content
+        : props.message.content.slice(0, 17) + "...";
     return (
       <>
         <Menu.Item>
@@ -199,7 +198,7 @@ function Inbox() {
                       {props.message.author.username}
                     </a>
                   </Link>
-                  {props.message.content}
+                  {message}
                 </div>
               </div>
               <p className="text-left ml-4 self-center text-xs font-medium text-gray-500 tracking-tighter">
@@ -220,7 +219,7 @@ function Inbox() {
         <>
           <Menu.Button className="focus:outline-none">
             <FontAwesomeIcon
-              icon={faEnvelope}
+              icon={faComments}
               className="w-8 h-6 text-gray-700 hover:text-gray-600 cursor-pointer"
             />
             <span className="shadow-md absolute -top-2 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-400 text-white font-extrabold text-xs text-center">
@@ -348,31 +347,32 @@ function Invites() {
 
 export default function Header() {
   const router = useRouter();
+  const currentUser = useAppSelector((state) => state.currentUser);
+  const dispatch = useAppDispatch();
 
   function Navigate(to: String) {
-    if (typeof window !== "undefined") {
-      if (!localStorage.getItem("username")) {
-        localStorage.clear();
-        router.push("/");
-      } else {
-        if (to == "Dashboard") router.push("/dashboard", "/");
-        else if (to == "Explore") router.push("/explore", "/");
-      }
+    if (!currentUser.username) {
+      dispatch(logOut());
+      router.push("/");
+    } else {
+      if (to == "Dashboard") router.push("/dashboard", "/");
+      else if (to == "Explore") router.push("/explore", "/");
     }
   }
 
   return (
-    <div className="sticky top-0 w-full h-min p-2 mb-4 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
-      <div className="w-10/12 flex flex-row m-auto text-center justify-between">
+    <div className="fixed top-0 w-full h-min p-2 shadow-md flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
+      <div className="lg:w-10/12 w-full px-1 lg:px-0 flex flex-row m-auto text-center justify-between">
         <a
           onClick={() => Navigate("Dashboard")}
-          className="text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer"
+          className="lg:block hidden text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer"
         >
           Strugl
         </a>
         <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/4 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
           <input
-            placeholder="Search ..."
+            placeholder="Search"
+            type="search"
             className="text-md subpixel-antialiased text-justify px-2 bg-transparent focus:outline-none w-full"
           />
           <FontAwesomeIcon
@@ -382,20 +382,18 @@ export default function Header() {
         </div>
         <div className="flex flex-row justify-evenly items-end space-x-10">
           <div className="inline-block self-center">
-            <a onClick={() => Navigate("Dashboard")}>
+            <a onClick={() => Navigate("Dashboard")} title="Home">
               <FontAwesomeIcon
-                icon={faHome}
-                className="w-8 h-8 text-gray-700 cursor-pointer hover:text-gray-600"
-                title="Home"
+                icon={faStream}
+                className="w-8 h-8 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:skew-y-6"
               />
             </a>
           </div>
           <div className="inline-block self-center">
-            <a onClick={() => Navigate("Explore")}>
+            <a onClick={() => Navigate("Explore")} title="Explore">
               <FontAwesomeIcon
                 icon={faCompass}
                 className="w-8 h-8 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
-                title="Explore"
               />
             </a>
           </div>
