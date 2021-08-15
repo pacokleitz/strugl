@@ -80,15 +80,7 @@ function PostRender(props: any) {
   );
 
   thisPost.extractTopics().forEach(async (topic) => {
-    await fetch(`https://api.strugl.cc/topics/${topic.slice(1)}`, {
-      method: "Post",
-      credentials: "include",
-    }).then(async (res) => {
-      if (res.ok) {
-        const json = await res.json();
-        thisPost.topics?.push(new Topic(json.topic_id, json.topic_name, 0));
-      }
-    });
+    thisPost.topics?.push(topic);
   });
 
   let content = thisPost.content.split(" ");
@@ -180,9 +172,9 @@ function PostRender(props: any) {
 
         <p className=" text-sm font-regular text-justify flex space-x-1 subpixel-antialiased">
           {content.map((word: string) => {
-            if (thisPost.topics?.find((topic) => topic.name == word.slice(1))) {
+            if (thisPost.topics?.includes(word)) {
               return (
-                <Link href="/${word}" as={"/" + word}>
+                <Link href="/topic/${word.slice(1)}" as={"/" + word}>
                   <a className="text-blue-600 underline">{word}</a>
                 </Link>
               );

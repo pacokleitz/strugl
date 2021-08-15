@@ -11,7 +11,7 @@ export default class Post {
   author_avatar?: string;
   date_updated?: Date;
   comments?: Comment[];
-  topics?: Topic[];
+  topics?: string[];
 
   constructor(
     id: number,
