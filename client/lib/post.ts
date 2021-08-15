@@ -1,5 +1,4 @@
 import Comment from "./comment";
-import Topic from "./topic";
 
 export default class Post {
   id: number;
@@ -11,7 +10,7 @@ export default class Post {
   author_avatar?: string;
   date_updated?: Date;
   comments?: Comment[];
-  topics?: Topic[];
+  topics?: string[];
 
   constructor(
     id: number,
