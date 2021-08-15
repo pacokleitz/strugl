@@ -13,6 +13,7 @@ import (
 )
 
 type PostService interface {
+
 	GetPost(id int64) (*models.Post, error)
 	GetPostsByUser(username string) ([]models.Post, error)
 	GetPostsByTopic(topic string) ([]models.Post, error)
@@ -25,6 +26,8 @@ type PostService interface {
 	CreatePost(post models.Post) (int64, error)
 
 	DeletePost(post_id int64) error
+
+	GetTopic(topic string) (*models.Topic, error)
 }
 
 func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -108,4 +111,18 @@ func (h Handler) HandlePostsGetFeed(w http.ResponseWriter, r *http.Request, ps h
 	}
 
 	json.NewEncoder(w).Encode(pp)
+}
+
+func (h Handler) HandleTopicByName(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	topic := ps.ByName("name")
+
+	t, err := h.PostService.GetTopic(topic)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, "Unknown topic", http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(t)
 }

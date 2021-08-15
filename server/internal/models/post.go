@@ -8,6 +8,7 @@ import (
 type Post struct {
 	ID          int64          `json:"id" db:"post_id"`
 	Author      string         `json:"author" db:"username"`
+	Avatar      string         `json:"avatar" db:"avatar"`
 	Author_ID   int64          `json:"author_id" db:"user_id"`
 	Content     string         `json:"content" db:"content"`
 	DateCreated string         `json:"date_created" db:"date_created"`
@@ -15,7 +16,7 @@ type Post struct {
 }
 
 type Topic struct {
-	Id int64 `json:"topic_id" db:"topic_id"`
+	Id    int64  `json:"topic_id" db:"topic_id"`
 	Topic string `json:"topic_name" db:"topic_name"`
 }
 

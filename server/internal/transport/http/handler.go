@@ -30,6 +30,8 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/users/id/:id", h.HandleUserByID)
 	h.Router.GET("/users/me", h.Protected(h.HandleUserMe))
 
+	h.Router.GET("/topics/:name", h.HandleTopicByName)
+
 	h.Router.POST("/auth", h.HandleAuth)
 	h.Router.POST("/auth/token", h.HandleAuthToken)
 
@@ -37,7 +39,7 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/posts/id/:id", h.HandlePostGet)
 	h.Router.GET("/posts/user/:username", h.HandlePostsGetByUser)
 	h.Router.GET("/posts/topic/:topic", h.HandlePostsGetByTopic)
-	h.Router.GET("/api/posts/feed", h.Protected(h.HandlePostsGetFeed))
+	h.Router.GET("/posts/feed", h.Protected(h.HandlePostsGetFeed))
 
 	h.Router.POST("/follow/user", h.Protected(h.HandleFollowUser))
 	h.Router.POST("/unfollow/user", h.Protected(h.HandleUnfollowUser))

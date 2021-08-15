@@ -70,3 +70,7 @@ func (s Service) CreatePost(p models.Post) (int64, error) {
 func (s Service) DeletePost(post_id int64) error {
 	return s.Store.DeletePost(post_id)
 }
+
+func (s Service) GetTopic(topic string) (*models.Topic, error) {
+	return s.Store.GetTopic(topic)
+}

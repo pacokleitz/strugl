@@ -21,6 +21,7 @@ type DataStore interface {
 	GetTopicsFeed(username string) ([]models.Post, error)
 	GetFollowsFeed(username string) ([]models.Post, error)
 	GetFeed(user_id int64) ([]models.Post, error)
+	GetTopic(topic string) (*models.Topic, error)
 	CreatePost(post models.Post, topics []string) (int64, error)
 	DeletePost(post_id int64) error
 
