@@ -97,7 +97,7 @@ function UserProfileContent(props: any) {
   );
 }
 
-export default function Profile({ postsList }: any) {
+export default function Profile({ postsList, topicsList, usersList }: any) {
   const router = useRouter();
   const { profile } = router.query;
 
@@ -127,7 +127,7 @@ export default function Profile({ postsList }: any) {
           <UserProfileContent postsList={postsList} user={profile} />
         )}
         <div className="lg:block hidden">
-          <Suggestions />
+          <Suggestions topicsList={topicsList} usersList={usersList} />
         </div>
       </div>
     </div>
@@ -135,6 +135,7 @@ export default function Profile({ postsList }: any) {
 }
 
 Profile.getInitialProps = async (ctx: NextPageContext) => {
+  // Profile posts fetch
   let url = ``;
 
   if (ctx.query.profile && ctx.query.profile[0] == "topic") {
@@ -143,11 +144,27 @@ Profile.getInitialProps = async (ctx: NextPageContext) => {
     url = `https://api.strugl.cc/posts/user/${ctx.query.profile}`;
   }
 
-  const res = await fetch(url, {
+  let res = await fetch(url, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
 
-  const json = await res.json();
-  return { postsList: json };
+  const posts = await res.json();
+
+  // Suggestions fetch
+  res = await fetch(`https://api.strugl.cc/recom/topics`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  const topics = await res.json();
+
+  res = await fetch(`https://api.strugl.cc/recom/users`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  const users = await res.json();
+
+  return { postsList: posts, topicsList: topics, usersList: users };
 };
