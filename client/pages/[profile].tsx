@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { NextPageContext } from "next";
+import { useAppSelector } from "../redux/hooks";
 
 import Feed from "../components/feed";
 import Header from "../components/header";
@@ -9,10 +11,9 @@ import Alert from "../components/alert";
 
 import { faBookmark, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NextPageContext } from "next";
-import { useAppSelector } from "../redux/hooks";
 
 function ProfileContent(props: any) {
+
   return (
     <div className="pt-2 col-span-3 space-y-2">
       <div className="pb-2 flex flex-row px-6 justify-start items-center space-x-8 focus:outline-none">
@@ -21,7 +22,7 @@ function ProfileContent(props: any) {
           className="w-32 rounded-full bg-white ring-2 ring-gray-300 self-center"
         />
         <p className="inline-block text-xl text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
-          {props.profile}
+          {props.user}
         </p>
       </div>
       <div className="bg-white rounded-xl shadow p-4 flex justify-around items-center">
@@ -59,8 +60,6 @@ export default function Profile({ postsList }: any) {
   const router = useRouter();
   const { profile } = router.query;
 
-  const currentUser = useAppSelector((state) => state.currentUser);
-
   return (
     <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
       <Head>
@@ -68,15 +67,15 @@ export default function Profile({ postsList }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {!postsList && profile == currentUser.username && (
+      {/* {!postsList && profile == currentUser.username && (
         <Alert
           state="suggestion"
           msg="You have no post yet. Create a new post to fill your profile"
           color="blue"
         />
-      )}
+      )} */}
       <div className="pt-16 max-w-full min-w-screen lg:grid lg:grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
-        <ProfileContent postsList={postsList} profile={profile} />
+        <ProfileContent postsList={postsList} user={profile} />
         <div className="lg:block hidden">
           <Suggestions />
         </div>

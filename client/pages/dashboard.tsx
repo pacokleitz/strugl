@@ -14,7 +14,7 @@ export default function Dashboard({ postsList }: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (!currentUser.username) router.push("/");
+    if (currentUser.username.length == 0) router.push("/");
   });
 
   return (

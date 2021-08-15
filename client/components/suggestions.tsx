@@ -18,7 +18,7 @@ import {
 
 // Données de tests (à supprimer plus tard)
 const person1 = new User(34, "testingwith20charact", "sihamais98@gmail.com");
-const person2 = new User(32, "person2testtest", "sihamais98@gmail.com");
+const person2 = new User(1, "paco", "sihamais98@gmail.com");
 const subject1 = new Subject(21, "React", false);
 const subject2 = new Subject(39, "Next.js", false);
 
@@ -32,14 +32,20 @@ function SubjectRender(props: any) {
   let [currentStarState, setCurrentStarState] = useState(0);
   let currentStar = starState[currentStarState];
 
-  function Star() {
+  function Star() { 
     if (currentStarState == 0) setCurrentStarState((currentStarState = 1));
     else setCurrentStarState((currentStarState = 0));
     currentStar = starState[currentStarState];
+    props.listFunction(props.subject.id);
   }
 
   return (
-    <div className="p-4 flex flex-row space-x-8 justify-between">
+    <div
+      className={
+        "p-4 flex flex-row space-x-8 justify-between state" +
+        currentStarState.toString()
+      }
+    >
       <div>
         <Link href="/${props.subject.title}" as={"/" + props.subject.title}>
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
@@ -71,14 +77,27 @@ function FriendRender(props: any) {
   let [currentaddState, setCurrentaddState] = useState(0);
   let currentAdd = addState[currentaddState];
 
-  function Add() {
+  async function Follow() {
     if (currentaddState == 0) setCurrentaddState((currentaddState = 1));
     else setCurrentaddState((currentaddState = 0));
     currentAdd = addState[currentaddState];
+
+    await fetch(`https://api.strugl.cc/follow/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: props.friend.id }),
+    }).then(() => {
+      props.listFunction(props.friend.id);
+    });
   }
 
   return (
-    <div className="w-full px-4 py-4 flex flex-row justify-between space-x-4">
+    <div
+      className={
+        "w-full px-4 py-4 flex flex-row justify-between space-x-4 state" +
+        currentaddState.toString()
+      }
+    >
       <div className="inline-block">
         <Link href="/${props.friend.username}" as={"/" + props.friend.username}>
           <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
@@ -99,7 +118,7 @@ function FriendRender(props: any) {
       <FontAwesomeIcon
         icon={currentAdd}
         className="inline-block w-5 text-gray-400 self-center hover:text-indigo-500 cursor-pointer"
-        onClick={Add}
+        onClick={Follow}
       />
     </div>
   );
@@ -108,6 +127,20 @@ function FriendRender(props: any) {
 export default function Suggestions() {
   const [subjectsList, setSubjectsList] = useState(SubjectsSuggestions);
   const [friendsList, setFriendsList] = useState(FriendsSuggestions);
+
+  function removeFriendFromList(idToRemove: number) {
+    setTimeout(() => {
+      setFriendsList(friendsList.filter((element) => element.id != idToRemove));
+    }, 500);
+  }
+
+  function removeTopicFromList(idToRemove: number) {
+    setTimeout(() => {
+      setSubjectsList(
+        subjectsList.filter((element) => element.id != idToRemove)
+      );
+    }, 500);
+  }
 
   return (
     <div className="w-full text-center flex flex-col space-y-4 h-screen">
@@ -125,7 +158,11 @@ export default function Suggestions() {
         </div>
         <div>
           {friendsList.map((friend: User) => (
-            <FriendRender key={friend.id} friend={friend} />
+            <FriendRender
+              key={friend.id}
+              friend={friend}
+              listFunction={removeFriendFromList}
+            />
           ))}
         </div>
       </div>
@@ -143,7 +180,11 @@ export default function Suggestions() {
         </div>
         <div>
           {subjectsList.map((subject: Subject) => (
-            <SubjectRender key={subject.id} subject={subject} />
+            <SubjectRender
+              key={subject.id}
+              subject={subject}
+              listFunction={removeTopicFromList}
+            />
           ))}
         </div>
       </div>
@@ -151,7 +192,4 @@ export default function Suggestions() {
   );
 }
 
-Suggestions.getInitialProps = async (ctx: NextPageContext) => {
-
-};
-
+Suggestions.getInitialProps = async (ctx: NextPageContext) => {};

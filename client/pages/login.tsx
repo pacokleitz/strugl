@@ -8,7 +8,6 @@ import { auth } from "../redux/reducers/CurrentUserSlice";
 import { useAppDispatch } from "../redux/hooks";
 
 import Alert from "../components/alert";
-import User from "../lib/user";
 
 interface FormInputs {
   username: string;

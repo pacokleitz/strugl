@@ -4,8 +4,8 @@ export const currentUserSlice = createSlice({
   name: "currentUser",
   initialState: {
     id: -1,
-    username: null,
-    email: null,
+    username: "",
+    email: "",
     followers: [{}],
     followings: [{}],
   },
@@ -19,8 +19,8 @@ export const currentUserSlice = createSlice({
 
     logOut: (state) => {
       state.id = -1;
-      state.username = null;
-      state.email = null;
+      state.username = "";
+      state.email = "";
       state.followers = [{}];
       state.followings = [{}];
     },

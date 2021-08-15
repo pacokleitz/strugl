@@ -19,6 +19,8 @@ import {
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 import { useAppSelector } from "../redux/hooks";
+import User from "../lib/user";
+import { useEffect } from "react";
 
 interface FormInputs {
   content: string;
@@ -109,13 +111,20 @@ function PostRender(props: any) {
   }
 
   return (
-    <div className="w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300">
+    <div
+      className={
+        "w-full shadow py-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300 " +
+        props.post.style
+      }
+    >
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
           <Link href="/${props.post.author}" as={"/" + props.post.author}>
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
-              {props.post.author.pic && <img src={props.post.author.pic} />}
-              {!props.post.author.pic && (
+              {props.post.author.avatar && (
+                <img src={props.post.author.avatar} />
+              )}
+              {!props.post.author.avatar && (
                 <img
                   src="default.svg"
                   className="w-9 rounded-full bg-white ring-2 ring-gray-300"
@@ -182,9 +191,16 @@ function PostRender(props: any) {
 export default function Feed(props: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
-  let [list, setList] = useState(props.postsList);
+  let initialList = props.postsList;
+  if (!props.postsList) {
+    initialList = [];
+  }
 
-  const { register, handleSubmit } = useForm<FormInputs>({ mode: "onSubmit" });
+  let [list, setList] = useState(initialList);
+
+  const { register, handleSubmit, reset } = useForm<FormInputs>({
+    mode: "onSubmit",
+  });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
     await fetch(`https://api.strugl.cc/posts`, {
@@ -193,31 +209,28 @@ export default function Feed(props: any) {
       body: JSON.stringify(data),
     }).then(async (res) => {
       if (res.ok) {
-        await fetch(`https://api.strugl.cc/posts/user/${currentUser.id}`, {
-          method: "Get",
-          credentials: "include",
-        }).then(async (res) => {
-          if (res.ok) {
-            res.json().then((value) => {
-              let lastPost = value[0];
-              let newPost = new Post(
-                lastPost.id,
-                lastPost.author,
-                lastPost.content,
-                lastPost.date
-              );
-              let newList = list.unshift(newPost);
-              setList((list = newList));
-            });
-          }
-        });
+        const id = await res.text();
+
+        setList((arr: []) => [
+          {
+            id: parseInt(id),
+            author: currentUser.username,
+            author_id: currentUser.id,
+            content: data.content,
+            date_created: new Date(),
+            style: "state2",
+          },
+          ...arr,
+        ]);
       }
+      reset({ content: "" });
     });
   }, []);
 
   return (
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2">
       <form
+        autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
         className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
       >
@@ -236,7 +249,9 @@ export default function Feed(props: any) {
               required: "Content is required.",
             })}
             placeholder="Share something with your friends today"
-            className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
+            autoComplete="off"
+            type="search"
+            className="w-full overflow-y-scroll p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
             required
           />
         </div>
@@ -247,8 +262,8 @@ export default function Feed(props: any) {
         }
       >
         {list &&
-          list.map((post: Post) => <PostRender key={post.id} post={post} />)}
-        {!list && props.feedType == "profileFeed" && (
+          list.map((post: any) => <PostRender key={post.id} post={post} />)}
+        {list.length == 0 && props.feedType == "profileFeed" && (
           <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
             <img src="duckbutticon.svg" className="h-1/4" />
             <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">

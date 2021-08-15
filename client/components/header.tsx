@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { current } from "@reduxjs/toolkit";
 import { logOut } from "../redux/reducers/CurrentUserSlice";
 
-
 import Message from "../lib/message";
 import User from "../lib/user";
 
@@ -22,7 +21,7 @@ import {
   faHome,
   faComments,
   faStream,
-} from "@fortawesome/free-solid-svg-icons";  
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
 
@@ -72,9 +71,11 @@ function Account() {
                 src="default.svg"
                 className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
-              <p className="hidden lg:inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
-                {currentUser.username}
-              </p>
+              {typeof currentUser.username === "string" && (
+                <p className="hidden lg:inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
+                  {currentUser.username}
+                </p>
+              )}
             </div>
             <div className="hidden lg:inline-block">
               <FontAwesomeIcon
@@ -371,6 +372,7 @@ export default function Header() {
         <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between w-1/4 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
           <input
             placeholder="Search"
+            type="search"
             className="text-md subpixel-antialiased text-justify px-2 bg-transparent focus:outline-none w-full"
           />
           <FontAwesomeIcon
@@ -380,20 +382,18 @@ export default function Header() {
         </div>
         <div className="flex flex-row justify-evenly items-end space-x-10">
           <div className="inline-block self-center">
-            <a onClick={() => Navigate("Dashboard")}>
+            <a onClick={() => Navigate("Dashboard")} title="Home">
               <FontAwesomeIcon
                 icon={faStream}
                 className="w-8 h-8 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:skew-y-6"
-                title="Home"
               />
             </a>
           </div>
           <div className="inline-block self-center">
-            <a onClick={() => Navigate("Explore")}>
+            <a onClick={() => Navigate("Explore")} title="Explore">
               <FontAwesomeIcon
                 icon={faCompass}
                 className="w-8 h-8 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
-                title="Explore"
               />
             </a>
           </div>
