@@ -14,7 +14,8 @@ export default function Dashboard({ postsList }: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (currentUser.username.length == 0) router.push("/");
+    if (currentUser.username.length == 0 || postsList == "Invalid")
+      router.push("/");
   });
 
   return (
@@ -42,7 +43,10 @@ Dashboard.getInitialProps = async (ctx: NextPageContext) => {
   const res = await fetch(`https://api.strugl.cc/posts/feed`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
   });
-  const json = await res.json();
-  return { postsList: json };
+  if (res.ok) {
+    const json = await res.json();
+    return { postsList: json };
+  } else return { postsList: "Invalid" };
 };
