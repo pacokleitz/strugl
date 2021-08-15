@@ -3,9 +3,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const currentUserSlice = createSlice({
   name: "currentUser",
   initialState: {
-    id: Number,
-    username: String,
-    email: String,
+    id: -1,
+    username: "",
+    email: "",
     followers: [{}],
     followings: [{}],
   },
@@ -18,9 +18,9 @@ export const currentUserSlice = createSlice({
     },
 
     logOut: (state) => {
-      state.id = Number;
-      state.username = String;
-      state.email = String;
+      state.id = -1;
+      state.username = "";
+      state.email = "";
       state.followers = [{}];
       state.followings = [{}];
     },

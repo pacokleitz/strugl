@@ -13,6 +13,7 @@ import { faBookmark, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ProfileContent(props: any) {
+
   return (
     <div className="pt-2 col-span-3 space-y-2">
       <div className="pb-2 flex flex-row px-6 justify-start items-center space-x-8 focus:outline-none">
@@ -58,8 +59,6 @@ function ProfileContent(props: any) {
 export default function Profile({ postsList }: any) {
   const router = useRouter();
   const { profile } = router.query;
-
-  const currentUser = useAppSelector((state) => state.currentUser);
 
   return (
     <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">

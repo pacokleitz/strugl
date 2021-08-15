@@ -1,4 +1,3 @@
-import { NextPageContext } from "next";
 import Head from "next/head";
 import React, { useEffect } from "react";
 
@@ -16,7 +15,7 @@ export default function Home() {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (!currentUser.username) {
+    if (currentUser.username.length == 0) {
       fetch("https://api.strugl.cc/api/users/me", {
         method: "Get",
         credentials: "include",

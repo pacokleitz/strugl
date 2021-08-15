@@ -190,9 +190,13 @@ function PostRender(props: any) {
 
 export default function Feed(props: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
-  let count: number = 4;
 
-  let [list, setList] = useState(props.postsList);
+  let initialList = props.postsList;
+  if (!props.postsList) {
+    initialList = [];
+  }
+
+  let [list, setList] = useState(initialList);
 
   const { register, handleSubmit, reset } = useForm<FormInputs>({
     mode: "onSubmit",
@@ -204,33 +208,29 @@ export default function Feed(props: any) {
       credentials: "include",
       body: JSON.stringify(data),
     }).then(async (res) => {
-      //   if (res.ok) {
-      //     const id = await res.text();
-      if (typeof currentUser.username === "string") {
+      if (res.ok) {
+        const id = await res.text();
+
         setList((arr: []) => [
           {
-            id: count,
+            id: parseInt(id),
             author: currentUser.username,
-            author_id: 0,
+            author_id: currentUser.id,
             content: data.content,
             date_created: new Date(),
             style: "state2",
           },
           ...arr,
         ]);
-        count++;
-        reset({ content: "" });
       }
-      //   }
+      reset({ content: "" });
     });
   }, []);
-
-  useEffect(() => {}, [list]);
 
   return (
     <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2">
       <form
-      autoComplete="off"
+        autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
         className="shadow px-8 py-4 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
       >
@@ -263,8 +263,7 @@ export default function Feed(props: any) {
       >
         {list &&
           list.map((post: any) => <PostRender key={post.id} post={post} />)}
-
-        {!list && props.feedType == "profileFeed" && (
+        {list.length == 0 && props.feedType == "profileFeed" && (
           <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
             <img src="duckbutticon.svg" className="h-1/4" />
             <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
