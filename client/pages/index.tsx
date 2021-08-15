@@ -9,7 +9,7 @@ import { auth, logOut } from "../redux/reducers/CurrentUserSlice";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
 
-export default function Home({ user }: any, {error}: any) {
+export default function Home({ user }: any, { error }: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
