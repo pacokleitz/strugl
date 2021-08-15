@@ -29,6 +29,7 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/users/name/:username", h.HandleUserByUsername)
 	h.Router.GET("/users/id/:id", h.HandleUserByID)
 	h.Router.GET("/users/me", h.Protected(h.HandleUserMe))
+	h.Router.GET("/users/recom", h.Protected(h.HandleUsersRecom))
 
 	h.Router.GET("/topics/:name", h.HandleTopicByName)
 
@@ -40,6 +41,7 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/posts/user/:username", h.HandlePostsGetByUser)
 	h.Router.GET("/posts/topic/:topic", h.HandlePostsGetByTopic)
 	h.Router.GET("/posts/feed", h.Protected(h.HandlePostsGetFeed))
+	h.Router.GET("/posts/recom", h.Protected(h.HandleTopicsRecom))
 
 	h.Router.POST("/follow/user", h.Protected(h.HandleFollowUser))
 	h.Router.POST("/unfollow/user", h.Protected(h.HandleUnfollowUser))

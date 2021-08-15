@@ -27,6 +27,7 @@ type PostService interface {
 	DeletePost(post_id int64) error
 
 	GetTopic(topic string) (*models.Topic, error)
+	GetRecomTopics(user_id int64) ([]models.Topic, error)
 }
 
 func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -124,4 +125,17 @@ func (h Handler) HandleTopicByName(w http.ResponseWriter, r *http.Request, ps ht
 	}
 
 	json.NewEncoder(w).Encode(t)
+}
+
+func (h Handler) HandleTopicsRecom(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+
+	tt, err := h.PostService.GetRecomTopics(user_data.User_ID)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, "Topics recommendation error", http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(tt)
 }

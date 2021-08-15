@@ -17,6 +17,7 @@ type UserService interface {
 	CreateUser(user models.User) (string, error)
 	GetUser(user_id int64) (*models.UserProfile, error)
 	GetUserByUsername(username string) (*models.UserProfile, error)
+	GetRecomUsers(user_id int64) ([]models.UserProfile, error)
 	UpdateUser(username string, newUser models.User) (*models.User, error)
 	DeleteUser(username string) error
 }
@@ -81,4 +82,16 @@ func (h Handler) HandleUserByUsername(w http.ResponseWriter, r *http.Request, ps
 		return
 	}
 	json.NewEncoder(w).Encode(userProfile)
+}
+
+func (h Handler) HandleUsersRecom(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+
+	uu, err := h.UserService.GetRecomUsers(user_data.User_ID)
+	if err != nil {
+		http.Error(w, "Users recommendation error", http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(uu)
 }
