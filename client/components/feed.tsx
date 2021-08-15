@@ -168,13 +168,10 @@ function PostRender(props: any) {
         <p className=" text-sm font-regular text-justify flex space-x-1 subpixel-antialiased">
           {content.map((word: string) => {
             if (topics.includes(word)) {
-              let sliced = word.slice(1);
-              return (
-                <Link href="/topic/${sliced}">
-                  <a className="text-blue-600 underline">{word}</a>
-                </Link>
-              );
-            } else return <p>{word}</p>;
+              <Link href="/topic/${word.slice(1)}">
+                <a className="text-blue-600 underline">{word}</a>
+              </Link>;
+            } else <p>{word}</p>;
           })}
         </p>
       </div>
