@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { NextPageContext } from "next";
 
-import Subject from "../lib/subject";
+import Subject from "../lib/topic";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

@@ -1,17 +1,17 @@
 import Post from "./post";
 import User from "./user";
 
-export default class Subject {
+export default class Topic {
   id: number;
   title: string;
   pic?: string;
   posts?: Post[];
   followers?: User[];
-  starred:boolean;
+  starred: boolean;
 
-  constructor(id: number, title: string, starred:boolean) {
+  constructor(id: number, title: string, starred: boolean) {
     this.id = id;
     this.title = title;
-    this.starred = starred
+    this.starred = starred;
   }
 }
