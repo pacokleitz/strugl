@@ -14,7 +14,7 @@ export default function Dashboard({ postsList }: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (currentUser.username.length == 0 || postsList == "Invalid")
+    if (currentUser.username.length == 0 || postsList.length == 0)
       router.push("/");
   });
 
@@ -48,5 +48,5 @@ Dashboard.getInitialProps = async (ctx: NextPageContext) => {
   if (res.ok) {
     const json = await res.json();
     return { postsList: json };
-  } else return { postsList: "Invalid" };
+  } else return { postsList: [] };
 };

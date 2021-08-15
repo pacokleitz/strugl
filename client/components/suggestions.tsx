@@ -32,7 +32,7 @@ function SubjectRender(props: any) {
   let [currentStarState, setCurrentStarState] = useState(0);
   let currentStar = starState[currentStarState];
 
-  function Star() { 
+  function Star() {
     if (currentStarState == 0) setCurrentStarState((currentStarState = 1));
     else setCurrentStarState((currentStarState = 0));
     currentStar = starState[currentStarState];
@@ -85,6 +85,7 @@ function FriendRender(props: any) {
     await fetch(`https://api.strugl.cc/follow/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ id: props.friend.id }),
     }).then(() => {
       props.listFunction(props.friend.id);
