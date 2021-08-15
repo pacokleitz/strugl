@@ -171,7 +171,7 @@ function PostRender(props: any) {
           {content.map((word: string) => {
             if (thisPost.topics?.includes(word)) {
               return (
-                <Link href="/topic/${word.slice(1)}" as={"/" + word}>
+                <Link href="/topic/${word.slice(1)}">
                   <a className="text-blue-600 underline">{word}</a>
                 </Link>
               );

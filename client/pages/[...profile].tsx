@@ -9,7 +9,12 @@ import Header from "../components/header";
 import Suggestions from "../components/suggestions";
 import Alert from "../components/alert";
 
-import { faBars, faBookmark, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faBookmark,
+  faStar,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function TopicProfileContent(props: any) {
@@ -88,11 +93,6 @@ export default function Profile({ postsList }: any) {
   const router = useRouter();
   const { profile } = router.query;
 
-  let profileType = "";
-  if (profile) {
-    profileType = profile[0] == "topic" ? "Topic" : "User";
-  }
-
   return (
     <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
       <Head>
@@ -127,13 +127,19 @@ export default function Profile({ postsList }: any) {
 }
 
 Profile.getInitialProps = async (ctx: NextPageContext) => {
-  const res = await fetch(
-    `https://api.strugl.cc/posts/user/${ctx.query.profile}`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  let url = ``;
+
+  if (ctx.query.profile && ctx.query.profile[0] == "topic") {
+    url = `https://api.strugl.cc/posts/topic/${ctx.query.profile[1]}`;
+  } else {
+    url = `https://api.strugl.cc/posts/user/${ctx.query.profile}`;
+  }
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
   const json = await res.json();
   return { postsList: json };
 };
