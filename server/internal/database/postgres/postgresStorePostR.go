@@ -193,7 +193,7 @@ func (store PostgresStore) GetRecomTopics(user_id int64) ([]models.Topic, error)
 
 	query := `SELECT topic_name, topic_id FROM topics
 				WHERE topic_id NOT IN (
-					SELECT topic_id IN users_to_topics WHERE user_id = $1
+					SELECT topic_id FROM users_to_topics WHERE user_id = $1
 				)
 				ORDER BY RANDOM()
 				LIMIT 3`
@@ -211,6 +211,5 @@ func (store PostgresStore) GetRecomTopics(user_id int64) ([]models.Topic, error)
 		}
 		tt = append(tt, t)
 	}
-
 	return tt, nil
 }

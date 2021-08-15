@@ -65,7 +65,7 @@ func (store PostgresStore) GetRecomUsers(user_id int64) ([]models.UserProfile, e
 	query := `SELECT user_id, username, profile_name, bio, avatar FROM users
 				WHERE user_id != $1 
 				AND user_id NOT IN (
-					SELECT following_id IN followings WHERE user_id = $1
+					SELECT following_id FROM followings WHERE user_id = $1
 				)
 				ORDER BY RANDOM()
 				LIMIT 3`
