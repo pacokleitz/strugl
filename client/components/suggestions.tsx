@@ -161,7 +161,6 @@ export default function Suggestions(props: any) {
         </div>
         <div>
           {friendsList &&
-            friendsList.length > 0 &&
             friendsList.map((friend: User) => (
               <FriendRender
                 key={friend.id}
@@ -169,11 +168,11 @@ export default function Suggestions(props: any) {
                 listFunction={removeFriendFromList}
               />
             ))}
-          {friendsList && friendsList.length == 0 && (
+          {/* {friendsList && friendsList.length == 0 && (
             <p className="text-sm text-center font-semibold text-gray-600 subpixel-antialiased">
               Refresh for more suggestions
             </p>
-          )}
+          )} */}
         </div>
       </div>
       <div className="rounded-lg divide-y-2 divide-gray-300">
@@ -190,7 +189,7 @@ export default function Suggestions(props: any) {
         </div>
         <div>
           {subjectsList &&
-            subjectsList.length > 0 &&
+            // subjectsList.length > 0 &&
             subjectsList.map((subject: Subject) => (
               <SubjectRender
                 key={subject.id}
@@ -198,11 +197,11 @@ export default function Suggestions(props: any) {
                 listFunction={removeTopicFromList}
               />
             ))}
-          {subjectsList && subjectsList.length == 0 && (
+          {/* {subjectsList && subjectsList.length == 0 && (
             <p className="text-sm text-center font-semibold text-gray-600 subpixel-antialiased">
               Refresh for more suggestions
             </p>
-          )}
+          )} */}
         </div>
       </div>
     </div>

@@ -179,7 +179,7 @@ function PostRender(props: any) {
             if (topics.includes(word)) {
               return (
                 <span>
-                  <Link href={`/topic/${encodeURIComponent(word.slice(1))}`}>
+                  <Link href={`/topic/${encodeURIComponent(word.slice(1))}`} shallow={false}>
                     <span className="text-blue-600 underline cursor-pointer">
                       {word}
                     </span>
