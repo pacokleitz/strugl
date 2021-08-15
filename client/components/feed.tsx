@@ -76,9 +76,7 @@ function PostRender(props: any) {
     props.post.date_created
   );
 
-  thisPost.extractTopics().forEach(async (topic) => {
-    thisPost.topics?.push(topic);
-  });
+  let topics = thisPost.extractTopics();
 
   let content = thisPost.content.split(" ");
 
@@ -169,7 +167,7 @@ function PostRender(props: any) {
 
         <p className=" text-sm font-regular text-justify flex space-x-1 subpixel-antialiased">
           {content.map((word: string) => {
-            if (thisPost.topics?.includes(word)) {
+            if (topics.includes(word)) {
               return (
                 <Link href="/topic/${word.slice(1)}">
                   <a className="text-blue-600 underline">{word}</a>
@@ -208,7 +206,7 @@ export default function Feed(props: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   let [list, setList] = useState(props.postsList);
-  console.log(props.postsList)
+  console.log(props.postsList);
 
   const { register, handleSubmit, reset } = useForm<FormInputs>({
     mode: "onSubmit",
