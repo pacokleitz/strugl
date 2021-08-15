@@ -16,15 +16,14 @@ export default function Dashboard({ postsList, error }: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    console.log(error)
-    if (error) {
-      dispatch(logOut());
-      router.push("/");
-    }
+    // if (error) {
+    //   dispatch(logOut());
+    //   router.push("/");
+    // }
   });
 
   return (
-    <div className="min-h-screen w-screen max-w-full bg-gray-100 overflow-hidden">
+    <div className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 overflow-hidden">
       <Head>
         <title>Strugl</title>
         <link rel="icon" href="/favicon.ico" />
