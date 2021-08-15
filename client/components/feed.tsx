@@ -132,7 +132,7 @@ function PostRender(props: any) {
               {thisPost.author_avatar && <img src={thisPost.author_avatar} />}
               {!thisPost.author_avatar && (
                 <img
-                  src="default.svg"
+                  src="/default.svg"
                   className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                 />
               )}
@@ -168,8 +168,9 @@ function PostRender(props: any) {
         <p className=" text-sm font-regular text-justify flex space-x-1 subpixel-antialiased">
           {content.map((word: string) => {
             if (topics.includes(word)) {
+              let sliced = word.slice(1);
               return (
-                <Link href="/topic/${word.slice(1)}">
+                <Link href="/topic/${sliced}">
                   <a className="text-blue-600 underline">{word}</a>
                 </Link>
               );

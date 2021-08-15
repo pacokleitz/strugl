@@ -2,20 +2,25 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import Header from "../components/header";
 import Feed from "../components/feed";
 import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
+import { logOut } from "../redux/reducers/CurrentUserSlice";
 
-export default function Dashboard({ postsList }: any) {
+export default function Dashboard({ postsList, error }: any) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (currentUser.username.length == 0 || postsList.length == 0)
+    console.log(error)
+    if (error) {
+      dispatch(logOut());
       router.push("/");
+    }
   });
 
   return (
@@ -48,5 +53,5 @@ Dashboard.getInitialProps = async (ctx: NextPageContext) => {
   if (res.ok) {
     const json = await res.json();
     return { postsList: json };
-  } else return { postsList: [] };
+  } else return { postsList: [], error: true };
 };
