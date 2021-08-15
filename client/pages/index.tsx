@@ -8,28 +8,20 @@ import { auth } from "../redux/reducers/CurrentUserSlice";
 
 import User from "../lib/user";
 import { useRouter } from "next/router";
+import { NextPageContext } from "next";
 
-export default function Home() {
+export default function Home({ user }: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (currentUser.username.length == 0) {
-      fetch("https://api.strugl.cc/users/me", {
-        method: "Get",
-        credentials: "include",
-      }).then(async (res) => {
-        const json = await res.json();
-        if (res.ok) {
-          dispatch(auth(json));
-          router.push("/dashboard", "/");
-        } else {
-          console.clear();
-          router.push("/login", "/");
-        }
-      });
-    } else router.push("/dashboard", "/");
+    if (currentUser.username.length == 0 && !user.username) {
+      router.push("/login", "/");
+    } else {
+      dispatch(auth(user));
+      router.push("/dashboard", "/");
+    }
   }, []);
 
   return (
@@ -43,3 +35,12 @@ export default function Home() {
     </Provider>
   );
 }
+
+Home.getInitialProps = async (ctx: NextPageContext) => {
+  const res = await fetch("https://api.strugl.cc/users/me", {
+    method: "Get",
+    credentials: "include",
+  });
+  const json = await res.json();
+  return { user: json };
+};
