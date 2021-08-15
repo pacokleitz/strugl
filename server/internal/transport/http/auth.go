@@ -88,6 +88,6 @@ func (h Handler) HandleAuthToken(w http.ResponseWriter, r *http.Request, ps http
 
 func (h Handler) HandleLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	cookie := http.Cookie{Name: "token", Value: "", Domain: "strugl.cc", MaxAge: -1, HttpOnly: true, Secure: true, SameSite: http.SameSiteStrictMode}
+	cookie := http.Cookie{Name: "token", Value: "", Domain: "strugl.cc", MaxAge: 1, HttpOnly: true, Secure: true, SameSite: http.SameSiteStrictMode}
 	http.SetCookie(w, &cookie)
 }
