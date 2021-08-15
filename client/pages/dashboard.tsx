@@ -10,13 +10,28 @@ import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 import { logOut } from "../redux/reducers/CurrentUserSlice";
 
-export default function Dashboard({ postsList, error }: any) {
+export default function Dashboard({
+  postsList,
+  topicsList,
+  usersList,
+  usersError,
+  feedError,
+  topicsError,
+}: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    // if (error) {
+    console.log(
+      postsList,
+      topicsList,
+      usersList,
+      usersError,
+      feedError,
+      topicsError
+    );
+    // if (feed.error) {
     //   dispatch(logOut());
     //   router.push("/");
     // }
@@ -35,7 +50,7 @@ export default function Dashboard({ postsList, error }: any) {
         </div>
         <Feed feedType="dashboardFeed" postsList={postsList} />
         <div className="lg:block hidden">
-          <Suggestions />
+          <Suggestions usersList={usersList} topicsList={topicsList} />
         </div>
       </div>
     </div>
@@ -43,14 +58,42 @@ export default function Dashboard({ postsList, error }: any) {
 }
 
 Dashboard.getInitialProps = async (ctx: NextPageContext) => {
+  let feed;
+  let topics;
+  let users;
+
   // feed fetch
-  const res = await fetch(`https://api.strugl.cc/posts/user/test2`, {
+  let res = await fetch(`https://api.strugl.cc/posts/user/test2`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   });
   if (res.ok) {
     const json = await res.json();
-    return { postsList: json };
-  } else return { postsList: [], error: true };
+    feed = { postsList: json };
+  } else feed = { feedError: true };
+
+  // Suggestions fetch
+
+  res = await fetch(`https://api.strugl.cc/recom/topics`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  if (res.ok) {
+    const json = await res.json();
+    topics = { topicsList: json };
+  } else topics = { topicsError: true };
+
+  res = await fetch(`https://api.strugl.cc/recom/users`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  if (res.ok) {
+    const json = await res.json();
+    users = { usersList: json };
+  } else users = { usersError: true };
+
+  return { feed, topics, users };
 };

@@ -125,9 +125,9 @@ function FriendRender(props: any) {
   );
 }
 
-export default function Suggestions({ topicsList, usersList }: any) {
-  const [subjectsList, setSubjectsList] = useState(topicsList);
-  const [friendsList, setFriendsList] = useState(usersList);
+export default function Suggestions(props: any) {
+  const [subjectsList, setSubjectsList] = useState(props.topicsList);
+  const [friendsList, setFriendsList] = useState(props.usersList);
 
   function removeFriendFromList(idToRemove: number) {
     setTimeout(() => {
@@ -161,6 +161,7 @@ export default function Suggestions({ topicsList, usersList }: any) {
         </div>
         <div>
           {friendsList &&
+            friendsList.length > 0 &&
             friendsList.map((friend: User) => (
               <FriendRender
                 key={friend.id}
@@ -168,6 +169,11 @@ export default function Suggestions({ topicsList, usersList }: any) {
                 listFunction={removeFriendFromList}
               />
             ))}
+          {friendsList && friendsList.length == 0 && (
+            <p className="text-sm text-center font-semibold text-gray-600 subpixel-antialiased">
+              Refresh for more suggestions
+            </p>
+          )}
         </div>
       </div>
       <div className="rounded-lg divide-y-2 divide-gray-300">
@@ -184,6 +190,7 @@ export default function Suggestions({ topicsList, usersList }: any) {
         </div>
         <div>
           {subjectsList &&
+            subjectsList.length > 0 &&
             subjectsList.map((subject: Subject) => (
               <SubjectRender
                 key={subject.id}
@@ -191,36 +198,13 @@ export default function Suggestions({ topicsList, usersList }: any) {
                 listFunction={removeTopicFromList}
               />
             ))}
+          {subjectsList && subjectsList.length == 0 && (
+            <p className="text-sm text-center font-semibold text-gray-600 subpixel-antialiased">
+              Refresh for more suggestions
+            </p>
+          )}
         </div>
       </div>
     </div>
   );
 }
-
-Suggestions.getInitialProps = async (ctx: NextPageContext) => {
-  // Suggestions fetch
-  let topics;
-  let users;
-
-  let res = await fetch(`https://api.strugl.cc/recom/topics`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-  if (res.ok) {
-    const json = await res.json();
-    topics = { topicsList: json };
-  } else topics = { error: true };
-
-  res = await fetch(`https://api.strugl.cc/recom/users`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-  if (res.ok) {
-    const json = await res.json();
-    users = { usersList: json };
-  } else users = { error: true };
-
-  return { topics, users };
-};
