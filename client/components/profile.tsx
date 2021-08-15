@@ -52,10 +52,10 @@ function SubjectRender(props: any) {
   );
 }
 
-export default function Profile({ followers, followings }: any) {
+export default function Profile(props: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
-  const [followingsList, setList] = useState(followings);
+  const [followingsList, setList] = useState(props.followings);
 
   return (
     <div className="w-full text-center flex flex-col h-screen">
@@ -77,7 +77,7 @@ export default function Profile({ followers, followings }: any) {
               <FontAwesomeIcon icon={faUsers} className="w-5" />
               <p>Followers</p>
             </div>
-            <p>{followers ? followers.length : 0}</p>
+            <p>{props.followers ? props.followers.length : 0}</p>
           </a>
           <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
@@ -115,22 +115,3 @@ export default function Profile({ followers, followings }: any) {
     </div>
   );
 }
-
-Profile.getInitialProps = async (ctx: NextPageContext) => {
-  const currentUser = useAppSelector((state) => state.currentUser);
-
-  // profile infos fetch
-  let res = await fetch(`https://api.strugl.cc/followers/${currentUser.id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  const followers = await res.json();
-
-  res = await fetch(`https://api.strugl.cc/followings/${currentUser.id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  const followings = await res.json();
-
-  return { followers: followers, followings: followings };
-};

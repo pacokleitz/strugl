@@ -10,7 +10,13 @@ import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 import { logOut } from "../redux/reducers/CurrentUserSlice";
 
-export default function Dashboard({ postsList, topicsList, usersList }: any) {
+export default function Dashboard({
+  postsList,
+  topicsList,
+  usersList,
+  followers,
+  followings,
+}: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
@@ -31,7 +37,7 @@ export default function Dashboard({ postsList, topicsList, usersList }: any) {
       <Header />
       <div className="max-w-full w-screen lg:grid lg:grid-cols-4 pt-16 px-4 m-auto gap-4 justify-between">
         <div className="lg:block hidden">
-          <Profile />
+          <Profile followers={followers} followings={followings} />
         </div>
         <Feed feedType="dashboardFeed" postsList={postsList} />
         <div className="lg:block hidden">
@@ -66,5 +72,26 @@ Dashboard.getInitialProps = async (ctx: NextPageContext) => {
   });
   const users = await res.json();
 
-  return { postsList: feed, topicsList: topics, usersList: users };
+  // profile infos fetch
+  const currentUser = useAppSelector((state) => state.currentUser);
+
+  res = await fetch(`https://api.strugl.cc/followers/${currentUser.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const followers = await res.json();
+
+  res = await fetch(`https://api.strugl.cc/followings/${currentUser.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const followings = await res.json();
+
+  return {
+    postsList: feed,
+    topicsList: topics,
+    usersList: users,
+    followers: followers,
+    followings: followings,
+  };
 };
