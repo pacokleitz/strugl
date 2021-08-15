@@ -25,6 +25,8 @@ type PostService interface {
 	CreatePost(post models.Post) (int64, error)
 
 	DeletePost(post_id int64) error
+
+	GetTopic(topic string) (*models.Topic, error)
 }
 
 func (h Handler) HandlePostCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -103,9 +105,23 @@ func (h Handler) HandlePostsGetFeed(w http.ResponseWriter, r *http.Request, ps h
 	pp, err := h.PostService.GetFeed(user_data.User_ID)
 	if err != nil {
 		log.Print(err)
-		http.Error(w, "Unknown topic", http.StatusBadRequest)
+		http.Error(w, "Feed error", http.StatusBadRequest)
 		return
 	}
 
 	json.NewEncoder(w).Encode(pp)
+}
+
+func (h Handler) HandleTopicByName(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	topic := ps.ByName("name")
+
+	t, err := h.PostService.GetTopic(topic)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, "Unknown topic", http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(t)
 }

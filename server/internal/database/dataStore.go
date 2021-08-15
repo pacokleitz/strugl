@@ -21,6 +21,7 @@ type DataStore interface {
 	GetTopicsFeed(username string) ([]models.Post, error)
 	GetFollowsFeed(username string) ([]models.Post, error)
 	GetFeed(user_id int64) ([]models.Post, error)
+	GetTopic(topic string) (*models.Topic, error)
 	CreatePost(post models.Post, topics []string) (int64, error)
 	DeletePost(post_id int64) error
 
@@ -28,6 +29,8 @@ type DataStore interface {
 
 	GetFollowers(user_id int64) ([]models.UserProfile, error)
 	GetFollowings(user_id int64) ([]models.UserProfile, error)
-	Follow(user_id int64, following_id int64) error
-	Unfollow(user_id int64, following_id int64) error
+	FollowUser(user_id int64, following_id int64) error
+	UnfollowUser(user_id int64, following_id int64) error
+	FollowTopic(user_id int64, topic_id int64) error
+	UnfollowTopic(user_id int64, topic_id int64) error
 }

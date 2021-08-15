@@ -6,7 +6,7 @@ import (
 
 func (store PostgresStore) GetFollowers(user_id int64) ([]models.UserProfile, error) {
 
-	var uu []models.UserProfile
+	uu := make([]models.UserProfile, 0)
 
 	query := `SELECT users.user_id, username, profile_name, bio, avatar FROM users
 				INNER JOIN followings ON users.user_id = followings.user_id
@@ -30,7 +30,7 @@ func (store PostgresStore) GetFollowers(user_id int64) ([]models.UserProfile, er
 
 func (store PostgresStore) GetFollowings(user_id int64) ([]models.UserProfile, error) {
 
-	var uu []models.UserProfile
+	uu := make([]models.UserProfile, 0)
 
 	query := `SELECT users.user_id, username, profile_name, bio, avatar FROM users
 				INNER JOIN followings ON users.user_id = followings.following_id
