@@ -20,9 +20,9 @@ export default function Home() {
         method: "Get",
         credentials: "include",
       }).then(async (res) => {
-        const text = await res.text();
+        const json = await res.json();
         if (res.ok) {
-          dispatch(auth(new User(0, text, "")));
+          dispatch(auth(json));
           router.push("/dashboard", "/");
         } else {
           console.clear();
