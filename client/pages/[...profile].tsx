@@ -9,11 +9,39 @@ import Header from "../components/header";
 import Suggestions from "../components/suggestions";
 import Alert from "../components/alert";
 
-import { faBookmark, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBookmark, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function ProfileContent(props: any) {
+function TopicProfileContent(props: any) {
+  return (
+    <div className="pt-2 col-span-3 space-y-2">
+      <div className="pb-2 flex flex-row px-6 justify-start items-center space-x-8 focus:outline-none">
+        <p className="inline-block text-4xl text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+          {"#" + props.topic}
+        </p>
+      </div>
+      <div className="bg-white rounded-xl shadow p-4 flex justify-around items-center">
+        <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
+          <div className="flex flex-row justify-between space-x-2">
+            <FontAwesomeIcon icon={faBars} className="w-5" />
+            <p>Posts</p>
+          </div>
+          <p>{props.postsList.length}</p>
+        </a>
+        <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
+          <div className="flex flex-row justify-between space-x-2">
+            <FontAwesomeIcon icon={faStar} className="w-5" />
+            <p>Followers</p>
+          </div>
+          <p>3</p>
+        </a>
+      </div>
+      <Feed feedType="profileFeed" postsList={props.postsList} />
+    </div>
+  );
+}
 
+function UserProfileContent(props: any) {
   return (
     <div className="pt-2 col-span-3 space-y-2">
       <div className="pb-2 flex flex-row px-6 justify-start items-center space-x-8 focus:outline-none">
@@ -60,10 +88,19 @@ export default function Profile({ postsList }: any) {
   const router = useRouter();
   const { profile } = router.query;
 
+  let profileType = "";
+  if (profile) {
+    profileType = profile[0] == "topic" ? "Topic" : "User";
+  }
+
   return (
     <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
       <Head>
-        <title>Strugl - {profile}</title>
+        {profile && profile[0] == "topic" && (
+          <title>Strugl - {"#" + profile[1]}</title>
+        )}
+        {profile && profile[0] != "topic" && <title>Strugl - {profile}</title>}
+
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
@@ -75,7 +112,12 @@ export default function Profile({ postsList }: any) {
         />
       )} */}
       <div className="pt-16 max-w-full min-w-screen lg:grid lg:grid-cols-4 px-4 m-auto gap-8 justify-between pb-4">
-        <ProfileContent postsList={postsList} user={profile} />
+        {profile && profile[0] == "topic" && (
+          <TopicProfileContent postsList={postsList} topic={profile[1]} />
+        )}
+        {profile && profile[0] != "topic" && (
+          <UserProfileContent postsList={postsList} user={profile} />
+        )}
         <div className="lg:block hidden">
           <Suggestions />
         </div>

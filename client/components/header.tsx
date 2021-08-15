@@ -68,7 +68,7 @@ function Account() {
           <Menu.Button className="focus:outline-none space-x-2">
             <div className="inline-block items-center space-x-2">
               <img
-                src="default.svg"
+                src="/default.svg"
                 className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
               {typeof currentUser.username === "string" && (

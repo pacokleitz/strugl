@@ -21,6 +21,7 @@ import {
 import { useAppSelector } from "../redux/hooks";
 import User from "../lib/user";
 import { useEffect } from "react";
+import Topic from "../lib/topic";
 
 interface FormInputs {
   content: string;
@@ -70,7 +71,27 @@ function CommentsRender(props: any) {
 }
 
 function PostRender(props: any) {
-  const serverDate = new Date(props.post.date_created);
+  let thisPost = new Post(
+    props.post.id,
+    props.post.author,
+    props.post.author_id,
+    props.post.content,
+    props.post.date_created
+  );
+
+  thisPost.extractTopics().forEach(async (topic) => {
+    await fetch(`https://api.strugl.cc/topics/${topic.slice(1)}`, {
+      method: "Post",
+      credentials: "include",
+    }).then(async (res) => {
+      if (res.ok) {
+        const json = await res.json();
+        thisPost.topics?.push(new Topic(json.topic_id, json.topic_name, 0));
+      }
+    });
+  });
+
+  let content = thisPost.content.split(" ");
 
   const [commentsList, setcommentsList] = useState(props.post.comments);
 
@@ -119,12 +140,10 @@ function PostRender(props: any) {
     >
       <div className="px-8 space-y-4">
         <div className="flex flex-row justify-between">
-          <Link href="/${props.post.author}" as={"/" + props.post.author}>
+          <Link href="/${thisPost.author}" as={"/" + thisPost.author}>
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
-              {props.post.author.avatar && (
-                <img src={props.post.author.avatar} />
-              )}
-              {!props.post.author.avatar && (
+              {thisPost.author_avatar && <img src={thisPost.author_avatar} />}
+              {!thisPost.author_avatar && (
                 <img
                   src="default.svg"
                   className="w-9 rounded-full bg-white ring-2 ring-gray-300"
@@ -132,10 +151,10 @@ function PostRender(props: any) {
               )}
               <div>
                 <h3 className="text-left text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
-                  {props.post.author}
+                  {thisPost.author}
                 </h3>
                 <p className="text-xs font-medium text-gray-500 tracking-tighter">
-                  {serverDate.toUTCString()}
+                  {thisPost.date_created.toUTCString()}
                 </p>
               </div>
             </div>
@@ -159,8 +178,16 @@ function PostRender(props: any) {
           </div>
         </div>
 
-        <p className=" text-sm font-regular text-justify subpixel-antialiased">
-          {props.post.content}
+        <p className=" text-sm font-regular text-justify flex space-x-1 subpixel-antialiased">
+          {content.map((word: string) => {
+            if (thisPost.topics?.find((topic) => topic.name == word.slice(1))) {
+              return (
+                <Link href="/${word}" as={"/" + word}>
+                  <a className="text-blue-600 underline">{word}</a>
+                </Link>
+              );
+            } else return <p>{word}</p>;
+          })}
         </p>
       </div>
       <div className="px-4 pt-2 space-y-2">
@@ -168,7 +195,7 @@ function PostRender(props: any) {
           <div className="flex flex-row justify-between items-center space-x-4">
             <a href="/profile" className="w-max focus:outline-none">
               <img
-                src="default.svg"
+                src="/default.svg"
                 className="w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
             </a>
@@ -238,7 +265,7 @@ export default function Feed(props: any) {
           <Link href="/${currentUser.username}" as={"/" + currentUser.username}>
             <a className="w-max focus:outline-none">
               <img
-                src="default.svg"
+                src="/default.svg"
                 className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
               />
             </a>
@@ -262,10 +289,10 @@ export default function Feed(props: any) {
         }
       >
         {list &&
-          list.map((post: any) => <PostRender key={post.id} post={post} />)}
+          list.map((post: Post) => <PostRender key={post.id} post={post} />)}
         {list.length == 0 && props.feedType == "profileFeed" && (
           <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
-            <img src="duckbutticon.svg" className="h-1/4" />
+            <img src="/duckbutticon.svg" className="h-1/4" />
             <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
               No posts yet
             </p>
