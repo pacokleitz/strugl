@@ -10,27 +10,13 @@ import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 import { logOut } from "../redux/reducers/CurrentUserSlice";
 
-export default function Dashboard({
-  postsList,
-  topicsList,
-  usersList,
-  usersError,
-  feedError,
-  topicsError,
-}: any) {
+export default function Dashboard({ postsList, topicsList, usersList }: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
 
   useEffect(() => {
-    console.log(
-      postsList,
-      topicsList,
-      usersList,
-      usersError,
-      feedError,
-      topicsError
-    );
+    console.log(postsList, topicsList, usersList);
     // if (feed.error) {
     //   dispatch(logOut());
     //   router.push("/");
@@ -58,42 +44,28 @@ export default function Dashboard({
 }
 
 Dashboard.getInitialProps = async (ctx: NextPageContext) => {
-  let feed;
-  let topics;
-  let users;
-
   // feed fetch
-  let res = await fetch(`https://api.strugl.cc/posts/user/test2`, {
+  let res = await fetch(`https://api.strugl.cc/posts/feed`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   });
-  if (res.ok) {
-    const json = await res.json();
-    feed = { postsList: json };
-  } else feed = { feedError: true };
+  const feed = await res.json();
 
   // Suggestions fetch
-
   res = await fetch(`https://api.strugl.cc/recom/topics`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   });
-  if (res.ok) {
-    const json = await res.json();
-    topics = { topicsList: json };
-  } else topics = { topicsError: true };
+  const topics = await res.json();
 
   res = await fetch(`https://api.strugl.cc/recom/users`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   });
-  if (res.ok) {
-    const json = await res.json();
-    users = { usersList: json };
-  } else users = { usersError: true };
+  const users = await res.json();
 
-  return { feed, topics, users };
+  return { postsList: feed, topicsList: topics, usersList: users };
 };
