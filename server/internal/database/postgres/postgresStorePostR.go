@@ -25,7 +25,7 @@ func (store PostgresStore) GetPost(id int64) (*models.Post, error) {
 
 func (store PostgresStore) GetPostsByUser(username string) ([]models.Post, error) {
 
-	var pp []models.Post
+	pp := make([]models.Post, 0)
 
 	query := `SELECT post_id, posts.user_id, username, avatar, content, date_created, date_updated FROM posts 
 				INNER JOIN users ON posts.user_id = users.user_id 
@@ -50,7 +50,7 @@ func (store PostgresStore) GetPostsByUser(username string) ([]models.Post, error
 
 func (store PostgresStore) GetPostsByTopic(topic string) ([]models.Post, error) {
 
-	var pp []models.Post
+	pp := make([]models.Post, 0)
 
 	query := `SELECT posts.post_id, posts.user_id, username, avatar, content, date_created, date_updated FROM posts 
 				INNER JOIN posts_to_topics ON posts_to_topics.post_id = posts.post_id
@@ -76,7 +76,8 @@ func (store PostgresStore) GetPostsByTopic(topic string) ([]models.Post, error) 
 }
 
 func (store PostgresStore) GetPostsBookmarked(username string) ([]models.Post, error) {
-	var pp []models.Post
+
+	pp := make([]models.Post, 0)
 
 	query := `SELECT post_id, posts.user_id, content, date_created, date_updated FROM posts 
 				INNER JOIN bookmarks ON posts.post_id = bookmarks.post_id
@@ -102,23 +103,23 @@ func (store PostgresStore) GetPostsBookmarked(username string) ([]models.Post, e
 
 // TO DO
 func (store PostgresStore) GetPostsUpvoted(username string) ([]models.Post, error) {
-	var posts []models.Post
-	return posts, nil
+	pp := make([]models.Post, 0)
+	return pp, nil
 }
 
 func (store PostgresStore) GetTopicsFeed(username string) ([]models.Post, error) {
-	var posts []models.Post
-	return posts, nil
+	pp := make([]models.Post, 0)
+	return pp, nil
 }
 
 func (store PostgresStore) GetFollowsFeed(username string) ([]models.Post, error) {
-	var posts []models.Post
-	return posts, nil
+	pp := make([]models.Post, 0)
+	return pp, nil
 }
 
 func (store PostgresStore) GetFeed(user_id int64) ([]models.Post, error) {
 
-	var pp []models.Post
+	pp := make([]models.Post, 0)
 
 	// à vérifier
 	// query := `SELECT DISTINCT posts.post_id, auth.user_id, auth.username, posts.content, posts.date_created, posts.date_updated FROM users

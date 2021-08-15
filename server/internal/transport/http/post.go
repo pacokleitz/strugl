@@ -13,7 +13,6 @@ import (
 )
 
 type PostService interface {
-
 	GetPost(id int64) (*models.Post, error)
 	GetPostsByUser(username string) ([]models.Post, error)
 	GetPostsByTopic(topic string) ([]models.Post, error)
