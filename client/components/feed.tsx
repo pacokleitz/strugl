@@ -207,12 +207,8 @@ function PostRender(props: any) {
 export default function Feed(props: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
-  let initialList = props.postsList;
-  if (!props.postsList) {
-    initialList = [];
-  }
-
-  let [list, setList] = useState(initialList);
+  let [list, setList] = useState(props.postsList);
+  console.log(props.postsList)
 
   const { register, handleSubmit, reset } = useForm<FormInputs>({
     mode: "onSubmit",
