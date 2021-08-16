@@ -261,7 +261,7 @@ export default function Feed(props: any) {
   }, []);
 
   return (
-    <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2">
+    <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2 scrollbar-hidden">
       <form
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
