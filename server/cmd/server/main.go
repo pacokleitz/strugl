@@ -17,7 +17,6 @@ import (
 
 func run() error {
 
-
 	datastore, err := postgres.New()
 	if err != nil {
 		return err
@@ -36,6 +35,7 @@ func run() error {
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"https://strugl.cc", "http://localhost:3000"},
 		AllowCredentials: true,
+		AllowedHeaders:   []string{"Authorization"},
 		Debug:            true,
 	})
 

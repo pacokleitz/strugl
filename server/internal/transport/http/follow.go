@@ -13,6 +13,7 @@ type FollowService interface {
 	UnfollowUser(user_id int64, following_id int64) error
 	GetFollowers(user_id int64) ([]models.UserProfile, error)
 	GetFollowings(user_id int64) ([]models.UserProfile, error)
+	GetInterests(user_id int64) ([]models.Topic, error)
 	FollowTopic(user_id int64, topic_id int64) error
 	UnfollowTopic(user_id int64, topic_id int64) error
 }
@@ -125,4 +126,21 @@ func (h Handler) HandleGetFollowings(w http.ResponseWriter, r *http.Request, ps 
 	}
 
 	json.NewEncoder(w).Encode(followings)
+}
+
+func (h Handler) HandleGetInterests(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	user_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
+	if err != nil {
+		http.Error(w, "Incorrect ID", http.StatusUnprocessableEntity)
+		return
+	}
+
+	interests, err := h.FollowService.GetInterests(user_id)
+	if err != nil {
+		http.Error(w, "DB Error", http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(interests)
 }
