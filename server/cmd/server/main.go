@@ -17,7 +17,6 @@ import (
 
 func run() error {
 
-
 	datastore, err := postgres.New()
 	if err != nil {
 		return err

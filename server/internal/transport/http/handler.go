@@ -34,6 +34,7 @@ func (h *Handler) SetupRoutes() {
 
 	h.Router.POST("/auth", h.HandleAuth)
 	h.Router.POST("/auth/token", h.HandleAuthToken)
+	h.Router.GET("/auth/logout", h.Protected(h.HandleLogout))
 
 	h.Router.POST("/posts", h.Protected(h.HandlePostCreate))
 	h.Router.GET("/posts/id/:id", h.HandlePostGet)
@@ -51,5 +52,6 @@ func (h *Handler) SetupRoutes() {
 	
 	h.Router.GET("/followers/:id", h.HandleGetFollowers)
 	h.Router.GET("/followings/:id", h.HandleGetFollowings)
+	h.Router.GET("/interests/:id", h.HandleGetInterests)
 
 }
