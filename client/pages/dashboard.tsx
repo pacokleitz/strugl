@@ -73,7 +73,7 @@ Dashboard.getInitialProps = async (ctx: NextPageContext) => {
   const users = await res.json();
 
   // profile infos fetch
-  await fetch("https://api.strugl.cc/users/me", {
+  res = await fetch("https://api.strugl.cc/users/me", {
     method: "Get",
     credentials: "include",
   });
