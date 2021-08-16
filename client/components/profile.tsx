@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Link from "next/link";
-import { NextPageContext } from "next";
+import { useAppSelector } from "../redux/hooks";
 
-import Subject from "../lib/topic";
+import Topic from "../lib/topic";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,34 +11,34 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
-import { useAppSelector } from "../redux/hooks";
 
-function SubjectRender(props: any) {
+function TopicRender(props: any) {
   const [starState] = useState([faStarEmpty, faStarFull]);
   let [currentStarState, setCurrentStarState] = useState(1);
   let currentStar = starState[currentStarState];
 
-  function Star() {
+  async function Unstar() {
     if (currentStarState == 0) setCurrentStarState((currentStarState = 1));
     else setCurrentStarState((currentStarState = 0));
     currentStar = starState[currentStarState];
+
+    await fetch(`https://api.strugl.cc/unfollow/topic/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ topic_id: props.topic.topic_id }),
+    }).then(() => {
+      props.listFunction(props.topic.topic_id);
+    });
   }
 
   return (
     <div className="w-full px-4 py-4 flex flex-row space-x-16 justify-between">
       <div className="">
-        <Link href="/profile" as={"/" + props.subject.title}>
+        <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
-            {props.subject.pic && <img src={props.subject.pic} />}
-            {!props.subject.pic && (
-              <img
-                src="/default.svg"
-                className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-              />
-            )}
-
             <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
-              {props.subject.title}
+              {props.topic.topic_name}
             </h3>
           </div>
         </Link>
@@ -46,7 +46,7 @@ function SubjectRender(props: any) {
       <FontAwesomeIcon
         icon={currentStar}
         className="w-5 text-gray-400 self-center hover:text-yellow-400 cursor-pointer"
-        onClick={Star}
+        onClick={Unstar}
       />
     </div>
   );
@@ -56,6 +56,14 @@ export default function Profile(props: any) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   const [followingsList, setList] = useState(props.followings);
+
+  function removeTopicFromList(idToRemove: number) {
+    setTimeout(() => {
+      setList(
+        followingsList.filter((element: any) => element.id != idToRemove)
+      );
+    }, 500);
+  }
 
   return (
     <div className="w-full text-center flex flex-col h-screen">
@@ -99,8 +107,12 @@ export default function Profile(props: any) {
         </div>
         <div className="h-full">
           {followingsList &&
-            followingsList.map((subject: any) => (
-              <SubjectRender key={subject.id} subject={subject} />
+            followingsList.map((topic: Topic) => (
+              <TopicRender
+                key={topic.topic_id}
+                topic={topic}
+                listFunction={removeTopicFromList}
+              />
             ))}
           {!followingsList && (
             <div className="h-full flex flex-col space-y-4 justify-items-center justify-start py-6">

@@ -8,6 +8,11 @@
     display: none;
 }
 
+.scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 .dashboardFeed {
     height: calc(100vh - 150px);
 }
