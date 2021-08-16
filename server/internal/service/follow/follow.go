@@ -52,3 +52,7 @@ func (s Service) UnfollowTopic(user_id int64, topic_id int64) error {
 
 	return s.Store.UnfollowTopic(user_id, topic_id)
 }
+
+func (s Service) GetInterests(user_id int64) ([]models.Topic, error) {
+	return s.Store.GetInterests(user_id)
+}

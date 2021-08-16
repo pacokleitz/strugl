@@ -52,5 +52,6 @@ func (h *Handler) SetupRoutes() {
 	
 	h.Router.GET("/followers/:id", h.HandleGetFollowers)
 	h.Router.GET("/followings/:id", h.HandleGetFollowings)
+	h.Router.GET("/interests/:id", h.HandleGetInterests)
 
 }
