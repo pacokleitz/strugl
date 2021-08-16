@@ -97,9 +97,13 @@ function UserProfileContent(props: any) {
   );
 }
 
-export default function Profile({ postsList, topicsList, usersList }: any) {
+export default function Profile({ postsList, topicsList, usersList, error }:any) {
   const router = useRouter();
   const { profile } = router.query;
+
+  useEffect(() => {
+    if(error) console.log(error)
+  })
 
   return (
     <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
@@ -135,36 +139,40 @@ export default function Profile({ postsList, topicsList, usersList }: any) {
 }
 
 Profile.getInitialProps = async (ctx: NextPageContext) => {
-  // Profile posts fetch
-  let url = ``;
+  try {
+    // Profile posts fetch
+    let url = ``;
 
-  if (ctx.query.profile && ctx.query.profile[0] == "topic") {
-    url = `https://api.strugl.cc/posts/topic/${ctx.query.profile[1]}`;
-  } else {
-    url = `https://api.strugl.cc/posts/user/${ctx.query.profile}`;
+    if (ctx.query.profile && ctx.query.profile[0] == "topic") {
+      url = `https://api.strugl.cc/posts/topic/${ctx.query.profile[1]}`;
+    } else {
+      url = `https://api.strugl.cc/posts/user/${ctx.query.profile}`;
+    }
+
+    let res = await fetch(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const posts = await res.json();
+
+    // Suggestions fetch
+    res = await fetch(`https://api.strugl.cc/recom/topics`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    const topics = await res.json();
+
+    res = await fetch(`https://api.strugl.cc/recom/users`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    const users = await res.json();
+
+    return { postsList: posts, topicsList: topics, usersList: users };
+  } catch (err) {
+    return { error: err };
   }
-
-  let res = await fetch(url, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-
-  const posts = await res.json();
-
-  // Suggestions fetch
-  res = await fetch(`https://api.strugl.cc/recom/topics`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-  const topics = await res.json();
-
-  res = await fetch(`https://api.strugl.cc/recom/users`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-  const users = await res.json();
-
-  return { postsList: posts, topicsList: topics, usersList: users };
 };

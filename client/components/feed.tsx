@@ -296,7 +296,7 @@ export default function Feed(props: any) {
       >
         {list &&
           list.map((post: Post) => <PostRender key={post.id} post={post} />)}
-        {list.length == 0 && props.feedType == "profileFeed" && (
+        {list && list.length == 0 && props.feedType == "profileFeed" && (
           <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
             <img src="/duckbutticon.svg" className="h-1/4" />
             <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">

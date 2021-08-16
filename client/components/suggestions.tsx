@@ -133,7 +133,7 @@ export default function Suggestions(props: any) {
           (element: any) => element.topic_id != topicToRemove.topic_id
         )
       );
-      props.updateFollowingsList(topicToRemove);
+      props.UpdateFollowingsList(topicToRemove);
     }, 500);
   }
 
