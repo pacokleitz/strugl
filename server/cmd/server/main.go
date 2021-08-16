@@ -35,7 +35,6 @@ func run() error {
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"https://strugl.cc", "http://localhost:3000"},
 		AllowCredentials: true,
-		AllowedHeaders:   []string{"Authorization"},
 		Debug:            true,
 	})
 
