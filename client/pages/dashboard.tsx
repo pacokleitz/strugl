@@ -8,40 +8,57 @@ import Header from "../components/header";
 import Feed from "../components/feed";
 import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
-import { logOut } from "../redux/reducers/CurrentUserSlice";
+import { auth, logOut } from "../redux/reducers/CurrentUserSlice";
 import Topic from "../lib/topic";
 
 export default function Dashboard({
   postsList,
   topicsList,
   usersList,
-  followersList,
+  interestsList,
   followingsList,
+  currentUser,
 }: any) {
-  const router = useRouter();
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.currentUser);
-
+  const [interests, setInterestsList] = useState(interestsList);
   const [followings, setFollowingsList] = useState(followingsList);
-  const [users, setUsersList] = useState(usersList);
-  const [topics, setTopicsList] = useState(topicsList);
+  const [usersRecom, setUsersList] = useState(usersList);
+  const [topicsRecom, setTopicsList] = useState(topicsList);
 
   useEffect(() => {
-    // if (feed.error) {
-    //   dispatch(logOut());
-    //   router.push("/");
-    // }
+    dispatch(auth(currentUser));
+    setInterestsList(interestsList);
     setFollowingsList(followingsList);
     setUsersList(usersList);
     setTopicsList(topicsList);
   });
 
-  function UpdateTopicsList() {}
+  async function UpdateTopicsList() {
+    await fetch(`https://api.strugl.cc/recom/topics`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    }).then(async (res) => {
+      let json = await res.json();
+      setTopicsList(json);
+    });
+  }
 
-  function UpdateUsersList() {}
+  async function UpdateUsersList() {
+    await fetch(`https://api.strugl.cc/recom/users`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    }).then(async (res) => {
+      let json = await res.json();
+      setTimeout(() => {
+        setUsersList(json);
+      }, 2000);
+    });
+  }
 
-  function UpdateFollowingsList(topic: Topic) {
-    setFollowingsList((arr: []) => [
+  function UpdateInterestsList(topic: Topic) {
+    setInterestsList((arr: []) => [
       {
         topic_id: topic.topic_id,
         topic_name: topic.topic_name,
@@ -60,16 +77,20 @@ export default function Dashboard({
       <Header />
       <div className="max-w-full w-screen lg:grid lg:grid-cols-4 pt-16 px-4 m-auto gap-4 justify-between">
         <div className="lg:block hidden">
-          <Profile followersList={followersList} followingsList={followings} />
+          <Profile
+            interestsList={interests}
+            followingsList={followings}
+            user={currentUser}
+          />
         </div>
         <Feed feedType="dashboardFeed" postsList={postsList} />
         <div className="lg:block hidden">
           <Suggestions
-            usersList={users}
-            topicsList={topics}
+            usersList={usersRecom}
+            topicsList={topicsRecom}
             updateUsersFunction={UpdateUsersList}
             updateTopicsFunction={UpdateTopicsList}
-            UpdateFollowingsList={UpdateFollowingsList}
+            UpdateInterestsFunction={UpdateInterestsList}
           />
         </div>
       </div>
@@ -109,24 +130,24 @@ Dashboard.getInitialProps = async (ctx: NextPageContext) => {
   });
   const currentUser = await res.json();
 
-  res = await fetch(`https://api.strugl.cc/followers/${currentUser.id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  const followers = await res.json();
-
   res = await fetch(`https://api.strugl.cc/followings/${currentUser.id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
   const followings = await res.json();
 
+  res = await fetch(`https://api.strugl.cc/interests/${currentUser.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const interests = await res.json();
+
   return {
     postsList: feed,
     topicsList: topics,
     usersList: users,
-    followersList: followers,
     followingsList: followings,
+    interestsList: interests,
     currentUser: currentUser,
   };
 };
