@@ -22,16 +22,19 @@ export default function Dashboard({
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
 
+  const [followings, setFollowingsList] = useState(followingsList);
+  const [users, setUsersList] = useState(usersList);
+  const [topics, setTopicsList] = useState(topicsList);
+
   useEffect(() => {
     // if (feed.error) {
     //   dispatch(logOut());
     //   router.push("/");
     // }
+    setFollowingsList(followingsList);
+    setUsersList(usersList);
+    setTopicsList(topicsList);
   });
-
-  const [followings, setFollowingsList] = useState(followingsList);
-  const [users, setUsersList] = useState(usersList);
-  const [topics, setTopicsList] = useState(topicsList);
 
   function UpdateTopicsList() {}
 
