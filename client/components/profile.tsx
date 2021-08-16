@@ -33,12 +33,17 @@ function TopicRender(props: any) {
   }
 
   return (
-    <div className="w-full px-4 py-4 flex flex-row space-x-16 justify-between">
+    <div
+      className={
+        "w-full px-4 py-4 flex flex-row space-x-16 justify-between" +
+        props.topic.style
+      }
+    >
       <div className="">
         <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
-              {props.topic.topic_name}
+              {"#" + props.topic.topic_name}
             </h3>
           </div>
         </Link>
@@ -73,11 +78,9 @@ export default function Profile(props: any) {
             src="/default.svg"
             className="w-10 rounded-full bg-white ring-2 ring-gray-300 self-center"
           />
-          {typeof window !== "undefined" && (
-            <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
-              {currentUser.username}
-            </p>
-          )}
+          <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+            {currentUser.username}
+          </p>
         </div>
         <div className="p-6 space-y-2 items-start">
           <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">

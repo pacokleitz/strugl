@@ -32,7 +32,7 @@ function TopicRender(props: any) {
       credentials: "include",
       body: JSON.stringify({ topic_id: props.topic.topic_id }),
     }).then(() => {
-      props.listFunction(props.topic.topic_id);
+      props.listFunction(props.topic.topic_name);
     });
   }
 
@@ -126,11 +126,14 @@ export default function Suggestions(props: any) {
     }, 500);
   }
 
-  function removeTopicFromList(idToRemove: number) {
+  function removeTopicFromList(topicToRemove: Topic) {
     setTimeout(() => {
       setTopicsList(
-        topicsList.filter((element: any) => element.id != idToRemove)
+        topicsList.filter(
+          (element: any) => element.topic_id != topicToRemove.topic_id
+        )
       );
+      props.updateFollowingsList(topicToRemove);
     }, 500);
   }
 

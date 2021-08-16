@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
@@ -9,13 +9,14 @@ import Feed from "../components/feed";
 import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 import { logOut } from "../redux/reducers/CurrentUserSlice";
+import Topic from "../lib/topic";
 
 export default function Dashboard({
   postsList,
   topicsList,
   usersList,
-  followers,
-  followings,
+  followersList,
+  followingsList,
 }: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -28,6 +29,25 @@ export default function Dashboard({
     // }
   });
 
+  const [followings, setFollowingsList] = useState(followingsList);
+  const [users, setUsersList] = useState(usersList);
+  const [topics, setTopicsList] = useState(topicsList);
+
+  function UpdateTopicsList() {}
+
+  function UpdateUsersList() {}
+
+  function UpdateFollowingsList(topic: Topic) {
+    setFollowingsList((arr: []) => [
+      {
+        topic_id: topic.topic_id,
+        topic_name: topic.topic_name,
+        style: "state2",
+      },
+      ...arr,
+    ]);
+  }
+
   return (
     <div className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 overflow-hidden">
       <Head>
@@ -37,11 +57,17 @@ export default function Dashboard({
       <Header />
       <div className="max-w-full w-screen lg:grid lg:grid-cols-4 pt-16 px-4 m-auto gap-4 justify-between">
         <div className="lg:block hidden">
-          <Profile followers={followers} followings={followings} />
+          <Profile followersList={followersList} followingsList={followings} />
         </div>
         <Feed feedType="dashboardFeed" postsList={postsList} />
         <div className="lg:block hidden">
-          <Suggestions usersList={usersList} topicsList={topicsList} />
+          <Suggestions
+            usersList={users}
+            topicsList={topics}
+            updateUsersFunction={UpdateUsersList}
+            updateTopicsFunction={UpdateTopicsList}
+            UpdateFollowingsList={UpdateFollowingsList}
+          />
         </div>
       </div>
     </div>
@@ -95,7 +121,8 @@ Dashboard.getInitialProps = async (ctx: NextPageContext) => {
     postsList: feed,
     topicsList: topics,
     usersList: users,
-    followers: followers,
-    followings: followings,
+    followersList: followers,
+    followingsList: followings,
+    currentUser: currentUser,
   };
 };
