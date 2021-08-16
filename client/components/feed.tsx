@@ -131,7 +131,7 @@ function PostRender(props: any) {
     >
       <div className="px-4 space-y-2">
         <div className="flex flex-row justify-between">
-          <Link href="/${thisPost.author}" as={"/" + thisPost.author}>
+          <Link href={`/${encodeURIComponent(thisPost.author)}`}>
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
               {thisPost.author_avatar && (
                 <img
@@ -213,6 +213,7 @@ function PostRender(props: any) {
               placeholder="Leave a comment ..."
               className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
               required
+              disabled
             />
           </div>
         </form>
@@ -268,12 +269,20 @@ export default function Feed(props: any) {
         className="shadow px-4 py-2 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
       >
         <div className="flex flex-row justify-between items-center space-x-4">
-          <Link href="/${currentUser.username}" as={"/" + currentUser.username}>
+          <Link href={`/${encodeURIComponent(currentUser.username)}`}>
             <a className="w-max focus:outline-none">
-              <img
-                src="/default.svg"
-                className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
-              />
+              {currentUser.avatar && (
+                <img
+                  src={currentUser.avatar}
+                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              )}
+              {!currentUser.username && (
+                <img
+                  src="/default.svg"
+                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              )}
             </a>
           </Link>
 

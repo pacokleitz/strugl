@@ -14,10 +14,12 @@ export const currentUserSlice = createSlice({
   },
   reducers: {
     auth: (state, action) => {
-      const { id, username, email } = action.payload;
-      state.id = id;
-      state.username = username;
-      state.email = email;
+       const { id, username, profile_name, bio, avatar } = action.payload;
+       state.id = id
+       state.username = username
+       state.profile_name = profile_name
+       state.bio = bio
+       state.avatar = avatar
     },
 
     logOut: (state) => {

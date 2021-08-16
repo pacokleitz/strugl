@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Link from "next/link";
-import { NextPageContext } from "next";
 
 import Topic from "../lib/topic";
 import User from "../lib/user";
@@ -22,8 +21,7 @@ function TopicRender(props: any) {
   let currentStar = starState[currentStarState];
 
   async function Star() {
-    if (currentStarState == 0) setCurrentStarState((currentStarState = 1));
-    else setCurrentStarState((currentStarState = 0));
+    setCurrentStarState((currentStarState = 1));
     currentStar = starState[currentStarState];
 
     await fetch(`https://api.strugl.cc/follow/topic/`, {
@@ -32,14 +30,14 @@ function TopicRender(props: any) {
       credentials: "include",
       body: JSON.stringify({ topic_id: props.topic.topic_id }),
     }).then(() => {
-      props.listFunction(props.topic.topic_name);
+      props.listFunction(props.topic);
     });
   }
 
   return (
     <div
       className={
-        "p-4 flex flex-row space-x-8 justify-between state" +
+        "p-4 flex flex-row space-x-8 justify-between fadeOut" +
         currentStarState.toString()
       }
     >
@@ -67,8 +65,7 @@ function FriendRender(props: any) {
   let currentAdd = addState[currentaddState];
 
   async function Follow() {
-    if (currentaddState == 0) setCurrentaddState((currentaddState = 1));
-    else setCurrentaddState((currentaddState = 0));
+    setCurrentaddState((currentaddState = 1));
     currentAdd = addState[currentaddState];
 
     await fetch(`https://api.strugl.cc/follow/user/`, {
@@ -84,15 +81,20 @@ function FriendRender(props: any) {
   return (
     <div
       className={
-        "w-full px-4 py-4 flex flex-row justify-between state" +
+        "w-full px-4 py-4 flex flex-row justify-between fadeOut" +
         currentaddState.toString()
       }
     >
       <div className="inline-block">
-        <Link href="/${props.friend.username}" as={"/" + props.friend.username}>
+        <Link href={`/${encodeURIComponent(props.friend.username)}`}>
           <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
-            {props.friend.pic && <img src={props.friend.pic} />}
-            {!props.friend.pic && (
+            {props.friend.avatar && (
+              <img
+                src={props.friend.avatar}
+                className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+              />
+            )}
+            {!props.friend.avatar && (
               <img
                 src="/default.svg"
                 className="w-9 rounded-full bg-white ring-2 ring-gray-300"
@@ -118,12 +120,15 @@ export default function Suggestions(props: any) {
   const [topicsList, setTopicsList] = useState(props.topicsList);
   const [friendsList, setFriendsList] = useState(props.usersList);
 
+  let [currentRotate1State, setCurrentRotate1State] = useState(false);
+  let [currentRotate2State, setCurrentRotate2State] = useState(false);
+
   function removeFriendFromList(idToRemove: number) {
     setTimeout(() => {
       setFriendsList(
         friendsList.filter((element: any) => element.id != idToRemove)
       );
-    }, 500);
+    }, 0);
   }
 
   function removeTopicFromList(topicToRemove: Topic) {
@@ -133,8 +138,8 @@ export default function Suggestions(props: any) {
           (element: any) => element.topic_id != topicToRemove.topic_id
         )
       );
-      props.UpdateFollowingsList(topicToRemove);
-    }, 500);
+      props.UpdateInterestsFunction(topicToRemove);
+    }, 0);
   }
 
   return (
@@ -147,7 +152,17 @@ export default function Suggestions(props: any) {
           <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
-              className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
+              className={
+                "w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 " +
+                currentRotate1State
+              }
+              onClick={() => {
+                props.updateUsersFunction();
+                setCurrentRotate1State(true);
+                setTimeout(() => {
+                  setCurrentRotate1State(false);
+                }, 2000);
+              }}
             />
           </button>
         </div>
@@ -162,7 +177,7 @@ export default function Suggestions(props: any) {
               />
             ))}
           {friendsList && friendsList.length == 0 && (
-            <p className="text-sm text-center font-semibold text-gray-600 subpixel-antialiased">
+            <p className="text-sm text-center font-semibold text-gray-400 subpixel-antialiased">
               Refresh for more suggestions
             </p>
           )}
@@ -176,7 +191,17 @@ export default function Suggestions(props: any) {
           <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
-              className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
+              className={
+                "w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180  " +
+                currentRotate2State
+              }
+              onClick={() => {
+                props.updateTopicsFunction();
+                setCurrentRotate2State(true);
+                setTimeout(() => {
+                  setCurrentRotate2State(false);
+                }, 2000);
+              }}
             />
           </button>
         </div>
@@ -191,7 +216,7 @@ export default function Suggestions(props: any) {
               />
             ))}
           {topicsList && topicsList.length == 0 && (
-            <p className="text-sm text-center font-semibold text-gray-600 subpixel-antialiased">
+            <p className="text-sm text-center font-medium text-gray-400 subpixel-antialiased">
               Refresh for more suggestions
             </p>
           )}
