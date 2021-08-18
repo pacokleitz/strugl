@@ -35,8 +35,8 @@ func (s Service) GetPostsByTopic(topic string) ([]models.Post, error) {
 	return s.Store.GetPostsByTopic(topic)
 }
 
-func (s Service) GetPostsBookmarked(username string) ([]models.Post, error) {
-	return s.Store.GetPostsBookmarked(username)
+func (s Service) GetPostsBookmarked(user_id int64) ([]models.Post, error) {
+	return s.Store.GetPostsBookmarked(user_id)
 }
 
 // TODO Section
@@ -64,6 +64,14 @@ func (s Service) CreatePost(p models.Post) (int64, error) {
 
 	topics := GetPostTopics(p.Content)
 	return s.Store.CreatePost(p, topics)
+}
+
+func (s Service) BookmarkPost(user_id int64, post_id int64) error {
+	return s.Store.BookmarkPost(user_id, post_id)
+}
+
+func (s Service) UnBookmarkPost(user_id int64, post_id int64) error {
+	return s.Store.UnBookmarkPost(user_id, post_id)
 }
 
 // Delete a post and cascade delete all associated entries (topics, bookmarks, upvotes)

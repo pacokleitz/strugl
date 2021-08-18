@@ -37,10 +37,14 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/auth/logout", h.Protected(h.HandleLogout))
 
 	h.Router.POST("/posts", h.Protected(h.HandlePostCreate))
+	h.Router.GET("/posts/bookmarks", h.Protected(h.HandlePostsGetBookmarks))
 	h.Router.GET("/posts/id/:id", h.HandlePostGet)
 	h.Router.GET("/posts/user/:username", h.HandlePostsGetByUser)
 	h.Router.GET("/posts/topic/:topic", h.HandlePostsGetByTopic)
+	h.Router.GET("/posts/bookmarks/:id", h.Protected(h.HandleBookmarkPost))
+	h.Router.DELETE("/posts/bookmarks/:id", h.Protected(h.HandleUnBookmarkPost))
 	h.Router.GET("/posts/feed", h.Protected(h.HandlePostsGetFeed))
+
 
 	h.Router.GET("/recom/topics", h.Protected(h.HandleTopicsRecom))
 	h.Router.GET("/recom/users", h.Protected(h.HandleUsersRecom))
