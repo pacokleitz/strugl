@@ -1,10 +1,16 @@
 package follow
 
 import (
+	"errors"
+
 	"strugl/internal/database"
 	"strugl/internal/models"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
+)
+
+var (
+	ErrSelfFollow = errors.New("self follow is impossible")
 )
 
 type Service struct {
@@ -31,6 +37,10 @@ func (s Service) GetFollowings(user_id int64) ([]models.UserProfile, error) {
 
 // Follow following_id
 func (s Service) FollowUser(user_id int64, following_id int64) error {
+	
+	if user_id == following_id {
+		return ErrSelfFollow
+	}
 
 	return s.Store.FollowUser(user_id, following_id)
 }
