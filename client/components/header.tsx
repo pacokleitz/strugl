@@ -60,7 +60,7 @@ function Account() {
     } else {
       if (to == "Settings") router.push("/settings", "/");
       else if (to == "Profile")
-        router.push("/${currentUser.username}", "/" + currentUser.username);
+        router.push(`/${encodeURIComponent(currentUser.username)}`);
     }
   }
 
@@ -73,10 +73,18 @@ function Account() {
         <>
           <Menu.Button className="focus:outline-none space-x-2">
             <div className="inline-block items-center space-x-2">
-              <img
-                src="/default.svg"
-                className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
-              />
+              {currentUser.avatar && (
+                <img
+                  src={currentUser.avatar}
+                  className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              )}
+              {!currentUser.username && (
+                <img
+                  src="/default.svg"
+                  className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
+                />
+              )}
               {typeof currentUser.username === "string" && (
                 <p className="hidden lg:inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
                   {currentUser.username}
