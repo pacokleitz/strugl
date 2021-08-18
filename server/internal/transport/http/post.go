@@ -16,13 +16,16 @@ type PostService interface {
 	GetPost(id int64) (*models.Post, error)
 	GetPostsByUser(username string) ([]models.Post, error)
 	GetPostsByTopic(topic string) ([]models.Post, error)
-	GetPostsBookmarked(username string) ([]models.Post, error)
+	GetPostsBookmarked(user_id int64) ([]models.Post, error)
 	GetPostsUpvoted(username string) ([]models.Post, error)
 	GetTopicsFeed(username string) ([]models.Post, error)
 	GetFollowsFeed(username string) ([]models.Post, error)
 	GetFeed(user_id int64) ([]models.Post, error)
 
 	CreatePost(post models.Post) (int64, error)
+
+	BookmarkPost(user_id int64, post_id int64) error
+	UnBookmarkPost(user_id int64, post_id int64) error
 
 	DeletePost(post_id int64) error
 
@@ -138,4 +141,49 @@ func (h Handler) HandleTopicsRecom(w http.ResponseWriter, r *http.Request, ps ht
 	}
 
 	json.NewEncoder(w).Encode(tt)
+}
+
+func (h Handler) HandlePostsGetBookmarks(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+
+	pp, err := h.PostService.GetPostsBookmarked(user_data.User_ID)
+	if err != nil {
+		http.Error(w, "Bookmarks list error", http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(pp)
+}
+
+func (h Handler) HandleBookmarkPost(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+	post_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
+	if err != nil {
+		http.Error(w, "Incorrect ID", http.StatusBadRequest)
+		return
+	}
+
+	err = h.PostService.BookmarkPost(user_data.User_ID, post_id)
+	if err != nil {
+		http.Error(w, "Bookmark error", http.StatusBadRequest)
+		return
+	}
+}
+
+func (h Handler) HandleUnBookmarkPost(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
+	post_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
+	if err != nil {
+		http.Error(w, "Incorrect ID", http.StatusBadRequest)
+		return
+	}
+
+	err = h.PostService.UnBookmarkPost(user_data.User_ID, post_id)
+	if err != nil {
+		http.Error(w, "UnBookmark error", http.StatusBadRequest)
+		return
+	}
 }

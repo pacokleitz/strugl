@@ -16,7 +16,7 @@ type DataStore interface {
 	GetPost(id int64) (*models.Post, error)
 	GetPostsByUser(username string) ([]models.Post, error)
 	GetPostsByTopic(topic string) ([]models.Post, error)
-	GetPostsBookmarked(username string) ([]models.Post, error)
+	GetPostsBookmarked(user_id int64) ([]models.Post, error)
 	GetPostsUpvoted(username string) ([]models.Post, error)
 	GetTopicsFeed(username string) ([]models.Post, error)
 	GetFollowsFeed(username string) ([]models.Post, error)
@@ -25,6 +25,8 @@ type DataStore interface {
 	GetRecomTopics(user_id int64) ([]models.Topic, error)
 	GetRecomUsers(user_id int64) ([]models.UserProfile, error)
 	CreatePost(post models.Post, topics []string) (int64, error)
+	BookmarkPost(user_id int64, post_id int64) error
+	UnBookmarkPost(user_id int64, post_id int64) error
 	DeletePost(post_id int64) error
 
 	GetCredentials(username string) (models.AuthCredentials, error)
