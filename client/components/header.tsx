@@ -28,8 +28,8 @@ import { Menu, Transition } from "@headlessui/react";
 // Données de tests (à supprimer plus tard)
 let testDate = new Date(2021, 3, 25, 17, 43);
 testDate.toDateString();
-const siham = new User(34, "testingwith20charact", "sihamais98@gmail.com");
-const paco = new User(32, "testUser1", "sihamais98@gmail.com");
+const siham = new User(32, "testingwith20charact", "", "", "");
+const paco = new User(32, "testUser1", "", "", "");
 const msg1 = new Message(12, siham, "Short comment test !", testDate);
 const msg2 = new Message(
   15,
@@ -44,11 +44,11 @@ const initialInvitesList: User[] = [siham, paco];
 
 function Account() {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const currentUser = useAppSelector((state) => state.currentUser.userInfos);
   const dispatch = useAppDispatch();
 
   async function Navigate(to: String) {
-    if (to == "SignOut") {
+    if (to == "SignOut")
       await fetch(`https://api.strugl.cc/auth/logout`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -57,11 +57,8 @@ function Account() {
         dispatch(logOut());
         router.push("/");
       });
-    } else {
-      if (to == "Settings") router.push("/settings", "/");
-      else if (to == "Profile")
-        router.push(`/${encodeURIComponent(currentUser.username)}`);
-    }
+    else if (to == "Settings") router.push("/settings", "/");
+    else router.push(`/${encodeURIComponent(currentUser.username)}`);
   }
 
   return (
@@ -160,20 +157,13 @@ function Account() {
 
 function Inbox() {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.currentUser);
-  const dispatch = useAppDispatch();
 
   const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const [inboxList, setList] = useState(initialInboxList);
 
   function Navigate(to: String) {
-    if (!currentUser.username) {
-      dispatch(logOut());
-      router.push("/");
-    } else {
-      if (to == "Inbox") router.push("/inbox", "/");
-    }
+    if (to == "Inbox") router.push("/inbox", "/");
   }
 
   function MessageRender(props: any) {
@@ -361,17 +351,10 @@ function Invites() {
 
 export default function Header() {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.currentUser);
-  const dispatch = useAppDispatch();
 
   async function Navigate(to: String) {
-    if (!currentUser.username) {
-      dispatch(logOut());
-      router.push("/");
-    } else {
-      if (to == "Dashboard") router.push("/dashboard", "/");
-      else if (to == "Explore") router.push("/explore", "/");
-    }
+    if (to == "Dashboard") router.push("/dashboard", "/");
+    else if (to == "Explore") router.push("/explore", "/");
   }
 
   return (

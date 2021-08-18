@@ -1,13 +1,23 @@
+import Topic from "./topic";
+
 export default class User {
   id: number;
   username: string;
-  pic?: string;
-  email: string;
-  followers?: User[] = [];
+  bio: string;
+  profile_name: string;
+  avatar: string;
 
-  constructor(id: number, username: string, email: string) {
+  constructor(
+    id: number,
+    username: string,
+    avatar: string,
+    bio: string,
+    profile_name: string
+  ) {
     this.id = id;
     this.username = username;
-    this.email = email;
+    this.avatar = avatar;
+    this.bio = bio;
+    this.profile_name = profile_name;
   }
 }

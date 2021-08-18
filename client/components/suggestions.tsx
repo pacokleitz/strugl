@@ -1,5 +1,9 @@
 import { useState } from "react";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+
+import { GetTopicsRecom, GetUsersRecom } from "../services/data";
+import { FollowTopic, FollowUser } from "../services/actions";
 
 import Topic from "../lib/topic";
 import User from "../lib/user";
@@ -16,6 +20,8 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 function TopicRender(props: any) {
+  const dispatch = useAppDispatch();
+
   const [starState] = useState([faStarEmpty, faStarFull]);
   let [currentStarState, setCurrentStarState] = useState(0);
   let currentStar = starState[currentStarState];
@@ -24,14 +30,7 @@ function TopicRender(props: any) {
     setCurrentStarState((currentStarState = 1));
     currentStar = starState[currentStarState];
 
-    await fetch(`https://api.strugl.cc/follow/topic/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ topic_id: props.topic.topic_id }),
-    }).then(() => {
-      props.listFunction(props.topic);
-    });
+    FollowTopic(dispatch, props.topic);
   }
 
   return (
@@ -42,7 +41,10 @@ function TopicRender(props: any) {
       }
     >
       <div>
-        <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
+        <Link
+          href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}
+          as={"/topic/" + props.topic.topic_name}
+        >
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
               {"#" + props.topic.topic_name}
@@ -60,6 +62,8 @@ function TopicRender(props: any) {
 }
 
 function FriendRender(props: any) {
+  const dispatch = useAppDispatch();
+
   const [addState] = useState([faPlusSquareEmpty, faPlusSquareFull]);
   let [currentaddState, setCurrentaddState] = useState(0);
   let currentAdd = addState[currentaddState];
@@ -68,14 +72,7 @@ function FriendRender(props: any) {
     setCurrentaddState((currentaddState = 1));
     currentAdd = addState[currentaddState];
 
-    await fetch(`https://api.strugl.cc/follow/user/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ id: props.friend.id }),
-    }).then(() => {
-      props.listFunction(props.friend.id);
-    });
+    FollowUser(dispatch, props.friend);
   }
 
   return (
@@ -86,7 +83,10 @@ function FriendRender(props: any) {
       }
     >
       <div className="inline-block">
-        <Link href={`/${encodeURIComponent(props.friend.username)}`}>
+        <Link
+          href={`/${encodeURIComponent(props.friend.username)}`}
+          as={"/" + props.friend.username}
+        >
           <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.friend.avatar && (
               <img
@@ -116,31 +116,13 @@ function FriendRender(props: any) {
   );
 }
 
-export default function Suggestions(props: any) {
-  const [topicsList, setTopicsList] = useState(props.topicsList);
-  const [friendsList, setFriendsList] = useState(props.usersList);
+export default function Suggestions() {
+  const dispatch = useAppDispatch();
 
-  let [currentRotate1State, setCurrentRotate1State] = useState(false);
-  let [currentRotate2State, setCurrentRotate2State] = useState(false);
-
-  function removeFriendFromList(idToRemove: number) {
-    setTimeout(() => {
-      setFriendsList(
-        friendsList.filter((element: any) => element.id != idToRemove)
-      );
-    }, 0);
-  }
-
-  function removeTopicFromList(topicToRemove: Topic) {
-    setTimeout(() => {
-      setTopicsList(
-        topicsList.filter(
-          (element: any) => element.topic_id != topicToRemove.topic_id
-        )
-      );
-      props.UpdateInterestsFunction(topicToRemove);
-    }, 0);
-  }
+  const usersRecom = useAppSelector((state) => state.usersRecommandations.list);
+  const topicsRecom = useAppSelector(
+    (state) => state.topicsRecommandations.list
+  );
 
   return (
     <div className="w-full text-center flex flex-col space-y-4 h-screen">
@@ -152,31 +134,20 @@ export default function Suggestions(props: any) {
           <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
-              className={
-                "w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 " +
-                currentRotate1State
-              }
+              className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
               onClick={() => {
-                props.updateUsersFunction();
-                setCurrentRotate1State(true);
-                setTimeout(() => {
-                  setCurrentRotate1State(false);
-                }, 2000);
+                GetUsersRecom(dispatch);
               }}
             />
           </button>
         </div>
         <div>
-          {friendsList &&
-            friendsList.length > 0 &&
-            friendsList.map((friend: User) => (
-              <FriendRender
-                key={friend.id}
-                friend={friend}
-                listFunction={removeFriendFromList}
-              />
+          {usersRecom &&
+            usersRecom.length > 0 &&
+            usersRecom.map((friend: User) => (
+              <FriendRender key={friend.id} friend={friend} />
             ))}
-          {friendsList && friendsList.length == 0 && (
+          {usersRecom && usersRecom.length == 0 && (
             <p className="text-sm text-center font-semibold text-gray-400 subpixel-antialiased">
               Refresh for more suggestions
             </p>
@@ -191,31 +162,20 @@ export default function Suggestions(props: any) {
           <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
-              className={
-                "w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180  " +
-                currentRotate2State
-              }
+              className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
               onClick={() => {
-                props.updateTopicsFunction();
-                setCurrentRotate2State(true);
-                setTimeout(() => {
-                  setCurrentRotate2State(false);
-                }, 2000);
+                GetTopicsRecom(dispatch);
               }}
             />
           </button>
         </div>
         <div>
-          {topicsList &&
-            topicsList.length > 0 &&
-            topicsList.map((topic: Topic) => (
-              <TopicRender
-                key={topic.topic_id}
-                topic={topic}
-                listFunction={removeTopicFromList}
-              />
+          {topicsRecom &&
+            topicsRecom.length > 0 &&
+            topicsRecom.map((topic: Topic) => (
+              <TopicRender key={topic.topic_id} topic={topic} />
             ))}
-          {topicsList && topicsList.length == 0 && (
+          {topicsRecom && topicsRecom.length == 0 && (
             <p className="text-sm text-center font-medium text-gray-400 subpixel-antialiased">
               Refresh for more suggestions
             </p>

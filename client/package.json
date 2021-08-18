@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem next dev",
+    "dev": "next dev",
     "build": "next build",
-    "start": "HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem next start"
+    "start": "next start"
   },
   "dependencies": {
     "@chakra-ui/gatsby-plugin": "^2.0.1",

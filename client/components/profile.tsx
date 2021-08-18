@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Link from "next/link";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+
+import { GetFollowings, GetInterests } from "../services/data";
+import { UnfollowTopic } from "../services/actions";
 
 import Topic from "../lib/topic";
 
@@ -11,8 +14,11 @@ import {
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
+import { useEffect } from "react";
 
 function TopicRender(props: any) {
+  const dispatch = useAppDispatch();
+
   const [starState] = useState([faStarEmpty, faStarFull]);
   let [currentStarState, setCurrentStarState] = useState(1);
   let currentStar = starState[currentStarState];
@@ -21,21 +27,11 @@ function TopicRender(props: any) {
     setCurrentStarState((currentStarState = 0));
     currentStar = starState[currentStarState];
 
-    await fetch(`https://api.strugl.cc/unfollow/topic/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ topic_id: props.topic.topic_id }),
-    }).then(() => {
-      props.listFunction(props.topic.topic_id);
-    });
+    UnfollowTopic(dispatch, props.topic.topic_id);
   }
 
   return (
-    <div
-      className={
-        "w-full px-4 py-4 flex justify-between state"}
-    >
+    <div className={"w-full px-4 py-4 flex justify-between state"}>
       <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
         <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
           <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
@@ -52,19 +48,17 @@ function TopicRender(props: any) {
   );
 }
 
-export default function Profile(props: any) {
-  const currentUser = useAppSelector((state) => state.currentUser);
+export default function Profile() {
+  const dispatch = useAppDispatch();
 
-  const [followingsList, setFollowingsList] = useState(props.followingsList);
-  const [interestsList, setInterestsList] = useState(props.interestsList);
+  const currentUser = useAppSelector((state) => state.currentUser.userInfos);
+  const interests = useAppSelector((state) => state.interests.list);
+  const followings = useAppSelector((state) => state.followings.list);
 
-  function removeTopicFromList(idToRemove: number) {
-    setTimeout(() => {
-      setInterestsList(
-        interestsList.filter((element: any) => element.topic_id != idToRemove)
-      );
-    }, 0);
-  }
+  useEffect(() => {
+    GetInterests(dispatch, currentUser.id);
+    GetFollowings(dispatch, currentUser.id);
+  }, []);
 
   return (
     <div className="w-full text-center flex flex-col h-screen">
@@ -92,14 +86,14 @@ export default function Profile(props: any) {
               <FontAwesomeIcon icon={faUsers} className="w-5" />
               <p>Followings</p>
             </div>
-            <p>{followingsList ? followingsList.length : 0}</p>
+            <p>{followings ? followings.length : 0}</p>
           </a>
           <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faStarFull} className="w-5" />
               <p>Interests</p>
             </div>
-            <p>{interestsList ? interestsList.length : 0}</p>
+            <p>{interests ? interests.length : 0}</p>
           </a>
           <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
@@ -113,15 +107,11 @@ export default function Profile(props: any) {
           </a>
         </div>
         <div className="h-full">
-          {interestsList &&
-            interestsList.map((topic: Topic) => (
-              <TopicRender
-                key={topic.topic_id}
-                topic={topic}
-                listFunction={removeTopicFromList}
-              />
+          {interests &&
+            interests.map((topic: Topic) => (
+              <TopicRender key={topic.topic_id} topic={topic} />
             ))}
-          {!interestsList && (
+          {!interests && (
             <div className="h-full flex flex-col space-y-4 justify-items-center justify-start py-6">
               <img src="duckbutticon.svg" className="h-1/6" />
               <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
