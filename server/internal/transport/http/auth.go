@@ -89,7 +89,14 @@ func (h Handler) HandleAuthToken(w http.ResponseWriter, r *http.Request, ps http
 }
 
 func (h Handler) HandleLogout(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	cookie, err := r.Cookie("token")
+	if err != nil {
+		http.Error(w, "no cookie", http.StatusUnprocessableEntity)
+		return
+	}
 
-	cookie := http.Cookie{Name: "token", Value: "", MaxAge: 1, Secure: true, HttpOnly: true, SameSite: http.SameSiteNoneMode}
-	http.SetCookie(w, &cookie)
+	cookie.MaxAge = 0
+	cookie.Value = ""
+
+	http.SetCookie(w, cookie)
 }
