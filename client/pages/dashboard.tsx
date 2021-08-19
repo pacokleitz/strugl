@@ -6,15 +6,30 @@ import Header from "../components/header";
 import Feed from "../components/feed";
 import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
-import { GetFeed, GetTopicsRecom, GetUsersRecom } from "../services/data";
+import {
+  GetBookmarks,
+  GetCurrentUser,
+  GetFeed,
+  GetTopicsRecom,
+  GetUsersRecom,
+} from "../services/data";
+import { useRouter } from "next/router";
 
 export default function Dashboard() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
+  const feed = useAppSelector((state) => state.feed);
+
   useEffect(() => {
+    GetCurrentUser(dispatch);
+    if (!isLogged) router.push("/login", "");
+
     GetFeed(dispatch);
     GetUsersRecom(dispatch);
     GetTopicsRecom(dispatch);
+    GetBookmarks(dispatch);
   }, []);
 
   return (
@@ -28,7 +43,7 @@ export default function Dashboard() {
         <div className="lg:block hidden">
           <Profile />
         </div>
-        <Feed />
+        <Feed feed={feed} />
         <div className="lg:block hidden">
           <Suggestions />
         </div>

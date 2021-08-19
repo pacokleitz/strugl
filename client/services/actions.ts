@@ -1,5 +1,8 @@
+import Post from "../lib/post";
 import Topic from "../lib/topic";
 import User from "../lib/user";
+
+import { addBookmark, removeBookmark } from "../redux/reducers/BookmarksSlice";
 import {
   addFollowing,
   removeFollowing,
@@ -20,10 +23,16 @@ export const FollowTopic = async (
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify({ topic_id: topic.topic_id }),
-  }).then(() => {
-    dispatch(followTopic(topic.topic_id));
-    dispatch(addInterest(topic));
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        dispatch(followTopic(topic.topic_id));
+        dispatch(addInterest(topic));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const UnfollowTopic = async (
@@ -35,9 +44,13 @@ export const UnfollowTopic = async (
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify({ topic_id: id }),
-  }).then(() => {
-    dispatch(removeInterest(id));
-  });
+  })
+    .then((res) => {
+      if (res.ok) dispatch(removeInterest(id));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const FollowUser = async (
@@ -49,10 +62,16 @@ export const FollowUser = async (
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify({ id: user.id }),
-  }).then(() => {
-    dispatch(followUser(user.id));
-    dispatch(addFollowing(user));
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        dispatch(followUser(user.id));
+        dispatch(addFollowing(user));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const UnfollowUser = async (
@@ -64,8 +83,44 @@ export const UnfollowUser = async (
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify({ id: user.id }),
-  }).then(() => {
-    dispatch(removeFollowing(user.id));
-    dispatch(addUsertoRecom(user));
+  }).then((res) => {
+    if (res.ok) {
+      dispatch(removeFollowing(user.id));
+      dispatch(addUsertoRecom(user));
+    }
   });
+};
+
+export const AddBookmark = async (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+  post: Post
+) => {
+  await fetch(`https://api.strugl.cc/posts/bookmarks/${post.id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  })
+    .then((res) => {
+      if (res.ok) dispatch(addBookmark(post));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const RemoveBookmark = async (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+  id: number
+) => {
+  await fetch(`https://api.strugl.cc/posts/bookmarks/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  })
+    .then((res) => {
+      if (res.ok) dispatch(removeBookmark(id));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };

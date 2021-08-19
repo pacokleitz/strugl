@@ -6,6 +6,7 @@ import usersRecommandationsReducer from "./UsersRecommandationsSlice";
 import topicsRecommandationsReducer from "./TopicsRecommandationsSlice";
 import followingsReducer from "./FollowingsSlice";
 import interestsReducer from "./InterestsSlice";
+import bookmarksReducer from "./BookmarksSlice";
 import feedReducer from "./FeedSlice";
 import topicsReducer from "./TopicsSlice";
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   currentUser: currentUserReducer,
   followings: followingsReducer,
   interests: interestsReducer,
+  bookmarks: bookmarksReducer,
   usersRecommandations: usersRecommandationsReducer,
   topicsRecommandations: topicsRecommandationsReducer,
   feed: feedReducer,

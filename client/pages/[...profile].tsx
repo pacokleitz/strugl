@@ -3,7 +3,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
-import { GetTopicProfile, GetUserProfile } from "../services/data";
+import {
+  GetCurrentUser,
+  GetFollowings,
+  GetInterests,
+  GetTopicProfile,
+  GetTopicsRecom,
+  GetUserProfile,
+  GetUsersRecom,
+} from "../services/data";
 import {
   FollowTopic,
   FollowUser,
@@ -21,11 +29,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function TopicProfileContent(props: any) {
   const dispatch = useAppDispatch();
 
-  const feedList = useAppSelector((state) => state.feed.list);
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
+  const feed = useAppSelector((state) => state.feed);
   const topicProfile = useAppSelector((state) =>
     state.topics.list.find((topic) => topic.topic_name === props.topic)
   );
-
   const isStarred = useAppSelector((state) =>
     state.interests.list.find((topic) => props.topic === topic.topic_name)
   );
@@ -38,22 +46,24 @@ function TopicProfileContent(props: any) {
   }
 
   return (
-    <div className="pt-2 col-span-3 space-y-2">
+    <div className="pt-2 space-y-2">
       <div className="pb-2 flex flex-row px-6  items-center space-x-8 focus:outline-none justify-between">
         <p className="inline-block text-4xl text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
           {"#" + props.topic}
         </p>
-        <div
-          className={
-            "px-4 py-1 border-2 text-md font-semibold rounded-3xl cursor-pointer " +
-            (!isStarred
-              ? "border-gray-700 text-gray-700 hover:border-yellow-400 hover:text-yellow-400"
-              : "border-yellow-400 text-yellow-400 hover:border-yellow-500 hover:text-yellow-500")
-          }
-          onClick={Star}
-        >
-          {isStarred ? "Starred" : "Star"}
-        </div>
+        {isLogged && (
+          <div
+            className={
+              "px-4 py-1 border-2 text-md font-semibold rounded-3xl cursor-pointer " +
+              (!isStarred
+                ? "border-gray-700 text-gray-700 hover:border-yellow-400 hover:text-yellow-400"
+                : "border-yellow-400 text-yellow-400 hover:border-yellow-500 hover:text-yellow-500")
+            }
+            onClick={Star}
+          >
+            {isStarred ? "Starred" : "Star"}
+          </div>
+        )}
       </div>
       <div className="bg-white rounded-xl shadow p-4 flex justify-around items-center">
         <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-800 cursor-pointer">
@@ -61,10 +71,10 @@ function TopicProfileContent(props: any) {
             <FontAwesomeIcon icon={faBars} className="w-5" />
             <p>Posts</p>
           </div>
-          <p>{feedList.length}</p>
+          <p>{feed.list.length}</p>
         </a>
       </div>
-      <Feed />
+      <Feed feed={feed} />
     </div>
   );
 }
@@ -72,16 +82,14 @@ function TopicProfileContent(props: any) {
 function UserProfileContent(props: any) {
   const dispatch = useAppDispatch();
 
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
   const userProfile = useAppSelector((state) =>
     state.users.list.find((user) => user.username === props.user)
   );
-  const feedLength = useAppSelector((state) => state.feed.list.length);
-
+  const feed = useAppSelector((state) => state.feed);
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
   const isFollowed = useAppSelector((state) =>
-    state.followings.list.find(
-      (user) => user.username === userProfile?.username
-    )
+    state.followings.list.find((user) => user.username === props.user)
   );
 
   function Follow() {
@@ -111,7 +119,7 @@ function UserProfileContent(props: any) {
             {userProfile?.username}
           </p>
         </div>
-        {currentUser.username != userProfile?.username && (
+        {isLogged && currentUser.username != userProfile?.username && (
           <div
             className={
               "px-4 py-1 border-2 text-md font-semibold rounded-3xl cursor-pointer " +
@@ -131,27 +139,36 @@ function UserProfileContent(props: any) {
             <FontAwesomeIcon icon={faBars} className="w-5" />
             <p>Posts</p>
           </div>
-          <p>{feedLength}</p>
+          <p>{feed.list.length}</p>
         </a>
       </div>
-      <Feed />
+      <Feed feed={feed} />
     </div>
   );
 }
 
 export default function Profile() {
   const router = useRouter();
-  const { profile } = router.query;
   const dispatch = useAppDispatch();
+  const { profile } = router.query;
 
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
+  const currentUserId = useAppSelector(
+    (state) => state.currentUser.userInfos.id
+  );
 
   useEffect(() => {
+    GetFollowings(dispatch, currentUserId);
+    GetInterests(dispatch, currentUserId);
+    GetCurrentUser(dispatch);
+    GetTopicsRecom(dispatch);
+    GetUsersRecom(dispatch);
+
     if (profile) {
-      if (profile.length == 2) GetTopicProfile(dispatch, profile[1]);
+      if (profile?.length == 2) GetTopicProfile(dispatch, profile[1]);
       else GetUserProfile(dispatch, profile[0]);
     }
-  }, []);
+  });
 
   return (
     <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
@@ -171,9 +188,16 @@ export default function Profile() {
           color="blue"
         />
       )} */}
-      <div className="pt-16 max-w-full min-w-screen lg:grid lg:grid-cols-4 px-4 m-auto gap-4 justify-between pb-4">
+      <div
+        className={
+          "pt-16 max-w-7xl min-w-screen px-4 m-auto gap-4 justify-between pb-4 " +
+          (isLogged ? "lg:grid lg:grid-cols-4 gap-4" : "")
+        }
+      >
         {profile && profile[0] == "topic" && (
-          <TopicProfileContent topic={profile[1]} />
+          <div className={isLogged ? "col-span-3" : ""}>
+            <TopicProfileContent topic={profile[1]} />
+          </div>
         )}
         {profile && profile[0] != "topic" && (
           <UserProfileContent user={profile[0]} />

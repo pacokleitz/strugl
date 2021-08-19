@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
-import { GetFollowings, GetInterests } from "../services/data";
+import { GetBookmarks, GetFollowings, GetInterests } from "../services/data";
 import { UnfollowTopic } from "../services/actions";
 
 import Topic from "../lib/topic";
@@ -54,6 +54,7 @@ export default function Profile() {
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
   const interests = useAppSelector((state) => state.interests.list);
   const followings = useAppSelector((state) => state.followings.list);
+  const bookmarks = useAppSelector((state) => state.bookmarks.list);
 
   useEffect(() => {
     GetInterests(dispatch, currentUser.id);
@@ -63,39 +64,39 @@ export default function Profile() {
   return (
     <div className="w-full text-center flex flex-col h-screen">
       <div className="rounded-lg divide-y-2 divide-gray-300">
-        <div className="flex flex-row p-6 justify-start items-center space-x-2 focus:outline-none">
+        <div className="flex flex-row p-6 justify-start items-center space-x-4 focus:outline-none">
           {!currentUser.avatar && (
             <img
               src="/default.svg"
-              className="w-10 rounded-full bg-white ring-2 ring-gray-300 self-center"
+              className="w-16 rounded-full bg-white ring-2 ring-gray-300 self-center"
             />
           )}
           {currentUser.avatar && (
             <img
               src={currentUser.avatar}
-              className="w-10 rounded-full bg-white ring-2 ring-gray-300 self-center"
+              className="w-16 rounded-full bg-white ring-2 ring-gray-300 self-center"
             />
           )}
-          <p className="inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+          <p className="inline-block text-lg text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
             {currentUser.username}
           </p>
         </div>
         <div className="p-6 space-y-2 items-start">
-          <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
+          <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faUsers} className="w-5" />
               <p>Followings</p>
             </div>
             <p>{followings ? followings.length : 0}</p>
           </a>
-          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
+          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faStarFull} className="w-5" />
               <p>Interests</p>
             </div>
             <p>{interests ? interests.length : 0}</p>
           </a>
-          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-400 cursor-pointer">
+          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon
                 icon={faBookmark}
@@ -103,7 +104,7 @@ export default function Profile() {
               />
               <p>Bookmarks</p>
             </div>
-            <p>31</p>
+            <p>{bookmarks ? bookmarks.length : 0}</p>
           </a>
         </div>
         <div className="h-full">

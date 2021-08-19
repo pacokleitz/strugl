@@ -1,3 +1,5 @@
+import { NextRouter } from "next/router";
+import { updateBookmarks } from "../redux/reducers/BookmarksSlice";
 import { logIn } from "../redux/reducers/CurrentUserSlice";
 import {
   updateFeed,
@@ -11,28 +13,61 @@ import { addTopic } from "../redux/reducers/TopicsSlice";
 import { updateUsers } from "../redux/reducers/UsersRecommandationsSlice";
 import { addUser } from "../redux/reducers/UsersSlice";
 
+export const GetCurrentUser = async (
+  dispatch: (arg0: { payload: any; type: string }) => void
+) => {
+  await fetch("https://api.strugl.cc/users/me", {
+    method: "Get",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const currentUser = await res.json();
+        dispatch(logIn(currentUser));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 export const GetFeed = async (
   dispatch: (arg0: { payload: any; type: string }) => void
 ) => {
-  const res = await fetch(`https://api.strugl.cc/posts/feed`, {
+  await fetch(`https://api.strugl.cc/posts/feed`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-  });
-  const feed = await res.json();
-  dispatch(updateFeed(feed));
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const feed = await res.json();
+        dispatch(updateFeed(feed));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const GetTopicsRecom = async (
   dispatch: (arg0: { payload: any; type: string }) => void
 ) => {
-  const res = await fetch(`https://api.strugl.cc/recom/topics`, {
+  await fetch(`https://api.strugl.cc/recom/topics`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-  });
-  const topics = await res.json();
-  dispatch(updateTopics(topics));
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const topics = await res.json();
+        dispatch(updateTopics(topics));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const GetUsersRecom = async (
@@ -42,66 +77,108 @@ export const GetUsersRecom = async (
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-  });
-  const users = await res.json();
-  dispatch(updateUsers(users));
-};
-
-export const GetCurrentUser = async (
-  dispatch: (arg0: { payload: any; type: string }) => void
-) => {
-  const res = await fetch("https://api.strugl.cc/users/me", {
-    method: "Get",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
-  const currentUser = await res.json();
-  dispatch(logIn(currentUser));
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const users = await res.json();
+        dispatch(updateUsers(users));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const GetFollowings = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
   id: number
 ) => {
-  const res = await fetch(`https://api.strugl.cc/followings/${id}`, {
+  await fetch(`https://api.strugl.cc/followings/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-  });
-  const followings = await res.json();
-  dispatch(updateFollowings(followings));
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const followings = await res.json();
+        dispatch(updateFollowings(followings));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
 };
 
 export const GetInterests = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
   id: number
 ) => {
-  const res = await fetch(`https://api.strugl.cc/interests/${id}`, {
+  await fetch(`https://api.strugl.cc/interests/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-  });
-  const interests = await res.json();
-  dispatch(updateInterests(interests));
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const interests = await res.json();
+        dispatch(updateInterests(interests));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+};
+
+export const GetBookmarks = async (
+  dispatch: (arg0: { payload: any; type: string }) => void
+) => {
+  await fetch(`https://api.strugl.cc/posts/bookmarks`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const bookmarks = await res.json();
+        dispatch(updateBookmarks(bookmarks));
+      }
+    })
+    .catch((error) => {console.log(error)});
+
 };
 
 export const GetTopicProfile = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
   topic: string
 ) => {
-  let res = await fetch(`https://api.strugl.cc/topics/${topic}`, {
+  await fetch(`https://api.strugl.cc/topics/${topic}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-  });
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const topicProfile = await res.json();
+        dispatch(addTopic(topicProfile));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-  const topicProfile = await res.json();
-  dispatch(addTopic(topicProfile));
 
-  res = await fetch(`https://api.strugl.cc/posts/topic/${topic}`, {
+  await fetch(`https://api.strugl.cc/posts/topic/${topic}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-  });
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const posts = await res.json();
+        dispatch(updateTopicFeed(posts));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-  const posts = await res.json();
-  dispatch(updateTopicFeed(posts));
 };
 
 export const GetUserProfile = async (
@@ -111,15 +188,30 @@ export const GetUserProfile = async (
   let res = await fetch(`https://api.strugl.cc/users/name/${user}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-  });
-  const userProfile = await res.json();
-  dispatch(addUser(userProfile));
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const userProfile = await res.json();
+        dispatch(addUser(userProfile));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-  res = await fetch(`https://api.strugl.cc/posts/user/${user}`, {
+
+  await fetch(`https://api.strugl.cc/posts/user/${user}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-  });
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const posts = await res.json();
+        dispatch(updateProfileFeed(posts));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-  const posts = await res.json();
-  dispatch(updateProfileFeed(posts));
 };

@@ -20,6 +20,7 @@ import {
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 import { addPost } from "../redux/reducers/FeedSlice";
+import { AddBookmark, RemoveBookmark } from "../services/actions";
 
 interface FormInputs {
   content: string;
@@ -69,7 +70,12 @@ function CommentsRender(props: any) {
 }
 
 function PostRender(props: any) {
+  const dispatch = useAppDispatch();
+
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
+  const isBookmarked = useAppSelector((state) =>
+    state.bookmarks.list.find((post) => post.id === props.post.id)
+  );
 
   let thisPost = new Post(
     props.post.id,
@@ -101,15 +107,12 @@ function PostRender(props: any) {
     currentVote = voteState[currentVoteState];
   }
 
-  const [bookmarkState] = useState([faBookmarkEmpty, faBookmarkFull]);
-  let [currentBookmarkState, setCurrentBookmarkState] = useState(0);
-  let currentBookmark = bookmarkState[currentBookmarkState];
-
   function Mark() {
-    if (currentBookmarkState == 0)
-      setCurrentBookmarkState((currentBookmarkState = 1));
-    else setCurrentBookmarkState((currentBookmarkState = 0));
-    currentBookmark = bookmarkState[currentBookmarkState];
+    if (!isBookmarked) {
+      AddBookmark(dispatch, props.post);
+    } else {
+      RemoveBookmark(dispatch, props.post.id);
+    }
   }
 
   const [reportState] = useState([faFlagEmpty, faFlagFull]);
@@ -163,7 +166,7 @@ function PostRender(props: any) {
               onClick={Upvote}
             />
             <FontAwesomeIcon
-              icon={currentBookmark}
+              icon={isBookmarked ? faBookmarkFull : faBookmarkEmpty}
               className="w-5 h-5 text-gray-400 hover:text-green-400 cursor-pointer	self-start"
               onClick={Mark}
             />
@@ -227,9 +230,9 @@ function PostRender(props: any) {
   );
 }
 
-export default function Feed() {
+export default function Feed(props: any) {
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
-  const feed = useAppSelector((state) => state.feed);
+  const feed = props.feed;
   const dispatch = useAppDispatch();
 
   const { register, handleSubmit, reset } = useForm<FormInputs>({
@@ -262,7 +265,7 @@ export default function Feed() {
   }, []);
 
   return (
-    <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2 scrollbar-hidden">
+    <div className="max-w-5xl col-span-2 w-full content-center text-center flex flex-col space-y-2 scrollbar-hidden">
       <form
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
