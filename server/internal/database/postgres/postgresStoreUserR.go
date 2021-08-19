@@ -16,8 +16,8 @@ func (store PostgresStore) GetUser(user_id int64) (*models.UserProfile, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &user, nil
 
+	return &user, nil
 }
 
 func (store PostgresStore) GetUserByUsername(username string) (*models.UserProfile, error) {

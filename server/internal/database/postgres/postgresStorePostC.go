@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"fmt"
+	"strings"
 	sqlbulk "strugl/internal/database/utils/sql/bulk"
 	"strugl/internal/models"
 )
@@ -31,9 +32,9 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 
 		stmtTopicsValueString := sqlbulk.GetBulkInsertStatement(numTopics)
 
-		topicsQ := make([]interface{}, len(topics))
+		topicsQ := make([]interface{}, numTopics)
 		for i, v := range topics {
-			topicsQ[i] = v
+			topicsQ[i] = strings.ToLower(v)
 		}
 
 		// Workaround insert all topics returning ids EVEN IF DUPLICATE
