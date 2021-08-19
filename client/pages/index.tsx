@@ -4,24 +4,21 @@ import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import store from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { auth, logOut } from "../redux/reducers/CurrentUserSlice";
 
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
+import { GetCurrentUser } from "../services/data";
 
-export default function Home({ user }: any, { error }: any) {
+export default function Home() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
 
   useEffect(() => {
-    if (user == "Invalid") {
-      dispatch(logOut());
-      router.push("/login", "/");
-    } else {
-      dispatch(auth(user));
-      router.push("/dashboard", "/");
-    }
+    GetCurrentUser(dispatch).then(() => {
+      if (!isLogged) router.push("/login", "/");
+      else router.push("/dashboard", "/");
+    });
   }, []);
 
   return (
@@ -35,16 +32,3 @@ export default function Home({ user }: any, { error }: any) {
     </Provider>
   );
 }
-
-Home.getInitialProps = async (ctx: NextPageContext) => {
-  const res = await fetch("https://api.strugl.cc/users/me", {
-    method: "Get",
-    credentials: "include",
-  });
-  if (res.ok) {
-    let json = await res.json();
-    return { user: json };
-  } else {
-    return { user: "Invalid" };
-  }
-};

@@ -7,7 +7,7 @@ export default class Post {
   content: string;
   date_created: Date;
   
-  author_avatar?: string;
+  avatar?: string;
   date_updated?: Date;
   comments?: Comment[];
   topics?: string[];

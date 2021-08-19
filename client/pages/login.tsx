@@ -4,10 +4,10 @@ import React, { useCallback, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { auth } from "../redux/reducers/CurrentUserSlice";
 import { useAppDispatch } from "../redux/hooks";
 
 import Alert from "../components/alert";
+import { GetCurrentUser } from "../services/data";
 
 interface FormInputs {
   username: string;
@@ -18,13 +18,12 @@ interface FormInputs {
 
 function LogIn() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   let [alertMsg, setAlertMsg] = useState("");
 
   const [authState] = useState(["pending", "success", "error"]);
   let [currentAuthState, setAuthState] = useState(0);
-
-  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -40,7 +39,7 @@ function LogIn() {
     }).then(async (res) => {
       const text = await res.text();
       if (res.ok) {
-        dispatch(auth({ id: 0, username: text, email: "" }));
+        GetCurrentUser(dispatch);
         router.push("/dashboard", "/");
       } else {
         setAlertMsg((alertMsg = text + " !"));

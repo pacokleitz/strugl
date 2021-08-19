@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
-import { NextPageContext } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { auth } from "../redux/reducers/CurrentUserSlice";
+
+import { GetCurrentUser } from "../services/data";
 
 import Header from "../components/header";
-import User from "../lib/user";
 
 export default function Explore() {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const dispatch = useAppDispatch();
+
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
 
   useEffect(() => {
-    if (!currentUser.username) router.push("/");
+    GetCurrentUser(dispatch);
+    if (!isLogged) router.push("/login", "");
   });
 
   return (

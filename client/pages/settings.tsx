@@ -1,18 +1,20 @@
 import Head from "next/head";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useAppSelector } from "../redux/hooks";
-import { NextPageContext } from "next";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+
+import { GetCurrentUser } from "../services/data";
 
 import Header from "../components/header";
-import User from "../lib/user";
 
 export default function Settings() {
   const router = useRouter();
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const dispatch = useAppDispatch();
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
 
   useEffect(() => {
-    if (!currentUser.username) router.push("/");
+    GetCurrentUser(dispatch);
+    if (!isLogged) router.push("/login", "");
   });
 
   return (

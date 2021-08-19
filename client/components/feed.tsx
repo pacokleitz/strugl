@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import Post from "../lib/post";
 import Comment from "../lib/comment";
@@ -19,6 +19,8 @@ import {
   faFlag as faFlagEmpty,
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
+import { addPost } from "../redux/reducers/FeedSlice";
+import { AddBookmark, RemoveBookmark } from "../services/actions";
 
 interface FormInputs {
   content: string;
@@ -68,7 +70,12 @@ function CommentsRender(props: any) {
 }
 
 function PostRender(props: any) {
-  const currentUser = useAppSelector((state) => state.currentUser);
+  const dispatch = useAppDispatch();
+
+  const currentUser = useAppSelector((state) => state.currentUser.userInfos);
+  const isBookmarked = useAppSelector((state) =>
+    state.bookmarks.list.find((post) => post.id === props.post.id)
+  );
 
   let thisPost = new Post(
     props.post.id,
@@ -78,7 +85,7 @@ function PostRender(props: any) {
     props.post.date_created
   );
 
-  if (props.post.avatar) thisPost.author_avatar = props.post.avatar;
+  props.post.avatar ? (thisPost.avatar = props.post.avatar) : null;
 
   let topics = thisPost.extractTopics();
 
@@ -100,15 +107,12 @@ function PostRender(props: any) {
     currentVote = voteState[currentVoteState];
   }
 
-  const [bookmarkState] = useState([faBookmarkEmpty, faBookmarkFull]);
-  let [currentBookmarkState, setCurrentBookmarkState] = useState(0);
-  let currentBookmark = bookmarkState[currentBookmarkState];
-
   function Mark() {
-    if (currentBookmarkState == 0)
-      setCurrentBookmarkState((currentBookmarkState = 1));
-    else setCurrentBookmarkState((currentBookmarkState = 0));
-    currentBookmark = bookmarkState[currentBookmarkState];
+    if (!isBookmarked) {
+      AddBookmark(dispatch, props.post);
+    } else {
+      RemoveBookmark(dispatch, props.post.id);
+    }
   }
 
   const [reportState] = useState([faFlagEmpty, faFlagFull]);
@@ -133,13 +137,13 @@ function PostRender(props: any) {
         <div className="flex flex-row justify-between">
           <Link href={`/${encodeURIComponent(thisPost.author)}`}>
             <div className="focus:outline-none w-max flex flex-row space-x-2 group cursor-pointer">
-              {thisPost.author_avatar && (
+              {thisPost.avatar && (
                 <img
-                  src={thisPost.author_avatar}
+                  src={thisPost.avatar}
                   className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                 />
               )}
-              {!thisPost.author_avatar && (
+              {!thisPost.avatar && (
                 <img
                   src="/default.svg"
                   className="w-9 rounded-full bg-white ring-2 ring-gray-300"
@@ -162,7 +166,7 @@ function PostRender(props: any) {
               onClick={Upvote}
             />
             <FontAwesomeIcon
-              icon={currentBookmark}
+              icon={isBookmarked ? faBookmarkFull : faBookmarkEmpty}
               className="w-5 h-5 text-gray-400 hover:text-green-400 cursor-pointer	self-start"
               onClick={Mark}
             />
@@ -175,10 +179,10 @@ function PostRender(props: any) {
         </div>
 
         <p className="text-sm font-regular text-justify subpixel-antialiased">
-          {content.map((word: string) => {
+          {content.map((word: string, index) => {
             if (topics.includes(word)) {
               return (
-                <span>
+                <span key={index}>
                   <Link href={`/topic/${encodeURIComponent(word.slice(1))}`}>
                     <span className="text-blue-600 underline cursor-pointer">
                       {word}
@@ -187,7 +191,7 @@ function PostRender(props: any) {
                   <span> </span>
                 </span>
               );
-            } else return <span>{word + " "}</span>;
+            } else return <span key={index}>{word + " "}</span>;
           })}
         </p>
       </div>
@@ -197,7 +201,7 @@ function PostRender(props: any) {
             <a href="/profile" className="w-max focus:outline-none">
               {currentUser.avatar && (
                 <img
-                  src={props.post.avatar}
+                  src={currentUser.avatar}
                   className="w-9 rounded-full bg-white ring-2 ring-gray-300"
                 />
               )}
@@ -227,9 +231,9 @@ function PostRender(props: any) {
 }
 
 export default function Feed(props: any) {
-  const currentUser = useAppSelector((state) => state.currentUser);
-
-  let [list, setList] = useState(props.postsList);
+  const currentUser = useAppSelector((state) => state.currentUser.userInfos);
+  const feed = props.feed;
+  const dispatch = useAppDispatch();
 
   const { register, handleSubmit, reset } = useForm<FormInputs>({
     mode: "onSubmit",
@@ -243,26 +247,25 @@ export default function Feed(props: any) {
     }).then(async (res) => {
       if (res.ok) {
         const id = await res.text();
-
-        setList((arr: []) => [
-          {
+        dispatch(
+          addPost({
             id: parseInt(id),
             author: currentUser.username,
             author_id: currentUser.id,
-            author_avatar: currentUser.avatar,
+            avatar: currentUser.avatar,
             content: data.content,
             date_created: new Date(),
             style: "state2",
-          },
-          ...arr,
-        ]);
+          })
+        );
+
+        reset({ content: "" });
       }
-      reset({ content: "" });
     });
   }, []);
 
   return (
-    <div className="col-span-2 w-full content-center text-center flex flex-col space-y-2 scrollbar-hidden">
+    <div className="max-w-5xl col-span-2 w-full content-center text-center flex flex-col space-y-2 scrollbar-hidden">
       <form
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
@@ -277,7 +280,7 @@ export default function Feed(props: any) {
                   className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
                 />
               )}
-              {!currentUser.username && (
+              {!currentUser.avatar && (
                 <img
                   src="/default.svg"
                   className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
@@ -299,13 +302,13 @@ export default function Feed(props: any) {
         </div>
       </form>
       <div
-        className={
-          "overflow-y-scroll sticky rounded-xl space-y-2 " + props.feedType
-        }
+        className={"overflow-y-scroll sticky rounded-xl space-y-2 " + feed.type}
       >
-        {list &&
-          list.map((post: Post) => <PostRender key={post.id} post={post} />)}
-        {list && list.length == 0 && props.feedType == "profileFeed" && (
+        {feed.list &&
+          feed.list.map((post: Post) => (
+            <PostRender key={post.id} post={post} />
+          ))}
+        {feed.list && feed.list.length == 0 && feed.type == "profileFeed" && (
           <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
             <img src="/duckbutticon.svg" className="h-1/4" />
             <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
