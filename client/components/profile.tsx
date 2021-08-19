@@ -15,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
 import { useEffect } from "react";
+import { updateFeed } from "../redux/reducers/FeedSlice";
 
 function TopicRender(props: any) {
   const dispatch = useAppDispatch();
@@ -97,7 +98,12 @@ export default function Profile() {
             </div>
             <p>{interests ? interests.length : 0}</p>
           </a>
-          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer">
+          <a
+            className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer"
+            onClick={() => {
+              updateFeed(bookmarks);
+            }}
+          >
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon
                 icon={faBookmark}

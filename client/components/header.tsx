@@ -1,28 +1,15 @@
-import { Fragment, useState } from "react";
-import Link from "next/link";
+import { Fragment } from "react";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { current } from "@reduxjs/toolkit";
-import { logOut } from "../redux/reducers/CurrentUserSlice";
-
-import User from "../lib/user";
 
 import {
-  faChevronCircleDown,
   faSortDown,
-  faEnvelope,
-  faUser,
-  faUserFriends,
   faCompass,
   faSearch,
-  faCheck,
-  faTimes,
-  faHome,
-  faComments,
-  faStream,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
+import { SignOut } from "../services/actions";
 
 function Account() {
   const router = useRouter();
@@ -30,15 +17,7 @@ function Account() {
   const dispatch = useAppDispatch();
 
   async function Navigate(to: String) {
-    if (to == "SignOut")
-      await fetch(`https://api.strugl.cc/auth/logout`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      }).then(() => {
-        dispatch(logOut());
-        router.push("/");
-      });
+    if (to == "SignOut") SignOut(dispatch, router);
     else if (to == "Settings") router.push("/settings", "/");
     else router.push(`/${encodeURIComponent(currentUser.username)}`);
   }

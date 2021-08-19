@@ -1,13 +1,13 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import Alert from "../components/alert";
-import { GetCurrentUser } from "../services/data";
+import { SignIn } from "../services/actions";
 
 interface FormInputs {
   username: string;
@@ -19,11 +19,8 @@ interface FormInputs {
 function LogIn() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-
-  let [alertMsg, setAlertMsg] = useState("");
-
-  const [authState] = useState(["pending", "success", "error"]);
-  let [currentAuthState, setAuthState] = useState(0);
+  const alertsLength = useAppSelector((state) => state.alerts.length);
+  const alert = useAppSelector((state) => state.alerts.list[0]);
 
   const {
     register,
@@ -32,20 +29,7 @@ function LogIn() {
   } = useForm<FormInputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    await fetch("https://api.strugl.cc/auth", {
-      method: "Post",
-      credentials: "include",
-      body: JSON.stringify(data),
-    }).then(async (res) => {
-      const text = await res.text();
-      if (res.ok) {
-        GetCurrentUser(dispatch);
-        router.push("/dashboard", "/");
-      } else {
-        setAlertMsg((alertMsg = text + " !"));
-        setAuthState((currentAuthState = 2));
-      }
-    });
+    SignIn(dispatch, router, data, alertsLength);
   }, []);
 
   return (
@@ -57,9 +41,7 @@ function LogIn() {
 
       <div className="w-screen min-h-screen h-auto bg-gradient-to-br from-indigo-600 to-indigo-300 content-center justify-center">
         <div className="">
-          {authState[currentAuthState] != "pending" && (
-            <Alert state={authState[currentAuthState]} msg={alertMsg} />
-          )}
+          {alert && <Alert alert={alert} />}
           <div className="flex md:flex-row flex-col m-auto min-h-screen h-auto content-center md:w-2/3 md:space-x-10 p-5">
             <div className="font-bold text-6xl tracking-tight mx-auto grid justify-center content-center w-10/12 md:w-1/2 my-5">
               <h1 className="text-white text-5xl">Strugl</h1>

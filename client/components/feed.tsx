@@ -20,9 +20,9 @@ import {
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 import { addPost } from "../redux/reducers/FeedSlice";
-import { AddBookmark, RemoveBookmark } from "../services/actions";
+import { AddBookmark, AddPost, RemoveBookmark } from "../services/actions";
 
-interface FormInputs {
+export interface FormInputs {
   content: string;
 }
 
@@ -184,9 +184,7 @@ function PostRender(props: any) {
               return (
                 <span key={index}>
                   <Link href={`/topic/${encodeURIComponent(word.slice(1))}`}>
-                    <span className="text-blue-600 underline cursor-pointer">
-                      {word}
-                    </span>
+                    <span className="text-blue-600 cursor-pointer">{word}</span>
                   </Link>
                   <span> </span>
                 </span>
@@ -240,27 +238,8 @@ export default function Feed(props: any) {
   });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    await fetch(`https://api.strugl.cc/posts`, {
-      method: "Post",
-      credentials: "include",
-      body: JSON.stringify(data),
-    }).then(async (res) => {
-      if (res.ok) {
-        const id = await res.text();
-        dispatch(
-          addPost({
-            id: parseInt(id),
-            author: currentUser.username,
-            author_id: currentUser.id,
-            avatar: currentUser.avatar,
-            content: data.content,
-            date_created: new Date(),
-            style: "state2",
-          })
-        );
-
-        reset({ content: "" });
-      }
+    AddPost(dispatch, data, currentUser).then(() => {
+      reset({ content: "" });
     });
   }, []);
 
