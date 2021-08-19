@@ -45,7 +45,6 @@ func (h *Handler) SetupRoutes() {
 	h.Router.DELETE("/posts/bookmarks/:id", h.Protected(h.HandleUnBookmarkPost))
 	h.Router.GET("/posts/feed", h.Protected(h.HandlePostsGetFeed))
 
-
 	h.Router.GET("/recom/topics", h.Protected(h.HandleTopicsRecom))
 	h.Router.GET("/recom/users", h.Protected(h.HandleUsersRecom))
 
@@ -53,7 +52,7 @@ func (h *Handler) SetupRoutes() {
 	h.Router.POST("/unfollow/user", h.Protected(h.HandleUnfollowUser))
 	h.Router.POST("/follow/topic", h.Protected(h.HandleFollowTopic))
 	h.Router.POST("/unfollow/topic", h.Protected(h.HandleUnfollowTopic))
-	
+
 	h.Router.GET("/followers/:id", h.HandleGetFollowers)
 	h.Router.GET("/followings/:id", h.HandleGetFollowings)
 	h.Router.GET("/interests/:id", h.HandleGetInterests)

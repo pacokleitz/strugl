@@ -44,7 +44,7 @@ func (h Handler) HandleAuth(w http.ResponseWriter, r *http.Request, ps httproute
 			http.Error(w, "JWT error", http.StatusUnprocessableEntity)
 			return
 		}
-		
+
 		// removed Secure: true + Domain : strugl.cc and SameSite: http.SameSiteStrictMode for dev !
 
 		cookie := http.Cookie{Name: "token", Value: token, MaxAge: 259200, Secure: true, HttpOnly: true, SameSite: http.SameSiteNoneMode}

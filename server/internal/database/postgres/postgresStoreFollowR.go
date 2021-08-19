@@ -53,7 +53,6 @@ func (store PostgresStore) GetFollowings(user_id int64) ([]models.UserProfile, e
 	return uu, nil
 }
 
-
 func (store PostgresStore) GetInterests(user_id int64) ([]models.Topic, error) {
 
 	tt := make([]models.Topic, 0)

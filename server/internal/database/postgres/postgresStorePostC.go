@@ -84,7 +84,6 @@ func (store PostgresStore) CreatePost(post models.Post, topics []string) (int64,
 	return post_id, nil
 }
 
-
 func (store PostgresStore) BookmarkPost(user_id int64, post_id int64) error {
 
 	stmt, err := store.Store.Preparex(`INSERT INTO bookmarks (user_id, post_id) VALUES ($1, $2)`)

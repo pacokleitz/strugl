@@ -27,7 +27,7 @@ func GetBulkPostsTopicsStatement(post_id int64, topics []models.Topic) (string, 
 }
 
 // Return a postgres insert statement
-func GetBulkInsertStatement(length int) (string) {
+func GetBulkInsertStatement(length int) string {
 
 	valueStrings := make([]string, 0, length)
 

@@ -16,7 +16,6 @@ func (store PostgresStore) DeletePost(post_id int64) error {
 	return nil
 }
 
-
 func (store PostgresStore) UnBookmarkPost(user_id int64, post_id int64) error {
 
 	stmt, err := store.Store.Preparex(`DELETE FROM bookmarks WHERE user_id = $1 AND post_id = $2`)
