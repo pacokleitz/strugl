@@ -37,7 +37,7 @@ func (s Service) GetFollowings(user_id int64) ([]models.UserProfile, error) {
 
 // Follow following_id
 func (s Service) FollowUser(user_id int64, following_id int64) error {
-	
+
 	if user_id == following_id {
 		return ErrSelfFollow
 	}
