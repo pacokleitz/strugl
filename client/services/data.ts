@@ -106,7 +106,6 @@ export const GetFollowings = async (
     .catch((error) => {
       console.log(error);
     });
-
 };
 
 export const GetInterests = async (
@@ -126,7 +125,6 @@ export const GetInterests = async (
     .catch((error) => {
       console.log(error);
     });
-
 };
 
 export const GetBookmarks = async (
@@ -135,6 +133,7 @@ export const GetBookmarks = async (
   await fetch(`https://api.strugl.cc/posts/bookmarks`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
   })
     .then(async (res) => {
       if (res.ok) {
@@ -142,8 +141,9 @@ export const GetBookmarks = async (
         dispatch(updateBookmarks(bookmarks));
       }
     })
-    .catch((error) => {console.log(error)});
-
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const GetTopicProfile = async (
@@ -164,7 +164,6 @@ export const GetTopicProfile = async (
       console.log(error);
     });
 
-
   await fetch(`https://api.strugl.cc/posts/topic/${topic}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
@@ -178,7 +177,6 @@ export const GetTopicProfile = async (
     .catch((error) => {
       console.log(error);
     });
-
 };
 
 export const GetUserProfile = async (
@@ -199,7 +197,6 @@ export const GetUserProfile = async (
       console.log(error);
     });
 
-
   await fetch(`https://api.strugl.cc/posts/user/${user}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
@@ -213,5 +210,4 @@ export const GetUserProfile = async (
     .catch((error) => {
       console.log(error);
     });
-
 };

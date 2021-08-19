@@ -29,7 +29,6 @@ export default function Dashboard() {
     GetFeed(dispatch);
     GetUsersRecom(dispatch);
     GetTopicsRecom(dispatch);
-    GetBookmarks(dispatch);
   }, []);
 
   return (

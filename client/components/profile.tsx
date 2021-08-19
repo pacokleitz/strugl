@@ -59,6 +59,7 @@ export default function Profile() {
   useEffect(() => {
     GetInterests(dispatch, currentUser.id);
     GetFollowings(dispatch, currentUser.id);
+    GetBookmarks(dispatch);
   }, []);
 
   return (
