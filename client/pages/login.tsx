@@ -19,7 +19,6 @@ interface FormInputs {
 function LogIn() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const alertsLength = useAppSelector((state) => state.alerts.length);
   const alert = useAppSelector((state) => state.alerts.list[0]);
 
   const {
@@ -29,7 +28,7 @@ function LogIn() {
   } = useForm<FormInputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    SignIn(dispatch, router, data, alertsLength);
+    SignIn(dispatch, router, data);
   }, []);
 
   return (

@@ -25,6 +25,7 @@ import Suggestions from "../components/suggestions";
 
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Alert from "../components/alert";
 
 function TopicProfileContent(props: any) {
   const dispatch = useAppDispatch();
@@ -106,14 +107,11 @@ function UserProfileContent(props: any) {
           {userProfile?.avatar && (
             <img
               src={userProfile.avatar}
-              className="w-32 rounded-full bg-white ring-2 ring-gray-300 self-center"
+              className="w-32 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"
             />
           )}
           {!userProfile?.avatar && (
-            <img
-              src="/default.svg"
-              className="w-32 rounded-full bg-white ring-2 ring-gray-300 self-center"
-            />
+            <div className="w-32 h-32 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"></div>
           )}
           <p className="inline-block text-xl text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
             {userProfile?.username}
@@ -156,13 +154,12 @@ export default function Profile() {
   const currentUserId = useAppSelector(
     (state) => state.currentUser.userInfos.id
   );
+  const alert = useAppSelector((state) => state.alerts.list[0]);
 
   useEffect(() => {
     GetFollowings(dispatch, currentUserId);
     GetInterests(dispatch, currentUserId);
     GetCurrentUser(dispatch);
-    GetTopicsRecom(dispatch);
-    GetUsersRecom(dispatch);
 
     if (profile) {
       if (profile?.length == 2) GetTopicProfile(dispatch, profile[1]);
@@ -181,19 +178,13 @@ export default function Profile() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {/* {!postsList && profile == currentUser.username && (
-        <Alert
-          state="suggestion"
-          msg="You have no post yet. Create a new post to fill your profile"
-          color="blue"
-        />
-      )} */}
       <div
         className={
           "pt-16 max-w-7xl min-w-screen px-4 m-auto gap-4 justify-between pb-4 " +
           (isLogged ? "lg:grid lg:grid-cols-4 gap-4" : "")
         }
       >
+        {alert && <Alert alert={alert} />}
         {profile && profile[0] == "topic" && (
           <div className={isLogged ? "col-span-3" : ""}>
             <TopicProfileContent topic={profile[1]} />

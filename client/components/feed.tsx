@@ -42,10 +42,7 @@ function CommentsRender(props: any) {
                 <img src={props.comment.author.pic} />
               )}
               {!props.comment.author.pic && (
-                <img
-                  src="/default.svg"
-                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
+                <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
               )}
             </div>
           </Link>
@@ -140,14 +137,11 @@ function PostRender(props: any) {
               {thisPost.avatar && (
                 <img
                   src={thisPost.avatar}
-                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                  className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
                 />
               )}
               {!thisPost.avatar && (
-                <img
-                  src="/default.svg"
-                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
+                <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
               )}
               <div>
                 <h3 className="text-left text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
@@ -200,15 +194,12 @@ function PostRender(props: any) {
               {currentUser.avatar && (
                 <img
                   src={currentUser.avatar}
-                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                  className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
                 />
               )}
 
               {!currentUser.avatar && (
-                <img
-                  src="/default.svg"
-                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
+                <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
               )}
             </a>
             <input
@@ -256,14 +247,11 @@ export default function Feed(props: any) {
               {currentUser.avatar && (
                 <img
                   src={currentUser.avatar}
-                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
+                  className="focus:outline-none w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
                 />
               )}
               {!currentUser.avatar && (
-                <img
-                  src="/default.svg"
-                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
+                <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
               )}
             </a>
           </Link>

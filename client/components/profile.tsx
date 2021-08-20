@@ -68,15 +68,12 @@ export default function Profile() {
       <div className="rounded-lg divide-y-2 divide-gray-300">
         <div className="flex flex-row p-6 justify-start items-center space-x-4 focus:outline-none">
           {!currentUser.avatar && (
-            <img
-              src="/default.svg"
-              className="w-16 rounded-full bg-white ring-2 ring-gray-300 self-center"
-            />
+            <div className="w-16 h-16 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center" />
           )}
           {currentUser.avatar && (
             <img
               src={currentUser.avatar}
-              className="w-16 rounded-full bg-white ring-2 ring-gray-300 self-center"
+              className="w-16 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"
             />
           )}
           <p className="inline-block text-lg text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
@@ -84,6 +81,21 @@ export default function Profile() {
           </p>
         </div>
         <div className="p-6 space-y-2 items-start">
+          <a
+            className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer"
+            onClick={() => {
+              dispatch(updateFeed(bookmarks));
+            }}
+          >
+            <div className="flex flex-row justify-between space-x-2">
+              <FontAwesomeIcon
+                icon={faBookmark}
+                className="w-5 h-4 self-center"
+              />
+              <p>Bookmarks</p>
+            </div>
+            <p>{bookmarks ? bookmarks.length : 0}</p>
+          </a>
           <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faUsers} className="w-5" />
@@ -97,21 +109,6 @@ export default function Profile() {
               <p>Interests</p>
             </div>
             <p>{interests ? interests.length : 0}</p>
-          </a>
-          <a
-            className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer"
-            onClick={() => {
-              updateFeed(bookmarks);
-            }}
-          >
-            <div className="flex flex-row justify-between space-x-2">
-              <FontAwesomeIcon
-                icon={faBookmark}
-                className="w-5 h-4 self-center"
-              />
-              <p>Bookmarks</p>
-            </div>
-            <p>{bookmarks ? bookmarks.length : 0}</p>
           </a>
         </div>
         <div className="h-full">

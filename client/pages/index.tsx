@@ -15,7 +15,7 @@ export default function Home() {
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
 
   useEffect(() => {
-    GetCurrentUser(dispatch).then(() => {
+    GetCurrentUser(dispatch).finally(() => {
       if (!isLogged) router.push("/login", "/");
       else router.push("/dashboard", "/");
     });

@@ -3,10 +3,9 @@ import Alert from "../../lib/alert";
 
 interface Alerts {
   list: Array<Alert>;
-  length: number;
 }
 
-const initialState: Alerts = { list: [], length: 0 };
+const initialState: Alerts = { list: [] };
 
 export const alertsSlice = createSlice({
   name: "alerts",
@@ -21,13 +20,14 @@ export const alertsSlice = createSlice({
       return {
         ...state,
         list: [action.payload, ...state.list],
-        length: state.length++,
       };
     },
 
     removeAlert: (state, action) => {
-      const list = state.list.filter((post) => post.id !== action.payload);
-      return { ...state, list: [...list], length: state.length-- };
+      const list = state.list.filter(
+        (alert) => alert.content !== action.payload
+      );
+      return { ...state, list: [...list] };
     },
   },
 });

@@ -25,7 +25,6 @@ export const CreateAccount = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
   router: NextRouter,
   data: any,
-  id: number
 ) => {
   await fetch("https://api.strugl.cc/users", {
     method: "POST",
@@ -37,7 +36,7 @@ export const CreateAccount = async (
       }
     })
     .catch((error) => {
-      dispatch(addAlert(new Alert(id, "error", error, new Date())));
+      dispatch(addAlert(new Alert("error", error)));
     });
 };
 
@@ -45,7 +44,6 @@ export const SignIn = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
   router: NextRouter,
   data: any,
-  id: number
 ) => {
   await fetch("https://api.strugl.cc/auth", {
     method: "Post",
@@ -59,8 +57,8 @@ export const SignIn = async (
       }
     })
     .catch((error) => {
-      console.log(error)
-      dispatch(addAlert(new Alert(id, "error", error, new Date())));
+      console.log(error);
+      dispatch(addAlert(new Alert("error", error)));
     });
 };
 

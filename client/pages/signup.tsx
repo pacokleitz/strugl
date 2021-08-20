@@ -18,7 +18,6 @@ interface FormInputs {
 export default function SignUp() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const alertsLength = useAppSelector((state) => state.alerts.length);
   const alert = useAppSelector((state) => state.alerts.list[0]);
 
   const {
@@ -29,7 +28,7 @@ export default function SignUp() {
   } = useForm<FormInputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    CreateAccount(dispatch, router, data, alertsLength);
+    CreateAccount(dispatch, router, data);
   }, []);
 
   return (
