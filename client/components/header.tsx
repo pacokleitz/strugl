@@ -168,7 +168,7 @@ function SearchList() {
   }, []);
 
   return (
-    <div className="relative self-center items-center inline-block text-center">
+    <div className="lg:w-1/4 w-1/2 relative self-center items-center inline-block text-center">
       {" "}
       <form
         className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none "
