@@ -1,28 +1,16 @@
-import { Fragment, useState } from "react";
-import Link from "next/link";
+import { Fragment } from "react";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { current } from "@reduxjs/toolkit";
-import { logOut } from "../redux/reducers/CurrentUserSlice";
-
-import User from "../lib/user";
 
 import {
-  faChevronCircleDown,
   faSortDown,
-  faEnvelope,
-  faUser,
-  faUserFriends,
   faCompass,
   faSearch,
-  faCheck,
-  faTimes,
-  faHome,
-  faComments,
-  faStream,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
+import { SignOut } from "../services/actions";
+import { GetFeed } from "../services/data";
 
 function Account() {
   const router = useRouter();
@@ -30,15 +18,7 @@ function Account() {
   const dispatch = useAppDispatch();
 
   async function Navigate(to: String) {
-    if (to == "SignOut")
-      await fetch(`https://api.strugl.cc/auth/logout`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      }).then(() => {
-        dispatch(logOut());
-        router.push("/");
-      });
+    if (to == "SignOut") SignOut(dispatch, router);
     else if (to == "Settings") router.push("/settings", "/");
     else router.push(`/${encodeURIComponent(currentUser.username)}`);
   }
@@ -55,14 +35,11 @@ function Account() {
               {currentUser.avatar && (
                 <img
                   src={currentUser.avatar}
-                  className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
+                  className="inline-block w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
                 />
               )}
               {!currentUser.username && (
-                <img
-                  src="/default.svg"
-                  className="inline-block w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
+                <div className="inline-block w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
               )}
               {typeof currentUser.username === "string" && (
                 <p className="hidden lg:inline-block text-md text-center font-semibold text-gray-700 group-hover:text-gray-700 subpixel-antialiased">
@@ -139,17 +116,22 @@ function Account() {
 
 export default function Header() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   async function Navigate(to: String) {
-    if (to == "Dashboard") router.push("/dashboard", "/");
-    else if (to == "Explore") router.push("/explore", "/");
+    if (to == "Dashboard") {
+      GetFeed(dispatch);
+      router.push("/dashboard", "/");
+    } else if (to == "Explore") router.push("/explore", "/");
   }
 
   return (
     <div className="fixed top-0 w-full h-min p-2 shadow flex flex-row m-auto text-center align-baseline justify-between bg-white z-50">
       <div className="lg:w-10/12 w-full px-1 lg:px-0 flex flex-row m-auto text-center justify-between">
         <a
-          onClick={() => Navigate("Dashboard")}
+          onClick={() => {
+            Navigate("Dashboard");
+          }}
           className="lg:block hidden text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer"
         >
           Strugl

@@ -91,13 +91,12 @@ function FriendRender(props: any) {
             {props.friend.avatar && (
               <img
                 src={props.friend.avatar}
-                className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
               />
             )}
             {!props.friend.avatar && (
-              <img
-                src="/default.svg"
-                className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+              <div
+                className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
               />
             )}
 
