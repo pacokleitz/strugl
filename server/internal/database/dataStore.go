@@ -29,6 +29,9 @@ type DataStore interface {
 	UnBookmarkPost(user_id int64, post_id int64) error
 	DeletePost(post_id int64) error
 
+	SearchUser(username string) ([]models.UserProfile, error)
+	SearchTopic(topic string) ([]models.Topic, error)
+
 	GetCredentials(username string) (models.AuthCredentials, error)
 
 	GetFollowers(user_id int64) ([]models.UserProfile, error)
