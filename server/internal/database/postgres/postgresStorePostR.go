@@ -56,7 +56,7 @@ func (store PostgresStore) GetPostsByTopic(topic string) ([]models.Post, error) 
 				INNER JOIN posts_to_topics ON posts_to_topics.post_id = posts.post_id
 				INNER JOIN topics ON posts_to_topics.topic_id = topics.topic_id 
 				INNER JOIN users on posts.user_id = users.user_id
-				WHERE topics.topic_name = $1 ORDER BY date_created DESC`
+				WHERE topics.topic_name = LOWER($1) ORDER BY date_created DESC`
 
 	rows, err := store.Store.Queryx(query, topic)
 	if err != nil {
@@ -174,13 +174,10 @@ func (store PostgresStore) GetTopic(topic string) (*models.Topic, error) {
 
 	var t models.Topic
 
-	query := `SELECT topic_id, topic_name FROM topics WHERE topic_name = $1`
+	query := `SELECT topic_id, topic_name FROM topics WHERE topic_name = LOWER($1)`
 
 	err := store.Store.QueryRowx(query, topic).StructScan(&t)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, nil
-		}
 		return nil, err
 	}
 	return &t, nil
