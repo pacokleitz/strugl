@@ -9,6 +9,8 @@ import interestsReducer from "./InterestsSlice";
 import bookmarksReducer from "./BookmarksSlice";
 import feedReducer from "./FeedSlice";
 import topicsReducer from "./TopicsSlice";
+import alertsReducer from './AlertsSlice'
+import searchReducer from './SearchSlice'
 
 const rootReducer = combineReducers({
   currentUser: currentUserReducer,
@@ -20,6 +22,8 @@ const rootReducer = combineReducers({
   feed: feedReducer,
   users: usersReducer,
   topics: topicsReducer,
+  alerts: alertsReducer,
+  search: searchReducer,
 });
 
 export default rootReducer;

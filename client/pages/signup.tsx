@@ -5,6 +5,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import Alert from "../components/alert";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { CreateAccount } from "../services/actions";
 
 interface FormInputs {
   username: string;
@@ -15,11 +17,8 @@ interface FormInputs {
 
 export default function SignUp() {
   const router = useRouter();
-
-  let [alertMsg, setAlertMsg] = useState("");
-
-  const [authState] = useState(["pending", "success", "error"]);
-  let [currentAuthState, setAuthState] = useState(0);
+  const dispatch = useAppDispatch();
+  const alert = useAppSelector((state) => state.alerts.list[0]);
 
   const {
     register,
@@ -29,18 +28,7 @@ export default function SignUp() {
   } = useForm<FormInputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    await fetch("https://api.strugl.cc/users", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then(async (res) => {
-      const text = await res.text();
-      if (res.ok) {
-        router.push("/");
-      } else {
-        setAlertMsg((alertMsg = text + " !"));
-        setAuthState((currentAuthState = 2));
-      }
-    });
+    CreateAccount(dispatch, router, data);
   }, []);
 
   return (
@@ -51,9 +39,7 @@ export default function SignUp() {
       </Head>
       <div className="w-screen min-h-screen h-auto bg-gradient-to-br from-indigo-600 to-indigo-300 content-center justify-center">
         <div className="">
-          {authState[currentAuthState] != "pending" && (
-            <Alert state={authState[currentAuthState]} msg={alertMsg} />
-          )}
+          {alert && <Alert alert={alert} />}
 
           <div className="flex md:flex-row flex-col m-auto min-h-screen h-auto content-center md:w-2/3 md:space-x-10 p-5">
             <div className="font-bold text-6xl tracking-tight mx-auto grid justify-center content-center w-10/12 md:w-1/2 my-5">
