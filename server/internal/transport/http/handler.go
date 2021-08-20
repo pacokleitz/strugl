@@ -2,6 +2,7 @@ package httpx
 
 import (
 	"github.com/julienschmidt/httprouter"
+	"net/http"
 )
 
 type Handler struct {
@@ -61,4 +62,5 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/followings/:id", h.HandleGetFollowings)
 	h.Router.GET("/interests/:id", h.HandleGetInterests)
 
+	h.Router.ServeFiles("/static/*filepath", http.Dir("/static/"))
 }

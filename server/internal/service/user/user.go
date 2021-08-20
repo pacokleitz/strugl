@@ -2,6 +2,8 @@ package user
 
 import (
 	"errors"
+	"os"
+	"strconv"
 
 	"strugl/internal/database"
 	"strugl/internal/models"
@@ -85,4 +87,16 @@ func (s Service) GetUserByUsername(username string) (*models.UserProfile, error)
 
 func (s Service) GetRecomUsers(user_id int64) ([]models.UserProfile, error) {
 	return s.Store.GetRecomUsers(user_id)
+}
+
+func (s Service) SetAvatar(user_id int64, extension string, img []byte) error {
+
+	avatarPath := "/avatars/" + strconv.FormatInt(user_id, 10) + "." + extension
+
+	err := os.WriteFile(avatarPath, img, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
