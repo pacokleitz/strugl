@@ -1,6 +1,6 @@
 import { Fragment, useCallback } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import {
@@ -156,23 +156,25 @@ function SearchList() {
   const dispatch = useAppDispatch();
   const list = useAppSelector((state) => state.search.list);
 
-  const { register, handleSubmit, reset } = useForm<FormInputs>({
+  const { register, getValues, reset } = useForm<FormInputs>({
     mode: "onChange",
   });
 
-  const onChange: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    if (data.content.length > 0) {
-      Search(dispatch, data.content);
+  const onChange = useCallback(async () => {
+    let content = getValues("content");
+    if (content.length > 0) {
+      Search(dispatch, content);
     } else dispatch(updateSearch([]));
   }, []);
 
   return (
-    <div className="relative self-center items-center inline-block text-center">
+    <div className="lg:w-1/4 w-1/2 relative self-center items-center inline-block text-center">
       {" "}
       <form
         className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none "
-        onChange={handleSubmit(onChange)}
+        onChange={onChange}
         autoComplete="off"
+        onSubmit={() => event?.preventDefault()}
       >
         <input
           {...register("content")}
@@ -184,7 +186,6 @@ function SearchList() {
           icon={faSearch}
           className=" w-5 h-5 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-45 rotate-0"
           type="submit"
-          onClick={handleSubmit(onChange)}
         />
       </form>
       {list.length > 0 && (
@@ -192,7 +193,7 @@ function SearchList() {
           {list.map((result) => (
             <SearchResult
               result={result}
-              key={result.id + parseInt(result.type)}
+              key={result.id + result.type}
               resetFunction={reset}
             />
           ))}

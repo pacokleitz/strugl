@@ -14,6 +14,7 @@ import {
   GetUsersRecom,
 } from "../services/data";
 import { useRouter } from "next/router";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -25,7 +26,8 @@ export default function Dashboard() {
   useEffect(() => {
     GetCurrentUser(dispatch);
     if (!isLogged) router.push("/login", "");
-
+    
+    dispatch(updateSearch([]));
     GetFeed(dispatch);
     GetUsersRecom(dispatch);
     GetTopicsRecom(dispatch);
