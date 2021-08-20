@@ -189,22 +189,23 @@ function PostRender(props: any) {
       </div>
       <div className="px-2 pt-2 space-y-2">
         <form className="flex flex-col px-4 py-1 space-y-2 bg-white">
-          <div className="flex flex-row justify-between items-center space-x-4">
-            <a href="/profile" className="w-max focus:outline-none">
-              {currentUser.avatar && (
-                <img
-                  src={currentUser.avatar}
-                  className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
-                />
-              )}
-
-              {!currentUser.avatar && (
-                <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
-              )}
-            </a>
+          <div className="flex flex-row justify-between items-center space-x-4 focus:outline-none">
+            <Link href={`/${encodeURIComponent(currentUser.username)}`}>
+              <a className="w-max focus:outline-none">
+                {currentUser.avatar && (
+                  <img
+                    src={currentUser.avatar}
+                    className="focus:outline-none w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+                  />
+                )}
+                {!currentUser.avatar && (
+                  <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
+                )}
+              </a>
+            </Link>
             <input
               placeholder="Leave a comment ..."
-              className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
+              className="w-full overflow-y-scroll p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
               required
               disabled
             />
