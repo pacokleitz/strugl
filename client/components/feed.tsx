@@ -20,9 +20,9 @@ import {
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 import { addPost } from "../redux/reducers/FeedSlice";
-import { AddBookmark, RemoveBookmark } from "../services/actions";
+import { AddBookmark, AddPost, RemoveBookmark } from "../services/actions";
 
-interface FormInputs {
+export interface FormInputs {
   content: string;
 }
 
@@ -42,10 +42,7 @@ function CommentsRender(props: any) {
                 <img src={props.comment.author.pic} />
               )}
               {!props.comment.author.pic && (
-                <img
-                  src="/default.svg"
-                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
+                <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
               )}
             </div>
           </Link>
@@ -140,14 +137,11 @@ function PostRender(props: any) {
               {thisPost.avatar && (
                 <img
                   src={thisPost.avatar}
-                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
+                  className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
                 />
               )}
               {!thisPost.avatar && (
-                <img
-                  src="/default.svg"
-                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
+                <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
               )}
               <div>
                 <h3 className="text-left text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
@@ -170,11 +164,11 @@ function PostRender(props: any) {
               className="w-5 h-5 text-gray-400 hover:text-green-400 cursor-pointer	self-start"
               onClick={Mark}
             />
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={currentFlag}
               className="w-5 text-gray-400 hover:text-red-400 cursor-pointer	self-start"
               onClick={Report}
-            />
+            /> */}
           </div>
         </div>
 
@@ -184,9 +178,7 @@ function PostRender(props: any) {
               return (
                 <span key={index}>
                   <Link href={`/topic/${encodeURIComponent(word.slice(1))}`}>
-                    <span className="text-blue-600 underline cursor-pointer">
-                      {word}
-                    </span>
+                    <span className="text-blue-600 cursor-pointer">{word}</span>
                   </Link>
                   <span> </span>
                 </span>
@@ -197,25 +189,23 @@ function PostRender(props: any) {
       </div>
       <div className="px-2 pt-2 space-y-2">
         <form className="flex flex-col px-4 py-1 space-y-2 bg-white">
-          <div className="flex flex-row justify-between items-center space-x-4">
-            <a href="/profile" className="w-max focus:outline-none">
-              {currentUser.avatar && (
-                <img
-                  src={currentUser.avatar}
-                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
-              )}
-
-              {!currentUser.avatar && (
-                <img
-                  src="/default.svg"
-                  className="w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
-              )}
-            </a>
+          <div className="flex flex-row justify-between items-center space-x-4 focus:outline-none">
+            <Link href={`/${encodeURIComponent(currentUser.username)}`}>
+              <a className="w-max focus:outline-none">
+                {currentUser.avatar && (
+                  <img
+                    src={currentUser.avatar}
+                    className="focus:outline-none w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+                  />
+                )}
+                {!currentUser.avatar && (
+                  <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
+                )}
+              </a>
+            </Link>
             <input
               placeholder="Leave a comment ..."
-              className="w-full p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
+              className="w-full overflow-y-scroll p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
               required
               disabled
             />
@@ -240,27 +230,8 @@ export default function Feed(props: any) {
   });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
-    await fetch(`https://api.strugl.cc/posts`, {
-      method: "Post",
-      credentials: "include",
-      body: JSON.stringify(data),
-    }).then(async (res) => {
-      if (res.ok) {
-        const id = await res.text();
-        dispatch(
-          addPost({
-            id: parseInt(id),
-            author: currentUser.username,
-            author_id: currentUser.id,
-            avatar: currentUser.avatar,
-            content: data.content,
-            date_created: new Date(),
-            style: "state2",
-          })
-        );
-
-        reset({ content: "" });
-      }
+    AddPost(dispatch, data, currentUser).then(() => {
+      reset({ content: "" });
     });
   }, []);
 
@@ -277,14 +248,11 @@ export default function Feed(props: any) {
               {currentUser.avatar && (
                 <img
                   src={currentUser.avatar}
-                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
+                  className="focus:outline-none w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
                 />
               )}
               {!currentUser.avatar && (
-                <img
-                  src="/default.svg"
-                  className="focus:outline-none w-9 rounded-full bg-white ring-2 ring-gray-300"
-                />
+                <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
               )}
             </a>
           </Link>

@@ -24,7 +24,14 @@ export default function Settings() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="pt-20 max-w-full w-screen grid grid-cols-4 px-4 m-auto gap-4 justify-between pb-4"></div>
+      <div className="h-screen pt-16 max-w-full w-screen px-4 m-auto justify-center pb-4">
+        <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center text-center justify-center">
+          <img src="/duckbutticon.svg" className="h-1/4" />
+          <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
+            Coming soon ...
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
