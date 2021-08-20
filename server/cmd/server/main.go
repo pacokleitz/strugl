@@ -11,6 +11,7 @@ import (
 	"strugl/internal/service/auth"
 	"strugl/internal/service/follow"
 	"strugl/internal/service/post"
+	"strugl/internal/service/search"
 	"strugl/internal/service/user"
 	transportHTTP "strugl/internal/transport/http"
 )
@@ -27,8 +28,9 @@ func run() error {
 	postService := post.NewService(datastore)
 	authService := auth.NewService(datastore)
 	followService := follow.NewService(datastore)
+	searchService := search.NewService(datastore)
 
-	h := transportHTTP.NewHandler(userService, postService, authService, followService)
+	h := transportHTTP.NewHandler(userService, postService, authService, followService, searchService)
 
 	h.SetupRoutes()
 

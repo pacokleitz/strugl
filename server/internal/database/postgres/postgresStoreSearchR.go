@@ -4,14 +4,15 @@ import (
 	"strugl/internal/models"
 )
 
+// simple placeholder for search function
 func (store PostgresStore) SearchUser(username string) ([]models.UserProfile, error) {
 
 	uu := make([]models.UserProfile, 0)
 
 	query := `SELECT user_id, username, profile_name, bio, avatar FROM users
-				WHERE username ILIKE '$1%'
-				ORDER BY LEN(username) ASC
-				LIMIT 10`
+				WHERE username ILIKE $1 || '%'
+				ORDER BY LENGTH(username) ASC
+				LIMIT 5`
 
 	rows, err := store.Store.Queryx(query, username)
 	if err != nil {
@@ -30,14 +31,15 @@ func (store PostgresStore) SearchUser(username string) ([]models.UserProfile, er
 	return uu, nil
 }
 
+// simple placeholder for search function
 func (store PostgresStore) SearchTopic(topic string) ([]models.Topic, error) {
 
 	tt := make([]models.Topic, 0)
 
 	query := `SELECT topic_id, topic_name FROM topics
-				WHERE topic_name LIKE '$1%'
-				ORDER BY LEN(topic_name) ASC
-				LIMIT 10`
+				WHERE topic_name ILIKE $1 || '%'
+				ORDER BY LENGTH(topic_name) ASC
+				LIMIT 5`
 
 	rows, err := store.Store.Queryx(query, topic)
 	if err != nil {

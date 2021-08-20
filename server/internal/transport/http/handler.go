@@ -10,14 +10,16 @@ type Handler struct {
 	PostService   PostService
 	AuthService   AuthService
 	FollowService FollowService
+	SearchService SearchService
 }
 
-func NewHandler(userService UserService, postService PostService, authService AuthService, followService FollowService) *Handler {
+func NewHandler(userService UserService, postService PostService, authService AuthService, followService FollowService, searchService SearchService) *Handler {
 	return &Handler{
 		UserService:   userService,
 		PostService:   postService,
 		AuthService:   authService,
 		FollowService: followService,
+		SearchService: searchService,
 	}
 }
 
@@ -47,6 +49,8 @@ func (h *Handler) SetupRoutes() {
 
 	h.Router.GET("/recom/topics", h.Protected(h.HandleTopicsRecom))
 	h.Router.GET("/recom/users", h.Protected(h.HandleUsersRecom))
+
+	h.Router.GET("/search/:str", h.HandleSearch)
 
 	h.Router.POST("/follow/user", h.Protected(h.HandleFollowUser))
 	h.Router.POST("/unfollow/user", h.Protected(h.HandleUnfollowUser))

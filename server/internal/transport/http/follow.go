@@ -38,6 +38,7 @@ func (h Handler) HandleFollowUser(w http.ResponseWriter, r *http.Request, ps htt
 }
 
 func (h Handler) HandleUnfollowUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
 	var user models.UserProfile
 
 	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)

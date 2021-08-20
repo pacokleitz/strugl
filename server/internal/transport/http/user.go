@@ -49,6 +49,7 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 }
 
 func (h Handler) HandleUserMe(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
 	userTokenData := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
 	userProfile, err := h.UserService.GetUser(userTokenData.User_ID)
 	if err != nil {
@@ -59,6 +60,7 @@ func (h Handler) HandleUserMe(w http.ResponseWriter, r *http.Request, ps httprou
 }
 
 func (h Handler) HandleUserByID(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
 	user_id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
 		http.Error(w, "Incorrect ID", http.StatusBadRequest)
@@ -74,6 +76,7 @@ func (h Handler) HandleUserByID(w http.ResponseWriter, r *http.Request, ps httpr
 }
 
 func (h Handler) HandleUserByUsername(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
 	username := ps.ByName("username")
 
 	userProfile, err := h.UserService.GetUserByUsername(username)
@@ -85,6 +88,7 @@ func (h Handler) HandleUserByUsername(w http.ResponseWriter, r *http.Request, ps
 }
 
 func (h Handler) HandleUsersRecom(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
 	user_data := r.Context().Value(models.ContextTokenKey).(models.Jwtoken)
 
 	uu, err := h.UserService.GetRecomUsers(user_data.User_ID)
