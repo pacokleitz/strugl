@@ -241,19 +241,19 @@ export const Search = async (
         const result = await res.json();
         const list: Array<SearchResult> = [];
         result.users.forEach((element: User) => {
-          list.push(
-            new SearchResult(
-              element.id,
-              element.username,
-              "user",
-              element.avatar
-            )
-          );
+          list.push({
+            id: element.id,
+            name: element.username,
+            type: "user",
+            avatar: element.avatar,
+          });
         });
         result.topics.forEach((element: Topic) => {
-          list.push(
-            new SearchResult(element.topic_id, element.topic_name, "topic")
-          );
+          list.push({
+            id: element.topic_id,
+            name: element.topic_name,
+            type: "topic",
+          });
         });
         list.sort();
         dispatch(updateSearch(list));

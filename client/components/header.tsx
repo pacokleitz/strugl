@@ -193,7 +193,7 @@ function SearchList() {
           {list.map((result) => (
             <SearchResult
               result={result}
-              key={result.id + parseInt(result.type)}
+              key={result.id + result.type}
               resetFunction={reset}
             />
           ))}
