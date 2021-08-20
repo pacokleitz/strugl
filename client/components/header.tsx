@@ -1,4 +1,5 @@
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
@@ -9,8 +10,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, Transition } from "@headlessui/react";
-import { SignOut } from "../services/actions";
+import { Search, SignOut } from "../services/actions";
 import { GetFeed } from "../services/data";
+import { FormInputs } from "./feed";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 
 function Account() {
   const router = useRouter();
@@ -114,6 +118,90 @@ function Account() {
   );
 }
 
+function SearchResult(props: any) {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  function Navigate() {
+    dispatch(updateSearch([]));
+    props.result.type == "user"
+      ? router.push(`/${encodeURIComponent(props.result.name)}`)
+      : router.push(`/topic/${encodeURIComponent(props.result.name)}`);
+    props.resetFunction({ content: "" });
+  }
+  return (
+    <a
+      onClick={Navigate}
+      className={
+        "w-full flex flex-row justify-start items-center space-x-4 text-gray-700 text-sm font-medium tracking-wide hover:bg-gray-50 cursor-pointer " +
+        (props.result.type == "user" ? "px-4 py-2" : "p-4")
+      }
+    >
+      {props.result.type == "user" && (
+        <img
+          src={props.result.avatar}
+          className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+        ></img>
+      )}
+      <div className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased overflow-ellipsis">
+        {props.result.type == "topic"
+          ? "#" + props.result.name
+          : props.result.name}
+      </div>
+    </a>
+  );
+}
+
+function SearchList() {
+  const dispatch = useAppDispatch();
+  const list = useAppSelector((state) => state.search.list);
+
+  const { register, handleSubmit, reset } = useForm<FormInputs>({
+    mode: "onChange",
+  });
+
+  const onChange: SubmitHandler<FormInputs> = useCallback(async (data) => {
+    if (data.content.length > 0) {
+      Search(dispatch, data.content);
+    } else dispatch(updateSearch([]));
+  }, []);
+
+  return (
+    <div className="relative self-center items-center inline-block text-center">
+      {" "}
+      <form
+        className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none "
+        onChange={handleSubmit(onChange)}
+        autoComplete="off"
+      >
+        <input
+          {...register("content")}
+          placeholder="Search"
+          type="search"
+          className="text-md subpixel-antialiased text-justify px-2 bg-transparent focus:outline-none w-full"
+        />
+        <FontAwesomeIcon
+          icon={faSearch}
+          className=" w-5 h-5 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-45 rotate-0"
+          type="submit"
+          onClick={handleSubmit(onChange)}
+        />
+      </form>
+      {list.length > 0 && (
+        <div className="origin-top absolute mt-3 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none divide-y">
+          {list.map((result) => (
+            <SearchResult
+              result={result}
+              key={result.id + parseInt(result.type)}
+              resetFunction={reset}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Header() {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -136,18 +224,7 @@ export default function Header() {
         >
           Strugl
         </a>
-        <div className="focus-within:shadow-inner flex flex-row px-4 py-1 items-center justify-between min-w-1/4 rounded-3xl bg-gray-100 border border-gray-200 focus:outline-none ">
-          <input
-            placeholder="Search"
-            type="search"
-            className="text-md subpixel-antialiased text-justify px-2 bg-transparent focus:outline-none w-full"
-            disabled
-          />
-          <FontAwesomeIcon
-            icon={faSearch}
-            className=" w-5 h-5 text-gray-700 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-45 rotate-0"
-          />
-        </div>
+        <SearchList />
         <div className="flex flex-row lg:w-1/6 w-1/3 justify-evenly items-center">
           <a onClick={() => Navigate("Dashboard")} title="Home">
             <div className="self-center space-y-1 cursor-pointer group">

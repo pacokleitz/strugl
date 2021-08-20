@@ -2,6 +2,7 @@ import { NextRouter } from "next/router";
 import { FormInputs } from "../components/feed";
 import Alert from "../lib/alert";
 import Post from "../lib/post";
+import SearchResult from "../lib/searchResult";
 import Topic from "../lib/topic";
 import User from "../lib/user";
 import { addAlert } from "../redux/reducers/AlertsSlice";
@@ -14,6 +15,7 @@ import {
   removeFollowing,
 } from "../redux/reducers/FollowingsSlice";
 import { addInterest, removeInterest } from "../redux/reducers/InterestsSlice";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 import { followTopic } from "../redux/reducers/TopicsRecommandationsSlice";
 import {
   addUsertoRecom,
@@ -24,7 +26,7 @@ import { GetCurrentUser } from "./data";
 export const CreateAccount = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
   router: NextRouter,
-  data: any,
+  data: any
 ) => {
   await fetch("https://api.strugl.cc/users", {
     method: "POST",
@@ -43,7 +45,7 @@ export const CreateAccount = async (
 export const SignIn = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
   router: NextRouter,
-  data: any,
+  data: any
 ) => {
   await fetch("https://api.strugl.cc/auth", {
     method: "Post",
@@ -219,6 +221,42 @@ export const AddPost = async (
             style: "state2",
           })
         );
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const Search = async (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+  content: string
+) => {
+  await fetch(`https://api.strugl.cc/search/${content}`, {
+    method: "Get",
+    credentials: "include",
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const result = await res.json();
+        const list: Array<SearchResult> = [];
+        result.users.forEach((element: User) => {
+          list.push(
+            new SearchResult(
+              element.id,
+              element.username,
+              "user",
+              element.avatar
+            )
+          );
+        });
+        result.topics.forEach((element: Topic) => {
+          list.push(
+            new SearchResult(element.topic_id, element.topic_name, "topic")
+          );
+        });
+        list.sort();
+        dispatch(updateSearch(list));
       }
     })
     .catch((error) => {
