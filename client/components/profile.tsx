@@ -1,21 +1,27 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { updateFeed } from "../redux/reducers/FeedSlice";
 
 import { GetBookmarks, GetFollowings, GetInterests } from "../services/data";
-import { UnfollowTopic } from "../services/actions";
+import { UnfollowUser, UnfollowTopic } from "../services/actions";
 
+import User from "../lib/user";
 import Topic from "../lib/topic";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar as faStarFull,
-  faUsers,
+  faPlusSquare as faPlusSquareFull,
   faBookmark,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
+import {
+  faPlusSquare as faPlusSquareEmpty,
+  faStar as faStarEmpty,
+} from "@fortawesome/free-regular-svg-icons";
+
 import { useEffect } from "react";
-import { updateFeed } from "../redux/reducers/FeedSlice";
 
 function TopicRender(props: any) {
   const dispatch = useAppDispatch();
@@ -49,6 +55,48 @@ function TopicRender(props: any) {
   );
 }
 
+function UserRender(props: any) {
+  const dispatch = useAppDispatch();
+
+  const [addState] = useState([faPlusSquareEmpty, faPlusSquareFull]);
+  let [currentaddState, setCurrentaddState] = useState(1);
+  let currentAdd = addState[currentaddState];
+
+  async function Unfollow() {
+    setCurrentaddState((currentaddState = 0));
+    currentAdd = addState[currentaddState];
+
+    UnfollowUser(dispatch, props.friend);
+  }
+
+  return (
+    <div className={"w-full px-4 py-4 flex justify-between state"}>
+      <Link href={`/${encodeURIComponent(props.friend.username)}`}>
+        <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
+          {props.friend.avatar && (
+            <img
+              src={props.friend.avatar}
+              className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+            />
+          )}
+          {!props.friend.avatar && (
+            <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
+          )}
+
+          <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
+            {props.friend.username}
+          </h3>
+        </div>
+      </Link>
+      <FontAwesomeIcon
+        icon={currentAdd}
+        className="w-5 text-gray-400 self-center hover:text-yellow-400 cursor-pointer"
+        onClick={Unfollow}
+      />
+    </div>
+  );
+}
+
 export default function Profile() {
   const dispatch = useAppDispatch();
 
@@ -56,6 +104,10 @@ export default function Profile() {
   const interests = useAppSelector((state) => state.interests.list);
   const followings = useAppSelector((state) => state.followings.list);
   const bookmarks = useAppSelector((state) => state.bookmarks.list);
+
+  const [displayList] = useState([interests, followings]);
+  let [currentStateList, setCurrentList] = useState(0);
+  let currentList = displayList[currentStateList];
 
   useEffect(() => {
     GetInterests(dispatch, currentUser.id);
@@ -96,14 +148,24 @@ export default function Profile() {
             </div>
             <p>{bookmarks ? bookmarks.length : 0}</p>
           </a>
-          <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer">
+          <a
+            className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer"
+            onClick={() => {
+              setCurrentList((currentStateList = 1));
+            }}
+          >
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faUsers} className="w-5" />
               <p>Followings</p>
             </div>
             <p>{followings ? followings.length : 0}</p>
           </a>
-          <a className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer">
+          <a
+            className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer"
+            onClick={() => {
+              setCurrentList((currentStateList = 0));
+            }}
+          >
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon icon={faStarFull} className="w-5" />
               <p>Interests</p>
@@ -113,17 +175,15 @@ export default function Profile() {
         </div>
         <div className="h-full">
           {interests &&
+            currentStateList == 0 &&
             interests.map((topic: Topic) => (
               <TopicRender key={topic.topic_id} topic={topic} />
             ))}
-          {!interests && (
-            <div className="h-full flex flex-col space-y-4 justify-items-center justify-start py-6">
-              <img src="duckbutticon.svg" className="h-1/6" />
-              <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">
-                No followings yet
-              </p>
-            </div>
-          )}
+          {followings &&
+            currentStateList == 1 &&
+            followings.map((user: User) => (
+              <UserRender key={user.id} friend={user} />
+            ))}
         </div>
       </div>
     </div>

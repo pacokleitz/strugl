@@ -167,7 +167,7 @@ export const GetTopicProfile = async (
       if (res.ok) {
         const topicProfile = await res.json();
         dispatch(addTopic(topicProfile));
-      } else dispatch(addAlert(new Alert("info", await res.text())));
+      }
     })
     .catch((error) => {
       dispatch(addAlert(new Alert("info", error)));
@@ -183,9 +183,7 @@ export const GetTopicProfile = async (
         dispatch(updateTopicFeed(posts));
       }
     })
-    .catch((error) => {
-      dispatch(addAlert(new Alert("error", error)));
-    });
+    .catch((error) => {});
 };
 
 export const GetUserProfile = async (
@@ -203,11 +201,7 @@ export const GetUserProfile = async (
         dispatch(addUser(userProfile));
       }
     })
-    .catch((error) => {
-      const alert = new Alert("info", error);
-      console.log("catche !", error);
-      dispatch(addAlert(alert));
-    });
+    .catch((error) => {});
 
   await fetch(`https://api.strugl.cc/posts/user/${user}`, {
     method: "GET",

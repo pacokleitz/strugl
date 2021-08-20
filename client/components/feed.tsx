@@ -164,11 +164,11 @@ function PostRender(props: any) {
               className="w-5 h-5 text-gray-400 hover:text-green-400 cursor-pointer	self-start"
               onClick={Mark}
             />
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={currentFlag}
               className="w-5 text-gray-400 hover:text-red-400 cursor-pointer	self-start"
               onClick={Report}
-            />
+            /> */}
           </div>
         </div>
 

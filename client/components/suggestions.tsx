@@ -85,7 +85,6 @@ function FriendRender(props: any) {
       <div className="inline-block">
         <Link
           href={`/${encodeURIComponent(props.friend.username)}`}
-          as={"/" + props.friend.username}
         >
           <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.friend.avatar && (
