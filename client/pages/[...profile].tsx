@@ -26,6 +26,7 @@ import Suggestions from "../components/suggestions";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from "../components/alert";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 
 function TopicProfileContent(props: any) {
   const dispatch = useAppDispatch();
