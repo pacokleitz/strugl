@@ -81,7 +81,7 @@ func (h Handler) HandleUserByUsername(w http.ResponseWriter, r *http.Request, ps
 
 	userProfile, err := h.UserService.GetUserByUsername(username)
 	if err != nil {
-		http.Error(w, "DB Error", http.StatusUnauthorized)
+		http.Error(w, "DB Error", http.StatusBadRequest)
 		return
 	}
 	json.NewEncoder(w).Encode(userProfile)
