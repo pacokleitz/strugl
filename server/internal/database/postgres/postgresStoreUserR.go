@@ -25,7 +25,7 @@ func (store PostgresStore) GetUserByUsername(username string) (*models.UserProfi
 	var user models.UserProfile
 
 	query := `SELECT user_id, username, profile_name, bio, avatar FROM users 
-				WHERE username = $1`
+				WHERE LOWER(username) = LOWER($1)`
 
 	err := store.Store.QueryRowx(query, username).StructScan(&user)
 	if err != nil {
@@ -50,7 +50,7 @@ func (store PostgresStore) CheckUsernameAvailability(username string) bool {
 
 	var db_username string
 
-	query := `SELECT username FROM users WHERE username = $1`
+	query := `SELECT username FROM users WHERE LOWER(username) = LOWER($1)`
 	err := store.Store.QueryRow(query, username).Scan(&db_username)
 	if err != nil {
 		return err == sql.ErrNoRows
