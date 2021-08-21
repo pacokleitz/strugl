@@ -29,7 +29,7 @@ func (store PostgresStore) GetPostsByUser(username string) ([]models.Post, error
 
 	query := `SELECT post_id, posts.user_id, username, avatar, content, date_created, date_updated FROM posts 
 				INNER JOIN users ON posts.user_id = users.user_id 
-				WHERE username = $1 ORDER BY date_created DESC`
+				WHERE LOWER(username) = LOWER($1) ORDER BY date_created DESC`
 
 	rows, err := store.Store.Queryx(query, username)
 	if err != nil {
