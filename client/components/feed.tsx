@@ -70,6 +70,7 @@ function PostRender(props: any) {
   const dispatch = useAppDispatch();
 
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
   const isBookmarked = useAppSelector((state) =>
     state.bookmarks.list.find((post) => post.id === props.post.id)
   );
@@ -112,22 +113,21 @@ function PostRender(props: any) {
     }
   }
 
-  const [reportState] = useState([faFlagEmpty, faFlagFull]);
-  let [currentReportState, setCurrentReportState] = useState(0);
-  let currentFlag = reportState[currentReportState];
+  // const [reportState] = useState([faFlagEmpty, faFlagFull]);
+  // let [currentReportState, setCurrentReportState] = useState(0);
 
-  function Report() {
-    if (currentReportState == 0)
-      setCurrentReportState((currentReportState = 1));
-    else setCurrentReportState((currentReportState = 0));
-    currentFlag = reportState[currentReportState];
-  }
+  // function Report() {
+  //   if (currentReportState == 0)
+  //     setCurrentReportState((currentReportState = 1));
+  //   else setCurrentReportState((currentReportState = 0));
+  // }
 
   return (
     <div
       className={
-        "w-full shadow py-2 pt-4 m-auto bg-white rounded-xl space-y-6 divide-y divide-gray-300 " +
-        props.post.style
+        "w-full shadow py-2 pt-4 m-auto bg-white rounded-xl space-y-2 " +
+        props.post.style +
+        (isLogged || commentsList ? " divide-y divide-gray-300" : "")
       }
     >
       <div className="px-4 space-y-2">
@@ -172,50 +172,56 @@ function PostRender(props: any) {
           </div>
         </div>
 
-        <p className="text-sm font-regular text-justify subpixel-antialiased">
+        <p className="text-sm font-regular text-justify subpixel-antialiased py-1">
           {content.map((word: string, index) => {
             if (topics.includes(word)) {
               return (
                 <span key={index}>
                   <Link href={`/topic/${encodeURIComponent(word.slice(1))}`}>
-                    <span className="text-blue-600 cursor-pointer">{word}</span>
+                    <span className="text-blue-600 cursor-pointer">
+                      {word.toString()}
+                    </span>
                   </Link>
                   <span> </span>
                 </span>
               );
-            } else return <span key={index}>{word + " "}</span>;
+            } else return <span key={index}>{word.toString() + " "}</span>;
           })}
         </p>
       </div>
-      <div className="px-2 pt-2 space-y-2">
-        <form className="flex flex-col px-4 py-1 space-y-2 bg-white">
-          <div className="flex flex-row justify-between items-center space-x-4 focus:outline-none">
-            <Link href={`/${encodeURIComponent(currentUser.username)}`}>
-              <a className="w-max focus:outline-none">
-                {currentUser.avatar && (
-                  <img
-                    src={currentUser.avatar}
-                    className="focus:outline-none w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
-                  />
-                )}
-                {!currentUser.avatar && (
-                  <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
-                )}
-              </a>
-            </Link>
-            <input
-              placeholder="Leave a comment ..."
-              className="w-full overflow-y-scroll p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
-              required
-              disabled
-            />
-          </div>
-        </form>
-        {props.post.comments &&
-          commentsList.map((comment: Comment) => (
-            <CommentsRender key={comment.id} comment={comment} />
-          ))}
-      </div>
+      {(isLogged || commentsList) && (
+        <div className="px-2 pt-2 space-y-2">
+          {isLogged && (
+            <form className="flex flex-col px-4 py-1 space-y-2 bg-white">
+              <div className="flex flex-row justify-between items-center space-x-4 focus:outline-none">
+                <Link href={`/${encodeURIComponent(currentUser.username)}`}>
+                  <a className="w-max focus:outline-none">
+                    {currentUser.avatar && (
+                      <img
+                        src={currentUser.avatar}
+                        className="focus:outline-none w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+                      />
+                    )}
+                    {!currentUser.avatar && (
+                      <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
+                    )}
+                  </a>
+                </Link>
+                <input
+                  placeholder="Leave a comment ..."
+                  className="w-full overflow-y-scroll p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
+                  required
+                  disabled
+                />
+              </div>
+            </form>
+          )}
+          {props.post.comments &&
+            commentsList.map((comment: Comment) => (
+              <CommentsRender key={comment.id} comment={comment} />
+            ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { addAlert } from "../redux/reducers/AlertsSlice";
 import { updateBookmarks } from "../redux/reducers/BookmarksSlice";
 import { logIn } from "../redux/reducers/CurrentUserSlice";
 import {
@@ -12,8 +11,6 @@ import { updateTopics } from "../redux/reducers/TopicsRecommandationsSlice";
 import { addTopic } from "../redux/reducers/TopicsSlice";
 import { updateUsers } from "../redux/reducers/UsersRecommandationsSlice";
 import { addUser } from "../redux/reducers/UsersSlice";
-import Alert from "../lib/alert";
-import { NextRouter } from "next/router";
 
 export const GetCurrentUser = async (
   dispatch: (arg0: { payload: any; type: string }) => void
@@ -169,7 +166,9 @@ export const GetTopicProfile = async (
         dispatch(addTopic(topicProfile));
       }
     })
-    .catch((error) => {});
+    .catch((error) => {
+      console.log(error);
+    });
 
   await fetch(`https://api.strugl.cc/posts/topic/${topic}`, {
     method: "GET",
@@ -181,12 +180,14 @@ export const GetTopicProfile = async (
         dispatch(updateTopicFeed(posts));
       }
     })
-    .catch((error) => {});
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const GetUserProfile = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
-  user: string,
+  user: string
 ) => {
   dispatch(updateProfileFeed([]));
   await fetch(`https://api.strugl.cc/users/name/${user}`, {
@@ -199,7 +200,9 @@ export const GetUserProfile = async (
         dispatch(addUser(userProfile));
       }
     })
-    .catch((error) => {});
+    .catch((error) => {
+      console.log(error);
+    });
 
   await fetch(`https://api.strugl.cc/posts/user/${user}`, {
     method: "GET",
@@ -211,5 +214,7 @@ export const GetUserProfile = async (
         dispatch(updateProfileFeed(posts));
       }
     })
-    .catch((error) => {});
+    .catch((error) => {
+      console.log(error);
+    });
 };

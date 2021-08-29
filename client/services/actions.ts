@@ -221,13 +221,13 @@ export const RemoveBookmark = async (
 
 export const AddPost = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
-  content: FormInputs,
+  data: FormInputs,
   currentUser: User
 ) => {
   await fetch(`https://api.strugl.cc/posts`, {
     method: "Post",
     credentials: "include",
-    body: JSON.stringify(content),
+    body: JSON.stringify(data),
   })
     .then(async (res) => {
       if (res.ok) {
@@ -238,7 +238,7 @@ export const AddPost = async (
             author: currentUser.username,
             author_id: currentUser.id,
             avatar: currentUser.avatar,
-            content: content,
+            content: data.content,
             date_created: new Date().toUTCString(),
             style: "state2",
           })
