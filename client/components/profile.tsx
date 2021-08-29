@@ -90,7 +90,7 @@ function UserRender(props: any) {
       </Link>
       <FontAwesomeIcon
         icon={currentAdd}
-        className="w-5 text-gray-400 self-center hover:text-yellow-400 cursor-pointer"
+        className="w-5 text-gray-400 self-center hover:text-indigo-500 cursor-pointer"
         onClick={Unfollow}
       />
     </div>

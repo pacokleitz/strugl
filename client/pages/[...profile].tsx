@@ -25,6 +25,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from "../components/alert";
 import { addAlert } from "../redux/reducers/AlertsSlice";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 
 function TopicProfileContent(props: any) {
   const dispatch = useAppDispatch();
@@ -169,7 +170,10 @@ export default function Profile() {
   });
 
   return (
-    <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
+    <div
+      className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100"
+      onClick={() => dispatch(updateSearch([]))}
+    >
       <Head>
         {profile && profile[0] == "topic" && (
           <title>Strugl - {"#" + profile[1]}</title>

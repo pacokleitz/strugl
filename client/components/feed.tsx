@@ -161,7 +161,7 @@ function PostRender(props: any) {
             />
             <FontAwesomeIcon
               icon={isBookmarked ? faBookmarkFull : faBookmarkEmpty}
-              className="w-5 h-5 text-gray-400 hover:text-green-400 cursor-pointer	self-start"
+              className="w-5 h-5 text-gray-400 hover:text-red-400 cursor-pointer	self-start"
               onClick={Mark}
             />
             {/* <FontAwesomeIcon

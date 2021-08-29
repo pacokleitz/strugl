@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { GetCurrentUser } from "../services/data";
 
 import Header from "../components/header";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 
 export default function Explore() {
   const router = useRouter();
@@ -19,7 +20,10 @@ export default function Explore() {
   });
 
   return (
-    <div className="h-screen w-screen max-w-full bg-gray-100 ">
+    <div
+      className="h-screen w-screen max-w-full bg-gray-100"
+      onClick={() => dispatch(updateSearch([]))}
+    >
       <Head>
         <title>Strugl - Explore</title>
         <link rel="icon" href="/favicon.ico" />

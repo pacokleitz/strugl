@@ -155,11 +155,11 @@ function SearchResult(props: any) {
 function SearchList() {
   const dispatch = useAppDispatch();
   const list = useAppSelector((state) => state.search.list);
-
+  
   const { register, getValues, reset } = useForm<FormInputs>({
     mode: "onChange",
   });
-
+    
   const onChange = useCallback(async () => {
     let content = getValues("content");
     if (content.length > 0) {

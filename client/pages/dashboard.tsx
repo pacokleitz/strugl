@@ -7,7 +7,6 @@ import Feed from "../components/feed";
 import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 import {
-  GetBookmarks,
   GetCurrentUser,
   GetFeed,
   GetTopicsRecom,
@@ -37,7 +36,10 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 overflow-hidden">
+    <div
+      className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 overflow-hidden"
+      onClick={() => dispatch(updateSearch([]))}
+    >
       <Head>
         <title>Strugl</title>
         <link rel="icon" href="/favicon.ico" />
