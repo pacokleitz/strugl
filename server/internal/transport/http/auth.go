@@ -98,6 +98,8 @@ func (h Handler) HandleLogout(w http.ResponseWriter, r *http.Request, ps httprou
 	cookie.MaxAge = 0
 	cookie.Value = ""
 	cookie.SameSite = http.SameSiteNoneMode
+	cookie.Secure = true
+	cookie.HttpOnly = true
 
 	http.SetCookie(w, cookie)
 }
