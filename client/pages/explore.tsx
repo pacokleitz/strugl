@@ -16,7 +16,7 @@ export default function Explore() {
 
   useEffect(() => {
     GetCurrentUser(dispatch);
-    if (!isLogged) router.push("/login", "");
+    if (!isLogged) router.push("/login", "/");
   });
 
   return (
