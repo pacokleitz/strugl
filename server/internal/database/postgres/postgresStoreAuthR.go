@@ -10,7 +10,7 @@ func (store PostgresStore) GetCredentials(username string) (models.AuthCredentia
 
 	var creds models.AuthCredentials
 
-	query := `SELECT user_id, password_hash FROM users WHERE username = $1`
+	query := `SELECT user_id, password_hash FROM users WHERE LOWER(username) = LOWER($1)`
 	err := store.Store.QueryRowx(query, username).StructScan(&creds)
 	if err != nil {
 		if err == sql.ErrNoRows {

@@ -1,7 +1,7 @@
 package postgres
 
 func (store PostgresStore) DeleteUser(username string) error {
-	stmt, err := store.Store.Prepare(`DELETE FROM users WHERE username = $1`)
+	stmt, err := store.Store.Prepare(`DELETE FROM users WHERE LOWER(username) = LOWER($1)`)
 	if err != nil {
 		return err
 	}
