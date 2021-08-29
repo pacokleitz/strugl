@@ -6,13 +6,12 @@ import store from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import { useRouter } from "next/router";
-import { NextPageContext } from "next";
 import { GetCurrentUser } from "../services/data";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 
 export default function Home() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
 
   useEffect(() => {
     GetCurrentUser(dispatch);

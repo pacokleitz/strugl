@@ -155,11 +155,11 @@ function SearchResult(props: any) {
 function SearchList() {
   const dispatch = useAppDispatch();
   const list = useAppSelector((state) => state.search.list);
-
+  
   const { register, getValues, reset } = useForm<FormInputs>({
     mode: "onChange",
   });
-
+    
   const onChange = useCallback(async () => {
     let content = getValues("content");
     if (content.length > 0) {
@@ -207,6 +207,8 @@ export default function Header() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
+
   async function Navigate(to: String) {
     if (to == "Dashboard") {
       GetFeed(dispatch);
@@ -226,24 +228,37 @@ export default function Header() {
           Strugl
         </a>
         <SearchList />
-        <div className="flex flex-row lg:w-1/6 w-1/3 justify-evenly items-center">
-          <a onClick={() => Navigate("Dashboard")} title="Home">
-            <div className="self-center space-y-1 cursor-pointer group">
-              <div className="w-9 h-2 bg-gray-600 bg-opacity-80 rounded-md transition duration-500 ease-in-out transform-gpu translate-x-0 group-hover:translate-x-1"></div>
-              <div className="w-9 h-2 bg-gray-600 transition duration-500 ease-in-out rounded-md transform-gpu translate-x-0 group-hover:-translate-x-1"></div>
-              <div className="w-9 h-2 bg-gray-600 bg-opacity-90 rounded-md transition duration-500 ease-in-out transform-gpu translate-x-0 group-hover:translate-x-1"></div>
+        {isLogged && (
+          <>
+            <div className="flex flex-row lg:w-1/6 w-1/3 justify-evenly items-center">
+              <a onClick={() => Navigate("Dashboard")} title="Home">
+                <div className="self-center space-y-1 cursor-pointer group">
+                  <div className="w-9 h-2 bg-gray-600 bg-opacity-80 rounded-md transition duration-500 ease-in-out transform-gpu translate-x-0 group-hover:translate-x-1"></div>
+                  <div className="w-9 h-2 bg-gray-600 transition duration-500 ease-in-out rounded-md transform-gpu translate-x-0 group-hover:-translate-x-1"></div>
+                  <div className="w-9 h-2 bg-gray-600 bg-opacity-90 rounded-md transition duration-500 ease-in-out transform-gpu translate-x-0 group-hover:translate-x-1"></div>
+                </div>
+              </a>
+              <div className="self-center">
+                <a onClick={() => Navigate("Explore")} title="Explore">
+                  <FontAwesomeIcon
+                    icon={faCompass}
+                    className="w-9 h-9 text-gray-600 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
+                  />
+                </a>
+              </div>
             </div>
-          </a>
-          <div className="self-center">
-            <a onClick={() => Navigate("Explore")} title="Explore">
-              <FontAwesomeIcon
-                icon={faCompass}
-                className="w-9 h-9 text-gray-600 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
-              />
-            </a>
+            <Account />
+          </>
+        )}
+        {!isLogged && (
+          <div className="">
+          <Link href="/login" as="/">
+            <div className="px-4 self-center py-1 border-2 text-md font-semibold rounded-3xl cursor-pointer border-indigo-500 text-indigo-500 hover:border-indigo-700 hover:text-indigo-700">
+              Log In
+            </div>
+          </Link>
           </div>
-        </div>
-        <Account />
+        )}
       </div>
     </div>
   );

@@ -2,12 +2,12 @@ export default class Alert {
   content: string;
   type: string;
   color: string;
+  status: string;
 
-  constructor(type: string, content: string) {
+  constructor(type: string, content: string, color: string, status: string) {
     this.type = type;
     this.content = content;
-    if (this.type === "error") this.color = "red";
-    else if (this.type === "info") this.color = "blue";
-    else this.color = "green";
+    this.color = color;
+    this.status = status;
   }
 }

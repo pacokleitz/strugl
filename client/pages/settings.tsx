@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { GetCurrentUser } from "../services/data";
 
 import Header from "../components/header";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 
 export default function Settings() {
   const router = useRouter();
@@ -18,7 +19,10 @@ export default function Settings() {
   });
 
   return (
-    <div className="min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
+    <div
+      className="min-h-screen h-auto w-screen max-w-full bg-gray-100"
+      onClick={() => dispatch(updateSearch([]))}
+    >
       <Head>
         <title>Strugl - Settings</title>
         <link rel="icon" href="/favicon.ico" />

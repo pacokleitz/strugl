@@ -7,7 +7,6 @@ import Feed from "../components/feed";
 import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 import {
-  GetBookmarks,
   GetCurrentUser,
   GetFeed,
   GetTopicsRecom,
@@ -15,6 +14,7 @@ import {
 } from "../services/data";
 import { useRouter } from "next/router";
 import { updateSearch } from "../redux/reducers/SearchSlice";
+import Alert from "../components/alert";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -22,25 +22,31 @@ export default function Dashboard() {
 
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
   const feed = useAppSelector((state) => state.feed);
+  const alert = useAppSelector((state) => state.alerts.list[0]);
 
   useEffect(() => {
     GetCurrentUser(dispatch);
-    if (!isLogged) router.push("/login", "");
-    
-    dispatch(updateSearch([]));
-    GetFeed(dispatch);
-    GetUsersRecom(dispatch);
-    GetTopicsRecom(dispatch);
+    if (!isLogged) router.push("/login", "/");
+    else {
+      dispatch(updateSearch([]));
+      GetFeed(dispatch);
+      GetUsersRecom(dispatch);
+      GetTopicsRecom(dispatch);
+    }
   }, []);
 
   return (
-    <div className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 overflow-hidden">
+    <div
+      className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 overflow-hidden"
+      onClick={() => dispatch(updateSearch([]))}
+    >
       <Head>
         <title>Strugl</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
       <div className="max-w-full w-screen lg:grid lg:grid-cols-4 pt-16 px-4 m-auto gap-4 justify-between">
+        {alert && <Alert alert={alert} />}
         <div className="lg:block hidden">
           <Profile />
         </div>

@@ -30,7 +30,8 @@
     "react-query": "^3.17.2",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.38.2"
   },
   "devDependencies": {
     "@types/react": "17.0.6",

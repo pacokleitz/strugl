@@ -8,9 +8,7 @@ import {
   GetFollowings,
   GetInterests,
   GetTopicProfile,
-  GetTopicsRecom,
   GetUserProfile,
-  GetUsersRecom,
 } from "../services/data";
 import {
   FollowTopic,
@@ -26,6 +24,7 @@ import Suggestions from "../components/suggestions";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from "../components/alert";
+import { addAlert } from "../redux/reducers/AlertsSlice";
 import { updateSearch } from "../redux/reducers/SearchSlice";
 
 function TopicProfileContent(props: any) {
@@ -34,10 +33,14 @@ function TopicProfileContent(props: any) {
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
   const feed = useAppSelector((state) => state.feed);
   const topicProfile = useAppSelector((state) =>
-    state.topics.list.find((topic) => topic.topic_name === props.topic)
+    state.topics.list.find(
+      (topic) => topic.topic_name === props.topic.toLowerCase()
+    )
   );
   const isStarred = useAppSelector((state) =>
-    state.interests.list.find((topic) => props.topic === topic.topic_name)
+    state.interests.list.find(
+      (topic) => props.topic.toLowerCase() === topic.topic_name
+    )
   );
 
   function Star() {
@@ -88,10 +91,13 @@ function UserProfileContent(props: any) {
   const userProfile = useAppSelector((state) =>
     state.users.list.find((user) => user.username === props.user)
   );
+
   const feed = useAppSelector((state) => state.feed);
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
   const isFollowed = useAppSelector((state) =>
-    state.followings.list.find((user) => user.username === props.user)
+    state.followings.list.find(
+      (user) => user.username === props.user.toLowerCase()
+    )
   );
 
   function Follow() {
@@ -152,14 +158,9 @@ export default function Profile() {
   const { profile } = router.query;
 
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
-  const currentUserId = useAppSelector(
-    (state) => state.currentUser.userInfos.id
-  );
   const alert = useAppSelector((state) => state.alerts.list[0]);
 
   useEffect(() => {
-    GetFollowings(dispatch, currentUserId);
-    GetInterests(dispatch, currentUserId);
     GetCurrentUser(dispatch);
 
     if (profile) {
@@ -169,7 +170,10 @@ export default function Profile() {
   });
 
   return (
-    <div className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 ">
+    <div
+      className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100"
+      onClick={() => dispatch(updateSearch([]))}
+    >
       <Head>
         {profile && profile[0] == "topic" && (
           <title>Strugl - {"#" + profile[1]}</title>
@@ -181,8 +185,8 @@ export default function Profile() {
       <Header />
       <div
         className={
-          "pt-16 max-w-7xl min-w-screen px-4 m-auto gap-4 justify-between pb-4 " +
-          (isLogged ? "lg:grid lg:grid-cols-4 gap-4" : "")
+          "pt-16 min-w-screen px-4 m-auto gap-4 justify-between pb-4 " +
+          (isLogged ? "lg:grid lg:grid-cols-4 gap-4 max-w-7xl" : "max-w-5xl")
         }
       >
         {alert && <Alert alert={alert} />}
