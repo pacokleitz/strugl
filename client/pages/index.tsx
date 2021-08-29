@@ -12,7 +12,6 @@ import { GetCurrentUser } from "../services/data";
 export default function Home() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
 
   useEffect(() => {
     GetCurrentUser(dispatch);

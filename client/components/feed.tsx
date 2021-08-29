@@ -19,8 +19,8 @@ import {
   faFlag as faFlagEmpty,
   faArrowAltCircleUp as faArrowAltCircleUpEmpty,
 } from "@fortawesome/free-regular-svg-icons";
-import { addPost } from "../redux/reducers/FeedSlice";
 import { AddBookmark, AddPost, RemoveBookmark } from "../services/actions";
+import { useRouter } from "next/router";
 
 export interface FormInputs {
   content: string;
@@ -221,9 +221,21 @@ function PostRender(props: any) {
 }
 
 export default function Feed(props: any) {
-  const currentUser = useAppSelector((state) => state.currentUser.userInfos);
-  const feed = props.feed;
+  const router = useRouter();
   const dispatch = useAppDispatch();
+  const feed = props.feed;
+  const { profile } = router.query;
+
+  const currentUser = useAppSelector((state) => state.currentUser.userInfos);
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
+  const hasInput =
+    isLogged &&
+    ((feed.type === "profileFeed" &&
+      profile &&
+      currentUser.username === profile[0]) ||
+      feed.type !== "profileFeed")
+      ? true
+      : false;
 
   const { register, handleSubmit, reset } = useForm<FormInputs>({
     mode: "onSubmit",
@@ -237,46 +249,52 @@ export default function Feed(props: any) {
 
   return (
     <div className="max-w-5xl col-span-2 w-full content-center text-center flex flex-col space-y-2 scrollbar-hidden">
-      <form
-        autoComplete="off"
-        onSubmit={handleSubmit(onSubmit)}
-        className="shadow px-4 py-2 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
-      >
-        <div className="flex flex-row justify-between items-center space-x-4">
-          <Link href={`/${encodeURIComponent(currentUser.username)}`}>
-            <a className="w-max focus:outline-none">
-              {currentUser.avatar && (
-                <img
-                  src={currentUser.avatar}
-                  className="focus:outline-none w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
-                />
-              )}
-              {!currentUser.avatar && (
-                <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
-              )}
-            </a>
-          </Link>
+      {hasInput && (
+        <form
+          autoComplete="off"
+          onSubmit={handleSubmit(onSubmit)}
+          className="shadow px-4 py-2 bg-white border-2 border-gray-100 border-opacity-60 rounded-xl space-y-2 flex flex-col"
+        >
+          <div className="flex flex-row justify-between items-center space-x-4">
+            <Link href={`/${encodeURIComponent(currentUser.username)}`}>
+              <a className="w-max focus:outline-none">
+                {currentUser.avatar && (
+                  <img
+                    src={currentUser.avatar}
+                    className="focus:outline-none w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+                  />
+                )}
+                {!currentUser.avatar && (
+                  <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
+                )}
+              </a>
+            </Link>
 
-          <input
-            {...register("content", {
-              required: "Content is required.",
-            })}
-            placeholder="Share something with your friends today"
-            autoComplete="off"
-            type="search"
-            className="w-full overflow-y-scroll p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
-            required
-          />
-        </div>
-      </form>
+            <input
+              {...register("content", {
+                required: "Content is required.",
+              })}
+              placeholder="Share something with your friends today"
+              autoComplete="off"
+              type="search"
+              className="w-full overflow-y-scroll p-2 px-4 rounded-3xl bg-gray-100 border border-gray-200 focus:shadow-inner focus:outline-none text-sm text-justify subpixel-antialiased"
+              required
+            />
+          </div>
+        </form>
+      )}
       <div
-        className={"overflow-y-scroll sticky rounded-xl space-y-2 " + feed.type}
+        className={
+          "overflow-y-scroll sticky rounded-xl space-y-2 " +
+          feed.type +
+          (hasInput ? "" : " noInput")
+        }
       >
         {feed.list &&
           feed.list.map((post: Post) => (
             <PostRender key={post.id} post={post} />
           ))}
-        {feed.list && feed.list.length == 0 && feed.type == "profileFeed" && (
+        {feed.list && feed.list.length == 0 && feed.type != "dashboardFeed" && (
           <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
             <img src="/duckbutticon.svg" className="h-1/4" />
             <p className="text-2xl font-semibold text-gray-600 subpixel-antialiased">

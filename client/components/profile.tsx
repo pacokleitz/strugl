@@ -101,18 +101,19 @@ export default function Profile() {
   const dispatch = useAppDispatch();
 
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
+  const isLogged = useAppSelector((state) => state.currentUser.isLogged);
   const interests = useAppSelector((state) => state.interests.list);
   const followings = useAppSelector((state) => state.followings.list);
   const bookmarks = useAppSelector((state) => state.bookmarks.list);
 
-  const [displayList] = useState([interests, followings]);
   let [currentStateList, setCurrentList] = useState(0);
-  let currentList = displayList[currentStateList];
 
   useEffect(() => {
-    GetInterests(dispatch, currentUser.id);
-    GetFollowings(dispatch, currentUser.id);
-    GetBookmarks(dispatch);
+    if (isLogged) {
+      GetInterests(dispatch, currentUser.id);
+      GetFollowings(dispatch, currentUser.id);
+      GetBookmarks(dispatch);
+    }
   }, []);
 
   return (

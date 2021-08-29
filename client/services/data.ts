@@ -1,4 +1,3 @@
-import { NextRouter } from "next/router";
 import { addAlert } from "../redux/reducers/AlertsSlice";
 import { updateBookmarks } from "../redux/reducers/BookmarksSlice";
 import { logIn } from "../redux/reducers/CurrentUserSlice";
@@ -14,6 +13,7 @@ import { addTopic } from "../redux/reducers/TopicsSlice";
 import { updateUsers } from "../redux/reducers/UsersRecommandationsSlice";
 import { addUser } from "../redux/reducers/UsersSlice";
 import Alert from "../lib/alert";
+import { NextRouter } from "next/router";
 
 export const GetCurrentUser = async (
   dispatch: (arg0: { payload: any; type: string }) => void
@@ -169,9 +169,7 @@ export const GetTopicProfile = async (
         dispatch(addTopic(topicProfile));
       }
     })
-    .catch((error) => {
-      dispatch(addAlert(new Alert("info", error)));
-    });
+    .catch((error) => {});
 
   await fetch(`https://api.strugl.cc/posts/topic/${topic}`, {
     method: "GET",
@@ -188,7 +186,7 @@ export const GetTopicProfile = async (
 
 export const GetUserProfile = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
-  user: string
+  user: string,
 ) => {
   dispatch(updateProfileFeed([]));
   await fetch(`https://api.strugl.cc/users/name/${user}`, {

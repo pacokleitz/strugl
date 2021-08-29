@@ -14,24 +14,39 @@
 }
 
 .dashboardFeed {
-    height: calc(100vh - 150px);
+    height : calc(100vh - 150px);
 }
 
 .profileFeed {
-    height: calc(100vh - 360px);
+    height : calc(100vh - 360px);
+}
+
+.profileFeed.noInput {
+    height : calc(100vh - 290px);
 }
 
 .topicFeed {
     height: calc(100vh - 270px);
-
 }
 
-.fadeOut1{
+.topicFeed.noInput {
+    height: calc(100vh - 200px);
+}
+
+.fadeOut{
     animation: fadeOut 0.6s;
 }
 
-.state2{
+.fadeIn{
     animation: fadeIn 2s;
+}
+
+.slideIn{
+    animation: slideIn 2s;
+}
+
+.slideOut{
+    animation: slideOut 2s; 
 }
 
 .true{

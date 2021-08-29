@@ -15,6 +15,7 @@ import {
 } from "../services/data";
 import { useRouter } from "next/router";
 import { updateSearch } from "../redux/reducers/SearchSlice";
+import Alert from "../components/alert";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -22,15 +23,17 @@ export default function Dashboard() {
 
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
   const feed = useAppSelector((state) => state.feed);
+  const alert = useAppSelector((state) => state.alerts.list[0]);
 
   useEffect(() => {
     GetCurrentUser(dispatch);
-    if (!isLogged) router.push("/login", "");
-    
-    dispatch(updateSearch([]));
-    GetFeed(dispatch);
-    GetUsersRecom(dispatch);
-    GetTopicsRecom(dispatch);
+    if (!isLogged) router.push("/login", "/");
+    else {
+      dispatch(updateSearch([]));
+      GetFeed(dispatch);
+      GetUsersRecom(dispatch);
+      GetTopicsRecom(dispatch);
+    }
   }, []);
 
   return (
@@ -41,6 +44,7 @@ export default function Dashboard() {
       </Head>
       <Header />
       <div className="max-w-full w-screen lg:grid lg:grid-cols-4 pt-16 px-4 m-auto gap-4 justify-between">
+        {alert && <Alert alert={alert} />}
         <div className="lg:block hidden">
           <Profile />
         </div>

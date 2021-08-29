@@ -16,9 +16,11 @@ export const usersSlice = createSlice({
 
   reducers: {
     addUser: (state, action) => {
-      return { ...state, list: [action.payload, ...state.list] };
+      const userExists = state.list.find((user) => user === action.payload);
+      if (!userExists)
+        return { ...state, list: [action.payload, ...state.list] };
     },
-    
+
     removeUser: (state, action) => {
       const list = state.list.filter((user) => user.id !== action.payload);
       return { ...state, list: [...list] };

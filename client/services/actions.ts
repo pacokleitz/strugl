@@ -1,15 +1,22 @@
 import { NextRouter } from "next/router";
-import { FormInputs } from "../components/feed";
+
+import { GetCurrentUser } from "./data";
+
 import Alert from "../lib/alert";
 import Post from "../lib/post";
 import SearchResult from "../lib/searchResult";
 import Topic from "../lib/topic";
 import User from "../lib/user";
-import { addAlert } from "../redux/reducers/AlertsSlice";
+
+import { FormInputs } from "../components/feed";
 
 import { addBookmark, removeBookmark } from "../redux/reducers/BookmarksSlice";
 import { logOut } from "../redux/reducers/CurrentUserSlice";
 import { addPost } from "../redux/reducers/FeedSlice";
+import {
+  addUsertoRecom,
+  followUser,
+} from "../redux/reducers/UsersRecommandationsSlice";
 import {
   addFollowing,
   removeFollowing,
@@ -17,11 +24,7 @@ import {
 import { addInterest, removeInterest } from "../redux/reducers/InterestsSlice";
 import { updateSearch } from "../redux/reducers/SearchSlice";
 import { followTopic } from "../redux/reducers/TopicsRecommandationsSlice";
-import {
-  addUsertoRecom,
-  followUser,
-} from "../redux/reducers/UsersRecommandationsSlice";
-import { GetCurrentUser } from "./data";
+import { addAlert } from "../redux/reducers/AlertsSlice";
 
 export const CreateAccount = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
@@ -35,10 +38,20 @@ export const CreateAccount = async (
     .then(async (res) => {
       if (res.ok) {
         router.push("/");
+      } else {
+        const err = res.text();
+        dispatch(
+          addAlert({
+            type: "error",
+            content: err,
+            color: "red",
+            status: "In",
+          })
+        );
       }
     })
     .catch((error) => {
-      dispatch(addAlert(new Alert("error", error)));
+      console.log(error);
     });
 };
 
@@ -56,11 +69,20 @@ export const SignIn = async (
       if (res.ok) {
         GetCurrentUser(dispatch);
         router.push("/dashboard", "/");
+      } else {
+        const err = res.text();
+        dispatch(
+          addAlert({
+            type: "error",
+            content: err,
+            color: "red",
+            status: "In",
+          })
+        );
       }
     })
     .catch((error) => {
       console.log(error);
-      dispatch(addAlert(new Alert("error", error)));
     });
 };
 
