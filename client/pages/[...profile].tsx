@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import {
   GetCurrentUser,
-  GetFollowings,
-  GetInterests,
   GetTopicProfile,
   GetUserProfile,
 } from "../services/data";
@@ -24,7 +22,6 @@ import Suggestions from "../components/suggestions";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from "../components/alert";
-import { addAlert } from "../redux/reducers/AlertsSlice";
 import { updateSearch } from "../redux/reducers/SearchSlice";
 
 function TopicProfileContent(props: any) {
@@ -53,7 +50,7 @@ function TopicProfileContent(props: any) {
   return (
     <div className="pt-2 space-y-2">
       <div className="pb-2 flex flex-row px-6  items-center space-x-8 focus:outline-none justify-between">
-        <p className="inline-block text-4xl text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+        <p className="inline-block text-4xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
           {"#" + props.topic}
         </p>
         {isLogged && (
@@ -61,7 +58,7 @@ function TopicProfileContent(props: any) {
             className={
               "px-4 py-1 border-2 text-md font-semibold rounded-3xl cursor-pointer " +
               (!isStarred
-                ? "border-gray-700 text-gray-700 hover:border-yellow-400 hover:text-yellow-400"
+                ? "border-gray-700 text-gray-700 dark:text-gray-300 dark:border-gray-300 hover:border-yellow-400 hover:text-yellow-400 dark:hover:border-yellow-400 dark:hover:text-yellow-400"
                 : "border-yellow-400 text-yellow-400 hover:border-yellow-500 hover:text-yellow-500")
             }
             onClick={Star}
@@ -70,8 +67,8 @@ function TopicProfileContent(props: any) {
           </div>
         )}
       </div>
-      <div className="bg-white rounded-xl shadow p-4 flex justify-around items-center">
-        <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-800 cursor-pointer">
+      <div className="bg-white dark:bg-gray-850 rounded-xl shadow p-4 flex justify-around items-center">
+        <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-850 dark:hover:text-gray-200 cursor-pointer">
           <div className="flex flex-row justify-between space-x-2">
             <FontAwesomeIcon icon={faBars} className="w-5" />
             <p>Posts</p>
@@ -114,13 +111,13 @@ function UserProfileContent(props: any) {
           {userProfile?.avatar && (
             <img
               src={userProfile.avatar}
-              className="w-32 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"
+              className="w-32 h-32 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center dark:bg-gray-800 dark:ring-gray-800 object-contain"
             />
           )}
           {!userProfile?.avatar && (
             <div className="w-32 h-32 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"></div>
           )}
-          <p className="inline-block text-xl text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+          <p className="inline-block text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
             {userProfile?.username}
           </p>
         </div>
@@ -129,7 +126,7 @@ function UserProfileContent(props: any) {
             className={
               "px-4 py-1 border-2 text-md font-semibold rounded-3xl cursor-pointer " +
               (!isFollowed
-                ? "border-gray-700 text-gray-700 hover:border-indigo-500 hover:text-indigo-500"
+                ? "border-gray-700 text-gray-700 dark:border-gray-300 dark:text-gray-300 hover:border-indigo-500 hover:text-indigo-500 dark:hover:border-indigo-500 dark:hover:text-indigo-500"
                 : "border-indigo-500 text-indigo-500 hover:border-indigo-700 hover:text-indigo-700")
             }
             onClick={Follow}
@@ -138,8 +135,8 @@ function UserProfileContent(props: any) {
           </div>
         )}
       </div>
-      <div className="bg-white rounded-xl shadow p-4 flex justify-around items-center">
-        <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-800 cursor-pointer">
+      <div className="bg-white dark:bg-gray-850 rounded-xl shadow p-4 flex justify-around items-center">
+        <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-850 dark:hover:text-gray-200 cursor-pointer">
           <div className="flex flex-row justify-between space-x-2">
             <FontAwesomeIcon icon={faBars} className="w-5" />
             <p>Posts</p>
@@ -171,7 +168,7 @@ export default function Profile() {
 
   return (
     <div
-      className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100"
+      className="fixed min-h-screen h-auto w-screen max-w-full bg-gray-100 dark:bg-gray-950"
       onClick={() => dispatch(updateSearch([]))}
     >
       <Head>
@@ -185,7 +182,7 @@ export default function Profile() {
       <Header />
       <div
         className={
-          "pt-16 min-w-screen px-4 m-auto gap-4 justify-between pb-4 " +
+          "pt-20 min-w-screen px-4 m-auto gap-4 justify-between pb-4 " +
           (isLogged ? "lg:grid lg:grid-cols-4 gap-4 max-w-7xl" : "max-w-5xl")
         }
       >

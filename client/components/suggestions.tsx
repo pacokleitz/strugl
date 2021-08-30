@@ -46,7 +46,7 @@ function TopicRender(props: any) {
           as={"/topic/" + props.topic.topic_name}
         >
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
-            <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-gray-900 dark:group-hover:text-gray-200 subpixel-antialiased">
+            <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-200 subpixel-antialiased">
               {"#" + props.topic.topic_name}
             </h3>
           </div>
@@ -88,14 +88,14 @@ function FriendRender(props: any) {
             {props.friend.avatar && (
               <img
                 src={props.friend.avatar}
-                className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+                className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
               />
             )}
             {!props.friend.avatar && (
               <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
             )}
 
-            <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-gray-900 dark:group-hover:text-gray-100 subpixel-antialiased overflow-ellipsis">
+            <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-100 subpixel-antialiased overflow-ellipsis">
               {props.friend.username}
             </h3>
           </div>
@@ -120,7 +120,7 @@ export default function Suggestions() {
 
   return (
     <div className="w-full text-center flex flex-col space-y-4 h-screen">
-      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-700">
+      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-850">
         <div className="flex flex-row justify-between p-4">
           <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700 dark:text-gray-300">
             You may know ...
@@ -148,7 +148,7 @@ export default function Suggestions() {
           )}
         </div>
       </div>
-      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-700">
+      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-850">
         <div className="flex flex-row justify-between p-4">
           <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700 dark:text-gray-300">
             You may like ...

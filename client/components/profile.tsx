@@ -41,7 +41,7 @@ function TopicRender(props: any) {
     <div className={"w-full px-4 py-4 flex justify-between state"}>
       <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
         <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
-          <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-gray-900 dark:hover:text-gray-100 subpixel-antialiased">
+          <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:hover:text-gray-100 subpixel-antialiased">
             {"#" + props.topic.topic_name}
           </h3>
         </div>
@@ -76,14 +76,14 @@ function UserRender(props: any) {
           {props.friend.avatar && (
             <img
               src={props.friend.avatar}
-              className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+              className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
             />
           )}
           {!props.friend.avatar && (
-            <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
+            <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain" />
           )}
 
-          <h3 className="text-gray-700 dark:text-gray-400 text-sm font-semibold group-hover:text-gray-900 dark:group-hover:text-gray-100 subpixel-antialiased">
+          <h3 className="text-gray-700 dark:text-gray-400 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-100 subpixel-antialiased">
             {props.friend.username}
           </h3>
         </div>
@@ -118,7 +118,7 @@ export default function Profile() {
 
   return (
     <div className="w-full text-center flex flex-col h-screen">
-      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-700">
+      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-850">
         <div className="flex flex-row p-6 justify-start items-center space-x-4 focus:outline-none">
           {!currentUser.avatar && (
             <div className="w-16 h-16 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center" />
@@ -126,10 +126,10 @@ export default function Profile() {
           {currentUser.avatar && (
             <img
               src={currentUser.avatar}
-              className="w-16 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"
+              className="w-16 h-16 object-contain rounded-full bg-gray-200 dark:bg-gray-800 ring-2 ring-gray-200 self-center dark:ring-gray-800"
             />
           )}
-          <p className="inline-block text-lg text-center font-semibold text-gray-700 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 subpixel-antialiased">
+          <p className="inline-block text-lg text-center font-semibold text-gray-700 dark:text-gray-400 group-hover:text-black dark:group-hover:text-gray-200 subpixel-antialiased">
             {currentUser.username}
           </p>
         </div>
@@ -143,26 +143,36 @@ export default function Profile() {
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon
                 icon={faBookmark}
-                className="w-5 h-4 self-center"
+                className="w-5 h-4 self-center "
               />
               <p>Bookmarks</p>
             </div>
             <p>{bookmarks ? bookmarks.length : 0}</p>
           </a>
           <a
-            className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+            className={
+              "flex flex-row justify-between space-x-16 text-sm font-semibold cursor-pointer " +
+              (currentStateList == 1
+                ? "dark:text-gray-200 text-gray-700 hover:text-gray-700 dark:hover:text-gray-200"
+                : "dark:text-gray-400 text-gray-600 hover:text-gray-700 dark:hover:text-gray-300")
+            }
             onClick={() => {
               setCurrentList((currentStateList = 1));
             }}
           >
             <div className="flex flex-row justify-between space-x-2">
-              <FontAwesomeIcon icon={faUsers} className="w-5" />
+              <FontAwesomeIcon icon={faUsers} className="w-5 " />
               <p>Followings</p>
             </div>
             <p>{followings ? followings.length : 0}</p>
           </a>
           <a
-            className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+            className={
+              "flex flex-row justify-between space-x-10 text-sm font-semibold cursor-pointer " +
+              (currentStateList == 0
+                ? "dark:text-gray-200 text-gray-700 hover:text-gray-700 dark:hover:text-gray-200"
+                : "dark:text-gray-400 text-gray-600 hover:text-gray-700 dark:hover:text-gray-300")
+            }
             onClick={() => {
               setCurrentList((currentStateList = 0));
             }}

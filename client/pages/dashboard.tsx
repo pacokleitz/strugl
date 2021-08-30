@@ -37,7 +37,7 @@ export default function Dashboard() {
 
   return (
     <div
-      className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 dark:bg-gray-900 overflow-hidden"
+      className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 dark:bg-gray-950 overflow-hidden p-2"
       onClick={() => dispatch(updateSearch([]))}
     >
       <Head>
