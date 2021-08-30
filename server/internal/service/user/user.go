@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"io"
 	"os"
 	"strconv"
 
@@ -89,11 +90,21 @@ func (s Service) GetRecomUsers(user_id int64) ([]models.UserProfile, error) {
 	return s.Store.GetRecomUsers(user_id)
 }
 
-func (s Service) SetAvatar(user_id int64, extension string, img []byte) error {
+func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) error {
 
-	avatarPath := "/avatars/" + strconv.FormatInt(user_id, 10) + "." + extension
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return err
+	}
 
-	err := os.WriteFile(avatarPath, img, 0644)
+	avatarPath := homeDir + "/avatars/" + strconv.FormatInt(user_id, 10) + "." + extension
+
+	f, err := os.OpenFile(avatarPath, os.O_WRONLY|os.O_CREATE, 0644)
+	if err != nil {
+		return err
+	}
+
+	_, err = io.Copy(f, img)
 	if err != nil {
 		return err
 	}
