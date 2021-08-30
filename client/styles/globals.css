@@ -13,24 +13,28 @@
     scrollbar-width: none;
 }
 
+.navbar{
+    width: 100%;
+}
+
 .dashboardFeed {
-    height : calc(100vh - 140px);
+    height : calc(100vh - 150px);
 }
 
 .profileFeed {
-    height : calc(100vh - 360px);
+    height : calc(100vh - 370px);
 }
 
 .profileFeed.noInput {
-    height : calc(100vh - 290px);
+    height : calc(100vh - 300px);
 }
 
 .topicFeed {
-    height: calc(100vh - 270px);
+    height: calc(100vh - 280px);
 }
 
 .topicFeed.noInput {
-    height: calc(100vh - 200px);
+    height: calc(100vh - 210px);
 }
 
 .fadeOut{
