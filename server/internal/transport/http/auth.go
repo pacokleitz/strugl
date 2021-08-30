@@ -47,7 +47,7 @@ func (h Handler) HandleAuth(w http.ResponseWriter, r *http.Request, ps httproute
 
 		// removed Secure: true + Domain : strugl.cc and SameSite: http.SameSiteStrictMode for dev !
 
-		cookie := http.Cookie{Name: "token", Value: token, MaxAge: 259200, Secure: true, HttpOnly: true, SameSite: http.SameSiteNoneMode}
+		cookie := http.Cookie{Name: "token", Value: token, Path: "/", MaxAge: 259200, Secure: true, HttpOnly: true, SameSite: http.SameSiteNoneMode}
 		http.SetCookie(w, &cookie)
 		fmt.Fprintf(w, usr.Username)
 		return
@@ -97,6 +97,10 @@ func (h Handler) HandleLogout(w http.ResponseWriter, r *http.Request, ps httprou
 
 	cookie.MaxAge = 0
 	cookie.Value = ""
+	cookie.SameSite = http.SameSiteNoneMode
+	cookie.Secure = true
+	cookie.HttpOnly = true
+	cookie.Path = "/"
 
 	http.SetCookie(w, cookie)
 }

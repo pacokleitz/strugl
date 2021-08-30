@@ -23,6 +23,13 @@ export const alertsSlice = createSlice({
       };
     },
 
+    changeStatus: (state, action) => {
+      const alert = state.list.find(
+        (alert) => alert.content === action.payload
+      );
+      if (alert) alert.status = "Out";
+    },
+
     removeAlert: (state, action) => {
       const list = state.list.filter(
         (alert) => alert.content !== action.payload
@@ -32,6 +39,7 @@ export const alertsSlice = createSlice({
   },
 });
 
-export const { updateAlerts, addAlert, removeAlert } = alertsSlice.actions;
+export const { updateAlerts, addAlert, changeStatus, removeAlert } =
+  alertsSlice.actions;
 
 export default alertsSlice.reducer;
