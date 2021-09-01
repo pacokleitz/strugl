@@ -98,6 +98,8 @@ export const SignOut = async (
   })
     .then(async () => {
       dispatch(logOut());
+      localStorage.clear();
+      document.documentElement.classList.remove("dark");
       router.push("/");
     })
     .catch((error) => {

@@ -170,7 +170,7 @@ export default function Suggestions() {
               <TopicRender key={topic.topic_id} topic={topic} />
             ))}
           {topicsRecom && topicsRecom.length == 0 && (
-            <p className="text-sm text-center font-medium text-gray-400 subpixel-antialiased">
+            <p className="text-sm text-center font-semibold text-gray-400 subpixel-antialiased">
               Refresh for more suggestions
             </p>
           )}
