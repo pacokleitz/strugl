@@ -315,6 +315,11 @@ export default function Feed(props: any) {
             </p>
           </div>
         )}
+        {feed.list.length == 0 && feed.type == "dashboardFeed" && (
+          <p className="text-sm text-center font-semibold text-gray-400 subpixel-antialiased">
+            Follow a user or a topic to start using Strugl
+          </p>
+        )}
       </div>
     </div>
   );
