@@ -6,7 +6,9 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
   GetCurrentUser,
   GetTopicProfile,
+  GetTopicsRecom,
   GetUserProfile,
+  GetUsersRecom,
 } from "../services/data";
 import {
   FollowTopic,
@@ -158,7 +160,22 @@ export default function Profile() {
   const alert = useAppSelector((state) => state.alerts.list[0]);
 
   useEffect(() => {
-    GetCurrentUser(dispatch);
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
+    GetCurrentUser(dispatch).then(() => {
+      if (isLogged) {
+        GetTopicsRecom(dispatch);
+        GetUsersRecom(dispatch);
+      }
+    });
 
     if (profile) {
       if (profile?.length == 2) GetTopicProfile(dispatch, profile[1]);

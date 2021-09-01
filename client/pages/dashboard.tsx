@@ -25,14 +25,15 @@ export default function Dashboard() {
   const alert = useAppSelector((state) => state.alerts.list[0]);
 
   useEffect(() => {
-    GetCurrentUser(dispatch);
-    if (!isLogged) router.push("/login", "/");
-    else {
-      dispatch(updateSearch([]));
-      GetFeed(dispatch);
-      GetUsersRecom(dispatch);
-      GetTopicsRecom(dispatch);
-    }
+    GetCurrentUser(dispatch).then(() => {
+      if (!isLogged) router.push("/login", "/");
+      else {
+        dispatch(updateSearch([]));
+        GetFeed(dispatch);
+        GetUsersRecom(dispatch);
+        GetTopicsRecom(dispatch);
+      }
+    });
   }, []);
 
   return (

@@ -98,6 +98,7 @@ function Account() {
 }
 
 function Appearence() {
+
   const [currentTheme, setCurrentTheme] = useState(
     document.documentElement.classList.contains("dark") ? 1 : 0
   );
