@@ -67,8 +67,9 @@ export const SignIn = async (
   })
     .then(async (res) => {
       if (res.ok) {
-        GetCurrentUser(dispatch);
-        router.push("/dashboard", "/");
+        await GetCurrentUser(dispatch).then(() => {
+          router.push("/dashboard", "/");
+        });
       } else {
         const err = res.text();
         dispatch(
@@ -95,7 +96,7 @@ export const SignOut = async (
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   })
-    .then(() => {
+    .then(async () => {
       dispatch(logOut());
       router.push("/");
     })

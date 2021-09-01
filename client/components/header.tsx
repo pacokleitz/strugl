@@ -22,7 +22,7 @@ function Account() {
   const dispatch = useAppDispatch();
 
   async function Navigate(to: String) {
-    if (to == "SignOut") SignOut(dispatch, router);
+    if (to == "SignOut") await SignOut(dispatch, router);
     else if (to == "Settings") router.push("/settings", "/");
     else router.push(`/${encodeURIComponent(currentUser.username)}`);
   }

@@ -13,7 +13,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    GetCurrentUser(dispatch);
+    GetCurrentUser(dispatch)
     router.push("/dashboard", "/");
   }, []);
 
