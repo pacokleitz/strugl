@@ -24,7 +24,11 @@ import {
 import { addInterest, removeInterest } from "../redux/reducers/InterestsSlice";
 import { updateSearch } from "../redux/reducers/SearchSlice";
 import { followTopic } from "../redux/reducers/TopicsRecommandationsSlice";
-import { addAlert } from "../redux/reducers/AlertsSlice";
+import {
+  addAlert,
+  removeAlert,
+  updateAlerts,
+} from "../redux/reducers/AlertsSlice";
 
 export const CreateAccount = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
@@ -37,9 +41,10 @@ export const CreateAccount = async (
   })
     .then(async (res) => {
       if (res.ok) {
+        dispatch(updateAlerts([]));
         router.push("/");
       } else {
-        const err = res.text();
+        const err = await res.text();
         dispatch(
           addAlert({
             type: "error",
@@ -67,11 +72,12 @@ export const SignIn = async (
   })
     .then(async (res) => {
       if (res.ok) {
+        dispatch(updateAlerts([]));
         await GetCurrentUser(dispatch).then(() => {
-          router.push("/dashboard", "/");
+          router.push("/transition", "/");
         });
       } else {
-        const err = res.text();
+        const err = await res.text();
         dispatch(
           addAlert({
             type: "error",
@@ -98,9 +104,7 @@ export const SignOut = async (
   })
     .then(async () => {
       dispatch(logOut());
-      localStorage.clear();
-      document.documentElement.classList.remove("dark");
-      router.push("/");
+      router.push("/transition", "/");
     })
     .catch((error) => {
       console.log(error);
@@ -180,7 +184,6 @@ export const UnfollowUser = async (
     .then((res) => {
       if (res.ok) {
         dispatch(removeFollowing(user.id));
-        dispatch(addUsertoRecom(user));
       }
     })
     .catch((error) => {
