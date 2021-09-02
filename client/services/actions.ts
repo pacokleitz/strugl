@@ -8,9 +8,14 @@ import Topic from "../lib/topic";
 import User from "../lib/user";
 
 import { FormInputs } from "../components/feed";
+import { FormInputs as ProfileForm } from "../pages/settings";
 
 import { addBookmark, removeBookmark } from "../redux/reducers/BookmarksSlice";
-import { logOut } from "../redux/reducers/CurrentUserSlice";
+import {
+  logOut,
+  updateAvatar,
+  updateProfile,
+} from "../redux/reducers/CurrentUserSlice";
 import { addPost } from "../redux/reducers/FeedSlice";
 import {
   changeUserRecomStyle,
@@ -108,6 +113,63 @@ export const SignOut = async (
     .then(async () => {
       dispatch(logOut());
       router.push("/transition", "/");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const UpdateProfile = async (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+  data: ProfileForm
+) => {
+  await fetch(`https://api.strugl.cc/users`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(data),
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        dispatch(updateProfile(data));
+        dispatch(
+          addAlert({
+            type: "success",
+            content: "Profile updated",
+            color: "green",
+            status: "In",
+          })
+        );
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const UpdateAvatar = async (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+  avatar: File
+) => {
+  await fetch(`https://api.strugl.cc/users`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(avatar),
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const dbAvatar = await res.text();
+        dispatch(updateAvatar(dbAvatar));
+        dispatch(
+          addAlert({
+            type: "success",
+            content: "Avatar updated",
+            color: "green",
+            status: "In",
+          })
+        );
+      }
     })
     .catch((error) => {
       console.log(error);
