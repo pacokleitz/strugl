@@ -36,7 +36,12 @@ import {
   changeTopicRecomStyle,
   followTopic,
 } from "../redux/reducers/TopicsRecommandationsSlice";
-import { addAlert, updateAlerts } from "../redux/reducers/AlertsSlice";
+import {
+  addAlert,
+  changeStatus,
+  removeAlert,
+  updateAlerts,
+} from "../redux/reducers/AlertsSlice";
 
 export const CreateAccount = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
@@ -61,6 +66,12 @@ export const CreateAccount = async (
             status: "In",
           })
         );
+        setTimeout(() => {
+          dispatch(changeStatus(err));
+        }, 5000);
+        setTimeout(() => {
+          dispatch(removeAlert(err));
+        }, 6000);
       }
     })
     .catch((error) => {
@@ -94,6 +105,12 @@ export const SignIn = async (
             status: "In",
           })
         );
+        setTimeout(() => {
+          dispatch(changeStatus(err));
+        }, 5000);
+        setTimeout(() => {
+          dispatch(removeAlert(err));
+        }, 6000);
       }
     })
     .catch((error) => {
@@ -140,6 +157,12 @@ export const UpdateProfile = async (
             status: "In",
           })
         );
+        setTimeout(() => {
+          dispatch(changeStatus("Profile updated"));
+        }, 5000);
+        setTimeout(() => {
+          dispatch(removeAlert("Profile updated"));
+        }, 6000);
       }
     })
     .catch((error) => {
@@ -149,13 +172,12 @@ export const UpdateProfile = async (
 
 export const UpdateAvatar = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
-  avatar: File
+  avatar: FormData
 ) => {
-  await fetch(`https://api.strugl.cc/users`, {
+  await fetch(`https://api.strugl.cc/users/avatar`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify(avatar),
+    body: avatar,
   })
     .then(async (res) => {
       if (res.ok) {
@@ -169,6 +191,12 @@ export const UpdateAvatar = async (
             status: "In",
           })
         );
+        setTimeout(() => {
+          dispatch(changeStatus("Avatar updated"));
+        }, 5000);
+        setTimeout(() => {
+          dispatch(removeAlert("Avatar updated"));
+        }, 6000);
       }
     })
     .catch((error) => {

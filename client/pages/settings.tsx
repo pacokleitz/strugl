@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UpdateAvatar, UpdateProfile } from "../services/actions";
+import Alert from "../components/alert";
 
 export interface FormInputs {
   profile_name: string;
@@ -18,7 +19,7 @@ export interface FormInputs {
 }
 
 interface AvatarInput {
-  avatar: File;
+  avatar: FileList;
 }
 
 function Account() {
@@ -35,7 +36,9 @@ function Account() {
   }, []);
 
   const onChange: SubmitHandler<AvatarInput> = useCallback(async (data) => {
-    UpdateAvatar(dispatch, data.avatar);
+    var formData = new FormData();
+    formData.append("avatar", data.avatar[0]);
+    UpdateAvatar(dispatch, formData);
   }, []);
 
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
@@ -51,28 +54,32 @@ function Account() {
           changes.
         </p>
         <div className="flex flex-row py-10 justify-evenly items-start space-x-8 focus:outline-none content-center">
-          <label htmlFor="avatarEdit" className="cursor-pointer group relative">
-            {!currentUser.avatar && (
-              <div className="min-w-52 rounded-full bg-gray-200 ring-2 ring-gray-200self-center" />
-            )}
-            {currentUser.avatar && (
-              <img
-                src={currentUser.avatar}
-                className="w-52 h-52 rounded-full self-start bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
-              />
-            )}
-            <div className="origin-top -mt-12 ml-2 absolute bg-white dark:bg-gray-850 shadow border-2 border-gray-100 dark:border-gray-850 border-opacity-60 rounded-md p-1 w-min text-gray-700 dark:text-gray-200 group-hover:text-indigo-700">
-              <FontAwesomeIcon icon={faEdit} className="w-6" />
-            </div>
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            id="avatarEdit"
-            className="hidden"
-            {...registerAvatar("avatar")}
-            onChange={submitAvatar(onChange)}
-          />
+          <form encType="multipart/form-data" onChange={submitAvatar(onChange)}>
+            <label
+              htmlFor="avatarEdit"
+              className="cursor-pointer group relative"
+            >
+              {!currentUser.avatar && (
+                <div className="min-w-52 rounded-full bg-gray-200 ring-2 ring-gray-200self-center" />
+              )}
+              {currentUser.avatar && (
+                <img
+                  src={currentUser.avatar}
+                  className="w-52 h-52 rounded-full self-start bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
+                />
+              )}
+              <div className="origin-top -mt-12 ml-2 absolute bg-white dark:bg-gray-850 shadow border-2 border-gray-100 dark:border-gray-850 border-opacity-60 rounded-md p-1 w-min text-gray-700 dark:text-gray-200 group-hover:text-indigo-700">
+                <FontAwesomeIcon icon={faEdit} className="w-6" />
+              </div>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              id="avatarEdit"
+              className="hidden"
+              {...registerAvatar("avatar")}
+            />
+          </form>
 
           <form
             className="flex flex-col content-between gap-8 focus:outline-none max-w-sm w-full"
@@ -87,18 +94,6 @@ function Account() {
                 type="text"
                 autoComplete="off"
                 className="w-full p-1 px-4 rounded-xl bg-gray-200 dark:bg-gray-850 dark:bg-opacity-60  border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
-                disabled
-              ></input>
-            </div>
-            <div className="flex flex-col ">
-              <label className="text-gray-600 dark:text-gray-400 font-medium text-md">
-                Email
-              </label>
-              <input
-                defaultValue={""}
-                type="email"
-                autoComplete="off"
-                className="w-full p-1 px-4 rounded-xl bg-gray-200 dark:bg-gray-850 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
                 disabled
               ></input>
             </div>
@@ -245,6 +240,7 @@ export default function Settings() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
+  const alert = useAppSelector((state) => state.alerts.list[0]);
 
   const [currentFrame, setCurrentFrame] = useState(0);
 
@@ -287,9 +283,12 @@ export default function Settings() {
           >
             Appearance
           </a>
+        {alert && <Alert alert={alert} />}
         </div>
+        <>
         {currentFrame == 0 && <Account />}
         {currentFrame == 1 && <Appearence />}
+        </>
       </div>
     </div>
   );
