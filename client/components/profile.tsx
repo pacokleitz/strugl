@@ -135,12 +135,17 @@ export default function Profile() {
           {currentUser.avatar && (
             <img
               src={currentUser.avatar}
-              className="w-16 h-16 object-contain rounded-full bg-gray-200 dark:bg-gray-800 ring-2 ring-gray-200 self-center dark:ring-gray-800"
+              className="w-24 h-24 object-contain rounded-full bg-gray-200 dark:bg-gray-800 ring-2 ring-gray-200 self-center dark:ring-gray-800"
             />
           )}
-          <p className="inline-block text-lg text-center font-semibold text-gray-700 dark:text-gray-400 subpixel-antialiased">
-            {currentUser.profile_name}
-          </p>
+          <div className="flex flex-col items-start">
+            <p className="text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
+              {currentUser?.profile_name}
+            </p>
+            <p className="text-md text-center font-medium italic text-gray-500 subpixel-antialiased">
+              {"@" + currentUser?.username}
+            </p>
+          </div>
         </div>
         <div className="p-6 space-y-2 items-start">
           <a

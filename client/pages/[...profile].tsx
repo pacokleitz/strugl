@@ -21,7 +21,7 @@ import Feed from "../components/feed";
 import Header from "../components/header";
 import Suggestions from "../components/suggestions";
 
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from "../components/alert";
 import { updateSearch } from "../redux/reducers/SearchSlice";
@@ -143,13 +143,21 @@ function UserProfileContent(props: any) {
         )}
       </div>
       <div className="bg-white dark:bg-gray-850 rounded-xl shadow p-4 flex justify-around items-center">
-        <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-850 dark:hover:text-gray-200 cursor-pointer">
-          <div className="flex flex-row justify-between space-x-2">
-            <FontAwesomeIcon icon={faBars} className="w-5" />
-            <p>Posts</p>
+        {userProfile?.bio.length == 0 && (
+          <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-850 dark:hover:text-gray-200 cursor-pointer">
+            <div className="flex flex-row justify-between space-x-2">
+              <FontAwesomeIcon icon={faBars} className="w-5" />
+              <p>Posts</p>
+            </div>
+            <p>{feed.list.length}</p>
+          </a>
+        )}
+        {userProfile && userProfile?.bio.length > 0 && (
+          <div className="w-full justify-center flex flex-row text-sm font-medium text-gray-600 dark:text-gray-300 space-x-2">
+
+            <p>{userProfile?.bio}</p>
           </div>
-          <p>{feed.list.length}</p>
-        </a>
+        )}
       </div>
       <Feed feed={feed} />
     </div>

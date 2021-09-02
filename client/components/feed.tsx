@@ -78,6 +78,7 @@ function PostRender(props: any) {
   let thisPost = new Post(
     props.post.id,
     props.post.author,
+    props.post.author_pname,
     props.post.author_id,
     props.post.content,
     props.post.date_created
@@ -146,9 +147,15 @@ function PostRender(props: any) {
                 <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain" />
               )}
               <div>
-                <h3 className="text-left text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-200 subpixel-antialiased">
-                  {thisPost.author}
-                </h3>
+                <div className="flex flex-row items-center space-x-1">
+                  <h3 className="text-left text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-200 subpixel-antialiased">
+                    {thisPost.author_pname}
+                  </h3>
+                  <p className="text-sm text-center font-medium italic text-gray-500 subpixel-antialiased">
+                    {"@" + thisPost?.author}
+                  </p>
+                </div>
+
                 <p className="text-xs font-medium text-gray-500 dark:text-gray-400 tracking-tighter">
                   {thisPost.date_created.toUTCString()}
                 </p>
@@ -206,11 +213,11 @@ function PostRender(props: any) {
                     {currentUser.avatar && (
                       <img
                         src={currentUser.avatar}
-                        className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
+                        className="focus:outline-none w-10 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
                       />
                     )}
                     {!currentUser.avatar && (
-                      <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain" />
+                      <div className="focus:outline-none w-10 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain" />
                     )}
                   </a>
                 </Link>
@@ -274,11 +281,11 @@ export default function Feed(props: any) {
                 {currentUser.avatar && (
                   <img
                     src={currentUser.avatar}
-                    className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
+                    className="focus:outline-none w-10 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
                   />
                 )}
                 {!currentUser.avatar && (
-                  <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:ring-gray-400" />
+                  <div className="focus:outline-none w-10 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:ring-gray-400" />
                 )}
               </a>
             </Link>
