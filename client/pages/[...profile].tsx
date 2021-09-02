@@ -21,7 +21,7 @@ import Feed from "../components/feed";
 import Header from "../components/header";
 import Suggestions from "../components/suggestions";
 
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from "../components/alert";
 import { updateSearch } from "../redux/reducers/SearchSlice";
@@ -119,9 +119,14 @@ function UserProfileContent(props: any) {
           {!userProfile?.avatar && (
             <div className="w-32 h-32 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"></div>
           )}
-          <p className="inline-block text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
-            {userProfile?.username}
-          </p>
+          <div className="flex flex-col items-start">
+            <p className="text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
+              {userProfile?.profile_name}
+            </p>
+            <p className="text-md text-center font-medium italic text-gray-500 subpixel-antialiased">
+              {"@" + userProfile?.username}
+            </p>
+          </div>
         </div>
         {isLogged && currentUser.username != userProfile?.username && (
           <div
@@ -138,13 +143,21 @@ function UserProfileContent(props: any) {
         )}
       </div>
       <div className="bg-white dark:bg-gray-850 rounded-xl shadow p-4 flex justify-around items-center">
-        <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-850 dark:hover:text-gray-200 cursor-pointer">
-          <div className="flex flex-row justify-between space-x-2">
-            <FontAwesomeIcon icon={faBars} className="w-5" />
-            <p>Posts</p>
+        {userProfile?.bio.length == 0 && (
+          <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-850 dark:hover:text-gray-200 cursor-pointer">
+            <div className="flex flex-row justify-between space-x-2">
+              <FontAwesomeIcon icon={faBars} className="w-5" />
+              <p>Posts</p>
+            </div>
+            <p>{feed.list.length}</p>
+          </a>
+        )}
+        {userProfile && userProfile?.bio.length > 0 && (
+          <div className="w-full justify-center flex flex-row text-sm font-medium text-gray-600 dark:text-gray-300 space-x-2">
+
+            <p>{userProfile?.bio}</p>
           </div>
-          <p>{feed.list.length}</p>
-        </a>
+        )}
       </div>
       <Feed feed={feed} />
     </div>
@@ -169,13 +182,6 @@ export default function Profile() {
     } else {
       document.documentElement.classList.remove("dark");
     }
-
-    GetCurrentUser(dispatch).then(() => {
-      if (isLogged) {
-        GetTopicsRecom(dispatch);
-        GetUsersRecom(dispatch);
-      }
-    });
 
     if (profile) {
       if (profile?.length == 2) GetTopicProfile(dispatch, profile[1]);
