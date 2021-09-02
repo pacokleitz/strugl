@@ -95,9 +95,14 @@ function FriendRender(props: any) {
               <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
             )}
 
-            <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-100 subpixel-antialiased overflow-ellipsis">
-              {props.friend.username}
-            </h3>
+            <div className="flex flex-row items-center space-x-1">
+              <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-100 subpixel-antialiased overflow-ellipsis">
+                {props.friend.profile_name}
+              </h3>
+              <p className="text-sm text-center font-medium italic text-gray-500 subpixel-antialiased">
+                {"@" + props.friend.username}
+              </p>
+            </div>
           </div>
         </Link>
       </div>
