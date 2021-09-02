@@ -146,7 +146,7 @@ function PostRender(props: any) {
               {!thisPost.avatar && (
                 <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain" />
               )}
-              <div>
+              <div className="flex flex-col items-start">
                 <div className="flex flex-row items-center space-x-1">
                   <h3 className="text-left text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-200 subpixel-antialiased">
                     {thisPost.author_pname}
@@ -156,9 +156,15 @@ function PostRender(props: any) {
                   </p>
                 </div>
 
-                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 tracking-tighter">
-                  {thisPost.date_created.toUTCString()}
-                </p>
+                <div className="group flex space-x-1 text-xs font-medium text-indigo-500 dark:text-indigo-400 tracking-tighter">
+                  <p>{thisPost.date_created.toDateString()}</p>
+                  <p className="invisible group-hover:visible dark:text-gray-300 text-gray-600">
+                    at
+                  </p>
+                  <p className="invisible group-hover:visible ">
+                    {thisPost.date_created.toLocaleTimeString()}
+                  </p>
+                </div>
               </div>
             </div>
           </Link>

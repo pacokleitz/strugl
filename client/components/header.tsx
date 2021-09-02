@@ -218,7 +218,7 @@ export default function Header() {
           onClick={() => {
             Navigate("Dashboard");
           }}
-          className="lg:block hidden text-indigo-500 dark:text-indigo-700 text-4xl font-bold tracking-tight cursor-pointer"
+          className="lg:block hidden text-indigo-500 dark:text-indigo-500 text-4xl font-bold tracking-tight cursor-pointer"
         >
           Strugl
         </a>

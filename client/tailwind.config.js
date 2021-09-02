@@ -14,6 +14,7 @@ module.exports = {
   variants: {
     extend: {
       translate: ["group-hover"],
+      visibility: ["hover", "group-hover"],
     },
   },
   plugins: [],
