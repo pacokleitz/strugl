@@ -6,6 +6,7 @@ export default class User {
   bio: string;
   profile_name: string;
   avatar: string;
+  style?: string;
 
   constructor(
     id: number,

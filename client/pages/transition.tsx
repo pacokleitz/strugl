@@ -15,28 +15,28 @@ export default function Transition() {
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
   const router = useRouter();
 
-    useEffect(() => {
-      if (
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
+  useEffect(() => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    GetCurrentUser(dispatch).then(() => {
+      if (isLogged) {
+        GetFeed(dispatch);
+        GetUsersRecom(dispatch);
+        GetTopicsRecom(dispatch);
+        router.push("/dashboard", "/");
       } else {
-        document.documentElement.classList.remove("dark");
+        router.push("/login", "/");
+        localStorage.clear();
       }
-      GetCurrentUser(dispatch).then(() => {
-        if (isLogged) {
-          GetFeed(dispatch);
-          GetUsersRecom(dispatch);
-          GetTopicsRecom(dispatch);
-          router.push("/dashboard", "/");
-        } else {
-          router.push("/login", "/");
-          localStorage.clear();
-        }
-      });
-    }, []);
+    });
+  }, []);
 
   return (
     <div className="h-screen w-screen bg-gray-100 dark:bg-gray-950">

@@ -25,10 +25,20 @@ export const followingsSlice = createSlice({
       );
       return { ...state, list: [...list] };
     },
+
+    changeFollowingStyle: (state, action) => {
+      const { id, style } = action.payload;
+      const following = state.list.find((following) => following.id === id);
+      if (following) following.style = style;
+    },
   },
 });
 
-export const { updateFollowings, addFollowing, removeFollowing } =
-  followingsSlice.actions;
+export const {
+  updateFollowings,
+  addFollowing,
+  removeFollowing,
+  changeFollowingStyle,
+} = followingsSlice.actions;
 
 export default followingsSlice.reducer;

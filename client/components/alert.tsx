@@ -11,7 +11,7 @@ export default function Alert(props: any) {
   return (
     <span
       className={
-        "absolute m-auto text-center content-center right-6 self-center fade" +
+        "absolute m-auto text-center content-center right-6 self-center animate-fade" +
         alert.status
       }
     >

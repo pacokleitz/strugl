@@ -36,8 +36,8 @@ function TopicRender(props: any) {
   return (
     <div
       className={
-        "p-4 flex flex-row space-x-8 justify-between fadeOut" +
-        currentStarState.toString()
+        "p-4 flex flex-row space-x-8 justify-between animate-fade" +
+        props.topic.style
       }
     >
       <div>
@@ -78,8 +78,8 @@ function FriendRender(props: any) {
   return (
     <div
       className={
-        "w-full px-4 py-4 flex flex-row justify-between fadeOut" +
-        currentaddState.toString()
+        "w-full px-4 py-4 flex flex-row justify-between animate-fade" +
+        props.friend.style
       }
     >
       <div className="inline-block">
@@ -128,7 +128,10 @@ export default function Suggestions() {
           <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
-              className="w-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
+              className={
+                "w-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0 " +
+                (usersRecom.length == 0 ? "animate-spin" : "")
+              }
               onClick={() => {
                 GetUsersRecom(dispatch);
               }}
@@ -156,7 +159,10 @@ export default function Suggestions() {
           <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
-              className="w-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
+              className={
+                "w-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0 " +
+                (topicsRecom.length == 0 ? "animate-spin" : "")
+              }
               onClick={() => {
                 GetTopicsRecom(dispatch);
               }}

@@ -125,7 +125,7 @@ function PostRender(props: any) {
   return (
     <div
       className={
-        "w-full shadow py-2 pt-4 m-auto bg-white dark:bg-gray-850 rounded-xl space-y-2 " +
+        "w-full shadow py-2 pt-4 m-auto bg-white dark:bg-gray-850 rounded-xl space-y-2 animate-" +
         props.post.style +
         (isLogged || commentsList
           ? " divide-y divide-gray-300 dark:divide-gray-950"
@@ -307,10 +307,10 @@ export default function Feed(props: any) {
           feed.list.map((post: Post) => (
             <PostRender key={post.id} post={post} />
           ))}
-        {feed.list && feed.list.length == 0 && feed.type != "dashboardFeed" && (
+        {feed.list && feed.list.length == 0 && feed.type == "profileFeed" && (
           <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
-            <img src="/duckbutticon.svg" className="h-1/4" />
-            <p className="text-2xl font-semibold text-gray-600 dark:text-gray-400 subpixel-antialiased">
+            <img src="/duckbutticon.svg" className="w-1/6 self-center" />
+            <p className="text-sm text-center font-semibold text-gray-500 dark:text-gray-400 subpixel-antialiased">
               No posts yet
             </p>
           </div>
@@ -319,6 +319,13 @@ export default function Feed(props: any) {
           <p className="text-sm text-center font-semibold text-gray-400 subpixel-antialiased">
             Follow a user or a topic to start using Strugl
           </p>
+        )}
+        {feed.list.length == 0 && feed.type == "bookmarksFeed" && (
+          <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center justify-center">
+            <p className="text-sm text-center font-semibold dark:text-gray-400 text-gray-500 subpixel-antialiased">
+              No bookmarks yet
+            </p>
+          </div>
         )}
       </div>
     </div>

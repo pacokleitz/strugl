@@ -29,10 +29,16 @@ export const currentUserSlice = createSlice({
       );
       return { ...state, list: [...list] };
     },
+
+    changeInterestStyle: (state, action) => {
+      const { id, style } = action.payload;
+      const topic = state.list.find((topic) => topic.topic_id === id);
+      if (topic) topic.style = style;
+    },
   },
 });
 
-export const { updateInterests, addInterest, removeInterest } =
+export const { updateInterests, addInterest, removeInterest, changeInterestStyle } =
   currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

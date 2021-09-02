@@ -25,10 +25,16 @@ export const usersRecommandationsSlice = createSlice({
     addUsertoRecom: (state, action) => {
       return { ...state, list: [action.payload, ...state.list] };
     },
+
+    changeUserRecomStyle: (state, action) => {
+      const { id, style } = action.payload;
+      const following = state.list.find((following) => following.id === id);
+      if (following) following.style = style;
+    },
   },
 });
 
-export const { updateUsers, followUser, addUsertoRecom } =
+export const { updateUsers, followUser, addUsertoRecom, changeUserRecomStyle } =
   usersRecommandationsSlice.actions;
 
 export default usersRecommandationsSlice.reducer;

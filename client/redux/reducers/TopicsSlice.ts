@@ -25,6 +25,8 @@ export const topicsSlice = createSlice({
       );
       return { ...state, list: [...list] };
     },
+
+    
   },
 });
 
