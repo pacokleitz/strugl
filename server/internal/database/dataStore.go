@@ -8,7 +8,8 @@ type DataStore interface {
 	CreateUser(user models.User) (string, error)
 	GetUser(user_id int64) (*models.UserProfile, error)
 	GetUserByUsername(username string) (*models.UserProfile, error)
-	UpdateUser(username string, newUser models.User) (*models.User, error)
+	UpdateUser(user_id int64, newUser models.UserProfile) error
+	UpdateUserAvatar(user_id int64, avatar string) error
 	DeleteUser(username string) error
 	CheckUsernameAvailability(username string) bool
 	CheckEmailAvailability(email string) bool

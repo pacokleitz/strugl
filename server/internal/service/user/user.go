@@ -15,9 +15,11 @@ import (
 var (
 	ErrEmailInvalid    = errors.New("email invalid")
 	ErrUsernameInvalid = errors.New("username invalid")
+	ErrProfilenameInvalid = errors.New("profile name invalid")
 	ErrBioInvalid      = errors.New("bio invalid")
 	ErrUsernameTaken   = errors.New("username taken")
 	ErrEmailTaken      = errors.New("email taken")
+
 )
 
 type Service struct {
@@ -65,10 +67,17 @@ func (s Service) CreateUser(user models.User) (string, error) {
 	return s.Store.CreateUser(user)
 }
 
-func (s Service) UpdateUser(username string, newUser models.User) (*models.User, error) {
+func (s Service) UpdateUser(user_id int64, newUser models.UserProfile) error {
 
-	// Check form here
-	return s.Store.UpdateUser(username, newUser)
+	if !CheckBio(newUser.Bio) {
+		return ErrBioInvalid
+	}
+
+	if !CheckProfilename(newUser.ProfileName) {
+		return ErrProfilenameInvalid
+	}
+	
+	return s.Store.UpdateUser(user_id, newUser)
 }
 
 func (s Service) DeleteUser(username string) error {
@@ -90,24 +99,36 @@ func (s Service) GetRecomUsers(user_id int64) ([]models.UserProfile, error) {
 	return s.Store.GetRecomUsers(user_id)
 }
 
-func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) error {
+func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) (string, error) {
 
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return err
+	avatarPath := "/static/" + strconv.FormatInt(user_id, 10) + "."
+
+	if err := os.MkdirAll("/static", 0644); err != nil {
+		return "", err
 	}
 
-	avatarPath := homeDir + "/avatars/" + strconv.FormatInt(user_id, 10) + "." + extension
-
-	f, err := os.OpenFile(avatarPath, os.O_WRONLY|os.O_CREATE, 0644)
+	f, err := os.OpenFile(avatarPath + extension, os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	_, err = io.Copy(f, img)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	avatarUrl := "https://api.strugl.cc" + avatarPath + extension
+
+	// Update the link to the avatar in user DB
+	if err = s.Store.UpdateUserAvatar(user_id, avatarUrl); err != nil {
+		return "", err
+	}
+
+	if extension == "jpg" {
+		os.Remove(avatarPath + "png")
+	} else {
+		os.Remove(avatarPath + "jpg")
+	}
+
+	return avatarUrl, nil
 }

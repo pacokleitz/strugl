@@ -5,18 +5,32 @@ import (
 )
 
 // TO DO
-func (store PostgresStore) UpdateUser(username string, newUser models.User) (*models.User, error) {
+func (store PostgresStore) UpdateUser(user_id int64, newUser models.UserProfile) error {
 
-	stmt, err := store.Store.Prepare(`UPDATE users SET x=y, z=u WHERE LOWER(username) = LOWER($1)`)
+	stmt, err := store.Store.Prepare(`UPDATE users SET profile_name=$2, bio=$3 WHERE user_id = $1`)
 	if err != nil {
-		return &newUser, err
+		return err
 	}
 
-	_, err = stmt.Exec(username)
+	_, err = stmt.Exec(user_id, newUser.ProfileName, newUser.Bio)
 	if err != nil {
-		return &newUser, err
+		return err
 	}
 
-	return &newUser, nil
+	return nil
+}
 
+func (store PostgresStore) UpdateUserAvatar(user_id int64, avatar string) error {
+
+	stmt, err := store.Store.Prepare(`UPDATE users SET avatar=$2 WHERE user_id = $1`)
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(user_id, avatar)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

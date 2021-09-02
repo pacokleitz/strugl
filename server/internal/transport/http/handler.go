@@ -32,6 +32,8 @@ func (h *Handler) SetupRoutes() {
 	h.Router.GET("/users/name/:username", h.HandleUserByUsername)
 	h.Router.GET("/users/id/:id", h.HandleUserByID)
 	h.Router.GET("/users/me", h.Protected(h.HandleUserMe))
+	h.Router.PUT("/users/avatar", h.Protected(h.HandleUserAvatar))
+	h.Router.PUT("/users", h.Protected(h.HandleUserUpdate))
 
 	h.Router.GET("/topics/:name", h.HandleTopicByName)
 
