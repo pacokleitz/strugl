@@ -31,3 +31,4 @@ services:
       - /home/${USER}/nginx/dhparam.pem:/etc/ssl/certs/dhparam.pem
 volumes: 
      pgdata:
+     static:

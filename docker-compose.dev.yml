@@ -13,6 +13,8 @@ services:
       - pgdata:/var/lib/postgresql/data
   api:
     build: server
+    volumes:
+      - static:/static
     environment:
       - DB_NAME
       - DB_HOST
@@ -25,3 +27,4 @@ services:
       - db
 volumes: 
      pgdata:
+     static:
