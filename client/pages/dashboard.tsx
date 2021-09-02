@@ -25,19 +25,20 @@ export default function Dashboard() {
   const alert = useAppSelector((state) => state.alerts.list[0]);
 
   useEffect(() => {
-    GetCurrentUser(dispatch);
-    if (!isLogged) router.push("/login", "/");
-    else {
-      dispatch(updateSearch([]));
-      GetFeed(dispatch);
-      GetUsersRecom(dispatch);
-      GetTopicsRecom(dispatch);
-    }
+    GetCurrentUser(dispatch).then(() => {
+      if (!isLogged) router.push("/login", "/");
+      else {
+        dispatch(updateSearch([]));
+        GetFeed(dispatch);
+        GetUsersRecom(dispatch);
+        GetTopicsRecom(dispatch);
+      }
+    });
   }, []);
 
   return (
     <div
-      className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 overflow-hidden"
+      className="md:h-screen min-h-screen w-screen max-w-full bg-gray-100 dark:bg-gray-950 overflow-hidden p-2"
       onClick={() => dispatch(updateSearch([]))}
     >
       <Head>

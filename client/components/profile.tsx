@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
+
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { updateFeed } from "../redux/reducers/FeedSlice";
+import { updateBookmarksFeed } from "../redux/reducers/FeedSlice";
 
 import { GetBookmarks, GetFollowings, GetInterests } from "../services/data";
 import { UnfollowUser, UnfollowTopic } from "../services/actions";
@@ -21,8 +23,6 @@ import {
   faStar as faStarEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { useEffect } from "react";
-
 function TopicRender(props: any) {
   const dispatch = useAppDispatch();
 
@@ -38,17 +38,19 @@ function TopicRender(props: any) {
   }
 
   return (
-    <div className={"w-full px-4 py-4 flex justify-between state"}>
+    <div
+      className={"w-full px-4 py-4 flex justify-between animate-fade" + props.topic.style}
+    >
       <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
         <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
-          <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
+          <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:hover:text-gray-100 subpixel-antialiased">
             {"#" + props.topic.topic_name}
           </h3>
         </div>
       </Link>
       <FontAwesomeIcon
         icon={currentStar}
-        className="w-5 text-gray-400 self-center hover:text-yellow-400 cursor-pointer"
+        className="w-5 text-gray-400 dark:text-gray-500 self-center hover:text-yellow-400 dark:hover:text-yellow-400 cursor-pointer"
         onClick={Unstar}
       />
     </div>
@@ -70,27 +72,27 @@ function UserRender(props: any) {
   }
 
   return (
-    <div className={"w-full px-4 py-4 flex justify-between state"}>
+    <div className={"w-full px-4 py-4 flex justify-between animate-fade" + props.friend.style}>
       <Link href={`/${encodeURIComponent(props.friend.username)}`}>
         <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
           {props.friend.avatar && (
             <img
               src={props.friend.avatar}
-              className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+              className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
             />
           )}
           {!props.friend.avatar && (
-            <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
+            <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain" />
           )}
 
-          <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
+          <h3 className="text-gray-700 dark:text-gray-400 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-100 subpixel-antialiased">
             {props.friend.username}
           </h3>
         </div>
       </Link>
       <FontAwesomeIcon
         icon={currentAdd}
-        className="w-5 text-gray-400 self-center hover:text-indigo-500 cursor-pointer"
+        className="w-5 text-gray-400 dark:text-gray-500 self-center hover:text-indigo-500 dark:hover:text-indigo-500 cursor-pointer"
         onClick={Unfollow}
       />
     </div>
@@ -118,7 +120,7 @@ export default function Profile() {
 
   return (
     <div className="w-full text-center flex flex-col h-screen">
-      <div className="rounded-lg divide-y-2 divide-gray-300">
+      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-850">
         <div className="flex flex-row p-6 justify-start items-center space-x-4 focus:outline-none">
           {!currentUser.avatar && (
             <div className="w-16 h-16 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center" />
@@ -126,43 +128,53 @@ export default function Profile() {
           {currentUser.avatar && (
             <img
               src={currentUser.avatar}
-              className="w-16 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"
+              className="w-16 h-16 object-contain rounded-full bg-gray-200 dark:bg-gray-800 ring-2 ring-gray-200 self-center dark:ring-gray-800"
             />
           )}
-          <p className="inline-block text-lg text-center font-semibold text-gray-700 group-hover:text-gray-900 subpixel-antialiased">
+          <p className="inline-block text-lg text-center font-semibold text-gray-700 dark:text-gray-400 group-hover:text-black dark:group-hover:text-gray-200 subpixel-antialiased">
             {currentUser.username}
           </p>
         </div>
         <div className="p-6 space-y-2 items-start">
           <a
-            className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer"
+            className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
             onClick={() => {
-              dispatch(updateFeed(bookmarks));
+              dispatch(updateBookmarksFeed(bookmarks));
             }}
           >
             <div className="flex flex-row justify-between space-x-2">
               <FontAwesomeIcon
                 icon={faBookmark}
-                className="w-5 h-4 self-center"
+                className="w-5 h-4 self-center "
               />
               <p>Bookmarks</p>
             </div>
             <p>{bookmarks ? bookmarks.length : 0}</p>
           </a>
           <a
-            className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer"
+            className={
+              "flex flex-row justify-between space-x-16 text-sm font-semibold cursor-pointer " +
+              (currentStateList == 1
+                ? "dark:text-gray-200 text-gray-700 hover:text-gray-700 dark:hover:text-gray-200"
+                : "dark:text-gray-400 text-gray-600 hover:text-gray-700 dark:hover:text-gray-300")
+            }
             onClick={() => {
               setCurrentList((currentStateList = 1));
             }}
           >
             <div className="flex flex-row justify-between space-x-2">
-              <FontAwesomeIcon icon={faUsers} className="w-5" />
+              <FontAwesomeIcon icon={faUsers} className="w-5 " />
               <p>Followings</p>
             </div>
             <p>{followings ? followings.length : 0}</p>
           </a>
           <a
-            className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 hover:text-gray-700 cursor-pointer"
+            className={
+              "flex flex-row justify-between space-x-10 text-sm font-semibold cursor-pointer " +
+              (currentStateList == 0
+                ? "dark:text-gray-200 text-gray-700 hover:text-gray-700 dark:hover:text-gray-200"
+                : "dark:text-gray-400 text-gray-600 hover:text-gray-700 dark:hover:text-gray-300")
+            }
             onClick={() => {
               setCurrentList((currentStateList = 0));
             }}

@@ -2,7 +2,6 @@ import { NextRouter } from "next/router";
 
 import { GetCurrentUser } from "./data";
 
-import Alert from "../lib/alert";
 import Post from "../lib/post";
 import SearchResult from "../lib/searchResult";
 import Topic from "../lib/topic";
@@ -14,17 +13,25 @@ import { addBookmark, removeBookmark } from "../redux/reducers/BookmarksSlice";
 import { logOut } from "../redux/reducers/CurrentUserSlice";
 import { addPost } from "../redux/reducers/FeedSlice";
 import {
-  addUsertoRecom,
+  changeUserRecomStyle,
   followUser,
 } from "../redux/reducers/UsersRecommandationsSlice";
 import {
   addFollowing,
+  changeFollowingStyle,
   removeFollowing,
 } from "../redux/reducers/FollowingsSlice";
-import { addInterest, removeInterest } from "../redux/reducers/InterestsSlice";
+import {
+  addInterest,
+  changeInterestStyle,
+  removeInterest,
+} from "../redux/reducers/InterestsSlice";
 import { updateSearch } from "../redux/reducers/SearchSlice";
-import { followTopic } from "../redux/reducers/TopicsRecommandationsSlice";
-import { addAlert } from "../redux/reducers/AlertsSlice";
+import {
+  changeTopicRecomStyle,
+  followTopic,
+} from "../redux/reducers/TopicsRecommandationsSlice";
+import { addAlert, updateAlerts } from "../redux/reducers/AlertsSlice";
 
 export const CreateAccount = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
@@ -37,9 +44,10 @@ export const CreateAccount = async (
   })
     .then(async (res) => {
       if (res.ok) {
+        dispatch(updateAlerts([]));
         router.push("/");
       } else {
-        const err = res.text();
+        const err = await res.text();
         dispatch(
           addAlert({
             type: "error",
@@ -67,10 +75,12 @@ export const SignIn = async (
   })
     .then(async (res) => {
       if (res.ok) {
-        GetCurrentUser(dispatch);
-        router.push("/dashboard", "/");
+        dispatch(updateAlerts([]));
+        await GetCurrentUser(dispatch).then(() => {
+          router.push("/transition", "/");
+        });
       } else {
-        const err = res.text();
+        const err = await res.text();
         dispatch(
           addAlert({
             type: "error",
@@ -95,9 +105,9 @@ export const SignOut = async (
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   })
-    .then(() => {
+    .then(async () => {
       dispatch(logOut());
-      router.push("/");
+      router.push("/transition", "/");
     })
     .catch((error) => {
       console.log(error);
@@ -116,8 +126,17 @@ export const FollowTopic = async (
   })
     .then((res) => {
       if (res.ok) {
-        dispatch(followTopic(topic.topic_id));
-        dispatch(addInterest(topic));
+        dispatch(changeTopicRecomStyle({ id: topic.topic_id, style: "Out" }));
+        setTimeout(() => {
+          dispatch(followTopic(topic.topic_id));
+          dispatch(
+            addInterest({
+              topic_id: topic.topic_id,
+              topic_name: topic.topic_name,
+              style: "In",
+            })
+          );
+        }, 1000);
       }
     })
     .catch((error) => {
@@ -136,7 +155,12 @@ export const UnfollowTopic = async (
     body: JSON.stringify({ topic_id: id }),
   })
     .then((res) => {
-      if (res.ok) dispatch(removeInterest(id));
+      if (res.ok) {
+        dispatch(changeInterestStyle({ id: id, style: "Out" }));
+        setTimeout(() => {
+          dispatch(removeInterest(id));
+        }, 1000);
+      }
     })
     .catch((error) => {
       console.log(error);
@@ -155,8 +179,20 @@ export const FollowUser = async (
   })
     .then((res) => {
       if (res.ok) {
-        dispatch(followUser(user.id));
-        dispatch(addFollowing(user));
+        dispatch(changeUserRecomStyle({ id: user.id, style: "Out" }));
+        setTimeout(() => {
+          dispatch(followUser(user.id));
+          dispatch(
+            addFollowing({
+              id: user.id,
+              username: user.username,
+              profile_name: user.profile_name,
+              bio: user.bio,
+              avatar: user.avatar,
+              style: "In",
+            })
+          );
+        }, 1000);
       }
     })
     .catch((error) => {
@@ -176,8 +212,10 @@ export const UnfollowUser = async (
   })
     .then((res) => {
       if (res.ok) {
-        dispatch(removeFollowing(user.id));
-        dispatch(addUsertoRecom(user));
+        dispatch(changeFollowingStyle({ id: user.id, style: "Out" }));
+        setTimeout(() => {
+          dispatch(removeFollowing(user.id));
+        }, 1000);
       }
     })
     .catch((error) => {
@@ -240,7 +278,7 @@ export const AddPost = async (
             avatar: currentUser.avatar,
             content: data.content,
             date_created: new Date().toUTCString(),
-            style: "state2",
+            style: "fadeIn",
           })
         );
       }

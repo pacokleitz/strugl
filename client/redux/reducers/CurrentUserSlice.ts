@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  bindActionCreators,
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
 import User from "../../lib/user";
 
 interface CurrentUser {

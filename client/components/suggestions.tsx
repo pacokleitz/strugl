@@ -36,8 +36,8 @@ function TopicRender(props: any) {
   return (
     <div
       className={
-        "p-4 flex flex-row space-x-8 justify-between fadeOut" +
-        currentStarState.toString()
+        "p-4 flex flex-row space-x-8 justify-between animate-fade" +
+        props.topic.style
       }
     >
       <div>
@@ -46,7 +46,7 @@ function TopicRender(props: any) {
           as={"/topic/" + props.topic.topic_name}
         >
           <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
-            <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased">
+            <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-200 subpixel-antialiased">
               {"#" + props.topic.topic_name}
             </h3>
           </div>
@@ -54,7 +54,7 @@ function TopicRender(props: any) {
       </div>
       <FontAwesomeIcon
         icon={currentStar}
-        className="w-5 text-gray-400 self-center hover:text-yellow-400 cursor-pointer"
+        className="w-5 text-gray-400 dark:text-gray-300 self-center hover:text-yellow-400 dark:hover:text-yellow-400 cursor-pointer"
         onClick={Star}
       />
     </div>
@@ -78,28 +78,24 @@ function FriendRender(props: any) {
   return (
     <div
       className={
-        "w-full px-4 py-4 flex flex-row justify-between fadeOut" +
-        currentaddState.toString()
+        "w-full px-4 py-4 flex flex-row justify-between animate-fade" +
+        props.friend.style
       }
     >
       <div className="inline-block">
-        <Link
-          href={`/${encodeURIComponent(props.friend.username)}`}
-        >
+        <Link href={`/${encodeURIComponent(props.friend.username)}`}>
           <div className="focus:outline-none group w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
             {props.friend.avatar && (
               <img
                 src={props.friend.avatar}
-                className="w-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
+                className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
               />
             )}
             {!props.friend.avatar && (
-              <div
-                className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200"
-              />
+              <div className="w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200" />
             )}
 
-            <h3 className="text-gray-700 text-sm font-semibold group-hover:text-gray-900 subpixel-antialiased overflow-ellipsis">
+            <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-100 subpixel-antialiased overflow-ellipsis">
               {props.friend.username}
             </h3>
           </div>
@@ -107,7 +103,7 @@ function FriendRender(props: any) {
       </div>
       <FontAwesomeIcon
         icon={currentAdd}
-        className="inline-block w-5 text-gray-400 self-center hover:text-indigo-500 cursor-pointer"
+        className="inline-block w-5 text-gray-400 dark:text-gray-300 self-center hover:text-indigo-500 dark:hover:text-indigo-500 cursor-pointer"
         onClick={Follow}
       />
     </div>
@@ -124,15 +120,18 @@ export default function Suggestions() {
 
   return (
     <div className="w-full text-center flex flex-col space-y-4 h-screen">
-      <div className="rounded-lg divide-y-2 divide-gray-300">
+      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-850">
         <div className="flex flex-row justify-between p-4">
-          <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700">
+          <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700 dark:text-gray-300">
             You may know ...
           </h3>
           <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
-              className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
+              className={
+                "w-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0 " +
+                (usersRecom.length == 0 ? "animate-spin" : "")
+              }
               onClick={() => {
                 GetUsersRecom(dispatch);
               }}
@@ -152,15 +151,18 @@ export default function Suggestions() {
           )}
         </div>
       </div>
-      <div className="rounded-lg divide-y-2 divide-gray-300">
+      <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-850">
         <div className="flex flex-row justify-between p-4">
-          <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700">
+          <h3 className="text-left text-sm font-semibold tracking-wide text-gray-700 dark:text-gray-300">
             You may like ...
           </h3>
           <button className="focus:outline-none">
             <FontAwesomeIcon
               icon={faRedoAlt}
-              className="w-4 text-gray-500 hover:text-gray-600 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0"
+              className={
+                "w-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0 " +
+                (topicsRecom.length == 0 ? "animate-spin" : "")
+              }
               onClick={() => {
                 GetTopicsRecom(dispatch);
               }}
@@ -174,7 +176,7 @@ export default function Suggestions() {
               <TopicRender key={topic.topic_id} topic={topic} />
             ))}
           {topicsRecom && topicsRecom.length == 0 && (
-            <p className="text-sm text-center font-medium text-gray-400 subpixel-antialiased">
+            <p className="text-sm text-center font-semibold text-gray-400 subpixel-antialiased">
               Refresh for more suggestions
             </p>
           )}

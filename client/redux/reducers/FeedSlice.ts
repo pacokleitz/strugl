@@ -41,6 +41,14 @@ export const feedSlice = createSlice({
       };
     },
 
+    updateBookmarksFeed: (state, action) => {
+      return {
+        ...state,
+        list: [...action.payload],
+        type: "bookmarksFeed",
+      };
+    },
+
     addPost: (state, action) => {
       return { ...state, list: [action.payload, ...state.list] };
     },
@@ -56,6 +64,7 @@ export const {
   updateFeed,
   updateProfileFeed,
   updateTopicFeed,
+  updateBookmarksFeed,
   removePost,
   addPost,
 } = feedSlice.actions;
