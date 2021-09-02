@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
@@ -9,8 +9,38 @@ import Header from "../components/header";
 import { updateSearch } from "../redux/reducers/SearchSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { UpdateAvatar, UpdateProfile } from "../services/actions";
+import Alert from "../components/alert";
+
+export interface FormInputs {
+  profile_name: string;
+  bio: string;
+}
+
+interface AvatarInput {
+  avatar: FileList;
+}
 
 function Account() {
+  const dispatch = useAppDispatch();
+
+  const { register: registerForm, handleSubmit: submitForm } =
+    useForm<FormInputs>({ mode: "onChange" });
+
+  const { register: registerAvatar, handleSubmit: submitAvatar } =
+    useForm<AvatarInput>({ mode: "onChange" });
+
+  const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
+    UpdateProfile(dispatch, data);
+  }, []);
+
+  const onChange: SubmitHandler<AvatarInput> = useCallback(async (data) => {
+    var formData = new FormData();
+    formData.append("avatar", data.avatar[0]);
+    UpdateAvatar(dispatch, formData);
+  }, []);
+
   const currentUser = useAppSelector((state) => state.currentUser.userInfos);
   return (
     <div className="h-full col-span-3 md:p-8 p-2 w-full space-y-2 flex flex-col divide-y-2 divide-gray-200 dark:divide-gray-850">
@@ -18,28 +48,43 @@ function Account() {
         Profile
       </h1>
 
-      <div className="">
+      <div>
         <p className="text-sm text-gray-500 dark:text-gray-400 p-2">
           Edit your profile informations here. Push the button to save the
           changes.
         </p>
         <div className="flex flex-row py-10 justify-evenly items-start space-x-8 focus:outline-none content-center">
-          <div className="cursor-pointer group relative">
-            {!currentUser.avatar && (
-              <div className="min-w-52 rounded-full bg-gray-200 ring-2 ring-gray-200self-center" />
-            )}
-            {currentUser.avatar && (
-              <img
-                src={currentUser.avatar}
-                className="w-52 h-52 rounded-full self-start bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
-              />
-            )}
-            <div className="origin-top -mt-12 ml-2 absolute bg-white dark:bg-gray-850 shadow border-2 border-gray-100 dark:border-gray-850 border-opacity-60 rounded-md p-1 w-min text-gray-700 dark:text-gray-200 group-hover:text-indigo-700">
-              <FontAwesomeIcon icon={faEdit} className="w-6" />
-            </div>
-          </div>
+          <form encType="multipart/form-data" onChange={submitAvatar(onChange)}>
+            <label
+              htmlFor="avatarEdit"
+              className="cursor-pointer group relative"
+            >
+              {!currentUser.avatar && (
+                <div className="min-w-52 rounded-full bg-gray-200 ring-2 ring-gray-200self-center" />
+              )}
+              {currentUser.avatar && (
+                <img
+                  src={currentUser.avatar}
+                  className="w-52 h-52 rounded-full self-start bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
+                />
+              )}
+              <div className="origin-top -mt-12 ml-2 absolute bg-white dark:bg-gray-850 shadow border-2 border-gray-100 dark:border-gray-850 border-opacity-60 rounded-md p-1 w-min text-gray-700 dark:text-gray-200 group-hover:text-indigo-700">
+                <FontAwesomeIcon icon={faEdit} className="w-6" />
+              </div>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              id="avatarEdit"
+              className="hidden"
+              {...registerAvatar("avatar")}
+            />
+          </form>
 
-          <div className="flex flex-col content-between gap-8 focus:outline-none max-w-sm w-full ">
+          <form
+            className="flex flex-col content-between gap-8 focus:outline-none max-w-sm w-full"
+            onSubmit={submitForm(onSubmit)}
+          >
             <div className="flex flex-col focus:outline-none">
               <label className="text-gray-600 dark:text-gray-400 font-medium text-md focus:outline-none">
                 Username
@@ -48,10 +93,11 @@ function Account() {
                 value={currentUser.username}
                 type="text"
                 autoComplete="off"
-                className="w-full overflow-y-scroll p-1 px-4 rounded-xl bg-gray-200 dark:bg-gray-850 dark:bg-opacity-60  border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
+                className="w-full p-1 px-4 rounded-xl bg-gray-200 dark:bg-gray-850 dark:bg-opacity-60  border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
                 disabled
               ></input>
             </div>
+
             <div className="flex flex-col ">
               <label className="text-gray-600 dark:text-gray-400 font-medium text-md">
                 Profile name
@@ -61,17 +107,7 @@ function Account() {
                 type="text"
                 autoComplete="off"
                 className="w-full p-1 px-4 rounded-xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
-              ></input>
-            </div>
-            <div className="flex flex-col ">
-              <label className="text-gray-600 dark:text-gray-400 font-medium text-md">
-                Email
-              </label>
-              <input
-                defaultValue={""}
-                type="email"
-                autoComplete="off"
-                className="w-full p-1 px-4 rounded-xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
+                {...registerForm("profile_name")}
               ></input>
             </div>
 
@@ -83,22 +119,22 @@ function Account() {
                 defaultValue={currentUser.bio}
                 autoComplete="off"
                 className="w-full p-1 px-4 rounded-xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
+                {...registerForm("bio")}
               ></textarea>
             </div>
-          </div>
+            <input
+              type="submit"
+              value="Update profile"
+              className="px-4 py-2 text-center w-min self-end mt-8 text-md font-semibold cursor-pointer rounded-3xl bg-gray-100 dark:bg-gray-950 border-2 border-gray-600 dark:border-gray-200 text-gray-600 dark:text-gray-100 hover:text-indigo-600 hover:border-indigo-600 dark:hover:text-indigo-500 dark:hover:border-indigo-500"
+            />
+          </form>
         </div>
-        <input
-          type="button"
-          value="Coming soon"
-          className="px-4 py-2 text-center float-right mt-8 text-md font-semibold cursor-pointer rounded-3xl bg-gray-100 dark:bg-gray-950 border-2 border-gray-600 dark:border-gray-200 text-gray-600 dark:text-gray-100 hover:text-indigo-600 hover:border-indigo-600 dark:hover:text-indigo-500 dark:hover:border-indigo-500"
-        />
       </div>
     </div>
   );
 }
 
 function Appearence() {
-
   const [currentTheme, setCurrentTheme] = useState(
     document.documentElement.classList.contains("dark") ? 1 : 0
   );
@@ -204,6 +240,7 @@ export default function Settings() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
+  const alert = useAppSelector((state) => state.alerts.list[0]);
 
   const [currentFrame, setCurrentFrame] = useState(0);
 
@@ -246,9 +283,12 @@ export default function Settings() {
           >
             Appearance
           </a>
+        {alert && <Alert alert={alert} />}
         </div>
+        <>
         {currentFrame == 0 && <Account />}
         {currentFrame == 1 && <Appearence />}
+        </>
       </div>
     </div>
   );
