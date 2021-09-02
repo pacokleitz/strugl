@@ -29,10 +29,16 @@ export const topicsRecommandationsSlice = createSlice({
     addTopictoRecom: (state, action) => {
       return { ...state, list: [action.payload, ...state.list] };
     },
+
+    changeTopicRecomStyle: (state, action) => {
+      const { id, style } = action.payload;
+      const topic = state.list.find((topic) => topic.topic_id === id);
+      if (topic) topic.style = style;
+    },
   },
 });
 
-export const { updateTopics, addTopictoRecom, followTopic } =
+export const { updateTopics, addTopictoRecom, followTopic, changeTopicRecomStyle } =
   topicsRecommandationsSlice.actions;
 
 export default topicsRecommandationsSlice.reducer;

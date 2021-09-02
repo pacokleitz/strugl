@@ -36,8 +36,8 @@ function TopicRender(props: any) {
   return (
     <div
       className={
-        "p-4 flex flex-row space-x-8 justify-between fadeOut" +
-        currentStarState.toString()
+        "p-4 flex flex-row space-x-8 justify-between animate-fade" +
+        props.topic.style
       }
     >
       <div>
@@ -78,8 +78,8 @@ function FriendRender(props: any) {
   return (
     <div
       className={
-        "w-full px-4 py-4 flex flex-row justify-between fadeOut" +
-        currentaddState.toString()
+        "w-full px-4 py-4 flex flex-row justify-between animate-fade" +
+        props.friend.style
       }
     >
       <div className="inline-block">

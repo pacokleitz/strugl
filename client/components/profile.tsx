@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
+
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { updateFeed } from "../redux/reducers/FeedSlice";
+import { updateBookmarksFeed } from "../redux/reducers/FeedSlice";
 
 import { GetBookmarks, GetFollowings, GetInterests } from "../services/data";
 import { UnfollowUser, UnfollowTopic } from "../services/actions";
@@ -21,8 +23,6 @@ import {
   faStar as faStarEmpty,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { useEffect } from "react";
-
 function TopicRender(props: any) {
   const dispatch = useAppDispatch();
 
@@ -38,7 +38,9 @@ function TopicRender(props: any) {
   }
 
   return (
-    <div className={"w-full px-4 py-4 flex justify-between state"}>
+    <div
+      className={"w-full px-4 py-4 flex justify-between animate-fade" + props.topic.style}
+    >
       <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
         <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
           <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:hover:text-gray-100 subpixel-antialiased">
@@ -70,7 +72,7 @@ function UserRender(props: any) {
   }
 
   return (
-    <div className={"w-full px-4 py-4 flex justify-between state"}>
+    <div className={"w-full px-4 py-4 flex justify-between animate-fade" + props.friend.style}>
       <Link href={`/${encodeURIComponent(props.friend.username)}`}>
         <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
           {props.friend.avatar && (
@@ -137,7 +139,7 @@ export default function Profile() {
           <a
             className="flex flex-row justify-between space-x-10 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
             onClick={() => {
-              dispatch(updateFeed(bookmarks));
+              dispatch(updateBookmarksFeed(bookmarks));
             }}
           >
             <div className="flex flex-row justify-between space-x-2">
