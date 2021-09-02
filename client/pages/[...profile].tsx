@@ -119,9 +119,14 @@ function UserProfileContent(props: any) {
           {!userProfile?.avatar && (
             <div className="w-32 h-32 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"></div>
           )}
-          <p className="inline-block text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
-            {userProfile?.username}
-          </p>
+          <div className="flex flex-col items-start">
+            <p className="text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
+              {userProfile?.profile_name}
+            </p>
+            <p className="text-md text-center font-medium italic text-gray-500 subpixel-antialiased">
+              {"@" + userProfile?.username}
+            </p>
+          </div>
         </div>
         {isLogged && currentUser.username != userProfile?.username && (
           <div
@@ -169,13 +174,6 @@ export default function Profile() {
     } else {
       document.documentElement.classList.remove("dark");
     }
-
-    GetCurrentUser(dispatch).then(() => {
-      if (isLogged) {
-        GetTopicsRecom(dispatch);
-        GetUsersRecom(dispatch);
-      }
-    });
 
     if (profile) {
       if (profile?.length == 2) GetTopicProfile(dispatch, profile[1]);

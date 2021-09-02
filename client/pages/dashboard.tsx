@@ -8,9 +8,6 @@ import Profile from "../components/profile";
 import Suggestions from "../components/suggestions";
 import {
   GetCurrentUser,
-  GetFeed,
-  GetTopicsRecom,
-  GetUsersRecom,
 } from "../services/data";
 import { useRouter } from "next/router";
 import { updateSearch } from "../redux/reducers/SearchSlice";
@@ -27,12 +24,6 @@ export default function Dashboard() {
   useEffect(() => {
     GetCurrentUser(dispatch).then(() => {
       if (!isLogged) router.push("/login", "/");
-      else {
-        dispatch(updateSearch([]));
-        GetFeed(dispatch);
-        GetUsersRecom(dispatch);
-        GetTopicsRecom(dispatch);
-      }
     });
   }, []);
 

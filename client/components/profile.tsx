@@ -39,7 +39,9 @@ function TopicRender(props: any) {
 
   return (
     <div
-      className={"w-full px-4 py-4 flex justify-between animate-fade" + props.topic.style}
+      className={
+        "w-full px-4 py-4 flex justify-between animate-fade" + props.topic.style
+      }
     >
       <Link href={`/topic/${encodeURIComponent(props.topic.topic_name)}`}>
         <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
@@ -72,7 +74,12 @@ function UserRender(props: any) {
   }
 
   return (
-    <div className={"w-full px-4 py-4 flex justify-between animate-fade" + props.friend.style}>
+    <div
+      className={
+        "w-full px-4 py-4 flex justify-between animate-fade" +
+        props.friend.style
+      }
+    >
       <Link href={`/${encodeURIComponent(props.friend.username)}`}>
         <div className="group focus:outline-none w-max flex flex-row content-between items-center space-x-2 cursor-pointer">
           {props.friend.avatar && (
@@ -131,8 +138,8 @@ export default function Profile() {
               className="w-16 h-16 object-contain rounded-full bg-gray-200 dark:bg-gray-800 ring-2 ring-gray-200 self-center dark:ring-gray-800"
             />
           )}
-          <p className="inline-block text-lg text-center font-semibold text-gray-700 dark:text-gray-400 group-hover:text-black dark:group-hover:text-gray-200 subpixel-antialiased">
-            {currentUser.username}
+          <p className="inline-block text-lg text-center font-semibold text-gray-700 dark:text-gray-400 subpixel-antialiased">
+            {currentUser.profile_name}
           </p>
         </div>
         <div className="p-6 space-y-2 items-start">

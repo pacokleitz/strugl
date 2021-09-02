@@ -27,10 +27,13 @@ export default function Transition() {
     }
     GetCurrentUser(dispatch).then(() => {
       if (isLogged) {
-        GetFeed(dispatch);
-        GetUsersRecom(dispatch);
-        GetTopicsRecom(dispatch);
-        router.push("/dashboard", "/");
+        Promise.all([
+          GetFeed(dispatch),
+          GetUsersRecom(dispatch),
+          GetTopicsRecom(dispatch),
+        ]).then(() => {
+          router.push("/dashboard", "/");
+        });
       } else {
         router.push("/login", "/");
         localStorage.clear();
