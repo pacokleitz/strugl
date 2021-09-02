@@ -179,7 +179,7 @@ function SearchList() {
         />
         <FontAwesomeIcon
           icon={faSearch}
-          className=" w-5 h-5 text-gray-700 dark:text-gray-400 cursor-pointer transition duration-500 ease-in-out transform-gpu hover:rotate-45 rotate-0"
+          className=" w-5 h-5 text-gray-700 dark:text-gray-400 transition duration-500 ease-in-out transform-gpu hover:rotate-45 rotate-0"
           type="submit"
         />
       </form>

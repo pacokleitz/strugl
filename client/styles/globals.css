@@ -46,7 +46,7 @@
 }
 
 .animate-spin{
-    animation: spin 1s linear infinite;
+    animation: spin 0.3s linear infinite;
 }
 
 @keyframes fadeIn {
