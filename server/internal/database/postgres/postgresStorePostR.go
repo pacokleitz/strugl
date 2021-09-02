@@ -9,7 +9,7 @@ func (store PostgresStore) GetPost(id int64) (*models.Post, error) {
 
 	var p models.Post
 
-	query := `SELECT post_id, posts.user_id, username, content, date_created, date_updated FROM posts 
+	query := `SELECT post_id, posts.user_id, username, profile_name, content, date_created, date_updated FROM posts 
 				INNER JOIN users on posts.user_id = users.user_id 
 				WHERE post_id = $1`
 
@@ -27,7 +27,7 @@ func (store PostgresStore) GetPostsByUser(username string) ([]models.Post, error
 
 	pp := make([]models.Post, 0)
 
-	query := `SELECT post_id, posts.user_id, username, avatar, content, date_created, date_updated FROM posts 
+	query := `SELECT post_id, posts.user_id, username, profile_name, avatar, content, date_created, date_updated FROM posts 
 				INNER JOIN users ON posts.user_id = users.user_id 
 				WHERE LOWER(username) = LOWER($1) ORDER BY date_created DESC`
 
@@ -52,7 +52,7 @@ func (store PostgresStore) GetPostsByTopic(topic string) ([]models.Post, error) 
 
 	pp := make([]models.Post, 0)
 
-	query := `SELECT posts.post_id, posts.user_id, username, avatar, content, date_created, date_updated FROM posts 
+	query := `SELECT posts.post_id, posts.user_id, username, profile_name, avatar, content, date_created, date_updated FROM posts 
 				INNER JOIN posts_to_topics ON posts_to_topics.post_id = posts.post_id
 				INNER JOIN topics ON posts_to_topics.topic_id = topics.topic_id 
 				INNER JOIN users on posts.user_id = users.user_id
@@ -79,7 +79,7 @@ func (store PostgresStore) GetPostsBookmarked(user_id int64) ([]models.Post, err
 
 	pp := make([]models.Post, 0)
 
-	query := `SELECT posts.post_id, posts.user_id, username, avatar, content, posts.date_created, date_updated FROM posts 
+	query := `SELECT posts.post_id, posts.user_id, username, profile_name, avatar, content, posts.date_created, date_updated FROM posts 
 				INNER JOIN bookmarks ON bookmarks.post_id = posts.post_id
 				INNER JOIN users on posts.user_id = users.user_id
 				WHERE bookmarks.user_id = $1 ORDER BY bookmarks.date_created DESC`
@@ -141,7 +141,7 @@ func (store PostgresStore) GetFeed(user_id int64) ([]models.Post, error) {
 	// 			WHERE users.user_id = $1 OR auth.user_id = $1 ORDER BY date_created DESC`
 
 	// temporaire
-	query := `SELECT DISTINCT posts.post_id, users.username, users.avatar, posts.user_id, posts.content, posts.date_created, posts.date_updated FROM posts
+	query := `SELECT DISTINCT posts.post_id, users.username, users.profile_name, users.avatar, posts.user_id, posts.content, posts.date_created, posts.date_updated FROM posts
 				INNER JOIN users on posts.user_id = users.user_id
 				WHERE posts.post_id IN (
 					SELECT post_id FROM posts_to_topics WHERE topic_id IN (

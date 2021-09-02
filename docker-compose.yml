@@ -17,6 +17,8 @@ services:
       - DB_PORT
       - DB_USER
       - DB_PASS
+    volumes:
+      - static:/static
     depends_on:
       - db
   enginx:
@@ -29,3 +31,4 @@ services:
       - /home/${USER}/nginx/dhparam.pem:/etc/ssl/certs/dhparam.pem
 volumes: 
      pgdata:
+     static:

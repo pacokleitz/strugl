@@ -43,9 +43,20 @@ export const currentUserSlice = createSlice({
         },
       };
     },
+
+    updateProfile: (state, action) => {
+      const { profile_name, bio } = action.payload;
+      state.userInfos.bio = bio;
+      state.userInfos.profile_name = profile_name;
+    },
+
+    updateAvatar: (state, action) => {
+      state.userInfos.avatar = action.payload;
+    },
   },
 });
 
-export const { logIn, logOut } = currentUserSlice.actions;
+export const { logIn, logOut, updateProfile, updateAvatar } =
+  currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

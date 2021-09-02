@@ -8,9 +8,14 @@ import Topic from "../lib/topic";
 import User from "../lib/user";
 
 import { FormInputs } from "../components/feed";
+import { FormInputs as ProfileForm } from "../pages/settings";
 
 import { addBookmark, removeBookmark } from "../redux/reducers/BookmarksSlice";
-import { logOut } from "../redux/reducers/CurrentUserSlice";
+import {
+  logOut,
+  updateAvatar,
+  updateProfile,
+} from "../redux/reducers/CurrentUserSlice";
 import { addPost } from "../redux/reducers/FeedSlice";
 import {
   changeUserRecomStyle,
@@ -31,7 +36,12 @@ import {
   changeTopicRecomStyle,
   followTopic,
 } from "../redux/reducers/TopicsRecommandationsSlice";
-import { addAlert, updateAlerts } from "../redux/reducers/AlertsSlice";
+import {
+  addAlert,
+  changeStatus,
+  removeAlert,
+  updateAlerts,
+} from "../redux/reducers/AlertsSlice";
 
 export const CreateAccount = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
@@ -56,6 +66,12 @@ export const CreateAccount = async (
             status: "In",
           })
         );
+        setTimeout(() => {
+          dispatch(changeStatus(err));
+        }, 5000);
+        setTimeout(() => {
+          dispatch(removeAlert(err));
+        }, 6000);
       }
     })
     .catch((error) => {
@@ -89,6 +105,12 @@ export const SignIn = async (
             status: "In",
           })
         );
+        setTimeout(() => {
+          dispatch(changeStatus(err));
+        }, 5000);
+        setTimeout(() => {
+          dispatch(removeAlert(err));
+        }, 6000);
       }
     })
     .catch((error) => {
@@ -108,6 +130,74 @@ export const SignOut = async (
     .then(async () => {
       dispatch(logOut());
       router.push("/transition", "/");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const UpdateProfile = async (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+  data: ProfileForm
+) => {
+  await fetch(`https://api.strugl.cc/users`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(data),
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        dispatch(updateProfile(data));
+        dispatch(
+          addAlert({
+            type: "success",
+            content: "Profile updated",
+            color: "green",
+            status: "In",
+          })
+        );
+        setTimeout(() => {
+          dispatch(changeStatus("Profile updated"));
+        }, 5000);
+        setTimeout(() => {
+          dispatch(removeAlert("Profile updated"));
+        }, 6000);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const UpdateAvatar = async (
+  dispatch: (arg0: { payload: any; type: string }) => void,
+  avatar: FormData
+) => {
+  await fetch(`https://api.strugl.cc/users/avatar`, {
+    method: "PUT",
+    credentials: "include",
+    body: avatar,
+  })
+    .then(async (res) => {
+      if (res.ok) {
+        const dbAvatar = await res.text();
+        dispatch(updateAvatar(dbAvatar));
+        dispatch(
+          addAlert({
+            type: "success",
+            content: "Avatar updated",
+            color: "green",
+            status: "In",
+          })
+        );
+        setTimeout(() => {
+          dispatch(changeStatus("Avatar updated"));
+        }, 5000);
+        setTimeout(() => {
+          dispatch(removeAlert("Avatar updated"));
+        }, 6000);
+      }
     })
     .catch((error) => {
       console.log(error);

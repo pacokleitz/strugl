@@ -17,12 +17,30 @@ func CheckEmail(email string) bool {
 
 func CheckUsername(username string) bool {
 
-	if len(username) == 0 {
+	lenUsername := len(username)
+
+	if lenUsername == 0 || lenUsername > 30 {
 		return false
 	}
 
 	for _, r := range username {
 		if !unicode.IsLetter(r) && !unicode.IsDigit(r) {
+			return false
+		}
+	}
+	return true
+}
+
+func CheckProfilename(name string) bool {
+
+	lenName := len(name)
+
+	if lenName == 0 || lenName > 30 {
+		return false
+	}
+
+	for _, r := range name {
+		if !unicode.IsLetter(r) && !unicode.IsDigit(r) && !unicode.IsSpace(r) {
 			return false
 		}
 	}
