@@ -28,6 +28,7 @@ export default function Transition() {
     GetCurrentUser(dispatch).then(() => {
       if (isLogged) {
         Promise.all([
+          router.prefetch("/dashboard", "/"),
           GetFeed(dispatch),
           GetUsersRecom(dispatch),
           GetTopicsRecom(dispatch),

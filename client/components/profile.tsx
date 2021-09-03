@@ -22,6 +22,7 @@ import {
   faPlusSquare as faPlusSquareEmpty,
   faStar as faStarEmpty,
 } from "@fortawesome/free-regular-svg-icons";
+import { BrowserRouter, useHistory } from "react-router-dom";
 
 function TopicRender(props: any) {
   const dispatch = useAppDispatch();
