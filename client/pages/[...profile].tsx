@@ -2,14 +2,9 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { updateSearch } from "../redux/reducers/SearchSlice";
 
-import {
-  GetCurrentUser,
-  GetTopicProfile,
-  GetTopicsRecom,
-  GetUserProfile,
-  GetUsersRecom,
-} from "../services/data";
+import { GetTopicProfile, GetUserProfile, GetFeed } from "../services/data";
 import {
   FollowTopic,
   FollowUser,
@@ -21,10 +16,9 @@ import Feed from "../components/feed";
 import Header from "../components/header";
 import Suggestions from "../components/suggestions";
 
-import { faBars, faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Alert from "../components/alert";
-import { updateSearch } from "../redux/reducers/SearchSlice";
 
 function TopicProfileContent(props: any) {
   const dispatch = useAppDispatch();
@@ -154,7 +148,6 @@ function UserProfileContent(props: any) {
         )}
         {userProfile && userProfile?.bio.length > 0 && (
           <div className="w-full justify-center flex flex-row text-sm font-medium text-gray-600 dark:text-gray-300 space-x-2">
-
             <p>{userProfile?.bio}</p>
           </div>
         )}
@@ -187,6 +180,15 @@ export default function Profile() {
       if (profile?.length == 2) GetTopicProfile(dispatch, profile[1]);
       else GetUserProfile(dispatch, profile[0]);
     }
+
+    router.beforePopState(({ url, as }) => {
+      if (as === "/") {
+        GetFeed(dispatch);
+        router.push(url, "/");
+        return false;
+      }
+      return true;
+    });
   });
 
   return (
