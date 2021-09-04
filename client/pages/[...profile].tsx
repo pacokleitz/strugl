@@ -181,14 +181,23 @@ export default function Profile() {
       else GetUserProfile(dispatch, profile[0]);
     }
 
+    const handleRouteChange = () => {
+      if (!isLogged) router.push("/login", "/");
+      return false;
+    };
+
     router.beforePopState(({ url, as }) => {
-      if (as === "/") {
+      if (as === "/" && isLogged) {
         GetFeed(dispatch);
         router.push(url, "/");
         return false;
+      } else {
+        router.push("/transition", "/");
+        return true;
       }
-      return true;
     });
+
+    router.events.on("routeChangeStart", handleRouteChange);
   });
 
   return (

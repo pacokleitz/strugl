@@ -68,7 +68,7 @@ function Account() {
                   className="w-52 h-52 rounded-full self-start bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
                 />
               )}
-              <div className="origin-top -mt-12 ml-2 absolute bg-white dark:bg-gray-850 shadow border-2 border-gray-100 dark:border-gray-850 border-opacity-60 rounded-md p-1 w-min text-gray-700 dark:text-gray-200 group-hover:text-indigo-700">
+              <div className="origin-bottom -mt-12 ml-2 absolute bg-white dark:bg-gray-850 shadow border-2 border-gray-100 dark:border-gray-850 border-opacity-60 rounded-md p-1 w-min text-gray-700 dark:text-gray-200 group-hover:text-indigo-700">
                 <FontAwesomeIcon icon={faEdit} className="w-6" />
               </div>
             </label>
