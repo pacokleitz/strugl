@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"path/filepath"
 
 	"strugl/internal/database"
 	"strugl/internal/models"
@@ -14,13 +15,12 @@ import (
 )
 
 var (
-	ErrEmailInvalid    = errors.New("email invalid")
-	ErrUsernameInvalid = errors.New("username invalid")
+	ErrEmailInvalid       = errors.New("email invalid")
+	ErrUsernameInvalid    = errors.New("username invalid")
 	ErrProfilenameInvalid = errors.New("profile name invalid")
-	ErrBioInvalid      = errors.New("bio invalid")
-	ErrUsernameTaken   = errors.New("username taken")
-	ErrEmailTaken      = errors.New("email taken")
-
+	ErrBioInvalid         = errors.New("bio invalid")
+	ErrUsernameTaken      = errors.New("username taken")
+	ErrEmailTaken         = errors.New("email taken")
 )
 
 type Service struct {
@@ -77,7 +77,7 @@ func (s Service) UpdateUser(user_id int64, newUser models.UserProfile) error {
 	if !CheckProfilename(newUser.ProfileName) {
 		return ErrProfilenameInvalid
 	}
-	
+
 	return s.Store.UpdateUser(user_id, newUser)
 }
 
@@ -108,10 +108,10 @@ func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) (stri
 		return "", err
 	}
 
-	f, err := ioutil.TempFile("/static/avatars/", userIdStr + "-*." + extension )
-    if err != nil {
-        return "", err
-    }
+	f, err := ioutil.TempFile("/static/avatars/", userIdStr+"-*."+ extension)
+	if err != nil {
+		return "", err
+	}
 
 	defer f.Close()
 
@@ -121,8 +121,21 @@ func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) (stri
 	}
 
 	// Update the link to the avatar in user DB
-	if err = s.Store.UpdateUserAvatar(user_id, f.Name()); err != nil {
+	if err = s.Store.UpdateUserAvatar(user_id, "https://api.strugl.cc" + f.Name()); err != nil {
 		return "", err
+	}
+
+	// Delete all old user avatars (should always be 1)
+	old_files, err := filepath.Glob("/static/avatars/" + userIdStr + "-*")
+	if err != nil {
+		return "", err
+	}
+	for _, old_f := range old_files {
+		if old_f != f.Name() {
+			if err := os.Remove(old_f); err != nil {
+				return "", err
+			}
+		}
 	}
 
 	return f.Name(), nil
