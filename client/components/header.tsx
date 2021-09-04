@@ -207,7 +207,7 @@ export default function Header() {
   async function Navigate(to: String) {
     if (to == "Dashboard") {
       GetFeed(dispatch);
-      router.push("/dashboard", "/");
+      router.push("/transition", "/");
     } else if (to == "Explore") router.push("/explore", "/");
   }
 
