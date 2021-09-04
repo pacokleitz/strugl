@@ -287,11 +287,11 @@ export default function Feed(props: any) {
                 {currentUser.avatar && (
                   <img
                     src={currentUser.avatar}
-                    className="focus:outline-none w-10 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
+                    className="focus:outline-none w-10 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
                   />
                 )}
                 {!currentUser.avatar && (
-                  <div className="focus:outline-none w-10 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:ring-gray-400" />
+                  <div className="focus:outline-none w-9 h-9 rounded-full bg-gray-200 ring-2 ring-gray-200 dark:ring-gray-400" />
                 )}
               </a>
             </Link>
