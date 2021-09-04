@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -122,9 +121,9 @@ func (h Handler) HandleUsersRecom(w http.ResponseWriter, r *http.Request, ps htt
 
 func (h Handler) HandleUserAvatar(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	err := r.ParseMultipartForm(1024 * 1024 * 5) // max 5mb ?
+	err := r.ParseMultipartForm(1024 * 1024 * 1) // max 5mb ?
 	if err != nil {
-		http.Error(w, "File too large (max 5MB)", http.StatusUnprocessableEntity)
+		http.Error(w, "File too large (max 1MB)", http.StatusUnprocessableEntity)
 		return
 	}
 
@@ -163,7 +162,6 @@ func (h Handler) HandleUserAvatar(w http.ResponseWriter, r *http.Request, ps htt
 	avatarUrl, err := h.UserService.SetAvatar(user_data.User_ID, extension, clientFile)
 	if err != nil {
 		http.Error(w, "Error saving avatar", http.StatusUnprocessableEntity)
-		log.Println(err)
 		return
 	}
 

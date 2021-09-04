@@ -121,7 +121,7 @@ func (store PostgresStore) GetFeed(user_id int64) ([]models.Post, error) {
 
 	pp := make([]models.Post, 0)
 
-	// à corriger
+	// TO DO
 	// query := `SELECT DISTINCT posts.post_id, auth.user_id, auth.username, posts.content, posts.date_created, posts.date_updated FROM users
 
 	// 			/* get the topics followed by the user */
@@ -140,7 +140,7 @@ func (store PostgresStore) GetFeed(user_id int64) ([]models.Post, error) {
 
 	// 			WHERE users.user_id = $1 OR auth.user_id = $1 ORDER BY date_created DESC`
 
-	// temporaire
+	// temporary
 	query := `SELECT DISTINCT posts.post_id, users.username, users.profile_name, users.avatar, posts.user_id, posts.content, posts.date_created, posts.date_updated FROM posts
 				INNER JOIN users on posts.user_id = users.user_id
 				WHERE posts.post_id IN (

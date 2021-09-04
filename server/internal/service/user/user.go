@@ -3,8 +3,10 @@ package user
 import (
 	"errors"
 	"io"
+	"io/ioutil"
 	"os"
 	"strconv"
+	"path/filepath"
 
 	"strugl/internal/database"
 	"strugl/internal/models"
@@ -13,13 +15,12 @@ import (
 )
 
 var (
-	ErrEmailInvalid    = errors.New("email invalid")
-	ErrUsernameInvalid = errors.New("username invalid")
+	ErrEmailInvalid       = errors.New("email invalid")
+	ErrUsernameInvalid    = errors.New("username invalid")
 	ErrProfilenameInvalid = errors.New("profile name invalid")
-	ErrBioInvalid      = errors.New("bio invalid")
-	ErrUsernameTaken   = errors.New("username taken")
-	ErrEmailTaken      = errors.New("email taken")
-
+	ErrBioInvalid         = errors.New("bio invalid")
+	ErrUsernameTaken      = errors.New("username taken")
+	ErrEmailTaken         = errors.New("email taken")
 )
 
 type Service struct {
@@ -76,7 +77,7 @@ func (s Service) UpdateUser(user_id int64, newUser models.UserProfile) error {
 	if !CheckProfilename(newUser.ProfileName) {
 		return ErrProfilenameInvalid
 	}
-	
+
 	return s.Store.UpdateUser(user_id, newUser)
 }
 
@@ -101,34 +102,41 @@ func (s Service) GetRecomUsers(user_id int64) ([]models.UserProfile, error) {
 
 func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) (string, error) {
 
-	avatarPath := "/static/" + strconv.FormatInt(user_id, 10) + "."
+	userIdStr := strconv.FormatInt(user_id, 10)
 
-	if err := os.MkdirAll("/static", 0644); err != nil {
+	if err := os.MkdirAll("/static/avatars", 0644); err != nil {
 		return "", err
 	}
 
-	f, err := os.OpenFile(avatarPath + extension, os.O_WRONLY|os.O_CREATE, 0644)
+	f, err := ioutil.TempFile("/static/avatars/", userIdStr+"-*."+ extension)
 	if err != nil {
 		return "", err
 	}
+
+	defer f.Close()
 
 	_, err = io.Copy(f, img)
 	if err != nil {
 		return "", err
 	}
 
-	avatarUrl := "https://api.strugl.cc" + avatarPath + extension
-
 	// Update the link to the avatar in user DB
-	if err = s.Store.UpdateUserAvatar(user_id, avatarUrl); err != nil {
+	if err = s.Store.UpdateUserAvatar(user_id, "https://api.strugl.cc" + f.Name()); err != nil {
 		return "", err
 	}
 
-	if extension == "jpg" {
-		os.Remove(avatarPath + "png")
-	} else {
-		os.Remove(avatarPath + "jpg")
+	// Delete all old user avatars (should always be 1)
+	old_files, err := filepath.Glob("/static/avatars/" + userIdStr + "-*")
+	if err != nil {
+		return "", err
+	}
+	for _, old_f := range old_files {
+		if old_f != f.Name() {
+			if err := os.Remove(old_f); err != nil {
+				return "", err
+			}
+		}
 	}
 
-	return avatarUrl, nil
+	return f.Name(), nil
 }
