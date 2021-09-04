@@ -181,11 +181,6 @@ export default function Profile() {
       else GetUserProfile(dispatch, profile[0]);
     }
 
-    const handleRouteChange = () => {
-      if (!isLogged) router.push("/login", "/");
-      return false;
-    };
-
     router.beforePopState(({ url, as }) => {
       if (as === "/" && isLogged) {
         GetFeed(dispatch);
@@ -197,7 +192,6 @@ export default function Profile() {
       }
     });
 
-    router.events.on("routeChangeStart", handleRouteChange);
   });
 
   return (
