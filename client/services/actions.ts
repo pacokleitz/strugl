@@ -55,7 +55,7 @@ export const CreateAccount = async (
     .then(async (res) => {
       if (res.ok) {
         dispatch(updateAlerts([]));
-        router.push("/");
+        router.push("/login", "/");
       } else {
         const err = await res.text();
         dispatch(
@@ -76,6 +76,7 @@ export const CreateAccount = async (
     })
     .catch((error) => {
       console.log(error);
+      router.push("/signup", "/");
     });
 };
 
@@ -115,6 +116,7 @@ export const SignIn = async (
     })
     .catch((error) => {
       console.log(error);
+      router.push("/login", "/");
     });
 };
 

@@ -30,7 +30,7 @@ export default function Transition() {
       .then(() => {
         if (isLogged) {
           Promise.all([
-            router.prefetch("/dashboard", "/"),
+            // router.prefetch("/dashboard", "/"),
             GetFeed(dispatch),
             GetUsersRecom(dispatch),
             GetTopicsRecom(dispatch),
@@ -39,13 +39,15 @@ export default function Transition() {
               router.push("/dashboard", "/");
             })
             .catch((err) => {
+              console.log(err);
               router.push("/login", "/");
             });
         } else {
           router.push("/login", "/");
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         router.push("/login", "/");
       });
   }, []);
