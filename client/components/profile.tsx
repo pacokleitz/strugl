@@ -140,10 +140,10 @@ export default function Profile() {
             />
           )}
           <div className="flex flex-col items-start">
-            <p className="text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
+            <p className=" text-left text-xl font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
               {currentUser?.profile_name}
             </p>
-            <p className="text-md text-center font-medium italic text-gray-500 subpixel-antialiased">
+            <p className="text-md text-left font-medium italic text-gray-500 subpixel-antialiased">
               {"@" + currentUser?.username}
             </p>
           </div>
