@@ -26,22 +26,28 @@ export default function Transition() {
       document.documentElement.classList.remove("dark");
     }
 
-    GetCurrentUser(dispatch).then(() => {
-      if (isLogged) {
-        Promise.all([
-          router.prefetch("/dashboard", "/"),
-          GetFeed(dispatch),
-          GetUsersRecom(dispatch),
-          GetTopicsRecom(dispatch),
-        ]).then(() => {
-          router.push("/dashboard", "/");
-        }).catch((err)=>{
-          router.push("/login","/");
-        })
-      } else {
+    GetCurrentUser(dispatch)
+      .then(() => {
+        if (isLogged) {
+          Promise.all([
+            router.prefetch("/dashboard", "/"),
+            GetFeed(dispatch),
+            GetUsersRecom(dispatch),
+            GetTopicsRecom(dispatch),
+          ])
+            .then(() => {
+              router.push("/dashboard", "/");
+            })
+            .catch((err) => {
+              router.push("/login", "/");
+            });
+        } else {
+          router.push("/login", "/");
+        }
+      })
+      .catch(() => {
         router.push("/login", "/");
-      }
-    });
+      });
   }, []);
 
   return (
