@@ -4,7 +4,7 @@ export default class Post {
   id: number;
   author: string;
   author_id: number;
-  author_pname:string;
+  author_pname: string;
   content: string;
   date_created: Date;
 
@@ -12,6 +12,7 @@ export default class Post {
   date_updated?: Date;
   comments?: Comment[];
   topics?: string[];
+  mentions?: string[];
 
   constructor(
     id: number,
@@ -37,5 +38,15 @@ export default class Post {
     });
 
     return topics;
+  }
+
+  extractMentions(): Array<string> {
+    let mentions: Array<string> = [];
+
+    this.content.split(" ").forEach((value) => {
+      if (value[0] == "@") mentions.push(value);
+    });
+
+    return mentions;
   }
 }
