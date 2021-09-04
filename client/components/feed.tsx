@@ -86,7 +86,8 @@ function PostRender(props: any) {
 
   props.post.avatar ? (thisPost.avatar = props.post.avatar) : null;
 
-  let topics = thisPost.extractTopics();
+  thisPost.topics = thisPost.extractTopics();
+  thisPost.mentions = thisPost.extractMentions();
 
   let content = thisPost.content.split(" ");
 
@@ -189,10 +190,21 @@ function PostRender(props: any) {
 
         <p className="text-sm font-regular text-justify subpixel-antialiased py-1">
           {content.map((word: string, index) => {
-            if (topics.includes(word)) {
+            if (thisPost.topics?.includes(word)) {
               return (
                 <span key={index}>
                   <Link href={`/topic/${encodeURIComponent(word.slice(1))}`}>
+                    <span className="text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">
+                      {word.toString()}
+                    </span>
+                  </Link>
+                  <span> </span>
+                </span>
+              );
+            } else if (thisPost.mentions?.includes(word)) {
+              return (
+                <span key={index}>
+                  <Link href={`/${encodeURIComponent(word.slice(1))}`}>
                     <span className="text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">
                       {word.toString()}
                     </span>
