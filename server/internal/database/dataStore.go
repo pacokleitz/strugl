@@ -12,7 +12,7 @@ type DataStore interface {
 	UpdateUserAvatar(user_id int64, avatar string) error
 	DeleteUser(username string) error
 	CheckUsernameAvailability(username string) bool
-	CheckEmailAvailability(email string) bool
+	// CheckEmailAvailability(email string) bool
 
 	GetPost(id int64) (*models.Post, error)
 	GetPostsByUser(username string) ([]models.Post, error)

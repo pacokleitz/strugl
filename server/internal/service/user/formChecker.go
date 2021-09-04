@@ -2,24 +2,23 @@ package user
 
 import (
 	"golang.org/x/crypto/bcrypt"
-	"regexp"
 	"unicode"
 )
 
-func CheckEmail(email string) bool {
+// func CheckEmail(email string) bool {
 
-	if m, _ := regexp.MatchString(`^([\w\.\_]{2,10})@(\w{1,}).([a-z]{2,4})$`, email); !m {
-		return false
-	} else {
-		return true
-	}
-}
+// 	if m, _ := regexp.MatchString(`^([\w\.\_]{2,10})@(\w{1,}).([a-z]{2,4})$`, email); !m {
+// 		return false
+// 	} else {
+// 		return true
+// 	}
+// }
 
 func CheckUsername(username string) bool {
 
 	lenUsername := len(username)
 
-	if lenUsername == 0 || lenUsername > 30 {
+	if lenUsername == 0 || lenUsername > 25 {
 		return false
 	}
 

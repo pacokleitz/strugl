@@ -1,11 +1,10 @@
 /* Table of users */
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(30) UNIQUE NOT NULL,
+    username VARCHAR(25) UNIQUE NOT NULL,
     profile_name VARCHAR(30) NOT NULL,
     bio VARCHAR(200) NOT NULL,
     avatar VARCHAR(2048) NOT NULL,
-	email VARCHAR(254) UNIQUE NOT NULL,
     password_hash VARCHAR(64) NOT NULL
 );
 

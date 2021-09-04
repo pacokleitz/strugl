@@ -6,7 +6,6 @@ type User struct {
 	ProfileName string `json:"profile_name" db:"profile_name"`
 	Avatar      string `json:"avatar" db:"avatar"`
 	Bio         string `json:"bio" db:"bio"`
-	Email       string `json:"email" db:"email"`
 	Password    string `json:"password" db:"password_hash"`
 }
 

@@ -5,8 +5,8 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"strconv"
 	"path/filepath"
+	"strconv"
 
 	"strugl/internal/database"
 	"strugl/internal/models"
@@ -15,12 +15,12 @@ import (
 )
 
 var (
-	ErrEmailInvalid       = errors.New("email invalid")
+	// ErrEmailInvalid       = errors.New("email invalid")
 	ErrUsernameInvalid    = errors.New("username invalid")
 	ErrProfilenameInvalid = errors.New("profile name invalid")
 	ErrBioInvalid         = errors.New("bio invalid")
 	ErrUsernameTaken      = errors.New("username taken")
-	ErrEmailTaken         = errors.New("email taken")
+	// ErrEmailTaken         = errors.New("email taken")
 )
 
 type Service struct {
@@ -37,10 +37,6 @@ func (s Service) CreateUser(user models.User) (string, error) {
 
 	var err error
 
-	if !CheckEmail(user.Email) {
-		return "", ErrEmailInvalid
-	}
-
 	if !CheckUsername(user.Username) {
 		return "", ErrUsernameInvalid
 	}
@@ -51,10 +47,6 @@ func (s Service) CreateUser(user models.User) (string, error) {
 
 	if !s.Store.CheckUsernameAvailability(user.Username) {
 		return "", ErrUsernameTaken
-	}
-
-	if !s.Store.CheckEmailAvailability(user.Email) {
-		return "", ErrEmailTaken
 	}
 
 	user.Password, err = HashPassword(user.Password)
@@ -97,6 +89,7 @@ func (s Service) GetUserByUsername(username string) (*models.UserProfile, error)
 }
 
 func (s Service) GetRecomUsers(user_id int64) ([]models.UserProfile, error) {
+
 	return s.Store.GetRecomUsers(user_id)
 }
 
@@ -108,7 +101,7 @@ func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) (stri
 		return "", err
 	}
 
-	f, err := ioutil.TempFile("/static/avatars/", userIdStr+"-*."+ extension)
+	f, err := ioutil.TempFile("/static/avatars/", userIdStr+"-*."+extension)
 	if err != nil {
 		return "", err
 	}
@@ -121,7 +114,7 @@ func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) (stri
 	}
 
 	// Update the link to the avatar in user DB
-	if err = s.Store.UpdateUserAvatar(user_id, "https://api.strugl.cc" + f.Name()); err != nil {
+	if err = s.Store.UpdateUserAvatar(user_id, "https://api.strugl.cc"+f.Name()); err != nil {
 		return "", err
 	}
 

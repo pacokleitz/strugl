@@ -36,9 +36,9 @@ func (h Handler) HandleUserCreate(w http.ResponseWriter, r *http.Request, ps htt
 
 	username, err := h.UserService.CreateUser(usr)
 	if err != nil {
-		if errors.Is(err, user.ErrUsernameInvalid) || errors.Is(err, user.ErrEmailInvalid) {
+		if errors.Is(err, user.ErrUsernameInvalid) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
-		} else if errors.Is(err, user.ErrUsernameTaken) || errors.Is(err, user.ErrEmailTaken) {
+		} else if errors.Is(err, user.ErrUsernameTaken) {
 			http.Error(w, err.Error(), http.StatusConflict)
 		} else {
 			http.Error(w, "DB Error", http.StatusUnprocessableEntity)
