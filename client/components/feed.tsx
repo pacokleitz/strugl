@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
+import Image from 'next/image'
+
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import Post from "../lib/post";
