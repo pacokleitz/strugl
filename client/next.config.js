@@ -27,11 +27,6 @@ const securityHeaders = [
     key: "Referrer-Policy",
     value: "origin-when-cross-origin",
   },
-  {
-    key: "Content-Security-Policy",
-    value:
-      "default-src 'self'; img-src 'self' https://api.strugl.cc https://strugl.cc; script-src strugl.cc api.strugl.cc 'unsafe-eval'; style-src 'unsafe-inline'; script-src-elem 'self' https://api.strugl.cc https://strugl.cc; script-src-attr 'self' https://api.strugl.cc https://strugl.cc; connect-src 'self' https://api.strugl.cc https://strugl.cc",
-  },
 ];
 
 module.exports = {
