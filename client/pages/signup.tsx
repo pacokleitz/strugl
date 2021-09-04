@@ -10,7 +10,6 @@ import { CreateAccount } from "../services/actions";
 
 interface FormInputs {
   username: string;
-  email: string;
   password: string;
   passwordCheck: string;
 }
@@ -59,7 +58,7 @@ export default function SignUp() {
                     {...register("username", {
                       required: "Username is required.",
                       maxLength: {
-                        value: 20,
+                        value: 25,
                         message: "Username exceed max length.",
                       },
                       pattern: {
@@ -67,6 +66,7 @@ export default function SignUp() {
                         message: "Username format is invalid.",
                       },
                     })}
+                    maxLength={25}
                     type="text"
                     className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                   ></input>
@@ -77,31 +77,13 @@ export default function SignUp() {
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <label className="text-gray-600">Email</label>
-                  <input
-                    {...register("email", {
-                      required: "Email is required.",
-                      pattern: {
-                        value:
-                          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "Email has invalid format.",
-                      },
-                    })}
-                    className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
-                  ></input>
-                  {errors.email && (
-                    <span className="text-red-700 text-sm font-medium">
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col">
                   <label className="text-gray-600">Password</label>
                   <input
                     {...register("password", {
                       required: "Password is required.",
                       minLength: { value: 8, message: "Password too short." },
                     })}
+                    minLength={8}
                     type="password"
                     className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                   ></input>
@@ -125,6 +107,7 @@ export default function SignUp() {
                         },
                       },
                     })}
+                    minLength={8}
                     type="password"
                     className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                   ></input>

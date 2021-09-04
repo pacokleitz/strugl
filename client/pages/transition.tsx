@@ -25,6 +25,7 @@ export default function Transition() {
     } else {
       document.documentElement.classList.remove("dark");
     }
+
     GetCurrentUser(dispatch).then(() => {
       if (isLogged) {
         Promise.all([
@@ -37,7 +38,6 @@ export default function Transition() {
         });
       } else {
         router.push("/login", "/");
-        localStorage.clear();
       }
     });
   }, []);

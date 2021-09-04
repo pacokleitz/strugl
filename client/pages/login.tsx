@@ -60,6 +60,7 @@ function LogIn() {
                     {...register("username", {
                       required: "Username is required.",
                     })}
+                    maxLength={25}
                     type="text"
                     className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                   ></input>
@@ -75,6 +76,7 @@ function LogIn() {
                     {...register("password", {
                       required: "Password is required.",
                     })}
+                    minLength={8}
                     type="password"
                     className="shadow-sm rounded-md px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50"
                   ></input>

@@ -107,7 +107,13 @@ function Account() {
                 type="text"
                 autoComplete="off"
                 className="w-full p-1 px-4 rounded-xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
-                {...registerForm("profile_name")}
+                {...registerForm("profile_name", {
+                  maxLength: {
+                    value: 30,
+                    message: "Profile name exceeds max length.",
+                  },
+                })}
+                maxLength={30}
               ></input>
             </div>
 
@@ -119,7 +125,13 @@ function Account() {
                 defaultValue={currentUser.bio}
                 autoComplete="off"
                 className="w-full p-1 px-4 rounded-xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
-                {...registerForm("bio")}
+                {...registerForm("bio", {
+                  maxLength: {
+                    value: 200,
+                    message: "Bio exceeds max length.",
+                  },
+                })}
+                maxLength={200}
               ></textarea>
             </div>
             <input
@@ -283,11 +295,11 @@ export default function Settings() {
           >
             Appearance
           </a>
-        {alert && <Alert alert={alert} />}
+          {alert && <Alert alert={alert} />}
         </div>
         <>
-        {currentFrame == 0 && <Account />}
-        {currentFrame == 1 && <Appearence />}
+          {currentFrame == 0 && <Account />}
+          {currentFrame == 1 && <Appearence />}
         </>
       </div>
     </div>
