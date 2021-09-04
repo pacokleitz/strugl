@@ -114,12 +114,23 @@ function UserProfileContent(props: any) {
             <div className="w-32 h-32 rounded-full bg-gray-200 ring-2 ring-gray-200 self-center"></div>
           )}
           <div className="flex flex-col items-start">
-            <p className="text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
-              {userProfile?.profile_name}
-            </p>
-            <p className="text-md text-center font-medium italic text-gray-500 subpixel-antialiased">
-              {"@" + userProfile?.username}
-            </p>
+            {!userProfile?.profile_name && (
+              <div className="mb-4 h-6 w-44 rounded-xl bg-white dark:bg-gray-850 animate-pulse text-white dark:text-gray-850 text-center"></div>
+            )}
+
+            {userProfile?.profile_name && (
+              <p className="text-xl text-center font-semibold text-gray-700 dark:text-gray-300 subpixel-antialiased">
+                {userProfile.profile_name}
+              </p>
+            )}
+            {!userProfile?.username && (
+              <div className="h-6 w-32 rounded-xl bg-white dark:bg-gray-850 animate-pulse"></div>
+            )}
+            {userProfile?.username && (
+              <p className="text-md text-center font-medium italic text-gray-500 subpixel-antialiased">
+                {"@" + userProfile.username}
+              </p>
+            )}
           </div>
         </div>
         {isLogged && currentUser.username != userProfile?.username && (
@@ -137,6 +148,9 @@ function UserProfileContent(props: any) {
         )}
       </div>
       <div className="bg-white dark:bg-gray-850 rounded-xl shadow p-4 flex justify-around items-center">
+        {!userProfile?.bio && (
+          <div className="h-6 w-11/12 rounded-xl bg-gray-100 dark:bg-gray-850 animate-pulse text-white dark:text-gray-950 text-center"></div>
+        )}
         {userProfile?.bio.length == 0 && (
           <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-850 dark:hover:text-gray-200 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
@@ -191,7 +205,6 @@ export default function Profile() {
         return true;
       }
     });
-
   });
 
   return (
