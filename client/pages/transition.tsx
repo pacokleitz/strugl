@@ -35,7 +35,9 @@ export default function Transition() {
           GetTopicsRecom(dispatch),
         ]).then(() => {
           router.push("/dashboard", "/");
-        });
+        }).catch((err)=>{
+          router.push("/login","/");
+        })
       } else {
         router.push("/login", "/");
       }

@@ -93,7 +93,7 @@ function Account() {
                 value={currentUser.username}
                 type="text"
                 autoComplete="off"
-                className="w-full p-1 px-4 rounded-xl bg-gray-200 dark:bg-gray-850 dark:bg-opacity-60  border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
+                className="w-full p-1 px-4 rounded-xl bg-gray-200 dark:bg-gray-850 dark:bg-opacity-60 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
                 disabled
               ></input>
             </div>
