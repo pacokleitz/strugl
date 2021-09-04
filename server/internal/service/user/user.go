@@ -3,6 +3,7 @@ package user
 import (
 	"errors"
 	"io"
+	"io/ioutil"
 	"os"
 	"strconv"
 
@@ -101,34 +102,28 @@ func (s Service) GetRecomUsers(user_id int64) ([]models.UserProfile, error) {
 
 func (s Service) SetAvatar(user_id int64, extension string, img io.Reader) (string, error) {
 
-	avatarPath := "/static/" + strconv.FormatInt(user_id, 10) + "."
+	userIdStr := strconv.FormatInt(user_id, 10)
 
-	if err := os.MkdirAll("/static", 0644); err != nil {
+	if err := os.MkdirAll("/static/avatars", 0644); err != nil {
 		return "", err
 	}
 
-	f, err := os.OpenFile(avatarPath + extension, os.O_WRONLY|os.O_CREATE, 0644)
-	if err != nil {
-		return "", err
-	}
+	f, err := ioutil.TempFile("/static/avatars/", userIdStr + "-*." + extension )
+    if err != nil {
+        return "", err
+    }
+
+	defer f.Close()
 
 	_, err = io.Copy(f, img)
 	if err != nil {
 		return "", err
 	}
 
-	avatarUrl := "https://api.strugl.cc" + avatarPath + extension
-
 	// Update the link to the avatar in user DB
-	if err = s.Store.UpdateUserAvatar(user_id, avatarUrl); err != nil {
+	if err = s.Store.UpdateUserAvatar(user_id, f.Name()); err != nil {
 		return "", err
 	}
 
-	if extension == "jpg" {
-		os.Remove(avatarPath + "png")
-	} else {
-		os.Remove(avatarPath + "jpg")
-	}
-
-	return avatarUrl, nil
+	return f.Name(), nil
 }
