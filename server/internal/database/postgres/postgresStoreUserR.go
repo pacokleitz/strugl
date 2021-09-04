@@ -34,17 +34,17 @@ func (store PostgresStore) GetUserByUsername(username string) (*models.UserProfi
 	return &user, nil
 }
 
-func (store PostgresStore) CheckEmailAvailability(email string) bool {
+// func (store PostgresStore) CheckEmailAvailability(email string) bool {
 
-	var db_email string
+// 	var db_email string
 
-	query := `SELECT email FROM users WHERE email = $1`
-	err := store.Store.QueryRow(query, email).Scan(&db_email)
-	if err != nil {
-		return err == sql.ErrNoRows
-	}
-	return false
-}
+// 	query := `SELECT email FROM users WHERE email = $1`
+// 	err := store.Store.QueryRow(query, email).Scan(&db_email)
+// 	if err != nil {
+// 		return err == sql.ErrNoRows
+// 	}
+// 	return false
+// }
 
 func (store PostgresStore) CheckUsernameAvailability(username string) bool {
 
