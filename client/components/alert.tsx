@@ -1,3 +1,4 @@
+import { AlertTitle } from "@chakra-ui/alert";
 import { useEffect } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { changeStatus, removeAlert } from "../redux/reducers/AlertsSlice";
@@ -18,7 +19,9 @@ export default function Alert(props: any) {
       <div className="text-center py-4 lg:px-4">
         <div
           className={
-            "p-2 bg-opacity-70 hover:bg-opacity-80 items-center text-gray-100 leading-none lg:rounded-full flex lg:inline-flex bg-" +
+            "p-2 bg-opacity-70 hover:bg-opacity-80 items-center text-gray-100 dark:text-gray-100 leading-none lg:rounded-full flex lg:inline-flex bg-" +
+            alert.color +
+            "-800 dark:bg-" +
             alert.color +
             "-800"
           }
@@ -27,6 +30,8 @@ export default function Alert(props: any) {
           <span
             className={
               "flex rounded-full bg-opacity-60 text-white uppercase px-2 py-1 text-xs font-bold mr-3 bg-" +
+              alert.color +
+              "-500 dark:bg-" +
               alert.color +
               "-500"
             }

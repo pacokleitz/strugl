@@ -123,6 +123,9 @@ export default function Suggestions() {
     (state) => state.topicsRecommandations.list
   );
 
+  const [topicSpin, setTopicSpin] = useState(false);
+  const [userSpin, setUserSpin] = useState(false);
+
   return (
     <div className="w-full text-center flex flex-col space-y-4 h-screen">
       <div className="rounded-lg divide-y-2 divide-gray-300 dark:divide-gray-850">
@@ -135,10 +138,13 @@ export default function Suggestions() {
               icon={faRedoAlt}
               className={
                 "w-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0 " +
-                (usersRecom.length == 0 ? "animate-spin" : "")
+                (userSpin && usersRecom.length == 0 ? "animate-spin" : "")
               }
               onClick={() => {
-                GetUsersRecom(dispatch);
+                setUserSpin(true);
+                GetUsersRecom(dispatch).then(() => {
+                  setUserSpin(false);
+                });
               }}
             />
           </button>
@@ -166,10 +172,13 @@ export default function Suggestions() {
               icon={faRedoAlt}
               className={
                 "w-4 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition duration-500 ease-in-out transform-gpu hover:rotate-180 rotate-0 " +
-                (topicsRecom.length == 0 ? "animate-spin" : "")
+                (topicSpin && topicsRecom.length == 0 ? "animate-spin" : "")
               }
               onClick={() => {
-                GetTopicsRecom(dispatch);
+                setTopicSpin(true);
+                GetTopicsRecom(dispatch).then(() => {
+                  setTopicSpin(false);
+                });
               }}
             />
           </button>
