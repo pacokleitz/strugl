@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import Image from 'next/image'
+import Image from "next/image";
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
@@ -277,11 +277,15 @@ export default function Feed(props: any) {
       ? true
       : false;
 
-  const { register, handleSubmit, reset } = useForm<FormInputs>({
+  const { register, handleSubmit, setValue, reset } = useForm<FormInputs>({
     mode: "onSubmit",
   });
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(async (data) => {
+    if (props.topic && !data.content.includes("#" + props.topic)) {
+      setValue("content", (data.content += " #" + props.topic));
+    }
+
     AddPost(dispatch, data, currentUser).then(() => {
       reset({ content: "" });
     });

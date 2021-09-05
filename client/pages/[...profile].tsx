@@ -72,7 +72,7 @@ function TopicProfileContent(props: any) {
           <p>{feed.list.length}</p>
         </a>
       </div>
-      <Feed feed={feed} />
+      <Feed feed={feed} topic={props.topic} />
     </div>
   );
 }
