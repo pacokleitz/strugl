@@ -19,7 +19,7 @@ export default function Dashboard() {
 
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
   const feed = useAppSelector((state) => state.feed);
-  const alert = useAppSelector((state) => state.alerts.list[0]);
+  const alert = useAppSelector((state) => state.alert);
 
   useEffect(() => {
     GetCurrentUser(dispatch).then(() => {
@@ -38,7 +38,7 @@ export default function Dashboard() {
       </Head>
       <Header />
       <div className="max-w-full w-screen lg:grid lg:grid-cols-4 pt-16 px-4 m-auto gap-4 justify-between">
-        {alert && <Alert alert={alert} />}
+        {alert.content !== "" && <Alert alert={alert} />}
         <div className="lg:block hidden">
           <Profile />
         </div>

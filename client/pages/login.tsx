@@ -19,7 +19,7 @@ interface FormInputs {
 function LogIn() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const alert = useAppSelector((state) => state.alerts.list[0]);
+  const alert = useAppSelector((state) => state.alert);
 
   const {
     register,
@@ -40,7 +40,7 @@ function LogIn() {
 
       <div className="w-screen min-h-screen h-auto bg-gradient-to-br from-indigo-600 to-indigo-300 content-center justify-center">
         <div className="">
-          {alert && <Alert alert={alert} />}
+          {alert.content !== "" && <Alert alert={alert} />}
           <div className="flex md:flex-row flex-col m-auto min-h-screen h-auto content-center md:w-2/3 md:space-x-10 p-5">
             <div className="font-bold text-6xl tracking-tight mx-auto grid justify-center content-center w-10/12 md:w-1/2 my-5">
               <h1 className="text-white text-5xl">Strugl</h1>

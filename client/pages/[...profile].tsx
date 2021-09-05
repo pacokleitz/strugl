@@ -177,7 +177,7 @@ export default function Profile() {
   const { profile } = router.query;
 
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
-  const alert = useAppSelector((state) => state.alerts.list[0]);
+  const alert = useAppSelector((state) => state.alert);
 
   useEffect(() => {
     if (
@@ -227,7 +227,7 @@ export default function Profile() {
           (isLogged ? "lg:grid lg:grid-cols-4 gap-4 max-w-7xl" : "max-w-5xl")
         }
       >
-        {alert && <Alert alert={alert} />}
+        {alert.content !== "" && <Alert alert={alert} />}
         {profile && profile[0] == "topic" && (
           <div className={isLogged ? "col-span-3" : ""}>
             <TopicProfileContent topic={profile[1]} />

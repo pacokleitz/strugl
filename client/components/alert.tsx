@@ -1,7 +1,7 @@
 import { AlertTitle } from "@chakra-ui/alert";
 import { useEffect } from "react";
 import { useAppDispatch } from "../redux/hooks";
-import { changeStatus, removeAlert } from "../redux/reducers/AlertsSlice";
+import { changeStatus, removeAlert } from "../redux/reducers/AlertSlice";
 
 export default function Alert(props: any) {
   const dispatch = useAppDispatch();
@@ -47,9 +47,9 @@ export default function Alert(props: any) {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             onClick={() => {
-              dispatch(changeStatus(alert.content));
+              dispatch(changeStatus());
               setTimeout(() => {
-                dispatch(removeAlert(alert.content));
+                dispatch(removeAlert());
               }, 500);
             }}
           >

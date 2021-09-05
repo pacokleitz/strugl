@@ -37,11 +37,10 @@ import {
   followTopic,
 } from "../redux/reducers/TopicsRecommandationsSlice";
 import {
-  addAlert,
   changeStatus,
   removeAlert,
-  updateAlerts,
-} from "../redux/reducers/AlertsSlice";
+  updateAlert,
+} from "../redux/reducers/AlertSlice";
 
 export const CreateAccount = async (
   dispatch: (arg0: { payload: any; type: string }) => void,
@@ -54,12 +53,12 @@ export const CreateAccount = async (
   })
     .then(async (res) => {
       if (res.ok) {
-        dispatch(updateAlerts([]));
+        dispatch(removeAlert());
         router.push("/login", "/");
       } else {
         const err = await res.text();
         dispatch(
-          addAlert({
+          updateAlert({
             type: "error",
             content: err,
             color: "red",
@@ -67,10 +66,10 @@ export const CreateAccount = async (
           })
         );
         setTimeout(() => {
-          dispatch(changeStatus(err));
+          dispatch(changeStatus());
         }, 5000);
         setTimeout(() => {
-          dispatch(removeAlert(err));
+          dispatch(removeAlert());
         }, 6000);
       }
     })
@@ -92,14 +91,14 @@ export const SignIn = async (
   })
     .then(async (res) => {
       if (res.ok) {
-        dispatch(updateAlerts([]));
+        dispatch(removeAlert());
         await GetCurrentUser(dispatch).then(() => {
           router.push("/transition", "/");
         });
       } else {
         const err = await res.text();
         dispatch(
-          addAlert({
+          updateAlert({
             type: "error",
             content: err,
             color: "red",
@@ -107,10 +106,10 @@ export const SignIn = async (
           })
         );
         setTimeout(() => {
-          dispatch(changeStatus(err));
+          dispatch(changeStatus());
         }, 5000);
         setTimeout(() => {
-          dispatch(removeAlert(err));
+          dispatch(removeAlert());
         }, 6000);
       }
     })
@@ -152,7 +151,7 @@ export const UpdateProfile = async (
       if (res.ok) {
         dispatch(updateProfile(data));
         dispatch(
-          addAlert({
+          updateAlert({
             type: "success",
             content: "Profile updated",
             color: "green",
@@ -160,10 +159,10 @@ export const UpdateProfile = async (
           })
         );
         setTimeout(() => {
-          dispatch(changeStatus("Profile updated"));
+          dispatch(changeStatus());
         }, 5000);
         setTimeout(() => {
-          dispatch(removeAlert("Profile updated"));
+          dispatch(removeAlert());
         }, 6000);
       }
     })
@@ -186,7 +185,7 @@ export const UpdateAvatar = async (
         const dbAvatar = await res.text();
         dispatch(updateAvatar(dbAvatar));
         dispatch(
-          addAlert({
+          updateAlert({
             type: "success",
             content: "Avatar updated",
             color: "green",
@@ -194,10 +193,10 @@ export const UpdateAvatar = async (
           })
         );
         setTimeout(() => {
-          dispatch(changeStatus("Avatar updated"));
+          dispatch(changeStatus());
         }, 5000);
         setTimeout(() => {
-          dispatch(removeAlert("Avatar updated"));
+          dispatch(removeAlert());
         }, 6000);
       }
     })

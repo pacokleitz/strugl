@@ -54,11 +54,12 @@ function Account() {
           changes.
         </p>
         <div className="flex flex-row py-10 justify-evenly items-start space-x-8 focus:outline-none content-center">
-          <form encType="multipart/form-data" onChange={submitAvatar(onChange)} className="relative">
-            <label
-              htmlFor="avatarEdit"
-              className="cursor-pointer group"
-            >
+          <form
+            encType="multipart/form-data"
+            onChange={submitAvatar(onChange)}
+            className="relative"
+          >
+            <label htmlFor="avatarEdit" className="cursor-pointer group">
               {!currentUser.avatar && (
                 <div className="min-w-52 rounded-full bg-gray-200 ring-2 ring-gray-200self-center" />
               )}
@@ -252,7 +253,7 @@ export default function Settings() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isLogged = useAppSelector((state) => state.currentUser.isLogged);
-  const alert = useAppSelector((state) => state.alerts.list[0]);
+  const alert = useAppSelector((state) => state.alert);
 
   const [currentFrame, setCurrentFrame] = useState(0);
 
@@ -295,7 +296,7 @@ export default function Settings() {
           >
             Appearance
           </a>
-          {alert && <Alert alert={alert} />}
+          {alert.content !== "" && <Alert alert={alert} />}
         </div>
         <>
           {currentFrame == 0 && <Account />}
