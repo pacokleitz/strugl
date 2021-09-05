@@ -12,6 +12,7 @@ import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UpdateAvatar, UpdateProfile } from "../services/actions";
 import Alert from "../components/alert";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 export interface FormInputs {
   profile_name: string;
@@ -54,59 +55,32 @@ function Account() {
           changes.
         </p>
         <div className="flex flex-row py-10 justify-evenly items-start space-x-8 focus:outline-none content-center">
-          <form encType="multipart/form-data" onChange={submitAvatar(onChange)} className="relative">
-            <label
-              htmlFor="avatarEdit"
-              className="cursor-pointer group"
-            >
-              {!currentUser.avatar && (
-                <div className="min-w-52 rounded-full bg-gray-200 ring-2 ring-gray-200self-center" />
-              )}
-              {currentUser.avatar && (
-                <img
-                  src={currentUser.avatar}
-                  className="w-52 h-52 rounded-full self-start bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-gray-800 object-contain"
-                />
-              )}
-              <div className="top-40 ml-2 absolute bg-white dark:bg-gray-850 shadow border-2 border-gray-100 dark:border-gray-850 border-opacity-60 rounded-md p-1 w-min text-gray-700 dark:text-gray-200 group-hover:text-indigo-700">
-                <FontAwesomeIcon icon={faEdit} className="w-6" />
-              </div>
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              id="avatarEdit"
-              className="hidden"
-              {...registerAvatar("avatar")}
-            />
-          </form>
-
           <form
             className="flex flex-col content-between gap-8 focus:outline-none max-w-sm w-full"
             onSubmit={submitForm(onSubmit)}
           >
-            <div className="flex flex-col focus:outline-none">
-              <label className="text-gray-600 dark:text-gray-400 font-medium text-md focus:outline-none">
+            <div className="flex flex-col focus:outline-none space-x-1 space-y-1">
+              <label className="text-gray-600 dark:text-gray-200 font-semibold text-sm focus:outline-none">
                 Username
               </label>
               <input
                 value={currentUser.username}
                 type="text"
                 autoComplete="off"
-                className="w-full p-1 px-4 rounded-xl bg-gray-200 dark:bg-gray-850 dark:bg-opacity-60 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
+                className="w-full p-2 px-4 rounded-md bg-gray-200 dark:bg-gray-850 dark:bg-opacity-60 border border-gray-200 dark:border-black dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
                 disabled
               ></input>
             </div>
 
-            <div className="flex flex-col ">
-              <label className="text-gray-600 dark:text-gray-400 font-medium text-md">
+            <div className="flex flex-col space-x-1 space-y-1">
+              <label className="text-gray-600 dark:text-gray-200 font-semibold text-sm">
                 Profile name
               </label>
               <input
                 defaultValue={currentUser.profile_name}
                 type="text"
                 autoComplete="off"
-                className="w-full p-1 px-4 rounded-xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
+                className="w-full p-2 px-4 rounded-md bg-white dark:bg-gray-850 border border-gray-200 dark:border-black dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
                 {...registerForm("profile_name", {
                   maxLength: {
                     value: 30,
@@ -117,14 +91,15 @@ function Account() {
               ></input>
             </div>
 
-            <div className="flex flex-col ">
-              <label className="text-gray-600 dark:text-gray-400 font-medium text-md">
+            <div className="flex flex-col space-x-1 space-y-1">
+              <label className="text-gray-600 dark:text-gray-200 font-semibold text-sm">
                 Bio
               </label>
               <textarea
                 defaultValue={currentUser.bio}
+                placeholder="Tell us a little bit about yourself"
                 autoComplete="off"
-                className="w-full p-1 px-4 rounded-xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-850 dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
+                className="w-full p-2 px-4 rounded-md bg-white dark:bg-gray-850 border border-gray-200 dark:border-black dark:text-gray-100 focus:shadow-inner focus:outline-none text-md font-medium text-justify subpixel-antialiased"
                 {...registerForm("bio", {
                   maxLength: {
                     value: 200,
@@ -137,7 +112,42 @@ function Account() {
             <input
               type="submit"
               value="Update profile"
-              className="px-4 py-2 text-center w-min self-end mt-8 text-md font-semibold cursor-pointer rounded-3xl bg-gray-100 dark:bg-gray-950 border-2 border-gray-600 dark:border-gray-200 text-gray-600 dark:text-gray-100 hover:text-indigo-600 hover:border-indigo-600 dark:hover:text-indigo-500 dark:hover:border-indigo-500"
+              className="px-4 py-2 text-center w-min self-start mt-8 text-md font-semibold cursor-pointer rounded-md bg-gray-100 dark:bg-gray-950 border-2 border-gray-600 dark:border-gray-300 text-gray-600 dark:text-gray-300 hover:text-indigo-600 hover:border-indigo-600 dark:hover:text-indigo-400 dark:hover:border-indigo-400"
+            />
+          </form>
+
+          <form
+            encType="multipart/form-data"
+            onChange={submitAvatar(onChange)}
+            className="relative"
+          >
+            <label
+              htmlFor="avatarEdit"
+              className="cursor-pointer group space-y-1"
+            >
+              <p className="text-gray-600 dark:text-gray-200 font-semibold text-sm">
+                Profile picture
+              </p>
+              {!currentUser.avatar && (
+                <div className="min-w-52 rounded-full bg-gray-200 ring-2 ring-gray-200self-center" />
+              )}
+              {currentUser.avatar && (
+                <img
+                  src={currentUser.avatar}
+                  className="w-52 h-52 rounded-full self-start bg-gray-200 ring-2 ring-gray-200 dark:bg-gray-800 dark:ring-black object-contain"
+                />
+              )}
+              <div className="w-max gap-2 p-1 px-2 top-44 absolute bg-white dark:bg-gray-850 border-2 border-gray-200 dark:border dark:border-black rounded-md text-gray-700 dark:text-gray-200 flex items-center">
+                <FontAwesomeIcon icon={faPen} className="w-3" />
+                <p className="text-sm">Edit</p>
+              </div>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              id="avatarEdit"
+              className="hidden"
+              {...registerAvatar("avatar")}
             />
           </form>
         </div>
