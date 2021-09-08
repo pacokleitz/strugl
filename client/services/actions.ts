@@ -398,6 +398,7 @@ export const Search = async (
             name: element.username,
             type: "user",
             avatar: element.avatar,
+            profilename: element.profile_name,
           });
         });
         result.topics.forEach((element: Topic) => {
