@@ -148,9 +148,6 @@ function UserProfileContent(props: any) {
         )}
       </div>
       <div className="bg-white dark:bg-gray-850 rounded-xl shadow p-4 flex justify-around items-center">
-        {!userProfile?.bio && (
-          <div className="h-6 w-11/12 rounded-xl bg-gray-100 dark:bg-gray-850 animate-pulse text-white dark:text-gray-950 text-center"></div>
-        )}
         {userProfile?.bio.length == 0 && (
           <a className="flex flex-row justify-between space-x-16 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-850 dark:hover:text-gray-200 cursor-pointer">
             <div className="flex flex-row justify-between space-x-2">
