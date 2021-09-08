@@ -139,9 +139,18 @@ function SearchResult(props: any) {
         ></img>
       )}
       <div className="text-gray-700 dark:text-gray-200 text-sm font-semibold group-hover:text-black subpixel-antialiased overflow-ellipsis">
-        {props.result.type == "topic"
-          ? "#" + props.result.name
-          : props.result.name}
+        {props.result.type == "topic" ? (
+          "#" + props.result.name
+        ) : (
+          <div className="flex flex-row items-center space-x-1">
+            <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold group-hover:text-black dark:group-hover:text-gray-100 subpixel-antialiased overflow-ellipsis">
+              {props.result.profilename}
+            </h3>
+            <p className="text-sm text-center font-medium italic text-gray-500 subpixel-antialiased">
+              {"@" + props.result.name}
+            </p>
+          </div>
+        )}
       </div>
     </a>
   );

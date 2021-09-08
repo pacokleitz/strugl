@@ -362,6 +362,7 @@ export const AddPost = async (
     .then(async (res) => {
       if (res.ok) {
         const id = await res.text();
+
         dispatch(
           addPost({
             id: parseInt(id),
@@ -392,14 +393,17 @@ export const Search = async (
       if (res.ok) {
         const result = await res.json();
         const list: Array<SearchResult> = [];
+
         result.users.forEach((element: User) => {
           list.push({
             id: element.id,
             name: element.username,
             type: "user",
             avatar: element.avatar,
+            profilename: element.profile_name,
           });
         });
+
         result.topics.forEach((element: Topic) => {
           list.push({
             id: element.topic_id,
@@ -407,7 +411,11 @@ export const Search = async (
             type: "topic",
           });
         });
-        list.sort();
+
+        list.sort((a, b) =>
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+        );
+
         dispatch(updateSearch(list));
       }
     })
