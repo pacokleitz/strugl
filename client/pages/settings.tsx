@@ -220,7 +220,7 @@ function Appearence() {
                 <div className="h-20 bg-gray-200 w-1/4 rounded"></div>
               </div>
             </div>
-            <div className="w-full px-4 py-2 text-center dark:text-gray-100 text-md font-semibold ">
+            <div className="w-full px-4 py-2 text-center dark:text-gray-100 text-md font-medium ">
               Light mode
             </div>
           </div>
@@ -261,7 +261,7 @@ function Appearence() {
                 <div className="h-20 bg-gray-600 w-1/4 rounded"></div>
               </div>
             </div>
-            <div className="w-full px-4 py-2 text-center dark:text-gray-100 text-md font-semibold ">
+            <div className="w-full px-4 py-2 text-center dark:text-gray-100 text-md font-medium ">
               Dark mode
             </div>
           </div>
