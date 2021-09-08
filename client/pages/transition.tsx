@@ -58,8 +58,8 @@ export default function Transition() {
         <title>Strugl</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="h-screen w-screen lg:grid content-center self-center gap-4 m-auto justify-center text-center">
-        <img src="favicon.ico" className="w-1/3 m-auto" />
+      <div className="h-full w-screen grid place-content-center gap-4 text-center">
+        <img src="favicon.ico" className="w-1/3 justify-self-center" />
         <p className="animate-pulse text-3xl font-semibold text-gray-500 dark:text-gray-400 ">
           Loading ...
         </p>

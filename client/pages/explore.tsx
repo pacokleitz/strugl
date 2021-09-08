@@ -30,9 +30,9 @@ export default function Explore() {
       </Head>
       <Header />
       <div className="h-screen pt-16 max-w-full w-screen px-4 m-auto justify-center pb-4">
-        <div className="h-full rounded-xl flex flex-col space-y-4 justify-items-center text-center justify-center">
-          <img src="/duckbutticon.svg" className="h-1/4 " />
-          <p className="text-2xl font-semibold text-gray-600 dark:text-gray-400 subpixel-antialiased">
+        <div className="h-full w-screen grid place-content-center gap-4 text-center">
+          <img src="favicon.ico" className="w-1/3 justify-self-center" />
+          <p className="text-3xl font-semibold text-gray-500 dark:text-gray-400 ">
             Coming soon ...
           </p>
         </div>

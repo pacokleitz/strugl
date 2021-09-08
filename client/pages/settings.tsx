@@ -54,7 +54,7 @@ function Account() {
           Edit your profile informations here. Push the button to save the
           changes.
         </p>
-        <div className="flex flex-row py-10 justify-evenly items-start space-x-8 focus:outline-none content-center">
+        <div className="flex md:flex-row flex-col-reverse md:py-10 py-4 justify-evenly md:items-start md:space-x-8 md:gap-0 gap-8 focus:outline-none items-center">
           <form
             className="flex flex-col content-between gap-8 focus:outline-none max-w-sm w-full"
             onSubmit={submitForm(onSubmit)}
